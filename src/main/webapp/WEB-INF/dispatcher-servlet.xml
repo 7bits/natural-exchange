@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                           http://www.springframework.org/schema/mvc 
+                           http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd"
+    default-lazy-init="true"
+>
+
+    <!--context:annotation-config />
+    <context:component-scan base-package="com.simple" /-->
+
+    <mvc:interceptors>
+        <!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=ru -->
+        <bean
+            class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="locale"></property>
+        </bean>
+    </mvc:interceptors>
+    
+       <!-- Saves a locale change using a cookie -->
+    <bean id="localeResolver"
+        class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="en" />
+    </bean>
+
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass">
+            <value>org.springframework.web.servlet.view.JstlView</value>
+        </property>
+        <property name="prefix">
+            <value>/WEB-INF/jsp/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+
+    <bean id="urlMapping"
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <value>
+                helloWorld.html = simpleController
+                second.html = secondController
+            </value>
+        </property>
+    </bean>
+
+    <bean id="simpleController" class="com.simple.web.controllers.SimpleController">
+    </bean>
+    <bean id="secondController" class="com.simple.web.controllers.SecondController">
+    </bean>
+</beans>
