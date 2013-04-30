@@ -8,16 +8,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-//@RequestMapping(value = "simple")
-public class SimpleController {
+public class HelloWorldController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SimpleController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HelloWorldController.class);
 
-    @RequestMapping(value = "simple.html", method = RequestMethod.GET)
+    @RequestMapping(value = "helloworld.html", method = RequestMethod.GET)
     public ModelAndView helloWorld() {
 
-        LOG.info("Simple controller");
-        return new ModelAndView("simple");
+        LOG.info("Hello world controller");
+        return new ModelAndView("helloWorld");
     }
 
 }
