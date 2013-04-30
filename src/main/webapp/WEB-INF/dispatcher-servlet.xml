@@ -12,8 +12,8 @@
     default-lazy-init="true"
 >
 
-    <!--context:annotation-config />
-    <context:component-scan base-package="com.simple" /-->
+    <context:component-scan base-package="com.simple.web"/>
+    <mvc:annotation-driven/>
 
     <mvc:interceptors>
         <!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=ru -->
@@ -41,20 +41,5 @@
         <property name="suffix">
             <value>.jsp</value>
         </property>
-    </bean>
-
-    <bean id="urlMapping"
-          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="mappings">
-            <value>
-                helloWorld.html = simpleController
-                second.html = secondController
-            </value>
-        </property>
-    </bean>
-
-    <bean id="simpleController" class="com.simple.web.controllers.SimpleController">
-    </bean>
-    <bean id="secondController" class="com.simple.web.controllers.SecondController">
     </bean>
 </beans>

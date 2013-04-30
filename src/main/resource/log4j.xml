@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/var/log/tomcat7/simple.log"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{dd.MM.yyyy/HH:mm:ss} [%p] (%C{1}) %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="org.apache">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="org.springframework">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="org.hibernate">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="org.aopalliance">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="AspectJ Weaver">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="com.simple">
+        <level value="DEBUG"/>
+    </logger>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="FILE"/>
+    </root>
+
+</log4j:configuration>

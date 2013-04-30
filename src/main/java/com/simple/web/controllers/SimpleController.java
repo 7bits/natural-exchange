@@ -1,35 +1,23 @@
 package com.simple.web.controllers;
 
-import com.simple.web.BaseController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+@Controller
+//@RequestMapping(value = "simple")
+public class SimpleController {
 
-/**
- * Created with IntelliJ IDEA.
- * User: seven
- * Date: 23.04.13
- * Time: 3:30
- * To change this template use File | Settings | File Templates.
- */
-public class SimpleController extends BaseController {
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleController.class);
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+    @RequestMapping(value = "simple.html", method = RequestMethod.GET)
+    public ModelAndView helloWorld() {
 
-        super.afterPropertiesSet();
-    }
-
-    @Override
-    public ModelAndView handleRequest(
-        final HttpServletRequest request,
-        final HttpServletResponse response
-    ) throws Exception {
-
-        ModelAndView modelAndView = new ModelAndView("simple");
-
-        return modelAndView;
+        LOG.info("Simple controller");
+        return new ModelAndView("simple");
     }
 
 }
