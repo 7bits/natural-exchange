@@ -8,6 +8,7 @@
     
     <distributable/>
 
+	<!-- ????? -->
     <context-param>
         <param-name>webAppRootKey</param-name>
         <param-value>simple</param-value>
@@ -21,6 +22,7 @@
         </param-value>
     </context-param>
 
+	<!--Need this anyway -->
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
@@ -37,6 +39,7 @@
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
+	<!-- UTF-8 everywhere -->
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -50,6 +53,7 @@
         </init-param>
     </filter>
 
+	<!-- ????? -->
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -63,6 +67,7 @@
           <load-on-startup>1</load-on-startup>
      </servlet>
 
+	<!--Type of RequestMapping value -->
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.html</url-pattern>
