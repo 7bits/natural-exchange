@@ -16,7 +16,9 @@ public class HelloWorldController {
     public ModelAndView helloWorld() {
 
         LOG.info("Hello world controller");
-        return new ModelAndView("helloWorld");
+        //Создаем вьюшку по hellloWorld.jsp, которая выведется этим контроллером на экран
+        ModelAndView helloWorldMav = new ModelAndView("helloWorld");
+        return helloWorldMav;
     }
 
 }
