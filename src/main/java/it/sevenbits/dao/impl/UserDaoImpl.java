@@ -12,7 +12,7 @@ public class UserDaoImpl implements UserDao {
 	public void create(User user) {
 	}
 
-	public User read(int id) {
+	public User findById(int id) {
 		User user1 = new User();
 		user1.setId(id);
 		user1.setFirstName("Dmitry "+id);
@@ -22,7 +22,7 @@ public class UserDaoImpl implements UserDao {
 	public void update(User user) {
 	}
 
-	public void detele(User user) {
+	public void delete(User user) {
 	}
 	
 	public String[] getAllUsers(){
