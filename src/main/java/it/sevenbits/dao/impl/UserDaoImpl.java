@@ -1,4 +1,4 @@
-package it.sevenbits.service;
+package it.sevenbits.dao.impl;
 
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.User;
