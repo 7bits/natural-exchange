@@ -14,25 +14,76 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
     @Override
     public void create(final Advertisement advertisement) {
         //To change body of implemented methods use File | Settings | File Templates.
-    }
+		return;
+	}
 
-    @Override
+    
+	/**
+	* Creates and returns the ad. Works with no database.
+	*/
+	@Override
     public Advertisement findById(final Integer id) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+		Advertisement advertisement = new Advertisement();
+ 
+        advertisement.setId(1);
+		advertisement.setUserId(1);
+        advertisement.setTitle("demi-season coat");
+		advertisement.setText("girl's coat, the growth of 116. Looking for figure skates size 29.");
+		advertisement.setPhotoFile("coat.jpg");
+		advertisement.setCreatedDate(1000l);
+		advertisement.setUpdatedDate(2000l);
+		advertisement.setIsDeleted(FALSE);
+        return  advertisement;  
     }
 
     @Override
     public List<Advertisement> find() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+        List<Advertisement> advertisementList = null;
+        Advertisement advertisement = new Advertisement();
+ 
+        advertisement.setId(1);
+		advertisement.setUserId(1);
+        advertisement.setTitle("demi-season coat");
+		advertisement.setText("girl's coat, the growth of 116. Looking for figure skates size 29.");
+		advertisement.setPhotoFile("coat.jpg");
+		advertisement.setCreatedDate(1000l);
+		advertisement.setUpdatedDate(2000l);
+		advertisement.setIsDeleted(FALSE);
+		advertisementList.add(advertisement);
+
+        advertisement.setId(2);
+		advertisement.setUserId(3);
+        advertisement.setTitle("Sneakers");
+		advertisement.setText("For boys, size 34. Need a scooter for children 2-4 years old");
+		advertisement.setPhotoFile("Sneakers.jpg");
+		advertisement.setCreatedDate(2500l);
+		advertisement.setUpdatedDate(2600l);
+		advertisement.setIsDeleted(FALSE);
+		advertisementList.add(advertisement);
+
+		advertisement.setId(3);
+		advertisement.setUserId(2);
+        advertisement.setTitle("");
+		advertisement.setText(
+			"Clothes for girl 2-3 years growth 98-104-116, and footwear. Looking for jeans (size 34), growth of 128.");
+		advertisement.setPhotoFile("shoes.jpg");
+		advertisement.setCreatedDate(3000l);
+		advertisement.setUpdatedDate(3000l);
+		advertisement.setIsDeleted(FALSE);
+		advertisementList.add(advertisement);
+
+        return advertisementList;
+ }
 
     @Override
     public void update(final Advertisement advertisement) {
         //To change body of implemented methods use File | Settings | File Templates.
+		return;
     }
 
     @Override
     public void delete(final Advertisement advertisement) {
         //To change body of implemented methods use File | Settings | File Templates.
+		return;
     }
 }

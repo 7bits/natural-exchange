@@ -1,7 +1,7 @@
 package it.sevenbits.entity;
 
 /**
- *Класс, представляющий сущность таблицы User а БД
+ *Класс, представляющий сущность таблицы Advertisement в БД
  */
 public class Advertisement {
 
