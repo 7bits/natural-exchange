@@ -30,8 +30,15 @@
                 </tr>
             </thead>
             <tbody>
-            <tr>
-            </tr>
+            <c:forEach items="${advertisements}" var="advertisement">
+                <tr>
+                    <td><c:out value="${advertisement.userId}"/></td>
+                    <td><c:out value="${advertisement.title}"/></td>
+                    <td><c:out value="${advertisement.createdDate}"/></td>
+                    <td><c:out value="${advertisement.text}"/></td>
+                    <td><c:out value="${advertisement.photoFile}"/></td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
         <table style="float:right" width="10%" border="1">
