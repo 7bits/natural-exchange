@@ -4,12 +4,12 @@
 <!doctype html>
 <html lang="ru">
     <head>
-        <title>Объявления для <c:out value="${userName}"/> </title>
+        <title>Объявления</title>
     </head>
     
     <body>
         <h1>Меню</h1>
-        <table style="float:left" width="90%" border="1" cellspacing="0" cellpadding="4" rules="cols">
+        <table style="float:left" width="90%" border="1" cellspacing="0" cellpadding="4">
             <thead>
                 <tr>
                     <th>
@@ -47,15 +47,11 @@
                     <th>Категории</th>
                 </tr>
             </thead>
-            <tr>
-                <td align="center">Игрушки</td>
-            </tr>
-            <tr>
-                <td align="center">Одежда</td>
-            </tr>
-            <tr>
-                <td align="center">Мебель</td>
-            </tr>
+            <c:forEach items="${categories}" var="category">
+                <tr>
+                    <td align="center"><c:out value="${category}"/></td>
+                </tr>
+            </c:forEach>
         </table>
     </body>
 </html>

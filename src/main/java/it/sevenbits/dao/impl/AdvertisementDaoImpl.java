@@ -54,6 +54,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         advertisement.setIsDeleted(false);
         advertisementList.add(advertisement);
 
+        advertisement = new Advertisement();
         advertisement.setId(2);
         advertisement.setUserId(3);
         advertisement.setTitle("Sneakers");
@@ -64,6 +65,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         advertisement.setIsDeleted(false);
         advertisementList.add(advertisement);
 
+        advertisement = new Advertisement();
         advertisement.setId(3);
         advertisement.setUserId(2);
         advertisement.setTitle("");
