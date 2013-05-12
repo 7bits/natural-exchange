@@ -1,2 +1,2 @@
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
-<c:redirect url="/userdao.html"/>
+<c:redirect url="/adv.html"/>

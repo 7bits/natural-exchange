@@ -1,6 +1,7 @@
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.Advertisement;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface AdvertisementDao {
      * возвращает все объявления
      * @return
      */
-    List<Advertisement> find();
+    List<Advertisement> findAll();
 
     /**
      * изменить объявление

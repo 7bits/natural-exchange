@@ -2,13 +2,15 @@ package it.sevenbits.dao.impl;
 
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
+import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Тестовая имплементация интерфейса UserDao
  */
-
+@Repository(value = "advertisementDao")
 public class AdvertisementDaoImpl implements AdvertisementDao {
 
     @Override
@@ -37,8 +39,9 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
     }
 
     @Override
-    public List<Advertisement> find() {
-        List<Advertisement> advertisementList = null;
+    public List<Advertisement> findAll() {
+
+        List<Advertisement> advertisementList = new ArrayList<Advertisement>();
         Advertisement advertisement = new Advertisement();
  
         advertisement.setId(1);

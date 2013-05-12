@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class UserDaoController {
 
-    @RequestMapping(value = "userdao.html", method = RequestMethod.GET)
+    @RequestMapping(value = "user.html", method = RequestMethod.GET)
     public ModelAndView helloWorld() {
 
         //Создаем вьюшку по userDao.jsp, которая выведется этим контроллером на экран
