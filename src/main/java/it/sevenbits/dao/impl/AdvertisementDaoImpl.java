@@ -72,7 +72,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         advertisement.setText(
             "Clothes for girl 2-3 years growth 98-104-116, and footwear. Looking for jeans (size 34), growth of 128."
         );
-        advertisement.setPhotoFile("shoes.jpg");
+        advertisement.setPhotoFile("clothes.jpg");
         advertisement.setCreatedDate(3000l);
         advertisement.setUpdatedDate(3000l);
         advertisement.setIsDeleted(false);
