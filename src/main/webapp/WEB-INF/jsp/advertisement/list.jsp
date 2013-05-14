@@ -4,27 +4,28 @@
 <!doctype html>
 <html lang="ru">
     <head>
+		<link rel="stylesheet" type="text/css" href="../../resources/css/tableAdv.css" />
         <title>Объявления</title>
     </head>
     
     <body>
         <h1>Меню</h1>
-        <table style="float:left" width="90%" border="1" cellspacing="0" cellpadding="4">
+        <table class='tableAdvertisement'>
             <thead>
                 <tr>
-                    <th>
+                    <th class='tableAdvertisements'>
                         Автор
                     </th>
-                    <th>
+                    <th class='tableAdvertisements'>
                         Заголовок
                     </th>
-                    <th>
+                    <th  class='tableAdvertisements'>
                         Дата
                     </th>
                     <th>
                         Текст
                     </th>
-                    <th>
+                    <th  class='tableAdvertisements'>
                         Фото
                     </th>
                 </tr>
@@ -36,12 +37,12 @@
                     <td><c:out value="${advertisement.title}"/></td>
                     <td><c:out value="${advertisement.createdDate}"/></td>
                     <td><c:out value="${advertisement.text}"/></td>
-                    <td><c:out value="${advertisement.photoFile}"/></td>
+                    <td><img src="..\..\resources\images\${advertisement.photoFile}"  /></td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <table style="float:right" width="10%" border="1">
+        <table  class='tableCategories'>
             <thead>
                 <tr>
                     <th>Категории</th>

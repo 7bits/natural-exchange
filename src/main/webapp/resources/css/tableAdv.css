@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+*{margin: 0px; padding: 0px;}
+html {background: #FFFFFF;}
+body 
+{
+    font-family: Verdana, Geneva, Arial, sans-serif;
+	font-size: 11px;
+	color:#000000;
+}
+
+.tableAdvertisements
+{ 
+    float:left;
+    width:80%; 
+     
+    text-align:left;
+	padding:4px;
+}
+
+.thAdvertisements 
+{
+    background-color:rgb(200,255,200);
+}
+
+.tableCategories
+{
+    float:right;
+   /* width:20%;*/
+    border-width:1px;
+    border-collapse:collapse;
+}
+
+table, th, td 
+{
+border-style:solid;
+border-width:1px;
+border-collapse:collapse;
+padding:5px;
+height:50px;
+}
+ 
+ 
+img
+{
+    width:3cm;
+    height:3cm;
+	border: none;
+}
