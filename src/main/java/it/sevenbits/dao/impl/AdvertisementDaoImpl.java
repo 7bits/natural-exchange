@@ -27,8 +27,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
     public Advertisement findById(final Integer id) {
         Advertisement advertisement = new Advertisement();
  
-        advertisement.setId(1);
-        advertisement.setUserId(1);
+        advertisement.setId(1L);
         advertisement.setTitle("demi-season coat");
         advertisement.setText("girl's coat, the growth of 116. Looking for figure skates size 29.");
         advertisement.setPhotoFile("coat.jpg");
@@ -44,8 +43,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
         Advertisement advertisement = new Advertisement();
  
-        advertisement.setId(1);
-        advertisement.setUserId(1);
+        advertisement.setId(1L);
         advertisement.setTitle("demi-season coat");
         advertisement.setText("girl's coat, the growth of 116. Looking for figure skates size 29.");
         advertisement.setPhotoFile("coat.jpg");
@@ -55,19 +53,17 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         advertisementList.add(advertisement);
 
         advertisement = new Advertisement();
-        advertisement.setId(2);
-        advertisement.setUserId(3);
+        advertisement.setId(2L);
         advertisement.setTitle("Sneakers");
         advertisement.setText("For boys, size 34. Need a scooter for children 2-4 years old");
-        advertisement.setPhotoFile("Sneakers.jpg");
+        advertisement.setPhotoFile("sneakers.jpg");
         advertisement.setCreatedDate(2500l);
         advertisement.setUpdatedDate(2600l);
         advertisement.setIsDeleted(false);
         advertisementList.add(advertisement);
 
         advertisement = new Advertisement();
-        advertisement.setId(3);
-        advertisement.setUserId(2);
+        advertisement.setId(3L);
         advertisement.setTitle("");
         advertisement.setText(
             "Clothes for girl 2-3 years growth 98-104-116, and footwear. Looking for jeans (size 34), growth of 128."

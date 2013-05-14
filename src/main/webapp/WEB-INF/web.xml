@@ -19,6 +19,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/dispatcher-servlet.xml
+            /WEB-INF/application-context*.xml
         </param-value>
     </context-param>
 
@@ -71,6 +72,11 @@
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>*.jpg</url-pattern>
     </servlet-mapping>
 
     <session-config>

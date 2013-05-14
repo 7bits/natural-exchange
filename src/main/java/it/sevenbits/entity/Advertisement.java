@@ -1,13 +1,11 @@
 package it.sevenbits.entity;
 
 /**
- *Класс, представляющий сущность таблицы Advertisement в БД
+ *Класс, представляющий сущность Advertisement
  */
 public class Advertisement {
 
-    private Integer id;
-    private Integer categoryId;
-    private Integer userId;
+    private Long id;
     private String title;
     private String text;
     private String photoFile;
@@ -15,32 +13,21 @@ public class Advertisement {
     private Long updatedDate;
     private Boolean isDeleted;
 
-public Advertisement(){
-    id = 0;
-    categoryId = 0;
-    userId = 0;
-    title = null;
-    text = null;
-    photoFile = null;
-    createdDate = 0l;
-    updatedDate = 0l;
-    isDeleted = false;
-}
+    private User user;
+    private Category category;
 
-    public void setId(Integer id){
-        this.id = id;
+    public Advertisement() {
+        id = 0L;
+        title = null;
+        text = null;
+        photoFile = null;
+        createdDate = 0l;
+        updatedDate = 0l;
+        isDeleted = false;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public Integer getUserId() {
-        return userId;
     }
 
     public String getTitle() {
@@ -67,12 +54,16 @@ public Advertisement(){
         return isDeleted;
     }
 
-    public void setCategoryId(final Integer categoryId) {
-        this.categoryId = categoryId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(final Integer userId) {
-        this.userId = userId;
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setId(Long id){
+        this.id = id;
     }
 
     public void setTitle(final String title) {
@@ -99,6 +90,14 @@ public Advertisement(){
         isDeleted = deleted;
     }
 
+    public void setUser(final User user) {
+        this.user = user;
+    }
+
+    public void setCategory(final Category category) {
+        this.category = category;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -106,7 +105,7 @@ public Advertisement(){
 
         final Advertisement that = (Advertisement) o;
 
-        if (categoryId != null ? !categoryId.equals(that.categoryId) : that.categoryId != null) return false;
+        if (category != null ? !category.equals(that.category) : that.category != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
@@ -114,7 +113,7 @@ public Advertisement(){
         if (text != null ? !text.equals(that.text) : that.text != null) return false;
         if (title != null ? !title.equals(that.title) : that.title != null) return false;
         if (updatedDate != null ? !updatedDate.equals(that.updatedDate) : that.updatedDate != null) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (user != null ? !user.equals(that.user) : that.user != null) return false;
 
         return true;
     }
@@ -122,8 +121,8 @@ public Advertisement(){
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (categoryId != null ? categoryId.hashCode() : 0);
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + (photoFile != null ? photoFile.hashCode() : 0);

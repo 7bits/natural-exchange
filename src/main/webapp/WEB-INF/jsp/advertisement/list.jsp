@@ -4,55 +4,60 @@
 <!doctype html>
 <html lang="ru">
     <head>
-		<link rel="stylesheet" type="text/css" href="../../resources/css/tableAdv.css" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
         <title>Объявления</title>
     </head>
     
     <body>
         <h1>Меню</h1>
-        <table class='tableAdvertisement'>
-            <thead>
-                <tr>
-                    <th class='tableAdvertisements'>
-                        Автор
-                    </th>
-                    <th class='tableAdvertisements'>
-                        Заголовок
-                    </th>
-                    <th  class='tableAdvertisements'>
-                        Дата
-                    </th>
-                    <th>
-                        Текст
-                    </th>
-                    <th  class='tableAdvertisements'>
-                        Фото
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${advertisements}" var="advertisement">
-                <tr>
-                    <td><c:out value="${advertisement.userId}"/></td>
-                    <td><c:out value="${advertisement.title}"/></td>
-                    <td><c:out value="${advertisement.createdDate}"/></td>
-                    <td><c:out value="${advertisement.text}"/></td>
-                    <td><img src="..\..\resources\images\${advertisement.photoFile}"  /></td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <table  class='tableCategories'>
-            <thead>
-                <tr>
-                    <th>Категории</th>
-                </tr>
-            </thead>
-            <c:forEach items="${categories}" var="category">
-                <tr>
-                    <td align="center"><c:out value="${category}"/></td>
-                </tr>
-            </c:forEach>
-        </table>
+        <div class="page-wrapper">
+            <div class='advertisement-table'>
+                <table>
+                    <thead>
+                        <tr>
+                            <!--th>
+                                Автор
+                            </th-->
+                            <th>
+                                Заголовок
+                            </th>
+                            <th>
+                                Дата
+                            </th>
+                            <th>
+                                Текст
+                            </th>
+                            <!--th>
+                                Фото
+                            </th-->
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${advertisements}" var="advertisement">
+                        <tr>
+                            <td><c:out value="${advertisement.title}"/></td>
+                            <td><c:out value="${advertisement.createdDate}"/></td>
+                            <td><c:out value="${advertisement.text}"/></td>
+                            <!--td><img src=<c:url value="/resources/images/${advertisement.photoFile}"/>/></td-->
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+            <div class="category-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Категории</th>
+                        </tr>
+                    </thead>
+                    <c:forEach items="${categories}" var="category">
+                        <tr>
+                            <td><c:out value="${category}"/></td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+        </div>
     </body>
 </html>
