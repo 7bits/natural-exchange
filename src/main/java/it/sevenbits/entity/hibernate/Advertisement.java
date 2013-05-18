@@ -13,22 +13,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "advertisement")
 public class Advertisement extends it.sevenbits.entity.Advertisement {
-
     /*private Long userId;
-    private Long categoryId;*/
+        private Long categoryId;*/
+    private Long id;
 
     public Advertisement() {
         super();
         /*userId = 0L;
         categoryId = 0L;*/
-    }
-
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Override
-    public Long getId() {
-        return super.getId();
     }
 
     /*@Transient
@@ -40,6 +32,13 @@ public class Advertisement extends it.sevenbits.entity.Advertisement {
     public Long getUserId() {
         return userId;
     }*/
+
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
+        return id;
+    }
 
     @Column(length = 200, nullable = false)
     @Override
@@ -75,6 +74,10 @@ public class Advertisement extends it.sevenbits.entity.Advertisement {
     @Override
     public Boolean getIsDeleted() {
         return super.getIsDeleted();
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /*public void setUserId(final Long userId) {

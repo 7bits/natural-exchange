@@ -5,7 +5,6 @@ package it.sevenbits.entity;
  */
 public class Advertisement {
 
-    private Long id;
     private String title;
     private String text;
     private String photoFile;
@@ -17,17 +16,12 @@ public class Advertisement {
     private Category category;
 
     public Advertisement() {
-        id = 0L;
         title = null;
         text = null;
         photoFile = null;
         createdDate = 0l;
         updatedDate = 0l;
         isDeleted = false;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getTitle() {
@@ -60,10 +54,6 @@ public class Advertisement {
 
     public Category getCategory() {
         return category;
-    }
-
-    public void setId(Long id){
-        this.id = id;
     }
 
     public void setTitle(final String title) {
@@ -99,15 +89,14 @@ public class Advertisement {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final Advertisement that = (Advertisement) o;
+        Advertisement that = (Advertisement) o;
 
         if (category != null ? !category.equals(that.category) : that.category != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) return false;
         if (photoFile != null ? !photoFile.equals(that.photoFile) : that.photoFile != null) return false;
         if (text != null ? !text.equals(that.text) : that.text != null) return false;
@@ -120,15 +109,15 @@ public class Advertisement {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
+        int result = title != null ? title.hashCode() : 0;
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + (photoFile != null ? photoFile.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (updatedDate != null ? updatedDate.hashCode() : 0);
         result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;
     }
+
 }

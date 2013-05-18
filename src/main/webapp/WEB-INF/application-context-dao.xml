@@ -28,6 +28,7 @@
         <property name="annotatedClasses">
             <list>
                 <value>it.sevenbits.entity.hibernate.Advertisement</value>
+				<value>it.sevenbits.entity.hibernate.User</value>
             </list>
         </property>
         <property name="annotatedPackages">

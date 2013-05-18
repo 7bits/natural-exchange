@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findById(final Integer id) {
         User user = new User();
-        user.setId(id);
+        //user.setId(id);
         user.setFirstName("Dmitry " + id);
         return user;
     }
@@ -27,16 +27,16 @@ public class UserDaoImpl implements UserDao {
         List<User> userList = null;
         User user = new User();
 
-        user.setId(1);
+        //user.setId(1);
         user.setFirstName("Dmitry ");
         userList.add(user);
 
-        user.setId(2);
+        //user.setId(2);
         user.setFirstName("Annie");
         userList.add(user);
 
 
-        user.setId(3);
+        //user.setId(3);
         user.setFirstName("Valentine");
         userList.add(user);
 

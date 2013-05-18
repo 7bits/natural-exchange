@@ -27,7 +27,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
     public Advertisement findById(final Integer id) {
         Advertisement advertisement = new Advertisement();
  
-        advertisement.setId(1L);
+       // advertisement.setId(1L);
         advertisement.setTitle("demi-season coat");
         advertisement.setText("girl's coat, the growth of 116. Looking for figure skates size 29.");
         advertisement.setPhotoFile("coat.jpg");
@@ -43,7 +43,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
         Advertisement advertisement = new Advertisement();
  
-        advertisement.setId(1L);
+      //  advertisement.setId(1L);
         advertisement.setTitle("demi-season coat");
         advertisement.setText("girl's coat, the growth of 116. Looking for figure skates size 29.");
         advertisement.setPhotoFile("coat.jpg");
@@ -53,7 +53,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         advertisementList.add(advertisement);
 
         advertisement = new Advertisement();
-        advertisement.setId(2L);
+     //   advertisement.setId(2L);
         advertisement.setTitle("Sneakers");
         advertisement.setText("For boys, size 34. Need a scooter for children 2-4 years old");
         advertisement.setPhotoFile("sneakers.jpg");
@@ -63,7 +63,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         advertisementList.add(advertisement);
 
         advertisement = new Advertisement();
-        advertisement.setId(3L);
+       // advertisement.setId(3L);
         advertisement.setTitle("");
         advertisement.setText(
             "Clothes for girl 2-3 years growth 98-104-116, and footwear. Looking for jeans (size 34), growth of 128."
