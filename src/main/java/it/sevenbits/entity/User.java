@@ -15,7 +15,7 @@ public class User {
     public User() {
     }
 
-    public User(final Integer id, final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate, final Long updatedDate, final Boolean deleted) {
+    public User(final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate, final Long updatedDate, final Boolean deleted) {
         this.firstName = firstName;
         this.email = email;
         this.lastName = lastName;

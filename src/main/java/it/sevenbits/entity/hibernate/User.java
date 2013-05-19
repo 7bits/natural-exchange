@@ -14,16 +14,20 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class User extends it.sevenbits.entity.User{
 
-    private Integer id;
+    private Long id;
 
-    public User() {
+    public User(){
         super();
+    }
+
+    public User(final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate, final Long updatedDate, final Boolean deleted) {
+        super(firstName,email,lastName,vkLink,createdDate,updatedDate,deleted);
     }
 
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -69,7 +73,7 @@ public class User extends it.sevenbits.entity.User{
         return super.getEmailName();
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
