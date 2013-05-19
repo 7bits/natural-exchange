@@ -1,6 +1,6 @@
 package it.sevenbits.dao;
 
-import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.hibernate.Advertisement;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

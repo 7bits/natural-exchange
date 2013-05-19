@@ -40,13 +40,13 @@ public class Advertisement extends it.sevenbits.entity.Advertisement {
         return id;
     }
 
-    @Column(length = 200, nullable = false)
+    @Column(name = "title",length = 200, nullable = false)
     @Override
     public String getTitle() {
         return super.getTitle();
     }
 
-    @Column(length = 1000, nullable = false)
+    @Column(name = "text",length = 1000, nullable = false)
     @Override
     public String getText() {
         return super.getText();

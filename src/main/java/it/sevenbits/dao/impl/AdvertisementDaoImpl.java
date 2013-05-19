@@ -1,7 +1,9 @@
 package it.sevenbits.dao.impl;
 
 import it.sevenbits.dao.AdvertisementDao;
-import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.hibernate.Advertisement;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -13,13 +15,15 @@ import java.util.List;
 @Repository(value = "advertisementDao")
 public class AdvertisementDaoImpl implements AdvertisementDao {
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     @Override
     public void create(final Advertisement advertisement) {
         //To change body of implemented methods use File | Settings | File Templates.
         return;
     }
 
-    
     /**
     * Creates and returns the ad. Works with no database.
     */
@@ -39,9 +43,27 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 
     @Override
     public List<Advertisement> findAll() {
-
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
-        Advertisement advertisement = new Advertisement();
+        Advertisement at = new Advertisement();
+        sessionFactory = null;
+        sessionFactory.getCurrentSession();
+        if(sessionFactory == null) {
+            Advertisement advertisement = new Advertisement();
+
+            //  advertisement.setId(1L);
+            advertisement.setTitle("demi-season coat");
+            advertisement.setText("girl's coat, the growth of 116. Looking for figure skates size 29.");
+            advertisement.setPhotoFile("coat.jpg");
+            advertisement.setCreatedDate(1000l);
+            advertisement.setUpdatedDate(2000l);
+            advertisement.setIsDeleted(false);
+            advertisementList.add(advertisement);
+        }
+        else sessionFactory.getCurrentSession().createCriteria(Advertisement.class);
+       //sessionFactory.getCurrentSession().createCriteria(Advertisement.class).list();
+
+
+       /* Advertisement advertisement = new Advertisement();
  
       //  advertisement.setId(1L);
         advertisement.setTitle("demi-season coat");
@@ -72,7 +94,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
         advertisement.setCreatedDate(3000l);
         advertisement.setUpdatedDate(3000l);
         advertisement.setIsDeleted(false);
-        advertisementList.add(advertisement);
+        advertisementList.add(advertisement);*/
 
         return advertisementList;
  }
