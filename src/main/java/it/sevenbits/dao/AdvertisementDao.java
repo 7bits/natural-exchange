@@ -1,11 +1,11 @@
 package it.sevenbits.dao;
 
-import it.sevenbits.entity.hibernate.Advertisement;
+import it.sevenbits.entity.Advertisement;
 
 import java.util.List;
 
 /**
- *Интерфейс, предоставляющий методы работы с сущностью Advertisement
+ *Интерфейс, предоставляющий методы работы с сущностью AdvertisementEntity
  */
 public interface AdvertisementDao {
 

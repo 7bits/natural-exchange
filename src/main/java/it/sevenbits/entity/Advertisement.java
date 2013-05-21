@@ -1,10 +1,11 @@
 package it.sevenbits.entity;
 
 /**
- *Класс, представляющий сущность Advertisement
+ *Класс, представляющий сущность AdvertisementEntity
  */
 public class Advertisement {
 
+    private Long id;
     private String title;
     private String text;
     private String photoFile;
@@ -22,6 +23,10 @@ public class Advertisement {
         createdDate = 0l;
         updatedDate = 0l;
         isDeleted = false;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -54,6 +59,10 @@ public class Advertisement {
 
     public Category getCategory() {
         return category;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setTitle(final String title) {

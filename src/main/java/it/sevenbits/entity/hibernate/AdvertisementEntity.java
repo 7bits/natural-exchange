@@ -8,16 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *Класс, представляющий сущность таблицы Advertisement в БД
+ *Класс, представляющий сущность таблицы AdvertisementEntity в БД
  */
 @Entity
 @Table(name = "advertisement")
-public class Advertisement extends it.sevenbits.entity.Advertisement {
+public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
     /*private Long userId;
         private Long categoryId;*/
-    private Long id;
 
-    public Advertisement() {
+    public AdvertisementEntity() {
         super();
         /*userId = 0L;
         categoryId = 0L;*/
@@ -37,7 +36,7 @@ public class Advertisement extends it.sevenbits.entity.Advertisement {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
-        return id;
+        return super.getId();
     }
 
     @Column(name = "title",length = 200, nullable = false)
@@ -74,10 +73,6 @@ public class Advertisement extends it.sevenbits.entity.Advertisement {
     @Override
     public Boolean getIsDeleted() {
         return super.getIsDeleted();
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     /*public void setUserId(final Long userId) {

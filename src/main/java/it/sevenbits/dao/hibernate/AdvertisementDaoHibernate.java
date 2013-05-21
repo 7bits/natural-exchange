@@ -1,7 +1,8 @@
-package it.sevenbits.dao.impl;
+package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.AdvertisementDao;
-import it.sevenbits.entity.hibernate.Advertisement;
+import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -14,12 +15,12 @@ import java.util.List;
  * Тестовая имплементация интерфейса UserDao
  */
 @Repository(value = "advertisementDao")
-public class AdvertisementDaoImpl implements AdvertisementDao {
+public class AdvertisementDaoHibernate implements AdvertisementDao {
 
     private HibernateTemplate hibernateTemplate;
 
     @Autowired
-    public AdvertisementDaoImpl(final SessionFactory sessionFactory) {
+    public AdvertisementDaoHibernate(final SessionFactory sessionFactory) {
         this.hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
 
@@ -34,15 +35,19 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
     */
     @Override
     public Advertisement findById(final Long id) {
-        Advertisement advertisement = this.hibernateTemplate.get(Advertisement.class, id);
+        AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
 
-        return  advertisement;
+        return  advertisementEntity;
     }
 
     @Override
     public List<Advertisement> findAll() {
+        List<AdvertisementEntity> advertisementEntityList = new ArrayList<AdvertisementEntity>();
+        advertisementEntityList = this.hibernateTemplate.loadAll(AdvertisementEntity.class);
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
-        advertisementList = this.hibernateTemplate.loadAll(Advertisement.class);
+        for (AdvertisementEntity entity : advertisementEntityList) {
+            advertisementList.add(entity);
+        }
 
         return advertisementList;
  }

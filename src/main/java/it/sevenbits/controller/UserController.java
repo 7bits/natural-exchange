@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class UserDaoController {
+public class UserController {
 
     @RequestMapping(value = "user.html", method = RequestMethod.GET)
     public ModelAndView helloWorld() {

@@ -1,4 +1,4 @@
-package it.sevenbits.dao.impl;
+package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.User;
@@ -9,7 +9,7 @@ import java.util.List;
  * Тестовая имплементация интерфейса UserDao
  */
 
-public class UserDaoImpl implements UserDao {
+public class UserDaoHibernate implements UserDao {
 
     public void create(User user) {
     }
