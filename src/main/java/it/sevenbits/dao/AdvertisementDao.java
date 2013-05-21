@@ -1,7 +1,6 @@
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.hibernate.Advertisement;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public interface AdvertisementDao {
      * @param id
      * @return
      */
-    Advertisement findById(Integer id);
+    Advertisement findById(Long id);
 
     /**
      * возвращает все объявления

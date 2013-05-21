@@ -50,8 +50,8 @@
         <constructor-arg type="java.lang.String" value="Report"/>
         <constructor-arg type="org.hibernate.SessionFactory" ref="sessionFactory"/>
     </bean-->
-    <bean id="advertisementDAO" class="it.sevenbits.dao.impl.AdvertisementDaoImpl">
+    <!--bean id="advertisementDAO" class="it.sevenbits.dao.impl.AdvertisementDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"></property>
-    </bean>
+    </bean-->
 
 </beans>
