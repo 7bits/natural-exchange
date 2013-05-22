@@ -36,7 +36,7 @@
                     <c:forEach items="${advertisements}" var="advertisement">
                         <tr>
                             <td><c:out value="${advertisement.title}"/></td>
-                            <td><c:out value="${advertisement.createdDate}"/></td>
+                            <td><c:out value="${advertisement.createdDateFormat}"/></td>
                             <td><c:out value="${advertisement.text}"/></td>
                             <!--td><img src=<c:url value="/resources/images/${advertisement.photoFile}"/>/></td-->
                         </tr>

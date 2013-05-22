@@ -1,7 +1,11 @@
 package it.sevenbits.entity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 /**
- *Класс, представляющий сущность AdvertisementEntity
+ *Class, which presents object Advertisement
  */
 public class Advertisement {
 
@@ -16,6 +20,9 @@ public class Advertisement {
     private User user;
     private Category category;
 
+    /**
+     * Constructor by default
+     */
     public Advertisement() {
         title = null;
         text = null;
@@ -95,6 +102,19 @@ public class Advertisement {
 
     public void setCategory(final Category category) {
         this.category = category;
+    }
+
+    /**
+     * Show advertisement created date for users timezone.
+     * @return String with date "hh:mm dd.MM.yyyy".
+     */
+    public String getCreatedDateFormat() {
+        TimeZone timeZone = TimeZone.getDefault();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yyyy");
+        dateFormat.setTimeZone(timeZone);
+        Calendar calendar = new GregorianCalendar(timeZone);
+        calendar.setTimeInMillis(createdDate);
+        return dateFormat.format(calendar.getTime());
     }
 
     @Override
