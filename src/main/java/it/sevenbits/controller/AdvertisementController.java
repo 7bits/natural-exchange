@@ -16,6 +16,9 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Annoted spring controller class
+ */
 @Controller
 @RequestMapping(value = "advertisement")
 public class AdvertisementController {
@@ -23,6 +26,10 @@ public class AdvertisementController {
     @Resource(name = "advertisementDao")
     private AdvertisementDao advertisementDao;
 
+    /**
+     * Gives information about all advertisements for display
+     * @return  jsp-page with advertisements information
+     */
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public ModelAndView list() {
 
@@ -35,24 +42,6 @@ public class AdvertisementController {
         categories.add("Одежда");
         categories.add("Мебель");
         modelAndView.addObject("categories", categories);
-
         return modelAndView;
     }
-
-    @RequestMapping(value = "/view.html", method = RequestMethod.GET)
-    public ModelAndView view(@RequestParam(required = true) String id) {
-
-        //Создаем вьюшку по list.jsp, которая выведется этим контроллером на экран
-        ModelAndView modelAndView = new ModelAndView("advertisement/list");
-        List<Advertisement> advertisements = this.advertisementDao.findAll();
-        modelAndView.addObject("advertisements", advertisements);
-        List<String> categories = new ArrayList<String>();
-        categories.add("Игрушки");
-        categories.add("Одежда");
-        categories.add("Мебель");
-        modelAndView.addObject("categories", categories);
-
-        return modelAndView;
-    }
-
 }

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- *Класс, представляющий сущность таблицы AdvertisementEntity в БД
+ *Class, which presents Advertisement entity for Hibernate
  */
 @Entity
 @Table(name = "advertisement")

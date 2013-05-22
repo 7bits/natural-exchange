@@ -5,37 +5,37 @@ import it.sevenbits.entity.Advertisement;
 import java.util.List;
 
 /**
- *Интерфейс, предоставляющий методы работы с сущностью AdvertisementEntity
+ *Interface, which provide methods for working with object Advertisement
  */
 public interface AdvertisementDao {
 
     /**
-     * Создает новое объявление
+     * Create new advertisement
      * @param advertisement
      */
     void create(Advertisement advertisement);
 
     /**
-     * Поиск объявления по  id
+     * Find advertisement by id
      * @param id
      * @return
      */
     Advertisement findById(Long id);
 
     /**
-     * возвращает все объявления
+     * Find all advertisements
      * @return
      */
     List<Advertisement> findAll();
 
     /**
-     * изменить объявление
+     * Change advertisement
      * @param advertisement
      */
     void update(Advertisement advertisement);
 
     /**
-     * удалить объявление
+     * Delete advertisement
      * @param advertisement
      */
     void delete(Advertisement advertisement);

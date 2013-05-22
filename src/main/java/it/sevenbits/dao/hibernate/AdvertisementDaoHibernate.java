@@ -4,6 +4,8 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Тестовая имплементация интерфейса UserDao
+ * Class, which implements AdvertisementDao for Hibernate
  */
 @Repository(value = "advertisementDao")
 public class AdvertisementDaoHibernate implements AdvertisementDao {
@@ -26,7 +28,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 
     @Override
     public void create(final Advertisement advertisement) {
-        //To change body of implemented methods use File | Settings | File Templates.
         return;
     }
 
@@ -43,12 +44,11 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     @Override
     public List<Advertisement> findAll() {
         List<AdvertisementEntity> advertisementEntityList = new ArrayList<AdvertisementEntity>();
-        advertisementEntityList = this.hibernateTemplate.loadAll(AdvertisementEntity.class);
+        advertisementEntityList = this.hibernateTemplate.findByCriteria(DetachedCriteria.forClass(AdvertisementEntity.class).addOrder(Order.desc("createdDate")));
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
         for (AdvertisementEntity entity : advertisementEntityList) {
             advertisementList.add(entity);
         }
-
         return advertisementList;
  }
 
