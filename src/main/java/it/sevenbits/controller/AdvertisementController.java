@@ -44,4 +44,24 @@ public class AdvertisementController {
         modelAndView.addObject("categories", categories);
         return modelAndView;
     }
+
+    /**
+     * Gives information about one advertisement by id for display
+     * @return  jsp-page with advertisement information
+     */
+    @RequestMapping(value = "/view.html", method = RequestMethod.GET)
+    public ModelAndView view(@RequestParam(required = true) String id) {
+
+        //Создаем вьюшку по list.jsp, которая выведется этим контроллером на экран
+        ModelAndView modelAndView = new ModelAndView("advertisement/list");
+        List<Advertisement> advertisements = this.advertisementDao.findAll();
+        modelAndView.addObject("advertisements", advertisements);
+        List<String> categories = new ArrayList<String>();
+        categories.add("Игрушки");
+        categories.add("Одежда");
+        categories.add("Мебель");
+        modelAndView.addObject("categories", categories);
+
+        return modelAndView;
+    }
 }
