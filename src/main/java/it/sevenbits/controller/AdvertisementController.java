@@ -30,14 +30,19 @@ public class AdvertisementController {
      * Gives information about all advertisements for display
      * @return  jsp-page with advertisements information
      */
+
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
-    public ModelAndView list() {
+    public ModelAndView list(@RequestParam(value = "sortedBy",required = false) String sortedBy,@RequestParam(value = "sortOrder",required = false) String sortOrder) {
 
         //Создаем вьюшку по list.jsp, которая выведется этим контроллером на экран
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
-        List<Advertisement> advertisements = this.advertisementDao.findAll();
-        modelAndView.addObject("advertisements", advertisements);
+        List<Advertisement> advertisements;
         List<String> categories = new ArrayList<String>();
+        if((sortedBy == null)&&(sortOrder==null))
+           advertisements = this.advertisementDao.findAll();
+        else
+            advertisements = this.advertisementDao.findAll(sortOrder,sortedBy);
+        modelAndView.addObject("advertisements", advertisements);
         categories.add("Игрушки");
         categories.add("Одежда");
         categories.add("Мебель");

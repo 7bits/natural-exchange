@@ -50,7 +50,23 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             advertisementList.add(entity);
         }
         return advertisementList;
- }
+    }
+
+    @Override
+    public List<Advertisement> findAll(String sortType,String sortPropertyName) {
+        List<AdvertisementEntity> advertisementEntityList = new ArrayList<AdvertisementEntity>();
+        if(sortType.equals("asc"))
+            advertisementEntityList = this.hibernateTemplate.findByCriteria(DetachedCriteria.forClass(AdvertisementEntity.class).addOrder(Order.asc(sortPropertyName)));
+        else if(sortType.equals("desc"))
+            advertisementEntityList = this.hibernateTemplate.findByCriteria(DetachedCriteria.forClass(AdvertisementEntity.class).addOrder(Order.desc(sortPropertyName)));
+        else if(sortType.equals("none"))
+            advertisementEntityList = this.hibernateTemplate.findByCriteria(DetachedCriteria.forClass(AdvertisementEntity.class).addOrder(Order.desc("createdDate")));
+        List<Advertisement> advertisementList = new ArrayList<Advertisement>();
+        for (AdvertisementEntity entity : advertisementEntityList) {
+            advertisementList.add(entity);
+        }
+        return advertisementList;
+    }
 
     @Override
     public void update(final Advertisement advertisement) {

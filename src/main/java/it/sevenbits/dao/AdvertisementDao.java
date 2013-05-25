@@ -28,6 +28,8 @@ public interface AdvertisementDao {
      */
     List<Advertisement> findAll();
 
+    List<Advertisement> findAll(String sortType,String sortPropertyName);
+
     /**
      * Change advertisement
      * @param advertisement
