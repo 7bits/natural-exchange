@@ -38,10 +38,38 @@ public class AdvertisementController {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
         List<Advertisement> advertisements;
         List<String> categories = new ArrayList<String>();
-        if((sortedBy == null)&&(sortOrder==null))
-           advertisements = this.advertisementDao.findAll();
-        else
-            advertisements = this.advertisementDao.findAll(sortOrder,sortedBy);
+        if((sortedBy == null)&&(sortOrder==null)){
+            advertisements = this.advertisementDao.findAll("none","createdDate");
+            modelAndView.addObject("sortOrderNew","none");
+        }
+        else {
+            if(sortedBy.equals("title")){
+                if(sortOrder.equals("none")) {
+                    sortOrder = "asc";
+                    modelAndView.addObject("sortOrderNew","asc");
+                }else if(sortOrder.equals("asc")) {
+                    sortOrder = "desc";
+                    modelAndView.addObject("sortOrderNew","desc");
+                }else if(sortOrder.equals("desc")) {
+                    sortOrder = "asc";
+                    modelAndView.addObject("sortOrderNew","asc");
+                }
+                advertisements = this.advertisementDao.findAll(sortOrder,sortedBy);
+            }
+            else { //sortedBy == date
+                if(sortOrder.equals("none")) {
+                    sortOrder = "asc";
+                    modelAndView.addObject("sortOrderNew","asc");
+                }else if(sortOrder.equals("asc")) {
+                    sortOrder = "desc";
+                    modelAndView.addObject("sortOrderNew","desc");
+                }else if(sortOrder.equals("desc")) {
+                    sortOrder = "asc";
+                    modelAndView.addObject("sortOrderNew","asc");
+                }
+                advertisements = this.advertisementDao.findAll(sortOrder,sortedBy);
+            }
+        }
         modelAndView.addObject("advertisements", advertisements);
         categories.add("Игрушки");
         categories.add("Одежда");
