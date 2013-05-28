@@ -3,6 +3,7 @@ package it.sevenbits.dao.hibernate;
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
+import it.sevenbits.util.SortOrder;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static it.sevenbits.util.SortOrder.ASCENDING;
 
 /**
  * Class, which implements AdvertisementDao for Hibernate
@@ -43,29 +46,26 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 
     @Override
     public List<Advertisement> findAll() {
-        List<AdvertisementEntity> advertisementEntityList = new ArrayList<AdvertisementEntity>();
-        advertisementEntityList = this.hibernateTemplate.findByCriteria(DetachedCriteria.forClass(AdvertisementEntity.class).addOrder(Order.desc("createdDate")));
-        List<Advertisement> advertisementList = new ArrayList<Advertisement>();
-        for (AdvertisementEntity entity : advertisementEntityList) {
-            advertisementList.add(entity);
-        }
-        return advertisementList;
+        return this.findAll(ASCENDING, Advertisement.CREATED_DATE_COLUMN_CODE);
     }
 
     @Override
-    public List<Advertisement> findAll(String sortType,String sortPropertyName) {
-        List<AdvertisementEntity> advertisementEntityList = new ArrayList<AdvertisementEntity>();
-        if(sortType.equals("asc"))
-            advertisementEntityList = this.hibernateTemplate.findByCriteria(DetachedCriteria.forClass(AdvertisementEntity.class).addOrder(Order.asc(sortPropertyName)));
-        else if(sortType.equals("desc"))
-            advertisementEntityList = this.hibernateTemplate.findByCriteria(DetachedCriteria.forClass(AdvertisementEntity.class).addOrder(Order.desc(sortPropertyName)));
-        else if(sortType.equals("none"))
-            advertisementEntityList = this.hibernateTemplate.findByCriteria(DetachedCriteria.forClass(AdvertisementEntity.class).addOrder(Order.desc("createdDate")));
-        List<Advertisement> advertisementList = new ArrayList<Advertisement>();
-        for (AdvertisementEntity entity : advertisementEntityList) {
-            advertisementList.add(entity);
+    public List<Advertisement> findAll(final SortOrder sortType, final String sortBy) {
+
+        SortOrder sortOrder = (sortType == null) ? SortOrder.UNSORTED : sortType;
+        String sortingPropertyName = (sortBy == null) ? Advertisement.CREATED_DATE_COLUMN_CODE : sortBy;
+        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
+        switch (sortOrder) {
+            case ASCENDING :
+                criteria.addOrder(Order.asc(sortingPropertyName));
+                break;
+            case DESCENDING :
+            case UNSORTED :
+                criteria.addOrder(Order.desc(sortingPropertyName));
+                break;
         }
-        return advertisementList;
+
+        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
     @Override
@@ -78,5 +78,18 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     public void delete(final Advertisement advertisement) {
         //To change body of implemented methods use File | Settings | File Templates.
         return;
+    }
+
+    private List<Advertisement> convertEntityList(List entities) {
+
+        List<Advertisement> advertisementList = new ArrayList<Advertisement>();
+        if (entities != null) {
+            List<AdvertisementEntity> advertisementEntityList = (List<AdvertisementEntity>)entities;
+            for (AdvertisementEntity entity : advertisementEntityList) {
+                advertisementList.add(entity);
+            }
+        }
+
+        return advertisementList;
     }
 }

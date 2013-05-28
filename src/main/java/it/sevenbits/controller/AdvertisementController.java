@@ -5,6 +5,7 @@ package it.sevenbits.controller;
 
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.util.SortOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,54 +36,21 @@ public class AdvertisementController {
 
         //Создаем вьюшку по list.jsp, которая выведется этим контроллером на экран
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
-        List<Advertisement> advertisements;
-        List<String> categories = new ArrayList<String>();
-        advertisements = sorting(modelAndView,sortedBy,sortOrder);//получили списко обьявлений с параметрами сортировки
+        SortOrder sortType = SortOrder.getViceVersa((sortOrder == null) ? null : SortOrder.valueOf(sortOrder));
+        //TODO Check a behavior when sortOrder is wrong
+        List<Advertisement> advertisements = this.advertisementDao.findAll(sortType, sortedBy);
         modelAndView.addObject("advertisements", advertisements);
+        modelAndView.addObject("sortOrderNew", sortType.toString());
+
+        List<String> categories = new ArrayList<String>();
         categories.add("Игрушки");
         categories.add("Одежда");
         categories.add("Мебель");
         modelAndView.addObject("categories", categories);
+
         return modelAndView;
     }
 
-
-    public  List<Advertisement> sorting(ModelAndView modelAndView,String sortedBy,String sortOrder) {
-        List<Advertisement> advertisements;
-        if((sortedBy == null)&&(sortOrder==null)){
-            advertisements = this.advertisementDao.findAll("none","createdDate");
-            modelAndView.addObject("sortOrderNew","none");
-        }
-        else {
-            if(sortedBy.equals("title")){
-                if(sortOrder.equals("none")) {
-                    sortOrder = "asc";
-                    modelAndView.addObject("sortOrderNew","asc");
-                }else if(sortOrder.equals("asc")) {
-                    sortOrder = "desc";
-                    modelAndView.addObject("sortOrderNew","desc");
-                }else if(sortOrder.equals("desc")) {
-                    sortOrder = "asc";
-                    modelAndView.addObject("sortOrderNew","asc");
-                }
-                advertisements = this.advertisementDao.findAll(sortOrder,sortedBy);
-            }
-            else { //sortedBy == date
-                if(sortOrder.equals("none")) {
-                    sortOrder = "asc";
-                    modelAndView.addObject("sortOrderNew","asc");
-                }else if(sortOrder.equals("asc")) {
-                    sortOrder = "desc";
-                    modelAndView.addObject("sortOrderNew","desc");
-                }else if(sortOrder.equals("desc")) {
-                    sortOrder = "asc";
-                    modelAndView.addObject("sortOrderNew","asc");
-                }
-                advertisements = this.advertisementDao.findAll(sortOrder,sortedBy);
-            }
-        }
-        return advertisements;
-    }
 
     /**
      * Gives information about one advertisement by id for display

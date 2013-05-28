@@ -1,6 +1,7 @@
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.util.SortOrder;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface AdvertisementDao {
      */
     List<Advertisement> findAll();
 
-    List<Advertisement> findAll(String sortType,String sortPropertyName);
+    List<Advertisement> findAll(final SortOrder sortType, final String sortPropertyName);
 
     /**
      * Change advertisement

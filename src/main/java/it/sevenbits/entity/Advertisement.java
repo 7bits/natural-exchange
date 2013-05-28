@@ -9,6 +9,9 @@ import java.util.*;
  */
 public class Advertisement {
 
+    public static final String TITLE_COLUMN_CODE = "title";
+    public static final String CREATED_DATE_COLUMN_CODE = "createdDate";
+
     private Long id;
     private String title;
     private String text;
