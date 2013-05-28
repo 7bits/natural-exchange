@@ -5,7 +5,6 @@ package it.sevenbits.controller;
 
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
-import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +37,18 @@ public class AdvertisementController {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
         List<Advertisement> advertisements;
         List<String> categories = new ArrayList<String>();
+        advertisements = sorting(modelAndView,sortedBy,sortOrder);//получили списко обьявлений с параметрами сортировки
+        modelAndView.addObject("advertisements", advertisements);
+        categories.add("Игрушки");
+        categories.add("Одежда");
+        categories.add("Мебель");
+        modelAndView.addObject("categories", categories);
+        return modelAndView;
+    }
+
+
+    public  List<Advertisement> sorting(ModelAndView modelAndView,String sortedBy,String sortOrder) {
+        List<Advertisement> advertisements;
         if((sortedBy == null)&&(sortOrder==null)){
             advertisements = this.advertisementDao.findAll("none","createdDate");
             modelAndView.addObject("sortOrderNew","none");
@@ -70,12 +81,7 @@ public class AdvertisementController {
                 advertisements = this.advertisementDao.findAll(sortOrder,sortedBy);
             }
         }
-        modelAndView.addObject("advertisements", advertisements);
-        categories.add("Игрушки");
-        categories.add("Одежда");
-        categories.add("Мебель");
-        modelAndView.addObject("categories", categories);
-        return modelAndView;
+        return advertisements;
     }
 
     /**

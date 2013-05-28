@@ -3,6 +3,7 @@ package it.sevenbits.dao.hibernate;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class UserDaoHibernate implements UserDao {
 
     @Override
     public List<User> find() {
-        List<User> userList = null;
+        List<User> userList = new ArrayList<User>();
         User user = new User();
 
         //user.setId(1);
@@ -32,10 +33,11 @@ public class UserDaoHibernate implements UserDao {
         userList.add(user);
 
         //user.setId(2);
+        user=new User();
         user.setFirstName("Annie");
         userList.add(user);
 
-
+        user=new User();
         //user.setId(3);
         user.setFirstName("Valentine");
         userList.add(user);
