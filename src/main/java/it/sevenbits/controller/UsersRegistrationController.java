@@ -24,10 +24,10 @@ public class UsersRegistrationController {
     }
 
     @RequestMapping(value = "/registrationRequest.html", method = RequestMethod.POST)
-    public ModelAndView registrationRequestForm(@RequestParam("userName") String userName) {
+    public ModelAndView registrationRequestForm(@RequestParam("userName") String userName,@RequestParam("test1") String test1) {
 
         ModelAndView modelAndView = new ModelAndView("user/registrationRequest");
-        modelAndView.addObject("userName",userName);
+        modelAndView.addObject("userName",test1);
         return modelAndView;
     }
 }

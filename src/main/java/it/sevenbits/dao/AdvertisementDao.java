@@ -29,7 +29,7 @@ public interface AdvertisementDao {
      */
     List<Advertisement> findAll();
 
-    List<Advertisement> findAll(final SortOrder sortType, final String sortPropertyName);
+    List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName);
 
     /**
      * Change advertisement

@@ -32,16 +32,25 @@ public class AdvertisementController {
      */
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
-    public ModelAndView list(@RequestParam(value = "sortedBy",required = false) String sortedBy,@RequestParam(value = "sortOrder",required = false) String sortOrder) {
-
-        //Создаем вьюшку по list.jsp, которая выведется этим контроллером на экран
+    public ModelAndView list(@RequestParam(value = "sortedBy",required = false) String sortByNameParam,
+                             @RequestParam(value = "sortOrder",required = false) String sortOrderParam) {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
-        SortOrder sortType = SortOrder.getViceVersa((sortOrder == null) ? null : SortOrder.valueOf(sortOrder));
-        //TODO Check a behavior when sortOrder is wrong
-        List<Advertisement> advertisements = this.advertisementDao.findAll(sortType, sortedBy);
+        SortOrder sortOrder = SortOrder.getViceVersa((sortOrderParam == null) ? null : SortOrder.valueOf(sortOrderParam));
+        //Will be ASCENDING order in any wrong cases.
+        List<Advertisement> advertisements = this.advertisementDao.findAll(sortOrder, sortByNameParam);
         modelAndView.addObject("advertisements", advertisements);
-        modelAndView.addObject("sortOrderNew", sortType.toString());
-
+        if(sortByNameParam != null) {
+            if(sortByNameParam.equals("title")) {
+                modelAndView.addObject("sortByDateOrderNew", SortOrder.NONE.toString());
+                modelAndView.addObject("sortByTitleOrderNew", sortOrder.toString());
+            } else {
+                modelAndView.addObject("sortByDateOrderNew", sortOrder.toString());
+                modelAndView.addObject("sortByTitleOrderNew", SortOrder.NONE.toString());
+            }
+        } else {
+            modelAndView.addObject("sortByDateOrderNew", SortOrder.NONE.toString());
+            modelAndView.addObject("sortByTitleOrderNew", SortOrder.NONE.toString());
+        }
         List<String> categories = new ArrayList<String>();
         categories.add("Игрушки");
         categories.add("Одежда");

@@ -21,14 +21,14 @@
                             <th>
                                  <c:url var="url" value="list.html">
                                      <c:param name="sortedBy" value='${"title"}'/>
-                                     <c:param name="sortOrder" value='${sortOrderNew}'/>
+                                     <c:param name="sortOrder" value='${sortByTitleOrderNew}'/>
                                  </c:url>
                                  <a href="<c:out value='${url}'/>">Заголовок</a>
                             </th>
                             <th>
                                 <c:url var="url" value="list.html">
                                     <c:param name="sortedBy" value='${"createdDate"}'/>
-                                    <c:param name="sortOrder" value='${sortOrderNew}'/>
+                                    <c:param name="sortOrder" value='${sortByDateOrderNew}'/>
                                 </c:url>
                                 <a href="<c:out value='${url}'/>">Дата</a>
                             </th>

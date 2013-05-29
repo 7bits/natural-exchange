@@ -20,15 +20,14 @@ public enum SortOrder {
      * For example, the set <code>1, 4, 0</code> in
      * <code>UNSORTED</code> order is <code>1, 4, 0</code>.
      */
-    UNSORTED;
+    //UNSORTED;
+    NONE;
 
     public static SortOrder getViceVersa(final SortOrder sortOrder) {
-
-        //TODO: Try to use switch
-        if (sortOrder == null) {
-            return UNSORTED;
-        } else if (SortOrder.UNSORTED.equals(sortOrder)) {
-            return UNSORTED;
+        if ((sortOrder == null)||(sortOrder == NONE)) {
+            return ASCENDING;
+        /*} else if (SortOrder.UNSORTED.equals(sortOrder)) {
+            return UNSORTED;*/
         } else if(SortOrder.ASCENDING.equals(sortOrder)) {
             return DESCENDING;
         } else {
