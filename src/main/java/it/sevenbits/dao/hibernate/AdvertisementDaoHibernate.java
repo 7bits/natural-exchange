@@ -5,6 +5,8 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.util.SortOrder;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.classic.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,11 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 
     @Override
     public void create(final Advertisement advertisement) {
+        AdvertisementEntity advertisement1 = new AdvertisementEntity();
+        Session session = this.hibernateTemplate.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+        session.persist(advertisement);
+        tx.commit();
         return;
     }
 

@@ -5,10 +5,15 @@ package it.sevenbits.controller;
 
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.util.SortOrder;
 
+import it.sevenbits.util.form.AdvertisementPlacingForm;
+import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -101,4 +106,29 @@ public class AdvertisementController {
 
 		return modelAndView;
 	}
+
+    @Autowired
+    private AdvertisementPlacingValidator advertisementPlacingValidator;
+
+    @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
+    public ModelAndView placing() {
+        ModelAndView modelAndView = new ModelAndView("advertisement/placing");
+        AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
+        modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/placing.html",method = RequestMethod.POST)
+    public ModelAndView processPlacing(AdvertisementPlacingForm advertisementPlacingForm, BindingResult result) {
+        advertisementPlacingValidator.validate(advertisementPlacingForm, result);
+        if (result.hasErrors()) {
+            return new ModelAndView("advertisement/placing");
+        }
+        AdvertisementEntity tmp = new AdvertisementEntity();
+        tmp.setText(advertisementPlacingForm.getText());
+        tmp.setPhotoFile(advertisementPlacingForm.getPhotoFile());
+        tmp.setTitle(advertisementPlacingForm.getTitle());
+        this.advertisementDao.create(tmp);
+        return new ModelAndView("advertisement/placingRequest");
+    }
 }

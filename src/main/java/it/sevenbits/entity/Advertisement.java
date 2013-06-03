@@ -30,7 +30,9 @@ public class Advertisement {
         title = null;
         text = null;
         photoFile = null;
-        createdDate = 0l;
+        TimeZone timeZone = TimeZone.getDefault();
+        Calendar calendar = new GregorianCalendar(timeZone);
+        createdDate = calendar.getTimeInMillis();
         updatedDate = 0l;
         isDeleted = false;
     }

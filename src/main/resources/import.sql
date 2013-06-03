@@ -6,4 +6,4 @@ INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,upda
 INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date) VALUES (6,1369249828460,1,'image3.jpg','this is cat','coat3',65000);
 INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date) VALUES (7,1369259028460,1,'image1.jpg','this is dog','coat',75000);
 INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date) VALUES (8,1369252628460,1,'image2.jpg','this is toys','coat2',85000);
-INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date) VALUES (9,1369259828460,1,'image3.jpg','что-нибудь зимнее ','coat3',95000);
+INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date) VALUES (9,1369259828460,1,'image3.jpg','this is something','coat3',95000);
