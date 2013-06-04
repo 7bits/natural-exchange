@@ -37,7 +37,6 @@ public class AdvertisementController {
      * 
      * @return jsp-page with advertisements information
      */
-
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public ModelAndView list(
             @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
@@ -66,6 +65,7 @@ public class AdvertisementController {
         String titleSortingUrl = null;
         String dateSortingUrl = null;
         if (currentColumn.equals(Advertisement.TITLE_COLUMN_CODE)) {
+            //TODO: Remove hardcode!
             titleSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.TITLE_COLUMN_CODE + "&sortOrder=" + newSortOrder.toString();
             dateSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" + SortOrder.ASCENDING.toString();
         } else {

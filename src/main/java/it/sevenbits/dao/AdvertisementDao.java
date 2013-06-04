@@ -14,7 +14,7 @@ public interface AdvertisementDao {
      * Create new advertisement
      * @param advertisement
      */
-    void create(Advertisement advertisement);
+    Advertisement create(Advertisement advertisement);
 
     /**
      * Find advertisement by id

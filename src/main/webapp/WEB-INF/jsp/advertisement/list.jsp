@@ -60,17 +60,10 @@
                     </c:forEach>
                 </table>
             </div>
+
+            <div class="manage-panel">
+                <a href='<c:url value="/advertisement/placing.html"/>'>Создать</a>
+            </div>
         </div>
-		<!--div>
-		    <select name="pageSizeSelect" >
-			    <option value = "2" selected>2</option>
-			    <option value = "10">10</option>
-			    <option value = "25">25 </option>
-		    </select>
-			<c:url var="url" value="list.html">
-                <c:param name="pageSize" value='${1}'/>
-            </c:url>
-			<submit = button '${url}'>выбрать</>
-		</div-->
     </body>
 </html>
