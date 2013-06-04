@@ -7,7 +7,6 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.util.SortOrder;
-
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,88 +23,94 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Annoted spring controller class
+ * Annotated spring controller class
  */
 @Controller
 @RequestMapping(value = "advertisement")
 public class AdvertisementController {
 
-	@Resource(name = "advertisementDao")
-	private AdvertisementDao advertisementDao;
+    @Resource(name = "advertisementDao")
+    private AdvertisementDao advertisementDao;
 
-	/**
-	 * Gives information about all advertisements for display
-	 * 
-	 * @return jsp-page with advertisements information
-	 */
+    /**
+     * Gives information about all advertisements for display
+     * 
+     * @return jsp-page with advertisements information
+     */
 
-	@RequestMapping(value = "/list.html", method = RequestMethod.GET)
-	public ModelAndView list(
-			@RequestParam(value = "sortedBy", required = false) String sortByNameParam,
-			@RequestParam(value = "sortOrder", required = false) String sortOrderParam) {
-		ModelAndView modelAndView = new ModelAndView("advertisement/list");
-		SortOrder sortOrder = SortOrder
-				.getViceVersa((sortOrderParam == null) ? null : SortOrder
-						.valueOf(sortOrderParam));
-		// Will be ASCENDING order in any wrong cases.
-		List<Advertisement> advertisements = this.advertisementDao.findAll(
-				sortOrder, sortByNameParam);
+    @RequestMapping(value = "/list.html", method = RequestMethod.GET)
+    public ModelAndView list(
+            @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
+            @RequestParam(value = "sortOrder", required = false) String sortOrderParam
+    ) {
+        ModelAndView modelAndView = new ModelAndView("advertisement/list");
+        String currentColumn = null;
+        SortOrder currentSortOrder = null;
+        if (sortByNameParam == null) {
+            currentColumn = Advertisement.CREATED_DATE_COLUMN_CODE;
+            currentSortOrder = SortOrder.DESCENDING;
+        } else  {
+            //TODO: check matching with columns
+            currentColumn = sortByNameParam;
+            if (sortOrderParam == null) {
+                currentSortOrder = SortOrder.ASCENDING;
+            } else {
+                try {
+                    currentSortOrder = SortOrder.valueOf(sortOrderParam);
+                } catch (IllegalArgumentException e) {
+                    currentSortOrder = SortOrder.NONE;
+                }
+            }
+        }
+        SortOrder newSortOrder = SortOrder.getViceVersa(currentSortOrder);
+        String titleSortingUrl = null;
+        String dateSortingUrl = null;
+        if (currentColumn.equals(Advertisement.TITLE_COLUMN_CODE)) {
+            titleSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.TITLE_COLUMN_CODE + "&sortOrder=" + newSortOrder.toString();
+            dateSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" + SortOrder.ASCENDING.toString();
+        } else {
+            titleSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.TITLE_COLUMN_CODE + "&sortOrder=" + SortOrder.ASCENDING.toString();
+            dateSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" + newSortOrder.toString();
+        }
+        modelAndView.addObject("titleSortingUrl", titleSortingUrl);
+        modelAndView.addObject("dateSortingUrl", dateSortingUrl);
 
-		//modelAndView.addObject("advertisements", advertisements);
-		PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>(
-				advertisements);
-		pageList.setPageSize(2);
-		pageList.setPage(0);
- 		modelAndView.addObject("advertisements", pageList.getPageList());
+        List<Advertisement> advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
+        PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>(advertisements);
+        pageList.setPageSize(10);
+        pageList.setPage(0);
+        modelAndView.addObject("advertisements", pageList.getPageList());
 
-		if (sortByNameParam != null) {
-			if (sortByNameParam.equals("title")) {
-				modelAndView.addObject("sortByDateOrderNew",
-						SortOrder.NONE.toString());
-				modelAndView.addObject("sortByTitleOrderNew",
-						sortOrder.toString());
-			} else {
-				modelAndView.addObject("sortByDateOrderNew",
-						sortOrder.toString());
-				modelAndView.addObject("sortByTitleOrderNew",
-						SortOrder.NONE.toString());
-			}
-		} else {
-			modelAndView.addObject("sortByDateOrderNew",
-					SortOrder.NONE.toString());
-			modelAndView.addObject("sortByTitleOrderNew",
-					SortOrder.NONE.toString());
-		}
-		List<String> categories = new ArrayList<String>();
-		categories.add("Игрушки");
-		categories.add("Одежда");
-		categories.add("Мебель");
-		modelAndView.addObject("categories", categories);
+        List<String> categories = new ArrayList<String>();
+        categories.add("Игрушки");
+        categories.add("Одежда");
+        categories.add("Мебель");
+        modelAndView.addObject("categories", categories);
 
-		return modelAndView;
-	}
+        return modelAndView;
+    }
 
-	/**
-	 * Gives information about one advertisement by id for display
-	 * 
-	 * @return jsp-page with advertisement information
-	 */
-	@RequestMapping(value = "/view.html", method = RequestMethod.GET)
-	public ModelAndView view(@RequestParam(required = true) String id) {
+    /**
+     * Gives information about one advertisement by id for display
+     * 
+     * @return jsp-page with advertisement information
+     */
+    @RequestMapping(value = "/view.html", method = RequestMethod.GET)
+    public ModelAndView view(@RequestParam(required = true) String id) {
 
-		// Создаем вьюшку по list.jsp, которая выведется этим контроллером на
-		// экран
-		ModelAndView modelAndView = new ModelAndView("advertisement/list");
-		List<Advertisement> advertisements = this.advertisementDao.findAll();
-		modelAndView.addObject("advertisements", advertisements);
-		List<String> categories = new ArrayList<String>();
-		categories.add("Игрушки");
-		categories.add("Одежда");
-		categories.add("Мебель");
-		modelAndView.addObject("categories", categories);
+        // Создаем вьюшку по list.jsp, которая выведется этим контроллером на
+        // экран
+        ModelAndView modelAndView = new ModelAndView("advertisement/list");
+        List<Advertisement> advertisements = this.advertisementDao.findAll();
+        modelAndView.addObject("advertisements", advertisements);
+        List<String> categories = new ArrayList<String>();
+        categories.add("Игрушки");
+        categories.add("Одежда");
+        categories.add("Мебель");
+        modelAndView.addObject("categories", categories);
 
-		return modelAndView;
-	}
+        return modelAndView;
+    }
 
     @Autowired
     private AdvertisementPlacingValidator advertisementPlacingValidator;

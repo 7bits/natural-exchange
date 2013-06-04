@@ -19,18 +19,10 @@
                                 Автор
                             </th-->
                             <th>
-                                 <c:url var="url" value="list.html">
-                                     <c:param name="sortedBy" value='${"title"}'/>
-                                     <c:param name="sortOrder" value='${sortByTitleOrderNew}'/>
-                                 </c:url>
-                                 <a href="<c:out value='${url}'/>">Заголовок</a>
+                                 <a href='<c:url value="${titleSortingUrl}"/>'>Заголовок</a>
                             </th>
                             <th>
-                                <c:url var="url" value="list.html">
-                                    <c:param name="sortedBy" value='${"createdDate"}'/>
-                                    <c:param name="sortOrder" value='${sortByDateOrderNew}'/>
-                                </c:url>
-                                <a href="<c:out value='${url}'/>">Дата</a>
+                                 <a href='<c:url value="${dateSortingUrl}"/>'>Дата</a>
                             </th>
                             <th>
                                 Текст
@@ -46,7 +38,7 @@
                             <td><c:out value="${advertisement.title}"/></td>
                             <td><c:out value="${advertisement.createdDateFormat}"/></td>
                             <td><c:out value="${advertisement.text}"/></td>
-                            <td><img src="<c:url value="/resources/images/${advertisement.photoFile}"/>"/></td>
+                            <td><img src='<c:url value="/resources/images/${advertisement.photoFile}"/>'/></td>
                         </tr>
                     </c:forEach>
                     </tbody>

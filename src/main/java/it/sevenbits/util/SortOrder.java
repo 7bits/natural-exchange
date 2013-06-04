@@ -26,9 +26,7 @@ public enum SortOrder {
     public static SortOrder getViceVersa(final SortOrder sortOrder) {
         if ((sortOrder == null)||(sortOrder == NONE)) {
             return ASCENDING;
-        /*} else if (SortOrder.UNSORTED.equals(sortOrder)) {
-            return UNSORTED;*/
-        } else if(SortOrder.ASCENDING.equals(sortOrder)) {
+        } else if (SortOrder.ASCENDING.equals(sortOrder)) {
             return DESCENDING;
         } else {
             return ASCENDING;

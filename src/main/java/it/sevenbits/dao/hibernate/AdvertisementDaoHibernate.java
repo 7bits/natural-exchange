@@ -59,15 +59,17 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     @Override
     public List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName) {
 
-        //SortOrder _sortOrder = (sortOrder == null) ? SortOrder.UNSORTED : sortOrder;
-        String sortByName = (sortPropertyName == null) ? Advertisement.CREATED_DATE_COLUMN_CODE : sortPropertyName;
+        //TODO: Move default sort column to properties
+        String sortByName = (sortPropertyName == null)
+                ? Advertisement.CREATED_DATE_COLUMN_CODE
+                : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
+        ;
         DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
         switch (sortOrder) {
             case ASCENDING :
                 criteria.addOrder(Order.asc(sortByName));
                 break;
             case DESCENDING :
-            /*case UNSORTED :*/
                 criteria.addOrder(Order.desc(sortByName));
                 break;
         }
