@@ -58,7 +58,7 @@
                <input type="submit" value="выбрать"/>
            </form>
            <!--  --> 
-<%--             текущая страница: <em><c:out value="${currentPage}"/></em> --%>
+<%--               текущая страница: <em><c:out value="${currentPage}"/></em> --%>
            <c:if test="${currentPage!=0}">
 		      <c:url  value="/advertisement/list.html" var="prevPageUrl">
 		          <c:param name="pageSize" value="${pageSize}"/>
