@@ -50,8 +50,9 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         return this.findAll(ASCENDING, Advertisement.CREATED_DATE_COLUMN_CODE);
     }
 
-    @Override
-    public List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName) {
+    @SuppressWarnings("incomplete-switch")
+	@Override
+	public List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName) {
 
         //TODO: Move default sort column to properties
         String sortByName = (sortPropertyName == null)
@@ -83,7 +84,8 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         return;
     }
 
-    private List<Advertisement> convertEntityList(List entities) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private List<Advertisement> convertEntityList(List entities) {
 
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
         if (entities != null) {

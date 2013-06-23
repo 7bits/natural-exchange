@@ -13,7 +13,8 @@ public class AdvertisementPlacingValidator implements Validator {
         return AdvertisementPlacingForm.class.isAssignableFrom(clazz);
     }
 
-    public void validate(Object target, Errors errors) {
+    @SuppressWarnings("unused")
+	public void validate(Object target, Errors errors) {
         AdvertisementPlacingForm AdvertisementPlacingForm = (AdvertisementPlacingForm) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty", "Title must not be empty.");

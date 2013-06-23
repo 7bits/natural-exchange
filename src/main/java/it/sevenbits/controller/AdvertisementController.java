@@ -9,6 +9,15 @@ import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
@@ -18,10 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Annotated spring controller class
  */
@@ -29,7 +34,7 @@ import java.util.List;
 @RequestMapping(value = "advertisement")
 public class AdvertisementController {
 
-    @Resource(name = "advertisementDao")
+	@Resource(name = "advertisementDao")
     private AdvertisementDao advertisementDao;
 
     /**
@@ -40,7 +45,9 @@ public class AdvertisementController {
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public ModelAndView list(
             @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
-            @RequestParam(value = "sortOrder", required = false) String sortOrderParam
+            @RequestParam(value = "sortOrder", required = false) String sortOrderParam,
+            @RequestParam(value = "currentPage", required = false) Integer currentPageParam,
+            @RequestParam(value = "pageSize", required = false) Integer pageSizeParam
     ) {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
         String currentColumn = null;
@@ -77,8 +84,29 @@ public class AdvertisementController {
 
         List<Advertisement> advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
         PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>(advertisements);
-        pageList.setPageSize(10);
-        pageList.setPage(0);
+//        pageList.setSource();
+//TODO See epmty list case        
+        int pageSize;
+        if (pageSizeParam==null)
+        	pageSize=defaultPageSize();
+        else 
+        	pageSize=pageSizeParam.intValue();
+        	
+        pageList.setPageSize(pageSize);
+        int noOfPage = pageList.getPageCount();
+//        noOfPage = noOfPage == 0 ? 1 : noOfPage;
+        int currentPage;
+        if(currentPageParam==null||currentPageParam>=noOfPage)
+        	currentPage=0;
+        else
+        	currentPage=currentPageParam.intValue();
+//       
+          pageList.setPage(currentPage);
+          modelAndView.addObject("defaultPageSize", defaultPageSize());
+          modelAndView.addObject("noOfPage", noOfPage);
+          modelAndView.addObject("currentPage", currentPage);
+          modelAndView.addObject("pageSize", pageSize);
+        
         modelAndView.addObject("advertisements", pageList.getPageList());
 
         List<String> categories = new ArrayList<String>();
@@ -86,6 +114,7 @@ public class AdvertisementController {
         categories.add("Одежда");
         categories.add("Мебель");
         modelAndView.addObject("categories", categories);
+      
 
         return modelAndView;
     }
@@ -135,5 +164,17 @@ public class AdvertisementController {
         tmp.setTitle(advertisementPlacingForm.getTitle());
         this.advertisementDao.create(tmp);
         return new ModelAndView("advertisement/placingRequest");
+    }
+    
+    private  int defaultPageSize() {
+		Properties prop=new Properties();
+		try {
+			FileInputStream inStream=new FileInputStream("D://Julia/Java/workspace/n-exchange/src/main/resources/list.properties");	
+			prop.load(inStream);
+			inStream.close();
+		} catch(IOException e) {
+			return 2;
+		}  
+    	return Integer.parseInt(prop.getProperty("list.count"));    	
     }
 }
