@@ -19,10 +19,24 @@
                                 Автор
                             </th-->
                             <th>
-                                 <a href='<c:url value="${titleSortingUrl}"/>'>Заголовок</a>
+<%--                                 <c:set var="sortTitle" value="${!sortTitle}"/> --%>
+								<c:url value="/advertisement/list.html" var="titleSortingUrl">
+									<c:param name="sortedBy" value="title"/>		
+									<c:param name="sortTitle" value="${!sortTitle }"/>
+									<c:param name="sortDate" value="${sortDate }"/>
+									<c:param name="pageSize" value="${pageSize}"/>
+								</c:url>
+								<a href="${titleSortingUrl}">Заголовок</a>
                             </th>
                             <th>
-                                 <a href='<c:url value="${dateSortingUrl}"/>'>Дата</a>
+<%--                                 <c:set var="sortDate" value="${!sortDate}"/> --%>
+                            	<c:url value="/advertisement/list.html" var="dateSortingUrl">
+									<c:param name="sortedBy" value="createdDate"/>		
+									<c:param name="pageSize" value="${pageSize}"/>
+									<c:param name="sortTitle" value="${sortTitle}"/>
+									<c:param name="sortDate" value="${!sortDate}"/>
+								</c:url>
+                                 <a href="${dateSortingUrl}">Дата</a>
                             </th>
                             <th>
                                 Текст
@@ -38,7 +52,7 @@
                             <td><c:out value="${advertisement.title}"/></td>
                             <td><c:out value="${advertisement.createdDateFormat}"/></td>
                             <td><c:out value="${advertisement.text}"/></td>
-                            <td><img src='<c:url value="'/resources/images/'+${advertisement.photoFile}"/>'/></td>
+                            <td><img src="<c:url value="'/resources/images/'+${advertisement.photoFile}"/>"/></td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -47,7 +61,11 @@
       <div>
             <!-- выбор размера страницы -->
 			<p>рамер страницы: <c:out value="${pageSize}"/></p> 
-            <c:url value="/advertisement/list.html"  var="listUrl"/>
+            <c:url value="/advertisement/list.html"  var="listUrl" >
+           		 <c:param name="sortedBy" value="${sortedBy}"/>
+           		 <c:param name="sortTitle" value="${sortTitle}"/>
+				<c:param name="sortDate" value="${sortDate}"/>
+            </c:url>
             <form action="${listUrl}">
                <select name="pageSize">
 	               <option value="${defaultPageSize}"><c:out value="${defaultPageSize}"></c:out></option>
@@ -63,6 +81,9 @@
 		      <c:url  value="/advertisement/list.html" var="prevPageUrl">
 		          <c:param name="pageSize" value="${pageSize}"/>
 		          <c:param name="currentPage" value="${currentPage-1}"/>
+		          <c:param name="sortedBy" value="${sortedBy}"/>	
+		          <c:param name="sortTitle" value="${sortTitle}"/>
+				  <c:param name="sortDate" value="${sortDate}"/>		           
 		      </c:url>
          <a href="${prevPageUrl}">назад</a>
          </c:if>	
@@ -73,8 +94,11 @@
 		  	  </c:when>
 		  	  <c:otherwise>
 		  	  <c:url value="/advertisement/list.html" var="pageUrl" >
-		  	      <c:param name="pageSize" value="${pageSize}"/>
-		  	      <c:param name="currentPage" value="${i}"/>
+		  	      <c:param name="pageSize" value="${pageSize}"/>    
+		  	      <c:param name="sortedBy" value="${sortedBy}"/>	
+		          <c:param name="sortTitle" value="${sortTitle}"/>
+				  <c:param name="sortDate" value="${sortDate}"/>
+		          <c:param name="currentPage" value="${i}"/>
 		  	  </c:url>
 		  	   <a href="${pageUrl}"><c:out value="${i+1}"></c:out></a>
 		  	  </c:otherwise>
@@ -84,6 +108,9 @@
 		      <c:url  value="/advertisement/list.html" var="nextPageUrl">
 		          <c:param name="pageSize" value="${pageSize}"/>
 		          <c:param name="currentPage" value="${currentPage+1}"/>
+		          <c:param name="sortedBy" value="${sortedBy}"/>			          
+		          <c:param name="sortDate" value="${sortDate}"/>
+		          <c:param name="sortTitle" value="${sortTitle}"/>
 		      </c:url>
               <a href="${nextPageUrl}">вперед</a>
           </c:if>	
