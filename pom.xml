@@ -18,7 +18,20 @@
 
         <slf4j>1.5.8</slf4j>
     </properties>
-
+<build>
+<plugins>
+<plugin>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+            <fork>true</fork>
+            <executable>${JAVA_7_JAVAC}</executable>
+            <encoding>UTF-8</encoding>
+        <source>1.7</source>
+        <target>1.7</target>
+    </configuration>
+</plugin>
+</plugins>
+</build>
 
     <!-- Dependences -->
 
@@ -161,6 +174,7 @@
             <artifactId>hibernate-validator-annotation-processor</artifactId>
             <version>4.1.0.Final</version>
         </dependency>
+
 
         <!-- MySQL -->
         <dependency>
