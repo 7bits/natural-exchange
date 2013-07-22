@@ -16,7 +16,7 @@
         <div class="">
             Зарегистрируйтесь, пожалуйста!
         </div>
-        <f:form method='POST' action='registrationRequest.html'>
+        <f:form method='POST' action='registrationRequest.html?test1=THIS IS SPATRA!'>
         Имя пользователя: <input type='text' name='userName' value=''>
         <input type='submit' name='Submit'>
         </f:form>

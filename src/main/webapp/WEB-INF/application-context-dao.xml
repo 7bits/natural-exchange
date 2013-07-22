@@ -29,7 +29,7 @@
             <list>
                 <value>it.sevenbits.entity.hibernate.AdvertisementEntity</value>
 				<value>it.sevenbits.entity.hibernate.User</value>
-				<value>it.sevenbits.entity.hibernate.Category</value>
+				<value>it.sevenbits.entity.hibernate.CategoryEntity</value>
             </list>
         </property>
         <property name="annotatedPackages">

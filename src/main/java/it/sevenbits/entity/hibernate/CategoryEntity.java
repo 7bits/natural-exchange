@@ -1,18 +1,29 @@
 package it.sevenbits.entity.hibernate;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "Category")
-public class Category extends it.sevenbits.entity.Category {
+public class CategoryEntity extends it.sevenbits.entity.Category {
 
     private Long id;
+    private Set<AdvertisementEntity> advertisements;
 
-    public Category() {
+    @OneToMany(mappedBy="categoryEntity",cascade = CascadeType.ALL)
+    public Set<AdvertisementEntity> getAdvertisements() {
+        return advertisements;
+    }
+
+    public void setAdvertisements(Set<AdvertisementEntity> advertisements) {
+        this.advertisements = advertisements;
+    }
+
+    public CategoryEntity() {
         super();
     }
 
-    public Category(final String name, final String description, final Long updatedDate, final Long createdDate, final Boolean deleted) {
+    public CategoryEntity(final String name, final String description, final Long updatedDate, final Long createdDate, final Boolean deleted) {
         super(name,description,updatedDate,createdDate,deleted);
     }
 

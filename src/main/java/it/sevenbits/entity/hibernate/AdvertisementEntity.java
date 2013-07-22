@@ -1,11 +1,6 @@
 package it.sevenbits.entity.hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *Class, which presents Advertisement entity for Hibernate
@@ -13,24 +8,25 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "advertisement")
 public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
-    /*private Long userId;
-        private Long categoryId;*/
+    //private Long userId;
+    private CategoryEntity categoryEntity;
 
     public AdvertisementEntity() {
         super();
-        /*userId = 0L;
-        categoryId = 0L;*/
+        //userId = 0L;
+        //categoryId = 0L;
     }
 
-    /*@Transient
-    public Long getCategoryId() {
-        return categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    public CategoryEntity getCategoryEntity() {
+        return categoryEntity;
     }
 
-    @Transient
-    public Long getUserId() {
-        return userId;
-    }*/
+//    @Transient
+//    public Long getUserId() {
+//        return userId;
+//    }
 
     @Id
     @Column
@@ -75,11 +71,12 @@ public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
         return super.getIsDeleted();
     }
 
-    /*public void setUserId(final Long userId) {
-        this.userId = userId;
-    }
+//    public void setUserId(final Long userId) {
+//        this.userId = userId;
+//    }
 
-    public void setCategoryId(final Long categoryId) {
-        this.categoryId = categoryId;
-    } */
+    public void setCategoryEntity(final CategoryEntity _category) {
+        this.categoryEntity = _category;
+        super.setCategory(_category);
+    }
 }
