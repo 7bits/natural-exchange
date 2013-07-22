@@ -55,71 +55,6 @@ public class AdvertisementController {
 			@RequestParam(value = "currentPage", required = false) Integer currentPageParam,
 			@RequestParam(value = "pageSize", required = false) Integer pageSizeParam)
 			throws FileNotFoundException {
-//		logger.debug("********************************************************");
-//		logger.debug("sortedByNameParam {}", sortByNameParam);
-//		logger.debug("sortTitleAscendingParam {}", sortTitleAscendingParam);
-//		logger.debug("sortDateAscendingParam {}", sortDateAscendingParam);
-//		logger.debug("currentPageParam {}", currentPageParam);
-//		logger.debug("pageSizeParam {}", pageSizeParam);
-//
-//		List<Advertisement> advertisements = this.advertisementDao.findAll();
-//		PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
-//		pageList.setSource(advertisements);
-//
-//		MutableSortDefinition sorting = new MutableSortDefinition();
-//		// sorting.setToggleAscendingOnProperty(true);
-//		if (sortByNameParam == null) {
-//			sortDateAscendingParam = false;
-//			sortTitleAscendingParam = true;
-//			sortByNameParam = new String("createdDate");
-//		}
-//		sorting.setProperty(sortByNameParam);
-//		if (sortByNameParam.compareTo("title") == 0)
-//			sorting.setAscending(sortTitleAscendingParam);
-//
-//		if (sortByNameParam.compareTo("createdDate") == 0)
-//			sorting.setAscending(sortDateAscendingParam);
-//
-//		pageList.setSort(sorting);
-//		pageList.resort();
-//
-//		int pageSize;
-//		if (pageSizeParam == null)
-//			pageSize = defaultPageSize();
-//		else
-//			pageSize = pageSizeParam.intValue();
-//
-//		pageList.setPageSize(pageSize);
-//		int noOfPage = pageList.getPageCount();
-//		pageList.setPage(0);
-//
-//		for (int i = 0; i < noOfPage; i++) {
-//			pageList.setPage(i);
-//			logger.debug("pageList {}.", i);
-//			for (Advertisement advert : pageList.getPageList()) {
-//				logger.debug(advert.getTitle() + " |"
-//						+ advert.getCreatedDateFormat());
-//			}
-//
-//		}
-//
-////	    noOfPage = noOfPage == 0 ? 1 : noOfPage;
-//		int currentPage;
-//		if (currentPageParam == null || currentPageParam >= noOfPage)
-//			currentPage = 0;
-//		else
-//			currentPage = currentPageParam.intValue();
-//
-//		pageList.setPage(currentPage);
-//		modelAndView.addObject("defaultPageSize", defaultPageSize());
-//		modelAndView.addObject("noOfPage", noOfPage);
-//		modelAndView.addObject("currentPage", currentPage);
-//		modelAndView.addObject("pageSize", pageSize);
-//		modelAndView.addObject("sortedBy", sortByNameParam);
-//		modelAndView.addObject("sortDate", sortDateAscendingParam);
-//		modelAndView.addObject("sortTitle", sortTitleAscendingParam);
-//
-//		modelAndView.addObject("advertisements", pageList.getPageList());
 
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
         String currentColumn = null;
@@ -150,7 +85,7 @@ public class AdvertisementController {
             modelAndView.addObject("sortedByDate",Advertisement.CREATED_DATE_COLUMN_CODE);
             modelAndView.addObject("sortOrderDate",SortOrder.ASCENDING.toString());
             dateSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" + SortOrder.ASCENDING.toString();
-            modelAndView.addObject("pageSize",10);
+
         } else {
             modelAndView.addObject("sortedByTitle",Advertisement.TITLE_COLUMN_CODE);
             modelAndView.addObject("sortOrderTitle",SortOrder.ASCENDING.toString());
@@ -158,16 +93,39 @@ public class AdvertisementController {
             modelAndView.addObject("sortedByDate",Advertisement.CREATED_DATE_COLUMN_CODE);
             modelAndView.addObject("sortOrderDate",newSortOrder.toString());
             //dateSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" + newSortOrder.toString();
-            modelAndView.addObject("pageSize",10);
+
         }
         //modelAndView.addObject("titleSortingUrl", titleSortingUrl);
         //modelAndView.addObject("dateSortingUrl", dateSortingUrl);
 
         List<Advertisement> advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
-        PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>(advertisements);
-        pageList.setPageSize(10);
-        pageList.setPage(0);
+        PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
+		pageList.setSource(advertisements);
+
+        int pageSize;
+		if (pageSizeParam == null)
+			pageSize = defaultPageSize();
+		else
+		    pageSize = pageSizeParam.intValue();
+
+		pageList.setPageSize(pageSize);
+		int noOfPage = pageList.getPageCount();
+
+        int currentPage;
+		if (currentPageParam == null || currentPageParam >= noOfPage)
+			currentPage = 0;
+    	else
+			currentPage = currentPageParam.intValue();
+        pageList.setPage(currentPage);
+
         modelAndView.addObject("advertisements", pageList.getPageList());
+        modelAndView.addObject("defaultPageSize", defaultPageSize());
+		modelAndView.addObject("noOfPage", noOfPage);
+		modelAndView.addObject("currentPage", currentPage);
+		modelAndView.addObject("pageSize", pageSize);
+        modelAndView.addObject("currentColumn", currentColumn);
+        modelAndView.addObject("currentSortOrder", currentSortOrder);
+
 
         List<String> categories = new ArrayList<String>();
         categories.add("Игрушки");
