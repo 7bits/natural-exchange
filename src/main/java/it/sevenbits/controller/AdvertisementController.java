@@ -3,6 +3,7 @@ package it.sevenbits.controller;
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
+import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 
@@ -50,130 +51,131 @@ public class AdvertisementController {
 	@RequestMapping(value = "/list.html", method = RequestMethod.GET)
 	public ModelAndView list(
 			@RequestParam(value = "sortedBy", required = false) String sortByNameParam,
-			@RequestParam(value = "sortDate", required = false) Boolean sortDateAscendingParam,
-			@RequestParam(value = "sortTitle", required = false) Boolean sortTitleAscendingParam,
+			@RequestParam(value = "sortOrder", required = false) String sortOrderParam,
 			@RequestParam(value = "currentPage", required = false) Integer currentPageParam,
 			@RequestParam(value = "pageSize", required = false) Integer pageSizeParam)
 			throws FileNotFoundException {
-		 
-		ModelAndView modelAndView = new ModelAndView("advertisement/list");
+//		logger.debug("********************************************************");
+//		logger.debug("sortedByNameParam {}", sortByNameParam);
+//		logger.debug("sortTitleAscendingParam {}", sortTitleAscendingParam);
+//		logger.debug("sortDateAscendingParam {}", sortDateAscendingParam);
+//		logger.debug("currentPageParam {}", currentPageParam);
+//		logger.debug("pageSizeParam {}", pageSizeParam);
+//
+//		List<Advertisement> advertisements = this.advertisementDao.findAll();
+//		PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
+//		pageList.setSource(advertisements);
+//
+//		MutableSortDefinition sorting = new MutableSortDefinition();
+//		// sorting.setToggleAscendingOnProperty(true);
+//		if (sortByNameParam == null) {
+//			sortDateAscendingParam = false;
+//			sortTitleAscendingParam = true;
+//			sortByNameParam = new String("createdDate");
+//		}
+//		sorting.setProperty(sortByNameParam);
+//		if (sortByNameParam.compareTo("title") == 0)
+//			sorting.setAscending(sortTitleAscendingParam);
+//
+//		if (sortByNameParam.compareTo("createdDate") == 0)
+//			sorting.setAscending(sortDateAscendingParam);
+//
+//		pageList.setSort(sorting);
+//		pageList.resort();
+//
+//		int pageSize;
+//		if (pageSizeParam == null)
+//			pageSize = defaultPageSize();
+//		else
+//			pageSize = pageSizeParam.intValue();
+//
+//		pageList.setPageSize(pageSize);
+//		int noOfPage = pageList.getPageCount();
+//		pageList.setPage(0);
+//
+//		for (int i = 0; i < noOfPage; i++) {
+//			pageList.setPage(i);
+//			logger.debug("pageList {}.", i);
+//			for (Advertisement advert : pageList.getPageList()) {
+//				logger.debug(advert.getTitle() + " |"
+//						+ advert.getCreatedDateFormat());
+//			}
+//
+//		}
+//
+////	    noOfPage = noOfPage == 0 ? 1 : noOfPage;
+//		int currentPage;
+//		if (currentPageParam == null || currentPageParam >= noOfPage)
+//			currentPage = 0;
+//		else
+//			currentPage = currentPageParam.intValue();
+//
+//		pageList.setPage(currentPage);
+//		modelAndView.addObject("defaultPageSize", defaultPageSize());
+//		modelAndView.addObject("noOfPage", noOfPage);
+//		modelAndView.addObject("currentPage", currentPage);
+//		modelAndView.addObject("pageSize", pageSize);
+//		modelAndView.addObject("sortedBy", sortByNameParam);
+//		modelAndView.addObject("sortDate", sortDateAscendingParam);
+//		modelAndView.addObject("sortTitle", sortTitleAscendingParam);
+//
+//		modelAndView.addObject("advertisements", pageList.getPageList());
 
-		logger.debug("********************************************************");
-		logger.debug("sortedByNameParam {}", sortByNameParam);
-		logger.debug("sortTitleAscendingParam {}", sortTitleAscendingParam);
-		logger.debug("sortDateAscendingParam {}", sortDateAscendingParam);
-		logger.debug("currentPageParam {}", currentPageParam);
-		logger.debug("pageSizeParam {}", pageSizeParam);
+        ModelAndView modelAndView = new ModelAndView("advertisement/list");
+        String currentColumn = null;
+        SortOrder currentSortOrder = null;
+        if (sortByNameParam == null) {
+            currentColumn = Advertisement.CREATED_DATE_COLUMN_CODE;
+            currentSortOrder = SortOrder.DESCENDING;
+        } else  {
+            //TODO: check matching with columns
+            currentColumn = sortByNameParam;
+            if (sortOrderParam == null) {
+                currentSortOrder = SortOrder.ASCENDING;
+            } else {
+                try {
+                    currentSortOrder = SortOrder.valueOf(sortOrderParam);
+                } catch (IllegalArgumentException e) {
+                    currentSortOrder = SortOrder.NONE;
+                }
+            }
+        }
+        SortOrder newSortOrder = SortOrder.getViceVersa(currentSortOrder);
+        String titleSortingUrl = null;
+        String dateSortingUrl = null;
+        if (currentColumn.equals(Advertisement.TITLE_COLUMN_CODE)) {
+            modelAndView.addObject("sortedByTitle",Advertisement.TITLE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderTitle",newSortOrder.toString());
+            //titleSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.TITLE_COLUMN_CODE + "&sortOrder=" + newSortOrder.toString();
+            modelAndView.addObject("sortedByDate",Advertisement.CREATED_DATE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderDate",SortOrder.ASCENDING.toString());
+            dateSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" + SortOrder.ASCENDING.toString();
+            modelAndView.addObject("pageSize",10);
+        } else {
+            modelAndView.addObject("sortedByTitle",Advertisement.TITLE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderTitle",SortOrder.ASCENDING.toString());
+            //titleSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.TITLE_COLUMN_CODE + "&sortOrder=" + SortOrder.ASCENDING.toString();
+            modelAndView.addObject("sortedByDate",Advertisement.CREATED_DATE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderDate",newSortOrder.toString());
+            //dateSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" + newSortOrder.toString();
+            modelAndView.addObject("pageSize",10);
+        }
+        //modelAndView.addObject("titleSortingUrl", titleSortingUrl);
+        //modelAndView.addObject("dateSortingUrl", dateSortingUrl);
 
-		List<Advertisement> advertisements = this.advertisementDao.findAll();
-		PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
-		pageList.setSource(advertisements);
+        List<Advertisement> advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
+        PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>(advertisements);
+        pageList.setPageSize(10);
+        pageList.setPage(0);
+        modelAndView.addObject("advertisements", pageList.getPageList());
 
-		MutableSortDefinition sorting = new MutableSortDefinition();
-		// sorting.setToggleAscendingOnProperty(true);
-		if (sortByNameParam == null) {
-			sortDateAscendingParam = false;
-			sortTitleAscendingParam = true;
-			sortByNameParam = new String("createdDate");
-		}
-		sorting.setProperty(sortByNameParam);
-		if (sortByNameParam.compareTo("title") == 0)
-			sorting.setAscending(sortTitleAscendingParam);
+        List<String> categories = new ArrayList<String>();
+        categories.add("Игрушки");
+        categories.add("Одежда");
+        categories.add("Мебель");
+        modelAndView.addObject("categories", categories);
 
-		if (sortByNameParam.compareTo("createdDate") == 0)
-			sorting.setAscending(sortDateAscendingParam);
-
-		pageList.setSort(sorting);
-		pageList.resort();
-
-		int pageSize;
-		if (pageSizeParam == null)
-			pageSize = defaultPageSize();
-		else
-			pageSize = pageSizeParam.intValue();
-
-		pageList.setPageSize(pageSize);
-		int noOfPage = pageList.getPageCount();
-		pageList.setPage(0);
-
-		for (int i = 0; i < noOfPage; i++) {
-			pageList.setPage(i);
-			logger.debug("pageList {}.", i);
-			for (Advertisement advert : pageList.getPageList()) {
-				logger.debug(advert.getTitle() + " |"
-						+ advert.getCreatedDateFormat());
-			}
-
-		}
-
-//	    noOfPage = noOfPage == 0 ? 1 : noOfPage;
-		int currentPage;
-		if (currentPageParam == null || currentPageParam >= noOfPage)
-			currentPage = 0;
-		else
-			currentPage = currentPageParam.intValue();
-
-		pageList.setPage(currentPage);
-		modelAndView.addObject("defaultPageSize", defaultPageSize());
-		modelAndView.addObject("noOfPage", noOfPage);
-		modelAndView.addObject("currentPage", currentPage);
-		modelAndView.addObject("pageSize", pageSize);
-		modelAndView.addObject("sortedBy", sortByNameParam);
-		modelAndView.addObject("sortDate", sortDateAscendingParam);
-		modelAndView.addObject("sortTitle", sortTitleAscendingParam);
-
-		modelAndView.addObject("advertisements", pageList.getPageList());
-
-		// String currentColumn = null;
-		// SortOrder currentSortOrder = null;
-		// if (sortByNameParam == null) {
-		// currentColumn = Advertisement.CREATED_DATE_COLUMN_CODE;
-		// currentSortOrder = SortOrder.DESCENDING;
-		// } else {
-		// //TODO: check matching with columns
-		// currentColumn = sortByNameParam;
-		// if (sortOrderParam == null) {
-		// currentSortOrder = SortOrder.ASCENDING;
-		// } else {
-		// try {
-		// currentSortOrder = SortOrder.valueOf(sortOrderParam);
-		// } catch (IllegalArgumentException e) {
-		// currentSortOrder = SortOrder.NONE;
-		// }
-		// }
-		// }
-		// SortOrder newSortOrder = SortOrder.getViceVersa(currentSortOrder);
-		// String titleSortingUrl = null;
-		// String dateSortingUrl = null;
-		// if (currentColumn.equals(Advertisement.TITLE_COLUMN_CODE)) {
-		// //TODO: Remove hardcode!
-		// titleSortingUrl = "/advertisement/list.html?sortedBy=" +
-		// Advertisement.TITLE_COLUMN_CODE + "&sortOrder=" +
-		// newSortOrder.toString()+Integer.toString(pageSize);
-		// dateSortingUrl = "/advertisement/list.html?sortedBy=" +
-		// Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" +
-		// SortOrder.ASCENDING.toString()+Integer.toString(pageSize);
-		// } else {
-		// titleSortingUrl = "/advertisement/list.html?sortedBy=" +
-		// Advertisement.TITLE_COLUMN_CODE + "&sortOrder=" +
-		// SortOrder.ASCENDING.toString()+"&pageSize"+Integer.toString(pageSize);
-		// dateSortingUrl = "/advertisement/list.html?sortedBy=" +
-		// Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" +
-		// newSortOrder.toString()+"&pageSize"+Integer.toString(pageSize);
-		// }
-		// modelAndView.addObject("titleSortingUrl", titleSortingUrl);
-		// modelAndView.addObject("dateSortingUrl", dateSortingUrl);
-		// List<Advertisement> advertisements =
-		// this.advertisementDao.findAll(currentSortOrder, currentColumn);
-		// TODO See epmty list case
-
-		List<String> categories = new ArrayList<String>();
-		categories.add("Игрушки");
-		categories.add("Одежда");
-		categories.add("Мебель");
-		modelAndView.addObject("categories", categories);
-
-		return modelAndView;
+        return modelAndView;
 	}
 
 	/**
