@@ -142,13 +142,13 @@ public class AdvertisementController {
 	 * @return jsp-page with advertisement information
 	 */
 	@RequestMapping(value = "/view.html", method = RequestMethod.GET)
-	public ModelAndView view(@RequestParam(required = true) String id) {
+	public ModelAndView view(@RequestParam(required = true) Long id) {
 
 		// Создаем вьюшку по list.jsp, которая выведется этим контроллером на
 		// экран
-		ModelAndView modelAndView = new ModelAndView("advertisement/list");
-		List<Advertisement> advertisements = this.advertisementDao.findAll();
-		modelAndView.addObject("advertisements", advertisements);
+		ModelAndView modelAndView = new ModelAndView("advertisement/view");
+		Advertisement advertisement = this.advertisementDao.findById(id);
+		modelAndView.addObject("advertisement", advertisement);
 		List<String> categories = new ArrayList<String>();
 		categories.add("Игрушки");
 		categories.add("Одежда");
