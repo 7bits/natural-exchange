@@ -153,7 +153,7 @@ public class AdvertisementController {
          * @return jsp-page with advertisement information
          */
 	@RequestMapping(value = "/view.html", method = RequestMethod.GET)
-	public ModelAndView view(@RequestParam(required = true) Long id) {
+	public ModelAndView view(@RequestParam(value = "id", required = true) Long id) {
 
 		// Создаем вьюшку по list.jsp, которая выведется этим контроллером на
 		// экран

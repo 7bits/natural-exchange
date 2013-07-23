@@ -50,7 +50,12 @@
                     <tbody>
                     <c:forEach items="${advertisements}" var="advertisement">
                         <tr>
-                            <td><c:out value="${advertisement.title}"/></td>
+                            <td>
+                                <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
+                                    <c:param name="id" value="${advertisement.id}"/>
+                                </c:url>
+                               <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
+                            </td>
                             <td><c:out value="${advertisement.createdDateFormat}"/></td>
                             <td><c:out value="${advertisement.text}"/></td>
                             <td><c:out value="${advertisement.category.name}"/></td>
