@@ -65,17 +65,20 @@
                 <div>
                 <!-- выбор размера страницы -->
                     <p>рамер страницы: <c:out value="${pageSize}"/></p>
-                    <c:url value="/advertisement/list.html"  var="listUrl" >
-                        <c:param name="sortOrder" value="${currentSortOrder}"/>
+                    <c:url value="/advertisement/list.html"  var="listUrl" />
+                <%--    <c:param name="sortOrder" value="${currentSortOrder}"/>
                         <c:param name="sortedBy" value="${currentColumn}"/>
                     </c:url>
-                    <form action="${listUrl}">
+                --%>
+                    <form action="${listUrl}" method="get">
                         <select name="pageSize">
                             <option value="${defaultPageSize}"><c:out value="${defaultPageSize}"></c:out></option>
                             <option value="5">5</option>
                             <option value="15">15</option>
                             <option value="25">25</option>
                         </select>
+                        <input type="hidden" name="sortedBy" value="${currentColumn}"/>
+                        <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
                         <input type="submit" value="выбрать"/>
                     </form>
                 </div>

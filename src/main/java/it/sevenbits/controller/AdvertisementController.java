@@ -136,11 +136,22 @@ public class AdvertisementController {
         return modelAndView;
 	}
 
-	/**
-	 * Gives information about one advertisement by id for display
-	 * 
-	 * @return jsp-page with advertisement information
-	 */
+    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    public ModelAndView listSubmit(
+            @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
+            @RequestParam(value = "sortOrder", required = false) String sortOrderParam,
+            @RequestParam(value = "currentPage", required = false) Integer currentPageParam,
+            @RequestParam(value = "pageSize", required = false) Integer pageSizeParam)
+            throws FileNotFoundException {
+
+        return null;
+    }
+
+        /**
+         * Gives information about one advertisement by id for display
+         *
+         * @return jsp-page with advertisement information
+         */
 	@RequestMapping(value = "/view.html", method = RequestMethod.GET)
 	public ModelAndView view(@RequestParam(required = true) Long id) {
 
