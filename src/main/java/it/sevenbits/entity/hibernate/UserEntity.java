@@ -1,11 +1,7 @@
 package it.sevenbits.entity.hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  *Класс, представляющий сущность таблицы User а БД
@@ -15,6 +11,7 @@ import javax.persistence.Table;
 public class UserEntity extends it.sevenbits.entity.User{
 
     private Long id;
+    private Set<AdvertisementEntity> advertisements;
 
     public UserEntity(){
         super();
@@ -22,6 +19,15 @@ public class UserEntity extends it.sevenbits.entity.User{
 
     public UserEntity(final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate, final Long updatedDate, final Boolean deleted) {
         super(firstName,email,lastName,vkLink,createdDate,updatedDate,deleted);
+    }
+
+    @OneToMany(mappedBy="userEntity",cascade = CascadeType.ALL)
+    public Set<AdvertisementEntity> getAdvertisements() {
+        return advertisements;
+    }
+
+    public void setAdvertisements(Set<AdvertisementEntity> advertisements) {
+        this.advertisements = advertisements;
     }
 
     @Id

@@ -12,11 +12,16 @@ public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
 
     private Long id;
     private CategoryEntity categoryEntity;
+    private UserEntity userEntity;
 
     public AdvertisementEntity() {
         super();
-        //userId = 0L;
-        //categoryId = 0L;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
     @ManyToOne
@@ -24,11 +29,6 @@ public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
     public CategoryEntity getCategoryEntity() {
         return categoryEntity;
     }
-
-//    @Transient
-//    public Long getUserId() {
-//        return userId;
-//    }
 
     @Id
     @Column
@@ -73,13 +73,14 @@ public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
         return super.getIsDeleted();
     }
 
-//    public void setUserId(final Long userId) {
-//        this.userId = userId;
-//    }
+    public void setCategoryEntity(final CategoryEntity categoryEntity) {
+        this.categoryEntity = categoryEntity;
+        super.setCategory(categoryEntity);
+    }
 
-    public void setCategoryEntity(final CategoryEntity _category) {
-        this.categoryEntity = _category;
-        super.setCategory(_category);
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+        super.setUser(userEntity);
     }
 
     public void setId(Long id) {
