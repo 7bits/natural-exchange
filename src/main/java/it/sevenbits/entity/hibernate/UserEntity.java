@@ -12,15 +12,15 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "user")
-public class User extends it.sevenbits.entity.User{
+public class UserEntity extends it.sevenbits.entity.User{
 
     private Long id;
 
-    public User(){
+    public UserEntity(){
         super();
     }
 
-    public User(final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate, final Long updatedDate, final Boolean deleted) {
+    public UserEntity(final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate, final Long updatedDate, final Boolean deleted) {
         super(firstName,email,lastName,vkLink,createdDate,updatedDate,deleted);
     }
 

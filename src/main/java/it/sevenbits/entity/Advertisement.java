@@ -12,7 +12,6 @@ public class Advertisement {
     public static final String TITLE_COLUMN_CODE = "title";
     public static final String CREATED_DATE_COLUMN_CODE = "createdDate";
 
-    private Long id;
     private String title;
     private String text;
     private String photoFile;
@@ -35,10 +34,6 @@ public class Advertisement {
         createdDate = calendar.getTimeInMillis();
         updatedDate = 0l;
         isDeleted = false;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getTitle() {
@@ -71,10 +66,6 @@ public class Advertisement {
 
     public Category getCategory() {
         return category;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setTitle(final String title) {

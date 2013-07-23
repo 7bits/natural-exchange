@@ -1,11 +1,23 @@
 package it.sevenbits.entity;
 
+import java.util.Set;
+
 public class Category {
     private String name;
     private String description;
     private Long createdDate;
     private Long updatedDate;
     private Boolean isDeleted;
+
+//    private Set<Advertisement> advertisements;
+//
+//    public Set<Advertisement> getAdvertisements() {
+//        return advertisements;
+//    }
+//
+//    public void setAdvertisements(Set<Advertisement> advertisements) {
+//        this.advertisements = advertisements;
+//    }
 
     public Category() {
     }

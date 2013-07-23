@@ -5,7 +5,7 @@ import it.sevenbits.entity.User;
 import java.util.List;
 
 /**
- *Интерфейс, предоставляющий методы работы с сущностью User 
+ *Интерфейс, предоставляющий методы работы с сущностью UserEntity
  */
 public interface UserDao {
 
