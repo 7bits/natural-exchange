@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page session="false"%>
 
 <!doctype html>
 <html lang="ru">
@@ -147,5 +149,21 @@
                 <a href='<c:url value="/advertisement/placing.html"/>'>Создать</a>
             </div>
         </div>
+
+
+        <form:form method="post" commandName="advertisementSearchingForm">
+            <table>
+                <tr>
+                    <td>Категория :</td>
+                    <td><form:radiobutton path="category" value="clothes" />Одежда</td>
+                    <td><form:radiobutton path="category" value="notclothes" />Не одежда</td>
+                    <td><form:errors path="category"/></td>
+                </tr>
+                <tr>
+                    <td colspan="3"> <input type="submit" /> </td>
+                </tr>
+            </table>
+        </form:form>
+
     </body>
 </html>

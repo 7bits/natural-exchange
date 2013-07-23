@@ -9,11 +9,13 @@ import it.sevenbits.util.form.AdvertisementPlacingForm;
 
 @Component
 public class AdvertisementPlacingValidator implements Validator {
+
+    @Override
     public boolean supports(Class<?> clazz) {
         return AdvertisementPlacingForm.class.isAssignableFrom(clazz);
     }
 
-    @SuppressWarnings("unused")
+    @Override
 	public void validate(Object target, Errors errors) {
         AdvertisementPlacingForm AdvertisementPlacingForm = (AdvertisementPlacingForm) target;
 

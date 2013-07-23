@@ -5,6 +5,7 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
+import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 
 import java.io.FileInputStream;
@@ -16,6 +17,7 @@ import java.util.Properties;
 
 import javax.annotation.Resource;
 
+import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,10 @@ public class AdvertisementController {
 	 *             sortDateOrder = true if ascending, false othewise
 	 *             sortTitleOrder = so on
 	 */
+
+    @Autowired
+    private AdvertisementSearchingValidator advertisementSearchingValidator;
+
 	@RequestMapping(value = "/list.html", method = RequestMethod.GET)
 	public ModelAndView list(
 			@RequestParam(value = "sortedBy", required = false) String sortByNameParam,
@@ -57,6 +63,11 @@ public class AdvertisementController {
 			throws FileNotFoundException {
 
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
+
+        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+        modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
+
+
         String currentColumn = null;
         SortOrder currentSortOrder = null;
         if (sortByNameParam == null) {
