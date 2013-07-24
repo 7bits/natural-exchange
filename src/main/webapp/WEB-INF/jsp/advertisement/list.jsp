@@ -130,7 +130,7 @@
             </div>
             <!-- ******************* /pagination  ************************  -->
 
-            <div class="category-table">
+            <!--div class="category-table">
                 <table>
                     <thead>
                         <tr>
@@ -143,7 +143,7 @@
                         </tr>
                     </c:forEach>
                 </table>
-            </div>
+            </div-->
 
             <div class="manage-panel">
                 <a href='<c:url value="/advertisement/placing.html"/>'>Создать</a>
@@ -151,16 +151,22 @@
         </div>
 
 
-        <form:form method="post" commandName="advertisementSearchingForm">
+        <form:form method="get" commandName="advertisementSearchingForm">
             <table>
                 <tr>
                     <td>Категория :</td>
+                    <td><form:radiobutton path="category" value="nothing" />Не выбрано</td>
                     <td><form:radiobutton path="category" value="clothes" />Одежда</td>
                     <td><form:radiobutton path="category" value="notclothes" />Не одежда</td>
                     <td><form:errors path="category"/></td>
                 </tr>
                 <tr>
-                    <td colspan="3"> <input type="submit" /> </td>
+                    <td colspan="3">
+                        <input type="hidden" name="sortedBy" value="${currentColumn}"/>
+                        <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
+                        <input type="hidden" name="pageSize" value="${pageSize}"/>
+                        <input type="submit" />
+                    </td>
                 </tr>
             </table>
         </form:form>

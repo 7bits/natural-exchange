@@ -59,12 +59,17 @@ public class AdvertisementController {
 			@RequestParam(value = "sortedBy", required = false) String sortByNameParam,
 			@RequestParam(value = "sortOrder", required = false) String sortOrderParam,
 			@RequestParam(value = "currentPage", required = false) Integer currentPageParam,
-			@RequestParam(value = "pageSize", required = false) Integer pageSizeParam)
+			@RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
+            @RequestParam(value = "currentCategory", required = false) String currentCategoryParam)
 			throws FileNotFoundException {
 
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
 
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+//        String currentCategory = advertisementSearchingForm.getCategory();
+//        if(currentCategoryParam.equals(currentCategory) || currentCategoryParam.equals(currentCategory))
+//            advertisementSearchingForm.setCategory(currentCategory);
+//        modelAndView.addObject("currentCategory",currentCategory);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
 
 
