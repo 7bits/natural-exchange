@@ -122,6 +122,15 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         return convertEntityList(lst);
     }
 
+//    @Override
+//    public List<Advertisement> findAll2() {
+//        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class)
+//        .createAlias("categoryEntity","category")
+//        .add( Restrictions.eq("category.name", "notclothes") );
+//        //criteria.createAlias()
+//        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
+//    }
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	private List<Advertisement> convertEntityList(List entities) {
 
