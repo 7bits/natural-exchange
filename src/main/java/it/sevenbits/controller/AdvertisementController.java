@@ -65,18 +65,16 @@ public class AdvertisementController {
             @RequestParam(value = "currentCategory", required = false) String currentCategoryParam,
             AdvertisementSearchingForm advertisementSearchingFormParam)
 			throws FileNotFoundException {
-
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
-        String tmp = advertisementSearchingFormParam.getCategory();
-        //if (tmp.equals("")) tmp = currentCategoryParam;
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+        String selectedCategory = advertisementSearchingFormParam.getCategory();
         String currentCategory;
         if(currentCategoryParam == null) {
             advertisementSearchingForm.setCategory("nothing");
             currentCategory = "nothing";
         }
         else {
-            if (tmp!=null) currentCategory = tmp;
+            if (selectedCategory!=null) currentCategory = selectedCategory;
             else currentCategory = currentCategoryParam;
             advertisementSearchingForm.setCategory(currentCategory);
         }
@@ -150,14 +148,6 @@ public class AdvertisementController {
 		modelAndView.addObject("pageSize", pageSize);
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
-
-
-        List<String> categories = new ArrayList<String>();
-        categories.add("Игрушки");
-        categories.add("Одежда");
-        categories.add("Мебель");
-        modelAndView.addObject("categories", categories);
-
         return modelAndView;
 	}
 

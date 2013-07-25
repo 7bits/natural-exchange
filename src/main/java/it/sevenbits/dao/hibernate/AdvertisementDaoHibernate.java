@@ -96,45 +96,29 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         Object values[] = new Object[1];
         args[0] = "categoryParam";
         values[0] = category;
-//        List<AdvertisementEntity> lst = this.hibernateTemplate.findByNamedQueryAndNamedParam(
-//                            "findAllAdvertisementsWithCategoryAndOrderByTitleAsc",
-//                            args,
-//                            values);
         String sortByName = (sortPropertyName == null)
                 ? Advertisement.CREATED_DATE_COLUMN_CODE
                 : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
                 ;
         List<AdvertisementEntity> lst = null;
-        if(sortByName.equals(Advertisement.TITLE_COLUMN_CODE))
-            switch (sortOrder) {
-                case ASCENDING :
-                    lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam(
-                            "findAllAdvertisementsWithCategoryAndOrderByTitleAsc",
-                            args,
-                            values);
-                    break;
-                case DESCENDING :
-                    lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam(
-                            "findAllAdvertisementsWithCategoryAndOrderByTitleDesc",
-                            args,
-                            values);
-                    break;
-            }
-        else
-            switch (sortOrder) {
-                case ASCENDING :
-                    lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam(
-                            "findAllAdvertisementsWithCategoryAndOrderByDateAsc",
-                            args,
-                            values);
-                    break;
-                case DESCENDING :
-                    lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam(
-                            "findAllAdvertisementsWithCategoryAndOrderByDateDesc",
-                            args,
-                            values);
-                    break;
+        String sortTypeForNamedQueryName = null;
+        String sortByTargetForNamedQueryName = null;
+        switch (sortOrder) {
+            case ASCENDING :
+                sortTypeForNamedQueryName = "Asc";
+                break;
+            case DESCENDING :
+                sortTypeForNamedQueryName = "Desc";
+                break;
         }
+        if(sortByName.equals(Advertisement.TITLE_COLUMN_CODE))
+            sortByTargetForNamedQueryName = "Title";
+        else
+            sortByTargetForNamedQueryName = "Date";
+        String namedQueryName = "findAllAdvertisementsWithCategoryAndOrderBy"+
+                sortByTargetForNamedQueryName+
+                sortTypeForNamedQueryName;
+        lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam(namedQueryName,args,values);
         return convertEntityList(lst);
     }
 
