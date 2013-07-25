@@ -44,21 +44,27 @@
                 </table>
             </div>
 
+            <c:url  value="/advertisement/list.html" var="listPage">
+                <c:param name="currentCategory" value="${currentCategory}"/>
+            </c:url>
+            <form:form method="get" action="${listPage}" commandName="advertisementSearchingForm">
 
-            <div class="category-table">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Категории</th>
-                        </tr>
-                    </thead>
-                    <c:forEach items="${categories}" var="category">
-                        <tr>
-                            <td><c:out value="${category}"/></td>
-                        </tr>
-                    </c:forEach>
+                    <tr>
+                        <td>Категория :</td>
+                        <td><form:radiobutton path="category" value="nothing" />Не выбрано</td>
+                        <td><form:radiobutton path="category" value="clothes" />Одежда</td>
+                        <td><form:radiobutton path="category" value="notclothes" />Не одежда</td>
+                        <td><form:errors path="category"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <input type="hidden" name="currentCategory" value="${currentCategory}"/>
+                            <input type="submit" value="Поиск"/>
+                        </td>
+                    </tr>
                 </table>
-            </div>
+            </form:form>
 
             <div class="manage-panel">
                 <a href='<c:url value="/advertisement/placing.html"/>'>Создать</a>

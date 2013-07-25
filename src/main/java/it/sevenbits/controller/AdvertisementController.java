@@ -168,11 +168,18 @@ public class AdvertisementController {
          * @return jsp-page with advertisement information
          */
 	@RequestMapping(value = "/view.html", method = RequestMethod.GET)
-	public ModelAndView view(@RequestParam(value = "id", required = true) Long id) {
+	public ModelAndView view(@RequestParam(value = "id", required = true) Long id,
+                             @RequestParam(value = "currentCategory", required = true) String currentCategory) {
 
 		// Создаем вьюшку по list.jsp, которая выведется этим контроллером на
 		// экран
 		ModelAndView modelAndView = new ModelAndView("advertisement/view");
+
+        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+        advertisementSearchingForm.setCategory(currentCategory);
+        modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
+        modelAndView.addObject("currentCategory",currentCategory);
+
 		Advertisement advertisement = this.advertisementDao.findById(id);
 		modelAndView.addObject("advertisement", advertisement);
 		List<String> categories = new ArrayList<String>();

@@ -90,7 +90,7 @@
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>
                         <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
                         <input type="hidden" name="currentCategory" value="${currentCategory}"/>
-                        <input type="submit" value="выбрать"/>
+                        <input type="submit" value="Поиск"/>
                     </form>
                 </div>
             <!-- ******************** переходы по страницам ******************** -->
@@ -173,7 +173,7 @@
                         <input type="hidden" name="currentCategory" value="${currentCategory}"/>
                         <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
                         <input type="hidden" name="pageSize" value="${pageSize}"/>
-                        <input type="submit" />
+                        <input type="submit" value="Поиск"/>
                     </td>
                 </tr>
             </table>
