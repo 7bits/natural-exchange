@@ -57,6 +57,7 @@
                             <td>
                                 <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
                                     <c:param name="id" value="${advertisement.id}"/>
+                                    <c:param name="currentCategory" value="${currentCategory}"/>
                                 </c:url>
                                <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
                             </td>
