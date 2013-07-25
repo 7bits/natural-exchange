@@ -18,6 +18,8 @@ import java.util.Properties;
 import javax.annotation.Resource;
 
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +116,8 @@ public class AdvertisementController {
         //modelAndView.addObject("titleSortingUrl", titleSortingUrl);
         //modelAndView.addObject("dateSortingUrl", dateSortingUrl);
 
-        List<Advertisement> advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
+        //List<Advertisement> advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
+        List<Advertisement> advertisements = this.advertisementDao.findByNamedQueryAndNamedParam(null,null,null);
         PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
 		pageList.setSource(advertisements);
 

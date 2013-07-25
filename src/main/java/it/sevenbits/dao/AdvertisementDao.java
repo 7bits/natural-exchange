@@ -4,6 +4,7 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.util.SortOrder;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *Interface, which provide methods for working with object Advertisement
@@ -31,6 +32,7 @@ public interface AdvertisementDao {
 
     List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName);
 
+    List<Advertisement> findByNamedQueryAndNamedParam(String queryName, Map<String, Object> queryParams, Integer maxResults);
     /**
      * Change advertisement
      * @param advertisement

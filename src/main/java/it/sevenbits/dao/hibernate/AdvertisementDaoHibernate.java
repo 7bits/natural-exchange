@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static it.sevenbits.util.SortOrder.ASCENDING;
 
@@ -85,6 +86,24 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     public void delete(final Advertisement advertisement) {
         //To change body of implemented methods use File | Settings | File Templates.
         return;
+    }
+
+    @Override
+    public List<Advertisement> findByNamedQueryAndNamedParam(String queryName, Map<String, Object> queryParams, Integer maxResults) {
+        List<AdvertisementEntity> lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam("findAllAdvertisements", (String[]) null,null);
+        return convertEntityList(lst);
+    }
+
+
+    private List<Advertisement> findByNamedQueryAndNamedParam(
+            final String queryName,
+            final String[] paramNames,
+            final Object[] paramValues,
+            final Integer maxResults
+    ) {
+
+        this.hibernateTemplate.findByNamedQueryAndNamedParam("findAllAdvertisements", (String[]) null,null);
+        return null;
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

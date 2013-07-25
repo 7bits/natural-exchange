@@ -7,9 +7,14 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "advertisement")
+@NamedQueries({
+        @NamedQuery (
+                name = "findAllAdvertisements",
+                query = "select a from AdvertisementEntity a"
+        )
+})
 public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
     //private Long userId;
-
     private Long id;
     private CategoryEntity categoryEntity;
     private UserEntity userEntity;
