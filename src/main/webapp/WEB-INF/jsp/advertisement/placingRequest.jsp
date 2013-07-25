@@ -14,5 +14,7 @@
         <h1>
             Ваше объявление очень важно для нас!
         </h1>
+        <br>
+        <a href='<c:url value="/advertisement/list.html"/>'> Вернуться на главную </a>
     </body>
 </html>
