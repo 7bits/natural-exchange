@@ -32,7 +32,9 @@ public interface AdvertisementDao {
 
     List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName);
 
-    List<Advertisement> findByNamedQueryAndNamedParam(String queryName, Map<String, Object> queryParams, Integer maxResults);
+    List<Advertisement> findAllAdvertisementsWithCategoryAndOrderBy(String category,
+                                                                    final SortOrder sortOrder,
+                                                                    final String sortPropertyName);
     /**
      * Change advertisement
      * @param advertisement

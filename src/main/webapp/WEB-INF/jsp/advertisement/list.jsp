@@ -26,6 +26,7 @@
 									<c:param name="sortedBy" value="${sortedByTitle}"/>
 									<c:param name="sortOrder" value="${sortOrderTitle}"/>
 									<c:param name="pageSize" value="${pageSize}"/>
+                                    <c:param name="currentCategory" value="${currentCategory}"/>
 								</c:url>
 								<a href="${titleSortingUrl}">Заголовок</a>
                             </th>
@@ -35,6 +36,7 @@
 									<c:param name="sortedBy" value="${sortedByDate}"/>
                                     <c:param name="sortOrder" value="${sortOrderDate}"/>
 									<c:param name="pageSize" value="${pageSize}"/>
+                                    <c:param name="currentCategory" value="${currentCategory}"/>
 								</c:url>
                                  <a href="${dateSortingUrl}">Дата</a>
                             </th>
@@ -86,6 +88,7 @@
                         </select>
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>
                         <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
+                        <input type="hidden" name="currentCategory" value="${currentCategory}"/>
                         <input type="submit" value="выбрать"/>
                     </form>
                 </div>
@@ -98,6 +101,7 @@
                             <c:param name="currentPage" value="${currentPage-1}"/>
                             <c:param name="sortOrder" value="${currentSortOrder}"/>
                             <c:param name="sortedBy" value="${currentColumn}"/>
+                            <c:param name="currentCategory" value="${currentCategory}"/>
                         </c:url>
                         <a href="${prevPageUrl}">назад</a>
                     </c:if>
@@ -112,6 +116,7 @@
                                     <c:param name="sortOrder" value="${currentSortOrder}"/>
                                     <c:param name="sortedBy" value="${currentColumn}"/>
                                     <c:param name="currentPage" value="${i}"/>
+                                    <c:param name="currentCategory" value="${currentCategory}"/>
                                 </c:url>
                                 <a href="${pageUrl}"><c:out value="${i+1}"></c:out></a>
                             </c:otherwise>
@@ -123,6 +128,7 @@
                             <c:param name="currentPage" value="${currentPage+1}"/>
                             <c:param name="sortOrder" value="${currentSortOrder}"/>
                             <c:param name="sortedBy" value="${currentColumn}"/>
+                            <c:param name="currentCategory" value="${currentCategory}"/>
                         </c:url>
                         <a href="${nextPageUrl}">вперед</a>
                     </c:if>
@@ -163,6 +169,7 @@
                 <tr>
                     <td colspan="3">
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>
+                        <input type="hidden" name="currentCategory" value="${currentCategory}"/>
                         <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
                         <input type="hidden" name="pageSize" value="${pageSize}"/>
                         <input type="submit" />

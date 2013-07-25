@@ -62,16 +62,26 @@ public class AdvertisementController {
 			@RequestParam(value = "sortOrder", required = false) String sortOrderParam,
 			@RequestParam(value = "currentPage", required = false) Integer currentPageParam,
 			@RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
-            @RequestParam(value = "currentCategory", required = false) String currentCategoryParam)
+            @RequestParam(value = "currentCategory", required = false) String currentCategoryParam,
+            AdvertisementSearchingForm advertisementSearchingFormParam)
 			throws FileNotFoundException {
 
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
-
+        String tmp = advertisementSearchingFormParam.getCategory();
+        //if (tmp.equals("")) tmp = currentCategoryParam;
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
-//        String currentCategory = advertisementSearchingForm.getCategory();
-//        if(currentCategoryParam.equals(currentCategory) || currentCategoryParam.equals(currentCategory))
-//            advertisementSearchingForm.setCategory(currentCategory);
-//        modelAndView.addObject("currentCategory",currentCategory);
+        String currentCategory;
+        if(currentCategoryParam == null) {
+            advertisementSearchingForm.setCategory("nothing");
+            currentCategory = "nothing";
+        }
+        else {
+            if (tmp!=null) currentCategory = tmp;
+            else currentCategory = currentCategoryParam;
+            advertisementSearchingForm.setCategory(currentCategory);
+        }
+
+        modelAndView.addObject("currentCategory",currentCategory);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
 
 
@@ -94,30 +104,26 @@ public class AdvertisementController {
             }
         }
         SortOrder newSortOrder = SortOrder.getViceVersa(currentSortOrder);
-        String titleSortingUrl = null;
-        String dateSortingUrl = null;
         if (currentColumn.equals(Advertisement.TITLE_COLUMN_CODE)) {
             modelAndView.addObject("sortedByTitle",Advertisement.TITLE_COLUMN_CODE);
             modelAndView.addObject("sortOrderTitle",newSortOrder.toString());
-            //titleSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.TITLE_COLUMN_CODE + "&sortOrder=" + newSortOrder.toString();
             modelAndView.addObject("sortedByDate",Advertisement.CREATED_DATE_COLUMN_CODE);
             modelAndView.addObject("sortOrderDate",SortOrder.ASCENDING.toString());
-            dateSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" + SortOrder.ASCENDING.toString();
-
         } else {
             modelAndView.addObject("sortedByTitle",Advertisement.TITLE_COLUMN_CODE);
             modelAndView.addObject("sortOrderTitle",SortOrder.ASCENDING.toString());
-            //titleSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.TITLE_COLUMN_CODE + "&sortOrder=" + SortOrder.ASCENDING.toString();
             modelAndView.addObject("sortedByDate",Advertisement.CREATED_DATE_COLUMN_CODE);
             modelAndView.addObject("sortOrderDate",newSortOrder.toString());
-            //dateSortingUrl = "/advertisement/list.html?sortedBy=" + Advertisement.CREATED_DATE_COLUMN_CODE + "&sortOrder=" + newSortOrder.toString();
-
         }
-        //modelAndView.addObject("titleSortingUrl", titleSortingUrl);
-        //modelAndView.addObject("dateSortingUrl", dateSortingUrl);
-
-        //List<Advertisement> advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
-        List<Advertisement> advertisements = this.advertisementDao.findByNamedQueryAndNamedParam(null,null,null);
+        List<Advertisement> advertisements;
+        if(advertisementSearchingForm.getCategory().equals("nothing"))
+            advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
+        else
+            advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndOrderBy(
+                currentCategory,
+                currentSortOrder,
+                currentColumn
+        );
         PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
 		pageList.setSource(advertisements);
 

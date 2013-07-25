@@ -89,21 +89,53 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     }
 
     @Override
-    public List<Advertisement> findByNamedQueryAndNamedParam(String queryName, Map<String, Object> queryParams, Integer maxResults) {
-        List<AdvertisementEntity> lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam("findAllAdvertisements", (String[]) null,null);
+    public List<Advertisement> findAllAdvertisementsWithCategoryAndOrderBy(String category,
+                                                                           final SortOrder sortOrder,
+                                                                           final String sortPropertyName) {
+        String args[] = new String[1];
+        Object values[] = new Object[1];
+        args[0] = "categoryParam";
+        values[0] = category;
+//        List<AdvertisementEntity> lst = this.hibernateTemplate.findByNamedQueryAndNamedParam(
+//                            "findAllAdvertisementsWithCategoryAndOrderByTitleAsc",
+//                            args,
+//                            values);
+        String sortByName = (sortPropertyName == null)
+                ? Advertisement.CREATED_DATE_COLUMN_CODE
+                : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
+                ;
+        List<AdvertisementEntity> lst = null;
+        if(sortByName.equals(Advertisement.TITLE_COLUMN_CODE))
+            switch (sortOrder) {
+                case ASCENDING :
+                    lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam(
+                            "findAllAdvertisementsWithCategoryAndOrderByTitleAsc",
+                            args,
+                            values);
+                    break;
+                case DESCENDING :
+                    lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam(
+                            "findAllAdvertisementsWithCategoryAndOrderByTitleDesc",
+                            args,
+                            values);
+                    break;
+            }
+        else
+            switch (sortOrder) {
+                case ASCENDING :
+                    lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam(
+                            "findAllAdvertisementsWithCategoryAndOrderByDateAsc",
+                            args,
+                            values);
+                    break;
+                case DESCENDING :
+                    lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam(
+                            "findAllAdvertisementsWithCategoryAndOrderByDateDesc",
+                            args,
+                            values);
+                    break;
+        }
         return convertEntityList(lst);
-    }
-
-
-    private List<Advertisement> findByNamedQueryAndNamedParam(
-            final String queryName,
-            final String[] paramNames,
-            final Object[] paramValues,
-            final Integer maxResults
-    ) {
-
-        this.hibernateTemplate.findByNamedQueryAndNamedParam("findAllAdvertisements", (String[]) null,null);
-        return null;
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

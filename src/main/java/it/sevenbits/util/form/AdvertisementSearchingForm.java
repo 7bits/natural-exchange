@@ -3,6 +3,10 @@ package it.sevenbits.util.form;
 public class AdvertisementSearchingForm {
     private String category;
 
+    public AdvertisementSearchingForm() {
+        this.category = null;
+    }
+
     public String getCategory() {
         return category;
     }

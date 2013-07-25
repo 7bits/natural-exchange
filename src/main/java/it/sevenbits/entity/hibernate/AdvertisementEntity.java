@@ -11,6 +11,26 @@ import javax.persistence.*;
         @NamedQuery (
                 name = "findAllAdvertisements",
                 query = "select a from AdvertisementEntity a"
+        ),
+        @NamedQuery (
+        name = "findAllAdvertisementsWithCategoryAndOrderByTitleAsc",
+        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam "+
+                "order by a.title asc "
+        ),
+        @NamedQuery (
+        name = "findAllAdvertisementsWithCategoryAndOrderByTitleDesc",
+        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam "+
+                "order by a.title desc "
+        ),
+        @NamedQuery (
+        name = "findAllAdvertisementsWithCategoryAndOrderByDateAsc",
+        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam "+
+                "order by a.createdDate asc "
+        ),
+        @NamedQuery (
+        name = "findAllAdvertisementsWithCategoryAndOrderByDateDesc",
+        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam "+
+                "order by a.createdDate desc"
         )
 })
 public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
