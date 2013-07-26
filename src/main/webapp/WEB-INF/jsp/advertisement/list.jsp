@@ -12,12 +12,12 @@
     
     <body>
         <header class="centerTop">
-            <div class="vhod">
+          <%--  <div class="vhod">
                 <a href='<c:url value="/advertisement/list.html"/>' class="vhod1">  Вход на сайт </a>
                  <a href='<c:url value="/advertisement/list.html"/>'class="vhod2">  Регистрация </a>
             </div>
-       <%--     <div id=logotype> Натуральный обмен </div>      --%>
-            <div id=lk>  Лк</div>
+            <div id=logotype> Натуральный обмен </div>
+            <div id=lk>  Лк</div>          --%>
         </header>
         <nav class="center">
             <button class="manage-panel">
@@ -201,11 +201,10 @@
         </div>
         <div class="center">
             <div class="commercialAdvert">
-                Реклама
             </div>
         </div>
         <footer class="centerTop">
-                    <div id=likes> Соц. Сети </div>
+              <%--      <div id=likes> Соц. Сети </div>
                     <div class="footerLink1">
                         <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
                     </div>
@@ -215,7 +214,7 @@
                     <div class="footerLink">
                         <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
                     </div>
-                    <p class="niz"> © 2013 Natural Exchange</p>
+                    <p class="niz"> © 2013 Natural Exchange</p>               --%>
         </footer>
     </body>
 </html>
