@@ -26,7 +26,7 @@ body {
 header {
     height:150px;
     font:  15pt Georgia;
-    background-image: url(resources/images/header.jpg);
+    background-image: url(../images/headfix.jpg);
 }
 
 section {
@@ -161,13 +161,14 @@ nav {
     font: normal 20pt Georgia;
     clear:left;
     text-align:center;
+    background-image: url(../images/fix.jpg);
 }
 
 footer {
     height:175px;
     font:  15pt Georgia;
     clear:left;
-    background: #f3f3f3;
+    background-image: url(../images/footerfix.jpg);
 }
 
 footer a{
@@ -185,6 +186,7 @@ footer a{
     padding:40px;
 
 }
+
  .niz {
 color: #565650;
 font: 15pt Aria;
@@ -284,3 +286,6 @@ tbody {
 a {
     text-decoration:none;
 }
+ img {
+ height:100px;
+ width:100px; }
