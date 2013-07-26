@@ -5,7 +5,7 @@
 <!--[if IE 8]>    <html class="b-error-page no-js ie8 oldie" lang="en"> <![endif]-->
 
 <!--[if gt IE 8]><!--> <html class="b-error-page no-js" lang="en"> <!--<![endif]-->
-<html lang="ru">
+
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -16,6 +16,5 @@
         <div class="">
            400 Bad Request
         </div>
-        <p> Вы сделали неверный запрос</p>
     </body>
 </html>
