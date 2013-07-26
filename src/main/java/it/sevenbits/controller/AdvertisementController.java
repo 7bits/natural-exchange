@@ -2,7 +2,9 @@ package it.sevenbits.controller;
 
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.Category;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
+import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
@@ -114,6 +116,8 @@ public class AdvertisementController {
             modelAndView.addObject("sortOrderDate",newSortOrder.toString());
         }
         List<Advertisement> advertisements;
+//       advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords("clothes",
+//               new String[]{"coat","blue","black"});
         if(advertisementSearchingForm.getCategory().equals("nothing"))
             advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
         else
@@ -198,6 +202,7 @@ public class AdvertisementController {
 	public ModelAndView placing() {
 		ModelAndView modelAndView = new ModelAndView("advertisement/placing");
 		AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
+        advertisementPlacingForm.setCategory("clothes");
 		modelAndView.addObject("advertisementPlacingForm",
 				advertisementPlacingForm);
 		return modelAndView;
@@ -216,6 +221,16 @@ public class AdvertisementController {
 		tmp.setText(advertisementPlacingForm.getText());
 		tmp.setPhotoFile(advertisementPlacingForm.getPhotoFile());
 		tmp.setTitle(advertisementPlacingForm.getTitle());
+        CategoryEntity categoryEntity = null;
+        if(advertisementPlacingForm.getCategory().equals(Category.NAME_CLOTHES)) {
+            categoryEntity = new CategoryEntity(Category.NAME_CLOTHES,"very good",460l,461l,false);
+            categoryEntity.setId(1l);
+        }
+        else if (advertisementPlacingForm.getCategory().equals(Category.NAME_NOT_CLOTHES)) {
+            categoryEntity = new CategoryEntity(Category.NAME_NOT_CLOTHES,"very good",460l,461l,false);
+            categoryEntity.setId(2l);
+        }
+        tmp.setCategoryEntity(categoryEntity);
 		this.advertisementDao.create(tmp);
 		return new ModelAndView("advertisement/placingRequest");
 	}

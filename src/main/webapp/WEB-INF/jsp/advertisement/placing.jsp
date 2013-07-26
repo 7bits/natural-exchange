@@ -37,6 +37,15 @@ span.error {
 				<td><span class="error"><form:errors path="photoFile" /></span></td>
 			</tr>
 
+            <table>
+                <tr>
+                    <td>Категория :</td>
+                    <td><form:radiobutton path="category" value="clothes" />Одежда</td>
+                    <td><form:radiobutton path="category" value="notclothes" />Не одежда</td>
+                    <td><form:errors path="category"/></td>
+                </tr>
+            </table>
+
 			<tr>
 				<td colspan="3"><input type="submit" value="Разместить" /></td>
 			</tr>

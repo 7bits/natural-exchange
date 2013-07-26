@@ -131,6 +131,18 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 //        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
 //    }
 
+
+    @Override
+    public List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWords(String category,
+                                                                            String[] keyWords) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class)
+        .createAlias("categoryEntity","category")
+        .add(Restrictions.eq("category.name",category));
+        for(int i=0;i<keyWords.length;i++)
+            criteria.add(Restrictions.like("title","%"+keyWords[i]+"%"));
+        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
+    }
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	private List<Advertisement> convertEntityList(List entities) {
 

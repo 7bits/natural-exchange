@@ -5,8 +5,8 @@ import java.util.Set;
 public class Category {
 
     //Temprorary names of categories
-    final static String NAME_CLOTHES = "clothes";
-    final static String NAME_NOT_CLOTHES = "notclothes";
+    public final static String NAME_CLOTHES = "clothes";
+    public final static String NAME_NOT_CLOTHES = "notclothes";
 
     private String name;
     private String description;

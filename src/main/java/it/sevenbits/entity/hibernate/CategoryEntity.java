@@ -23,7 +23,7 @@ public class CategoryEntity extends it.sevenbits.entity.Category {
         super();
     }
 
-    public CategoryEntity(final String name, final String description, final Long updatedDate, final Long createdDate, final Boolean deleted) {
+    public CategoryEntity(String name, final String description, final Long updatedDate, final Long createdDate, final Boolean deleted) {
         super(name,description,updatedDate,createdDate,deleted);
     }
 

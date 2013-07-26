@@ -4,6 +4,7 @@ public class AdvertisementPlacingForm {
     private String title;
     private String text;
     private String photoFile;
+    private String category;
 
     public String getPhotoFile() {
         return photoFile;
@@ -27,5 +28,13 @@ public class AdvertisementPlacingForm {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
