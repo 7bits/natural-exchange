@@ -1,3 +1,4 @@
+SET NAMES utf8;
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (1,'clothes','very good',460,1,461);
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (2,'notclothes','very good',460,1,461);
 INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email) VALUES (1,'Dmitry','Silerd',460,1,461,'vk.com/322233','test@gmail.com');
@@ -10,3 +11,4 @@ INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,upda
 INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date,category_id,user_id) VALUES (7,1369259028460,1,'image1.jpg','this is dog','skate',75000,2,1);
 INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date,category_id,user_id) VALUES (8,1369252628460,1,'image2.jpg','this is toys','skate',85000,2,1);
 INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date,category_id,user_id) VALUES (9,1369259828460,1,'image3.jpg','this is something','skate',95000,2,1);
+INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date,category_id,user_id) VALUES (10,1369259828460,1,'импорт','импорт','импорт',95000,2,1);

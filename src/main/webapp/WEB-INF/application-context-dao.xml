@@ -23,6 +23,9 @@
                 hibernate.transaction.factory_class = ${hibernate.transaction}
                 hibernate.hbm2ddl.auto = ${hibernate.hbm2ddl.auto}
                 hibernate.jdbc.batch_size = 0
+                hibernate.connection.useUnicode = true
+                hibernate.connection.characterEncoding = utf8
+                hibernate.connection.charSet = utf8
              </value>
         </property>
         <property name="annotatedClasses">

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import javax.annotation.Resource;
 
@@ -69,6 +70,7 @@ public class AdvertisementController {
 			throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+        //advertisementSearchingForm.setKeyWords("Поиск");
         String selectedCategory = advertisementSearchingFormParam.getCategory();
         String currentCategory;
         if(currentCategoryParam == null) {
@@ -85,6 +87,9 @@ public class AdvertisementController {
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
 
 
+
+       // Advertisement adv = new Advertisement();
+        //this.advertisementDao.create(adv);
         String currentColumn = null;
         SortOrder currentSortOrder = null;
         if (sortByNameParam == null) {
@@ -115,20 +120,32 @@ public class AdvertisementController {
             modelAndView.addObject("sortedByDate",Advertisement.CREATED_DATE_COLUMN_CODE);
             modelAndView.addObject("sortOrderDate",newSortOrder.toString());
         }
-        List<Advertisement> advertisements;
+        List<Advertisement> advertisements = null;
 //       advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords("clothes",
 //               new String[]{"coat","blue","black"});
-        if(advertisementSearchingForm.getCategory().equals("nothing"))
-            advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
-        else
-            advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndOrderBy(
-                currentCategory,
-                currentSortOrder,
-                currentColumn
-        );
+        if(advertisementSearchingFormParam.getKeyWords() == null)
+        //if(true)
+        {
+            if(advertisementSearchingForm.getCategory().equals("nothing"))
+                advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
+            else
+                advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndOrderBy(
+                    currentCategory,
+                    currentSortOrder,
+                    currentColumn
+            );
+        }
+        else {
+            StringTokenizer token = new StringTokenizer(advertisementSearchingFormParam.getKeyWords());
+            String[] keyWords = new String[token.countTokens()];
+            for(int i=0;i<keyWords.length;i++) {
+                keyWords[i] = token.nextToken();
+            }
+            advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords(currentCategory,keyWords);
+        }
+        //advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords(currentCategory,new String[]{"skate"});
         PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
-		pageList.setSource(advertisements);
-
+        pageList.setSource(advertisements);
         int pageSize;
 		if (pageSizeParam == null)
 			pageSize = defaultPageSize();

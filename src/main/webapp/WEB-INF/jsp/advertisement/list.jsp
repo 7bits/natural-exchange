@@ -185,6 +185,10 @@
                     <div class="poisk"> Поиск </div>
                     <button class="save"> Сохранить поиск  </button>
                 <form:form method="get" commandName="advertisementSearchingForm">
+                    <div>
+                        <form:input path="keyWords" />
+                        <form:errors path="keyWords" />
+                    </div>
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
                         <p class="pcate"> <form:radiobutton path="category" value="nothing" />Не выбрано</p>

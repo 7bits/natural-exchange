@@ -26,9 +26,9 @@ public class Advertisement {
      * Constructor by default
      */
     public Advertisement() {
-        title = null;
-        text = null;
-        photoFile = null;
+        title = "контролле";
+        text = "контролле";
+        photoFile = "контролле";
         TimeZone timeZone = TimeZone.getDefault();
         Calendar calendar = new GregorianCalendar(timeZone);
         createdDate = calendar.getTimeInMillis();
