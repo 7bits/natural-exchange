@@ -20,7 +20,7 @@ body {
 
 .center{
     margin:0 auto;
-    width:1100px;
+    width:1014px;
 }
 
 header {
@@ -30,9 +30,10 @@ header {
 }
 
 section {
-    width:65%;
+    width:670px;
     float:left;
 }
+
 .pageSize{
     padding: 5px;
     background: white;
@@ -42,12 +43,14 @@ section {
 }
 
 aside {
-    width:33%;
+    width:325px;
     float:right;
 }
 
 .poisk{
     border-radius: 6px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
     border: 1px groove #b1ed2f;
     color: #e1e0e0;
     padding: 10px;
@@ -86,10 +89,13 @@ aside {
 }
 
 .manage-panel {
-    margin-left:60px;
+    margin-left:85px;
     background: #b1ed2f;
-    box-shadow:0 2px #76dbb8;
+    box-shadow:0 3px #76dbb8;
     border-radius: 6px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border:none;
     width: 240px;
     height:45px;
     font:15pt Georgia;
@@ -110,21 +116,25 @@ aside {
     width:140px;
     height:35px;
     border-radius: 6px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;;
     background: #b1ed2f;
     font:12pt Georgia;
+    border: none;
+    box-shadow:0 2px #76dbb8;
 }
 
 .save{
-        float:left;
-        width:170px;
-        height:35px;
-        border-radius: 6px;
-        background: #d8d8d8;
-        font:12pt Georgia;
-}
-
-.date{
-   width: 15%;
+    float:left;
+    width:170px;
+    height:35px;
+    border-radius: 6px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    background: #d8d8d8;
+    font:12pt Georgia;
+    border: none;
+    box-shadow:0 2px #76dbb8;
 }
 
 em {
@@ -188,19 +198,21 @@ footer a{
 
 }
 
- .niz {
-color: #565650;
-font: 15pt Aria;
-position: absolute;
-left: 950px;
-top: 130px;
+.niz {
+    color: #565650;
+    font: 15pt Aria;
+    position: absolute;
+    left: 950px;
+    top: 130px;
 }
 
 .cate{
- border-radius: 10px;
- border: 1px groove;
- clear: left;
- padding: 20px 15px;
+    border-radius: 10px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border: 1px groove;
+    clear: left;
+    padding: 20px 15px;
 }
 
 .pcate{
@@ -215,13 +227,6 @@ top: 130px;
     font: normal 14pt Georgia;
     border:3px dotted grey;
     padding:20px;
-}
-
-.page-wrapper {
-    width: 100%;
-    border-width:2px;
-    border-color:#eaeaea;
-
 }
 
 .advertisement-table { 
@@ -246,18 +251,30 @@ top: 130px;
     padding: 5px;
 }
 
-.headu {
-    background:#d8d8d8;
-    color: #3e3e38;
-    font:16pt Georgia;
-    border-width:1px;
-    padding:5px;
-    height:60px;
-}
-
 .tr1 {
     background:#f3f3f3;
-    border: 1px dotted #cdcdcd;
+    border: 2px dotted #cdcdcd;
+}
+
+table {
+     /* width: 300px;  Ширина таблицы
+      background: #fffff0;  Цвет фона нечетных строк */
+      width: 100%;
+      border-collapse: collapse; /* Убираем двойные линии между ячейками */
+}
+
+tbody {
+      border: 2.5px solid #d8d8d8; /* Рамка вокруг таблицы */
+}
+
+thead {
+      background:#d8d8d8;
+      border-radius: 6px;
+      border-color:#d8d8d8;
+}
+
+table th {
+      height: 60px;
 }
 
 table tr {
@@ -272,21 +289,68 @@ table td {
     border-width:1px;
     padding:15px 20px;
     height:25px;
-    border: 1px dotted #cdcdcd;
+ /*   border: 1px dotted #cdcdcd;     */
 }
 
 table a{
     color: #3e3e38;
 }
 
-tbody {
-    border-color: #d8d8d8;
-}
-
 
 a {
     text-decoration:none;
 }
- img {
- height:100px;
- width:100px; }
+
+a:hover {
+    text-decoration: underline;
+}
+
+table img {
+   /* height:100px;*/
+    width:90px;
+}
+
+td.date {
+    width: 15%;
+    color: #9c9c9c;
+}
+
+th.date {
+    width: 15%;
+}
+
+td.photo {
+    width: 14%;
+}
+
+th.photo {
+    width: 14%;
+}
+
+td.category {
+    width: 16%;
+    color: #565650;
+}
+
+th.category {
+    width: 16%;
+}
+
+td.title {
+    width: 22%;
+    color: #221e1f;
+}
+
+th.title {
+    width: 22%;
+}
+
+td.text {
+    width: 33%;
+    color: #3e3e38;
+}
+
+th.text {
+    width: 33%;
+    color: #3e3e38;
+}

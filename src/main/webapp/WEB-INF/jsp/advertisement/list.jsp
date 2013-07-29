@@ -20,15 +20,15 @@
             <div id=lk>  Лк</div>          --%>
         </header>
         <nav class="center">
-            <button class="manage-panel">
-                <a href='<c:url value="/advertisement/placing.html"/>'>Разместить объявление</a>
+            <button class="manage-panel" value='<c:url value="/advertisement/placing.html"/>'>
+                Разместить объявление
             </button>
         </nav>
         <div class="center">
             <section>
-                <table class="page-wrapper">
+                <table>
                     <thead>
-                        <tr class="headu">
+                        <tr>
                             <!--th>
                                 Автор
                             </th-->
@@ -42,7 +42,7 @@
                                 </c:url>
                                  <a href="${dateSortingUrl}">Дата</a>
                             </th>
-                            <th>
+                            <th class="title">
 <%--                                 <c:set var="sortTitle" value="${!sortTitle}"/> --%>
 								<c:url value="/advertisement/list.html" var="titleSortingUrl">
 									<c:param name="sortedBy" value="${sortedByTitle}"/>
@@ -53,35 +53,50 @@
 								<a href="${titleSortingUrl}">Заголовок</a>
                             </th>
 
-                            <th>
+                            <th class="text">
                                 Описание
                             </th>
 
-                            <th class="date">
+                            <th class="photo">
                                 Фото
                             </th>
-                            <th>
+                            <th class="category">
                                 Категория
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-            <%--        <c:set var="stroki" value="1">      --%>
-                    <c:forEach items="${advertisements}" var="advertisement">
-                        <tr>
-                            <td><c:out value="${advertisement.createdDateFormat}"/></td>
-                            <td>
-                                <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
-                                    <c:param name="id" value="${advertisement.id}"/>
-                                    <c:param name="currentCategory" value="${currentCategory}"/>
-                                </c:url>
-                               <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
-                            </td>
-                            <td><c:out value="${advertisement.text}"/></td>
-                            <td><img src='<c:url value="/resources/images/${advertisement.photoFile}"/>'/></td>
-                            <td><c:out value="${advertisement.category.name}"/></td>
-
-                        </tr>
+                    <c:forEach items="${advertisements}" var="advertisement" varStatus="status">
+                        <c:if test="${status.index%2==0}">
+                            <tr>
+                                <td class="date"><c:out value="${advertisement.createdDateFormat}"/></td>
+                                <td class="title">
+                                    <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
+                                        <c:param name="id" value="${advertisement.id}"/>
+                                        <c:param name="currentCategory" value="${currentCategory}"/>
+                                    </c:url>
+                                    <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
+                                </td>
+                                <td class="text"><c:out value="${advertisement.text}"/></td>
+                                <td class="photo"><img src='<c:url value="/resources/images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
+                                <td class="category"><c:out value="${advertisement.category.name}"/></td>
+                             </tr>
+                        </c:if>
+                        <c:if test="${status.index%2==1}">
+                            <tr class="tr1">
+                                <td class="date"><c:out value="${advertisement.createdDateFormat}"/></td>
+                                <td class="title">
+                                    <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
+                                        <c:param name="id" value="${advertisement.id}"/>
+                                        <c:param name="currentCategory" value="${currentCategory}"/>
+                                     </c:url>
+                                    <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
+                                </td>
+                                <td class="text"><c:out value="${advertisement.text}"/></td>
+                                <td class="photo"><img src='<c:url value="/resources/images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
+                                <td class="category"><c:out value="${advertisement.category.name}"/></td>
+                             </tr>
+                        </c:if>
                     </c:forEach>
                     </tbody>
                 </table>
@@ -108,14 +123,14 @@
                                 <c:if test="${pageSize!=15}">
                                     <option value="15">15</option>
                                 </c:if>
-                                <c:if test="${pageSize!=25}">
-                                    <option value="25">25</option>
+                                <c:if test="${pageSize!=3}">
+                                    <option value="3">3</option>
                                 </c:if>
                             </select>
                             <input type="hidden" name="sortedBy" value="${currentColumn}"/>
                             <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
                             <input type="hidden" name="currentCategory" value="${currentCategory}"/>
-                            <input type="submit" value="Ok" class="ok"/>
+                            <input type="submit" value="OK" class="ok"/>
                         </form>
                     </div>
 
@@ -134,8 +149,96 @@
                                 <a href="${prevPageUrl}"><</a>
                             </button>
                         </c:if>
-                        <c:forEach var="i" begin="0" end="${noOfPage-1}">
-                            <c:choose>
+                        <c:choose>
+                            <c:when test="${currentPage==0}">
+                                <em> 1 </em>
+                                <c:if test="${noOfPage>1}">
+                                    <c:url value="/advertisement/list.html" var="pageUrl" >
+                                        <c:param name="pageSize" value="${pageSize}"/>
+                                        <c:param name="sortOrder" value="${currentSortOrder}"/>
+                                        <c:param name="sortedBy" value="${currentColumn}"/>
+                                        <c:param name="currentPage" value="1"/>
+                                        <c:param name="currentCategory" value="${currentCategory}"/>
+                                    </c:url>
+                                    <a href="${pageUrl}"> 2 </a>
+                                </c:if>
+                                <c:if test="${noOfPage>3}">
+                                    <span> ... </span>
+                                </c:if>
+                                <c:if test="${noOfPage>2}">
+                                    <c:url value="/advertisement/list.html" var="pageUrl" >
+                                        <c:param name="pageSize" value="${pageSize}"/>
+                                        <c:param name="sortOrder" value="${currentSortOrder}"/>
+                                        <c:param name="sortedBy" value="${currentColumn}"/>
+                                        <c:param name="currentPage" value="${noOfPage-1}"/>
+                                        <c:param name="currentCategory" value="${currentCategory}"/>
+                                    </c:url>
+                                    <a href="${pageUrl}"><c:out value="${noOfPage}"></c:out></a>
+                                </c:if>
+                            </c:when>
+                            <c:otherwise>
+                                <c:url value="/advertisement/list.html" var="pageUrl" >
+                                    <c:param name="pageSize" value="${pageSize}"/>
+                                    <c:param name="sortOrder" value="${currentSortOrder}"/>
+                                    <c:param name="sortedBy" value="${currentColumn}"/>
+                                    <c:param name="currentPage" value="0"/>
+                                    <c:param name="currentCategory" value="${currentCategory}"/>
+                                </c:url>
+                                <a href="${pageUrl}"> 1</a>
+                                <c:choose>
+                                    <c:when test="${currentPage==1}">
+                                        <em> 2 </em>
+                                        <c:if test="${noOfPage>3}">
+                                            <span> ... </span>
+                                        </c:if>
+                                        <c:if test="${noOfPage>2}">
+                                            <c:url value="/advertisement/list.html" var="pageUrl" >
+                                                <c:param name="pageSize" value="${pageSize}"/>
+                                                <c:param name="sortOrder" value="${currentSortOrder}"/>
+                                                <c:param name="sortedBy" value="${currentColumn}"/>
+                                                <c:param name="currentPage" value="${noOfPage-1}"/>
+                                                <c:param name="currentCategory" value="${currentCategory}"/>
+                                            </c:url>
+                                            <a href="${pageUrl}"><c:out value="${noOfPage}"></c:out></a>
+                                        </c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${noOfPage>3}">
+                                            <span> ... </span>
+                                        </c:if>
+                                        <c:choose>
+                                            <c:when test="${currentPage!=(noOfPage-1)}">
+                                                <em> <c:out value="${currentPage+1}"></c:out></em>
+                                                <c:if test="${currentPage!=(noOfPage-2)}">
+                                                    <span> ... </span>
+                                                </c:if>
+                                                <c:url value="/advertisement/list.html" var="pageUrl" >
+                                                    <c:param name="pageSize" value="${pageSize}"/>
+                                                    <c:param name="sortOrder" value="${currentSortOrder}"/>
+                                                    <c:param name="sortedBy" value="${currentColumn}"/>
+                                                    <c:param name="currentPage" value="${noOfPage-1}"/>
+                                                    <c:param name="currentCategory" value="${currentCategory}"/>
+                                                </c:url>
+                                               <a href="${pageUrl}"><c:out value="${noOfPage}"></c:out></a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:url value="/advertisement/list.html" var="pageUrl" >
+                                                    <c:param name="pageSize" value="${pageSize}"/>
+                                                    <c:param name="sortOrder" value="${currentSortOrder}"/>
+                                                    <c:param name="sortedBy" value="${currentColumn}"/>
+                                                    <c:param name="currentPage" value="${noOfPage-2}"/>
+                                                    <c:param name="currentCategory" value="${currentCategory}"/>
+                                                </c:url>
+                                                <a href="${pageUrl}"><c:out value="${noOfPage-1}"></c:out></a>
+                                                <em> <c:out value="${noOfPage}"></c:out></em>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:otherwise>
+                        </c:choose>
+                    <%--<c:forEach var="i" begin="0" end="${noOfPage-1}">
+                           <c:choose>
                                 <c:when test="${currentPage==i}">
                                     <em> <c:out value="${i+1}"></c:out></em>
                                 </c:when>
@@ -150,7 +253,7 @@
                                     <a href="${pageUrl}"><c:out value="${i+1}"></c:out></a>
                                 </c:otherwise>
                             </c:choose>
-                        </c:forEach>
+                        </c:forEach>    --%>
                         <c:if test="${currentPage < (noOfPage-1)}">
                             <c:url  value="/advertisement/list.html" var="nextPageUrl">
                                 <c:param name="pageSize" value="${pageSize}"/>
@@ -191,7 +294,7 @@
                     </div>
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
-                        <p class="pcate"> <form:radiobutton path="category" value="nothing" />Не выбрано</p>
+                        <p class="pcate"> <form:radiobutton class="incate" path="category" value="nothing" />Не выбрано</p>
                         <p class="pcate"><form:radiobutton path="category" value="clothes" />Одежда</p>
                         <p class="pcate"> <form:radiobutton path="category" value="notclothes" />Не одежда</p>
                         <p><form:errors path="category"/></p>
