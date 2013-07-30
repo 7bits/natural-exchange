@@ -7,17 +7,22 @@
 <html lang="ru">
     <head>
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
+        <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
         <title>Объявления</title>
     </head>
     
     <body>
         <header class="centerTop">
-          <%--  <div class="vhod">
+            <div class="vhod">
                 <a href='<c:url value="/advertisement/list.html"/>' class="vhod1">  Вход на сайт </a>
-                 <a href='<c:url value="/advertisement/list.html"/>'class="vhod2">  Регистрация </a>
+                <a href='<c:url value="/advertisement/list.html"/>'class="vhod2">  Регистрация </a>
             </div>
-            <div id=logotype> Натуральный обмен </div>
-            <div id=lk>  Лк</div>          --%>
+            <div id=logotype>
+                <img src='<c:url value="/resources/images/logo.gif"/>' alt="ex4ange)"/>
+                Натуральный обмен
+            </div>
+            <div id=lk>  Лк</div>
 
             <%--********* --%>
              <div>
@@ -122,11 +127,12 @@
                     <div>
                     <!-- выбор размера страницы -->
                        <p class="pagination1">  Объявлений на странице:   </p>
-                        <c:url value="/advertisement/list.html"  var="listUrl" />
+                       <c:url value="/advertisement/list.html"  var="listUrl" />
                 <%--      <c:param name="sortOrder" value="${currentSortOrder}"/>
                           <c:param name="sortedBy" value="${currentColumn}"/>
                           </c:url>
-                --%>
+                --%></div>
+                    <div>
                         <form action="${listUrl}" method="get" class="pagination">
                             <select name="pageSize" class="pageSize">
                                 <option value="${pageSize}"> <c:out value="${pageSize}"> </c:out> </option>
@@ -306,18 +312,17 @@
                     </c:forEach>
                 </table>
             </div--%>
-                    <div class="poisk"> Поиск </div>
-                    <button class="save"> Сохранить поиск  </button>
                 <form:form method="get" commandName="advertisementSearchingForm">
                     <div>
-                        <form:input path="keyWords" />
+                        <form:input class="wordSearch" path="keyWords" placeholder="Поиск" />
                         <form:errors path="keyWords" />
                     </div>
+                    <button class="save"> Сохранить поиск  </button>
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
-                        <p class="pcate"> <form:radiobutton  path="category" value="nothing" /><span>Не выбрано</span</p>
-                        <p class="pcate"><form:radiobutton path="category" value="clothes" /><span>Одежда</span></p>
-                        <p class="pcate"> <form:radiobutton path="category" value="notclothes" /><span>Не одежда</span></p>
+                        <p class="pcate"> <form:radiobutton  path="category" value="nothing" /><span></span>Не выбрано</p>
+                        <p class="pcate"><form:radiobutton path="category" value="clothes" /><span></span>Одежда</p>
+                        <p class="pcate"> <form:radiobutton path="category" value="notclothes" /><span></span>Не одежда</p>
                         <p><form:errors path="category"/></p>
                     </div>
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>
@@ -332,7 +337,7 @@
             </div>
         </div>
         <footer class="centerTop">
-              <%--      <div id=likes> Соц. Сети </div>
+              <%--      <div id=likes> Соц. Сети </div>    --%>
                     <div class="footerLink1">
                         <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
                     </div>
@@ -342,7 +347,7 @@
                     <div class="footerLink">
                         <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
                     </div>
-                    <p class="niz"> © 2013 Natural Exchange</p>               --%>
+                    <p class="sign"> © 2013 Natural Exchange</p>
         </footer>
     </body>
 </html>

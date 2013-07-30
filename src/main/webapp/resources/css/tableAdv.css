@@ -7,9 +7,9 @@
 
 html {background: #FFFFFF;}
 body {
-    font-family: Verdana, Geneva, Arial, sans-serif;
-    font-size: 16px;
-    color:#000000;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 18px;
+    color:#3e3e38;
 }
 
 .centerTop{
@@ -25,8 +25,7 @@ body {
 
 header {
     height:150px;
-    font:  15pt Georgia;
-    background-image: url(../images/headfix.jpg);
+    background-image: url(../images/header.jpg);
 }
 
 section {
@@ -34,27 +33,26 @@ section {
     float:left;
 }
 
-.pageSize{
-    padding: 5px;
-    background: white;
-    border: none;
-    font: 18px Aria;
-
-}
-
 aside {
     width:325px;
     float:right;
 }
 
-.poisk{
+.wordSearch {
     border-radius: 6px;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
     border: 1px groove #b1ed2f;
     color: #e1e0e0;
-    padding: 10px;
+    padding: 5px 10px;
     margin-bottom: 15px;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 20px;
+    width: 304px;
+}
+
+.wordSearch:focus {
+    color: #565650;
 }
 
 .vhod {
@@ -71,11 +69,12 @@ aside {
     color: #565650;
 }
 #logotype {
+    font-family: 'Lobster', cursive;
+    font-size:47.36px;
+    color: #a6d937;
     position:absolute;
-    top:15px;
-    left:100px;
-    border: 4px groove black;
-    padding:35px;
+    top:.39px;
+    left:145px;
 }
 
 #lk {
@@ -89,6 +88,8 @@ aside {
 }
 
 .manage-panel {
+    position:relative;
+    top:15px;
     margin-left:85px;
     background: #b1ed2f;
     box-shadow:0 3px #76dbb8;
@@ -97,9 +98,7 @@ aside {
     -webkit-border-radius:6px;
     border:none;
     padding: 10px 17px;
- /*   width: 240px;
-    height:45px;  */
-    font:15pt Georgia;   /* Текст*/
+    font-size:20px;   /* Текст*/
     text-decoration: none;
     vertical-align: middle;
 }
@@ -119,10 +118,11 @@ aside {
     border-radius: 6px;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
-    border:none;
+    border:1.5px groove #57bb02;
     background:  #b1ed2f;
     padding:5px 10px;
-    font:15pt Georgia;
+    color: #57bb02;
+    cursor: pointer;
 }
 
 .going:hover {
@@ -143,7 +143,8 @@ aside {
     border:none;
     background:  #d8d8d8;
     padding:5px 10px;
-    font:15pt Georgia;
+    font-size:14px;
+    cursor: pointer;
 }
 
 .ok:hover {
@@ -158,14 +159,14 @@ aside {
 .search{
     float:right;
     width:140px;
-    height:35px;
+    height:40px;
     border-radius: 6px;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;;
     background: #b1ed2f;
-    font:12pt Georgia;
     border: none;
-    box-shadow:0 2px #76dbb8;
+    box-shadow:0 3px #76dbb8;
+    cursor: pointer;
 }
 
 .search:active {
@@ -182,12 +183,11 @@ aside {
 .save{
     float:left;
     width:170px;
-    height:35px;
+    height:40px;
     border-radius: 6px;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
     background: #d8d8d8;
-    font:12pt Georgia;
     border: none;
     box-shadow:0 2px #76dbb8;
 }
@@ -204,14 +204,13 @@ nav {
 
 .pagination {
     float:left;
-    padding:60px 10px;
+    padding:55px 10px;
 
 }
 
 .pagination1 {
     float:left;
     padding:60px 10px;
-    margin-top:7px;
 
 }
 
@@ -219,46 +218,53 @@ nav {
     float:left;
     padding:60px 10px;
     margin-top:3px;
-    font: 22px Georgia;
+}
+
+.pageSize{
+    padding:5px 10px;
+    background: white;
+    border: none;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 18px;
+
+
 }
 
 .commercialAdvert {
     font: normal 20pt Georgia;
     clear:left;
-    text-align:center;
+    margin: 20px 0;
     background-image: url(../images/fix.jpg);
     height:120px;
 }
 
 footer {
     height:175px;
-    font:  15pt Georgia;
     clear:left;
-    background-image: url(../images/footerfix.jpg);
+    background:#f3f3f3;
+    color:#3e3e38;
 }
 
-footer a{
+footer a {
    color: #3e3e38;
+   float:left;
+   padding:40px;
+   font-size: 18px;
+
 }
 .footerLink1{
     float:left;
-    padding:40px;
-    padding-left: 150px;
+    padding-left: 100px;
 }
 
 
-.footerLink{
-    float:left;
-    padding:40px;
-
-}
-
-.niz {
-    color: #565650;
-    font: 15pt Aria;
+.sign {
+    color: #3e3e38;
     position: absolute;
     left: 950px;
     top: 130px;
+    font-size: 16px;
+    font-family: 'PT Sans', sans-serif;
 }
 
 .cate{
@@ -281,7 +287,7 @@ footer a{
     display:none;
 }
 
-input[type="checkbox"] + label span {
+input[type="radio"] +  span {
     display:inline-block;
     width:19px;
     height:19px;
@@ -291,7 +297,7 @@ input[type="checkbox"] + label span {
     cursor:pointer;
 }
 
- input[type="checkbox"]:checked + label span {
+ input[type="radio"]:checked + span {
      background:url(check_radio_sheet.png) -19px top no-repeat;
  }
        */
@@ -354,7 +360,6 @@ table th {
 
 table tr {
         color: #3e3e38;
-        font:15pt Georgia;
         border-width:1px;
         padding:5px;
 
