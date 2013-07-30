@@ -265,9 +265,11 @@ footer a{
     border-radius: 10px;
     -moz-border-radius:10px;
     -webkit-border-radius:10px;
-    border: 1px groove;
+    border: 2px groove #f3f3f3;
     clear: left;
     padding: 20px 15px;
+    position: relative;
+    top: 45px;
 }
 
 .pcate{
@@ -275,6 +277,24 @@ footer a{
 
 }
 
+/*input[type="radio"] {
+    display:none;
+}
+
+input[type="checkbox"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url(check_radio_sheet.png) left top no-repeat;
+    cursor:pointer;
+}
+
+ input[type="checkbox"]:checked + label span {
+     background:url(check_radio_sheet.png) -19px top no-repeat;
+ }
+       */
 #likes {
     position:absolute;
     top:20px;
@@ -334,7 +354,7 @@ table th {
 
 table tr {
         color: #3e3e38;
-        font:16pt Georgia;
+        font:15pt Georgia;
         border-width:1px;
         padding:5px;
 

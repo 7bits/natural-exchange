@@ -27,6 +27,7 @@
         <div class="center">
             <section>
                 <table>
+                    <div>
                     <thead>
                         <tr>
                             <!--th>
@@ -40,7 +41,7 @@
                              			<c:param name="pageSize" value="${pageSize}"/>
                                         <c:param name="currentCategory" value="${currentCategory}"/>
                                 </c:url>
-                                 <a href="${dateSortingUrl}">Дата</a>
+                                 <a href="${dateSortingUrl}">Дата ▼</a>
                             </th>
                             <th class="title">
 <%--                                 <c:set var="sortTitle" value="${!sortTitle}"/> --%>
@@ -50,7 +51,7 @@
 									<c:param name="pageSize" value="${pageSize}"/>
                                     <c:param name="currentCategory" value="${currentCategory}"/>
 								</c:url>
-								<a href="${titleSortingUrl}">Заголовок</a>
+								<a href="${titleSortingUrl}">Заголовок ▼</a>
                             </th>
 
                             <th class="text">
@@ -65,6 +66,7 @@
                             </th>
                         </tr>
                     </thead>
+                    </div>
                     <tbody>
                     <c:forEach items="${advertisements}" var="advertisement" varStatus="status">
                         <c:if test="${status.index%2==0}">
@@ -276,7 +278,7 @@
             <!-- ******************* /pagination  ************************  -->
             </section>
             <aside>
-            <!--div class="category-table">
+            <%--div class="category-table">
                 <table class="page-wrapper">
                     <thead>
                         <tr class="headu">
@@ -289,7 +291,7 @@
                         </tr>
                     </c:forEach>
                 </table>
-            </div-->
+            </div--%>
                     <div class="poisk"> Поиск </div>
                     <button class="save"> Сохранить поиск  </button>
                 <form:form method="get" commandName="advertisementSearchingForm">
@@ -299,9 +301,9 @@
                     </div>
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
-                        <p class="pcate"> <form:radiobutton class="incate" path="category" value="nothing" />Не выбрано</p>
-                        <p class="pcate"><form:radiobutton path="category" value="clothes" />Одежда</p>
-                        <p class="pcate"> <form:radiobutton path="category" value="notclothes" />Не одежда</p>
+                        <p class="pcate"> <form:radiobutton  path="category" value="nothing" /><span>Не выбрано</span</p>
+                        <p class="pcate"><form:radiobutton path="category" value="clothes" /><span>Одежда</span></p>
+                        <p class="pcate"> <form:radiobutton path="category" value="notclothes" /><span>Не одежда</span></p>
                         <p><form:errors path="category"/></p>
                     </div>
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>
