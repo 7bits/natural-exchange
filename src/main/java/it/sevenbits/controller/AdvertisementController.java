@@ -66,11 +66,11 @@ public class AdvertisementController {
 			@RequestParam(value = "currentPage", required = false) Integer currentPageParam,
 			@RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
             @RequestParam(value = "currentCategory", required = false) String currentCategoryParam,
+            @RequestParam(value = "currentKeyWords", required = false) String keyWordsParam,
             AdvertisementSearchingForm advertisementSearchingFormParam)
 			throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
-        //advertisementSearchingForm.setKeyWords("Поиск");
         String selectedCategory = advertisementSearchingFormParam.getCategory();
         String currentCategory;
         if(currentCategoryParam == null) {
@@ -81,15 +81,11 @@ public class AdvertisementController {
             if (selectedCategory!=null) currentCategory = selectedCategory;
             else currentCategory = currentCategoryParam;
             advertisementSearchingForm.setCategory(currentCategory);
+            advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
         }
-
         modelAndView.addObject("currentCategory",currentCategory);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
 
-
-
-       // Advertisement adv = new Advertisement();
-        //this.advertisementDao.create(adv);
         String currentColumn = null;
         SortOrder currentSortOrder = null;
         if (sortByNameParam == null) {
@@ -120,30 +116,31 @@ public class AdvertisementController {
             modelAndView.addObject("sortedByDate",Advertisement.CREATED_DATE_COLUMN_CODE);
             modelAndView.addObject("sortOrderDate",newSortOrder.toString());
         }
-        List<Advertisement> advertisements = null;
-//       advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords("clothes",
-//               new String[]{"coat","blue","black"});
-        if(advertisementSearchingFormParam.getKeyWords() == null)
-        //if(true)
-        {
-            if(advertisementSearchingForm.getCategory().equals("nothing"))
-                advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
-            else
-                advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndOrderBy(
-                    currentCategory,
-                    currentSortOrder,
-                    currentColumn
-            );
+        List<Advertisement> advertisements;
+        if(keyWordsParam != null) {
+            advertisements = findAllAdvertisementsWithCategoryAndKeyWords(currentCategory,keyWordsParam);
+            advertisementSearchingForm.setKeyWords(keyWordsParam);
+            modelAndView.addObject("currentKeyWords",keyWordsParam);
         }
         else {
-            StringTokenizer token = new StringTokenizer(advertisementSearchingFormParam.getKeyWords());
-            String[] keyWords = new String[token.countTokens()];
-            for(int i=0;i<keyWords.length;i++) {
-                keyWords[i] = token.nextToken();
+            if(advertisementSearchingFormParam.getKeyWords()==null || advertisementSearchingFormParam.getKeyWords().equals(""))
+            {
+                if(advertisementSearchingForm.getCategory().equals("nothing"))
+                    advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
+                else
+                    advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndOrderBy(
+                        currentCategory,
+                        currentSortOrder,
+                        currentColumn
+                );
             }
-            advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords(currentCategory,keyWords);
+            else {
+                modelAndView.addObject("currentKeyWords",advertisementSearchingFormParam.getKeyWords());
+                advertisements = findAllAdvertisementsWithCategoryAndKeyWords(
+                        currentCategory,
+                        advertisementSearchingFormParam.getKeyWords());
+            }
         }
-        //advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords(currentCategory,new String[]{"skate"});
         PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
         pageList.setSource(advertisements);
         int pageSize;
@@ -171,6 +168,16 @@ public class AdvertisementController {
         modelAndView.addObject("currentSortOrder", currentSortOrder);
         return modelAndView;
 	}
+
+    private List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWords(String category,String keyWordsStr) {
+        if (category.equals("nothing")) category = null;
+        StringTokenizer token = new StringTokenizer(keyWordsStr);
+        String[] keyWords = new String[token.countTokens()];
+        for(int i=0;i<keyWords.length;i++) {
+            keyWords[i] = token.nextToken();
+        }
+        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords(category,keyWords);
+    }
 
     @RequestMapping(value = "/list.html", method = RequestMethod.POST)
     public ModelAndView listSubmit(

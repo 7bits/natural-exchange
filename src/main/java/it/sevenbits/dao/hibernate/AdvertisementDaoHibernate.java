@@ -132,12 +132,19 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 //    }
 
 
+    /**
+     * Search advertisements from DB, which match category and key words
+     * @param category if null, it isn't use in selection from DB
+     * @param keyWords key words,which searching in title
+     * @return
+     */
     @Override
     public List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWords(String category,
                                                                             String[] keyWords) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class)
-        .createAlias("categoryEntity","category")
-        .add(Restrictions.eq("category.name",category));
+        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
+        if(category != null) {
+            criteria.createAlias("categoryEntity","category").add(Restrictions.eq("category.name",category));
+        }
         for(int i=0;i<keyWords.length;i++)
             criteria.add(Restrictions.like("title","%"+keyWords[i]+"%"));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));

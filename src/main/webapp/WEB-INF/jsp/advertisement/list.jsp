@@ -130,6 +130,7 @@
                             <input type="hidden" name="sortedBy" value="${currentColumn}"/>
                             <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
                             <input type="hidden" name="currentCategory" value="${currentCategory}"/>
+                            <input type="hidden" name="currentKeyWords" value="${currentKeyWords}"/>
                             <input type="submit" value="OK" class="ok"/>
                         </form>
                     </div>
@@ -144,6 +145,7 @@
                                 <c:param name="sortOrder" value="${currentSortOrder}"/>
                                 <c:param name="sortedBy" value="${currentColumn}"/>
                                 <c:param name="currentCategory" value="${currentCategory}"/>
+                                <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                             </c:url>
                             <a href="${prevPageUrl}" class="going"><</a>
                         </c:if>
@@ -157,6 +159,7 @@
                                         <c:param name="sortedBy" value="${currentColumn}"/>
                                         <c:param name="currentPage" value="1"/>
                                         <c:param name="currentCategory" value="${currentCategory}"/>
+                                        <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                     </c:url>
                                     <a href="${pageUrl}"> 2 </a>
                                 </c:if>
@@ -170,6 +173,7 @@
                                         <c:param name="sortedBy" value="${currentColumn}"/>
                                         <c:param name="currentPage" value="${noOfPage-1}"/>
                                         <c:param name="currentCategory" value="${currentCategory}"/>
+                                        <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                     </c:url>
                                     <a href="${pageUrl}"><c:out value="${noOfPage}"></c:out></a>
                                 </c:if>
@@ -181,6 +185,7 @@
                                     <c:param name="sortedBy" value="${currentColumn}"/>
                                     <c:param name="currentPage" value="0"/>
                                     <c:param name="currentCategory" value="${currentCategory}"/>
+                                    <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                 </c:url>
                                 <a href="${pageUrl}"> 1</a>
                                 <c:choose>
@@ -196,6 +201,7 @@
                                                 <c:param name="sortedBy" value="${currentColumn}"/>
                                                 <c:param name="currentPage" value="${noOfPage-1}"/>
                                                 <c:param name="currentCategory" value="${currentCategory}"/>
+                                                <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                             </c:url>
                                             <a href="${pageUrl}"><c:out value="${noOfPage}"></c:out></a>
                                         </c:if>
@@ -216,6 +222,7 @@
                                                     <c:param name="sortedBy" value="${currentColumn}"/>
                                                     <c:param name="currentPage" value="${noOfPage-1}"/>
                                                     <c:param name="currentCategory" value="${currentCategory}"/>
+                                                    <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                                 </c:url>
                                                <a href="${pageUrl}"><c:out value="${noOfPage}"></c:out></a>
                                             </c:when>
@@ -226,6 +233,7 @@
                                                     <c:param name="sortedBy" value="${currentColumn}"/>
                                                     <c:param name="currentPage" value="${noOfPage-2}"/>
                                                     <c:param name="currentCategory" value="${currentCategory}"/>
+                                                    <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                                 </c:url>
                                                 <a href="${pageUrl}"><c:out value="${noOfPage-1}"></c:out></a>
                                                 <em> <c:out value="${noOfPage}"></c:out></em>
@@ -259,6 +267,7 @@
                                 <c:param name="sortOrder" value="${currentSortOrder}"/>
                                 <c:param name="sortedBy" value="${currentColumn}"/>
                                 <c:param name="currentCategory" value="${currentCategory}"/>
+                                <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                             </c:url>
                             <a href="${nextPageUrl}" class="going"> > </a>
                         </c:if>
