@@ -8,6 +8,7 @@ import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
+import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 
 import java.io.FileInputStream;
@@ -21,6 +22,7 @@ import java.util.StringTokenizer;
 import javax.annotation.Resource;
 
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
+import it.sevenbits.util.form.validator.MailingNewsValidator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -41,35 +43,38 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "advertisement")
 public class AdvertisementController {
-	final Logger logger = LoggerFactory
-			.getLogger(AdvertisementController.class);
+    final Logger logger = LoggerFactory
+            .getLogger(AdvertisementController.class);
 
-	@Resource(name = "advertisementDao")
-	private AdvertisementDao advertisementDao;
+    @Resource(name = "advertisementDao")
+    private AdvertisementDao advertisementDao;
 
-	/**
-	 * Gives information about all advertisements for display
-	 * 
-	 * @return jsp-page with advertisements information
-	 * @throws FileNotFoundException
-	 *             sortDateOrder = true if ascending, false othewise
-	 *             sortTitleOrder = so on
-	 */
+    /**
+     * Gives information about all advertisements for display
+     *
+     * @return jsp-page with advertisements information
+     * @throws FileNotFoundException
+     *             sortDateOrder = true if ascending, false othewise
+     *             sortTitleOrder = so on
+     */
 
     @Autowired
     private AdvertisementSearchingValidator advertisementSearchingValidator;
 
-	@RequestMapping(value = "/list.html", method = RequestMethod.GET)
-	public ModelAndView list(
-			@RequestParam(value = "sortedBy", required = false) String sortByNameParam,
-			@RequestParam(value = "sortOrder", required = false) String sortOrderParam,
-			@RequestParam(value = "currentPage", required = false) Integer currentPageParam,
-			@RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
+    @RequestMapping(value = "/list.html", method = RequestMethod.GET)
+    public ModelAndView list(
+            @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
+            @RequestParam(value = "sortOrder", required = false) String sortOrderParam,
+            @RequestParam(value = "currentPage", required = false) Integer currentPageParam,
+            @RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
             @RequestParam(value = "currentCategory", required = false) String currentCategoryParam,
             @RequestParam(value = "currentKeyWords", required = false) String keyWordsParam,
             AdvertisementSearchingForm advertisementSearchingFormParam)
-			throws FileNotFoundException {
+            throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
+        MailingNewsForm mailingNewsForm = new MailingNewsForm();
+        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         String selectedCategory = advertisementSearchingFormParam.getCategory();
         String currentCategory;
@@ -129,10 +134,10 @@ public class AdvertisementController {
                     advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
                 else
                     advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndOrderBy(
-                        currentCategory,
-                        currentSortOrder,
-                        currentColumn
-                );
+                            currentCategory,
+                            currentSortOrder,
+                            currentColumn
+                    );
             }
             else {
                 modelAndView.addObject("currentKeyWords",advertisementSearchingFormParam.getKeyWords());
@@ -144,30 +149,30 @@ public class AdvertisementController {
         PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
         pageList.setSource(advertisements);
         int pageSize;
-		if (pageSizeParam == null)
-			pageSize = defaultPageSize();
-		else
-		    pageSize = pageSizeParam.intValue();
+        if (pageSizeParam == null)
+            pageSize = defaultPageSize();
+        else
+            pageSize = pageSizeParam.intValue();
 
-		pageList.setPageSize(pageSize);
-		int noOfPage = pageList.getPageCount();
+        pageList.setPageSize(pageSize);
+        int noOfPage = pageList.getPageCount();
 
         int currentPage;
-		if (currentPageParam == null || currentPageParam >= noOfPage)
-			currentPage = 0;
-    	else
-			currentPage = currentPageParam.intValue();
+        if (currentPageParam == null || currentPageParam >= noOfPage)
+            currentPage = 0;
+        else
+            currentPage = currentPageParam.intValue();
         pageList.setPage(currentPage);
 
         modelAndView.addObject("advertisements", pageList.getPageList());
         modelAndView.addObject("defaultPageSize", defaultPageSize());
-		modelAndView.addObject("noOfPage", noOfPage);
-		modelAndView.addObject("currentPage", currentPage);
-		modelAndView.addObject("pageSize", pageSize);
+        modelAndView.addObject("noOfPage", noOfPage);
+        modelAndView.addObject("currentPage", currentPage);
+        modelAndView.addObject("pageSize", pageSize);
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
         return modelAndView;
-	}
+    }
 
     private List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWords(String category,String keyWordsStr) {
         if (category.equals("nothing")) category = null;
@@ -190,61 +195,91 @@ public class AdvertisementController {
         return null;
     }
 
-        /**
-         * Gives information about one advertisement by id for display
-         *
-         * @return jsp-page with advertisement information
-         */
-	@RequestMapping(value = "/view.html", method = RequestMethod.GET)
-	public ModelAndView view(@RequestParam(value = "id", required = true) Long id,
+
+    /**
+     * Gives information about one advertisement by id for display
+     *
+     * @return jsp-page with advertisement information
+     */
+    @RequestMapping(value = "/view.html", method = RequestMethod.GET)
+    public ModelAndView view(@RequestParam(value = "id", required = true) Long id,
                              @RequestParam(value = "currentCategory", required = true) String currentCategory) {
 
-		// Создаем вьюшку по list.jsp, которая выведется этим контроллером на
-		// экран
-		ModelAndView modelAndView = new ModelAndView("advertisement/view");
+        // Создаем вьюшку по list.jsp, которая выведется этим контроллером на
+        // экран
+        ModelAndView modelAndView = new ModelAndView("advertisement/view");
 
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setCategory(currentCategory);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
         modelAndView.addObject("currentCategory",currentCategory);
 
-		Advertisement advertisement = this.advertisementDao.findById(id);
-		modelAndView.addObject("advertisement", advertisement);
-		List<String> categories = new ArrayList<String>();
-		categories.add("Игрушки");
-		categories.add("Одежда");
-		categories.add("Мебель");
-		modelAndView.addObject("categories", categories);
+        Advertisement advertisement = this.advertisementDao.findById(id);
+        modelAndView.addObject("advertisement", advertisement);
+        List<String> categories = new ArrayList<String>();
+        categories.add("Игрушки");
+        categories.add("Одежда");
+        categories.add("Мебель");
+        modelAndView.addObject("categories", categories);
 
-		return modelAndView;
-	}
+        return modelAndView;
+    }
 
-	@Autowired
-	private AdvertisementPlacingValidator advertisementPlacingValidator;
+    @Autowired
+    private AdvertisementPlacingValidator advertisementPlacingValidator;
 
-	@RequestMapping(value = "/placing.html", method = RequestMethod.GET)
-	public ModelAndView placing() {
-		ModelAndView modelAndView = new ModelAndView("advertisement/placing");
-		AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
+    @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
+    public ModelAndView placing() {
+        ModelAndView modelAndView = new ModelAndView("advertisement/placing");
+        AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         advertisementPlacingForm.setCategory("clothes");
-		modelAndView.addObject("advertisementPlacingForm",
-				advertisementPlacingForm);
-		return modelAndView;
-	}
+        modelAndView.addObject("advertisementPlacingForm",
+                advertisementPlacingForm);
+        return modelAndView;
+    }
 
-	@RequestMapping(value = "/placing.html", method = RequestMethod.POST)
-	public ModelAndView processPlacing(
-			AdvertisementPlacingForm advertisementPlacingForm,
-			BindingResult result) {
-		advertisementPlacingValidator
-				.validate(advertisementPlacingForm, result);
-		if (result.hasErrors()) {
-			return new ModelAndView("advertisement/placing");
-		}
-		AdvertisementEntity tmp = new AdvertisementEntity();
-		tmp.setText(advertisementPlacingForm.getText());
-		tmp.setPhotoFile(advertisementPlacingForm.getPhotoFile());
-		tmp.setTitle(advertisementPlacingForm.getTitle());
+
+
+    @Autowired
+    private MailingNewsValidator mailingNewsValidator;
+    @RequestMapping(value = "/list.html", method = RequestMethod.GET)
+    public ModelAndView mailingSubmit(
+            @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
+            @RequestParam(value = "sortOrder", required = false) String sortOrderParam,
+            @RequestParam(value = "currentPage", required = false) Integer currentPageParam,
+            @RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
+            @RequestParam(value = "currentCategory", required = false) String currentCategoryParam,
+            @RequestParam(value = "currentKeyWords", required = false) String keyWordsParam,
+            @RequestParam(value = "currentColumn", required = false) String currentColumnParam,
+            @RequestParam(value = "currentSortOrder", required = false) SortOrder currentSortOrderParam,
+            MailingNewsForm mailingNewsForm, BindingResult result) {
+
+        ModelAndView modelAndView = new ModelAndView("advertisement/list");
+        mailingNewsValidator.validate(mailingNewsForm, result);
+
+        modelAndView.addObject("currentPage", currentPageParam);
+        modelAndView.addObject("pageSize", pageSizeParam);
+        modelAndView.addObject("currentColumn", currentColumnParam );
+        modelAndView.addObject("currentSortOrder", currentSortOrderParam);
+        modelAndView.addObject("currentKeyWords",keyWordsParam );
+        modelAndView.addObject("sortedBy", sortByNameParam);
+        modelAndView.addObject("sortOrder", sortOrderParam);
+        modelAndView.addObject("currentCategory", currentCategoryParam);
+        return modelAndView;
+    }
+    @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
+    public ModelAndView processPlacing(
+            AdvertisementPlacingForm advertisementPlacingForm,
+            BindingResult result) {
+        advertisementPlacingValidator
+                .validate(advertisementPlacingForm, result);
+        if (result.hasErrors()) {
+            return new ModelAndView("advertisement/placing");
+        }
+        AdvertisementEntity tmp = new AdvertisementEntity();
+        tmp.setText(advertisementPlacingForm.getText());
+        tmp.setPhotoFile(advertisementPlacingForm.getPhotoFile());
+        tmp.setTitle(advertisementPlacingForm.getTitle());
         CategoryEntity categoryEntity = null;
         if(advertisementPlacingForm.getCategory().equals(Category.NAME_CLOTHES)) {
             categoryEntity = new CategoryEntity(Category.NAME_CLOTHES,"very good",460l,461l,false);
@@ -255,20 +290,20 @@ public class AdvertisementController {
             categoryEntity.setId(2l);
         }
         tmp.setCategoryEntity(categoryEntity);
-		this.advertisementDao.create(tmp);
-		return new ModelAndView("advertisement/placingRequest");
-	}
+        this.advertisementDao.create(tmp);
+        return new ModelAndView("advertisement/placingRequest");
+    }
 
-	private int defaultPageSize() {
-		Properties prop = new Properties();
-		try {
-			FileInputStream inStream = new FileInputStream(
-					"D://Julia/Java/workspace/n-exchange/src/main/resources/list.properties");
-			prop.load(inStream);
-			inStream.close();
-		} catch (IOException e) {
-			return 2;
-		}
-		return Integer.parseInt(prop.getProperty("list.count"));
-	}
+    private int defaultPageSize() {
+        Properties prop = new Properties();
+        try {
+            FileInputStream inStream = new FileInputStream(
+                    "D://Julia/Java/workspace/n-exchange/src/main/resources/list.properties");
+            prop.load(inStream);
+            inStream.close();
+        } catch (IOException e) {
+            return 2;
+        }
+        return Integer.parseInt(prop.getProperty("list.count"));
+    }
 }

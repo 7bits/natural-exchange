@@ -8,18 +8,15 @@
 <html lang="ru">
 <head>
 <title>Рассылка новостей сайта</title>
-<style type="text/css">
-span.error {
-	color: red;
-}
-</style>
+       <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
 </head>
 <body>
 	<h1>Рассылка новостей:</h1>
 
-	<form:form method="post" commandName="NewsPostingForm">
+	<form:form method="post" commandName="newsPostingForm">
 	    Событие:
 				<form:input path="newsText" />
+
 				<span class="error"><form:errors path="newsText" /></span>
 				<input type="submit" value="Отправить" />
 

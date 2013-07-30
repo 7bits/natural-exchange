@@ -18,6 +18,20 @@
             </div>
             <div id=logotype> Натуральный обмен </div>
             <div id=lk>  Лк</div>          --%>
+
+            <%--********* --%>
+             <div>
+            <p>Подписка на новости</p>
+            <form:form method="get" commandName="mailingNewsForm">
+            		<p>e-mail:<form:input path="email" size="64" /></p>
+            		<p><span class="error"><form:errors path="email" /></span></p>
+            		<p><input type="submit" value="Подписаться" /></p>
+           	</form:form>
+           	</div>
+
+            <%--********* --%>
+
+            <a href='<c:url value="/advertisement/list.html"/>' class="vhod1">  Вход на сайт </a>
         </header>
         <nav class="center">
             <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">

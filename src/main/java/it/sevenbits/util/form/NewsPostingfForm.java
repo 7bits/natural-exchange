@@ -9,7 +9,7 @@ package it.sevenbits.util.form;
  */
 public class NewsPostingfForm {
 
-   // @NotBlank(message = "Новость должна быть. Заполните поле.")
+    //@NotBlank(message = "Новость должна быть. Заполните поле.")
     //@Length(max=2000)
     private String newsText;
 
