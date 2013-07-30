@@ -96,19 +96,63 @@ aside {
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
     border:none;
-    width: 240px;
-    height:45px;
-    font:15pt Georgia;
+    padding: 10px 17px;
+ /*   width: 240px;
+    height:45px;  */
+    font:15pt Georgia;   /* Текст*/
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+.manage-panel:active {
+    padding: 9px 15px;
+    background: #76dbb8;
+}
+
+.manage-panel:hover {
+    text-decoration:none;
+    background: #76dbb8;
+    border-top-color: #d8d8d8;
 }
 
 .going {
+    border-radius: 6px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border:none;
     background:  #b1ed2f;
     padding:5px 10px;
+    font:15pt Georgia;
 }
 
+.going:hover {
+    text-decoration:none;
+    background: #76dbb8;
+}
+
+.going:active {
+    padding: 4px 9px;
+    background: #76dbb8;
+}
+
+
 .ok {
+    border-radius: 6px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border:none;
     background:  #d8d8d8;
     padding:5px 10px;
+    font:15pt Georgia;
+}
+
+.ok:hover {
+    background: #76dbb8;
+}
+
+.ok:active {
+    padding: 4px 9px;
+    background: #76dbb8;
 }
 
 .search{
@@ -123,6 +167,17 @@ aside {
     border: none;
     box-shadow:0 2px #76dbb8;
 }
+
+.search:active {
+    width:138px;
+    height:33px;
+    background: #76dbb8;
+}
+
+.search:hover {
+    background: #76dbb8;
+}
+
 
 .save{
     float:left;

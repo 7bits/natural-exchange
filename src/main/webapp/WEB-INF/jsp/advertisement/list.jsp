@@ -20,9 +20,9 @@
             <div id=lk>  Лк</div>          --%>
         </header>
         <nav class="center">
-            <button class="manage-panel" value='<c:url value="/advertisement/placing.html"/>'>
+            <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
                 Разместить объявление
-            </button>
+            </a>
         </nav>
         <div class="center">
             <section>
@@ -145,9 +145,7 @@
                                 <c:param name="sortedBy" value="${currentColumn}"/>
                                 <c:param name="currentCategory" value="${currentCategory}"/>
                             </c:url>
-                            <button class="going">
-                                <a href="${prevPageUrl}"><</a>
-                            </button>
+                            <a href="${prevPageUrl}" class="going"><</a>
                         </c:if>
                         <c:choose>
                             <c:when test="${currentPage==0}">
@@ -262,9 +260,7 @@
                                 <c:param name="sortedBy" value="${currentColumn}"/>
                                 <c:param name="currentCategory" value="${currentCategory}"/>
                             </c:url>
-                            <button class="going">
-                                <a href="${nextPageUrl}"> > </a>
-                            </button>
+                            <a href="${nextPageUrl}" class="going"> > </a>
                         </c:if>
                     </div>
                 </div>
