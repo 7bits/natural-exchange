@@ -23,19 +23,21 @@
                 <span>Натуральный обмен</span>
                 <p> Помощь молодым родителям</p>
             </div>
-            <div id=lk>  Лк</div>
+            <div id=lk>  Лк
+                <%--********* --%>
+                <div>
+                    <p>Подписка на новости</p>
+                    <form:form method="get" commandName="mailingNewsForm">
+                        <p>e-mail: <form:input path="email" size="30" /></p>
+                        <p><form:errors path="email" class="error" /></p>
+                        <p><input type="submit" value="Подписаться" /></p>
+                    </form:form>
+                </div>
 
-            <%--********* --%>
-             <div>
-            <p>Подписка на новости</p>
-            <form:form method="get" commandName="mailingNewsForm">
-            		<p>e-mail:<form:input path="email" size="64" /></p>
-            		<p><span class="error"><form:errors path="email" /></span></p>
-            		<p><input type="submit" value="Подписаться" /></p>
-           	</form:form>
-           	</div>
+                <%--********* --%>
+            </div>
 
-            <%--********* --%>
+
 
             <a href='<c:url value="/advertisement/list.html"/>' class="vhod1">  Вход на сайт </a>
         </header>

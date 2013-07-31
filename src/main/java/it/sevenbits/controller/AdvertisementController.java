@@ -31,7 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.*;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,13 +70,26 @@ public class AdvertisementController {
             @RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
             @RequestParam(value = "currentCategory", required = false) String currentCategoryParam,
             @RequestParam(value = "currentKeyWords", required = false) String keyWordsParam,
-            AdvertisementSearchingForm advertisementSearchingFormParam)
+            AdvertisementSearchingForm advertisementSearchingFormParam,
+            MailingNewsForm mailingNewsFormParam, BindingResult bindingResult)
             throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
-        MailingNewsForm mailingNewsForm = new MailingNewsForm();
-        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
-
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+        MailingNewsForm mailingNewsForm = new MailingNewsForm();
+
+        if (mailingNewsFormParam != null) {
+            //valid
+            MailingNewsValidator mailingNewsValidator = new MailingNewsValidator();
+            mailingNewsValidator.validate(mailingNewsForm,bindingResult);
+            if (bindingResult.hasErrors()) {
+
+            } else {
+                //TODO add e-mail to Mailng news table
+            }
+
+        }
+
+
         String selectedCategory = advertisementSearchingFormParam.getCategory();
         String currentCategory;
         if(currentCategoryParam == null) {
@@ -90,6 +104,7 @@ public class AdvertisementController {
         }
         modelAndView.addObject("currentCategory",currentCategory);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
+        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
 
         String currentColumn = null;
         SortOrder currentSortOrder = null;
@@ -183,6 +198,7 @@ public class AdvertisementController {
         }
         return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords(category,keyWords);
     }
+    /*
 
     @RequestMapping(value = "/list.html", method = RequestMethod.POST)
     public ModelAndView listSubmit(
@@ -194,8 +210,7 @@ public class AdvertisementController {
 
         return null;
     }
-
-
+      */
     /**
      * Gives information about one advertisement by id for display
      *
@@ -238,35 +253,6 @@ public class AdvertisementController {
         return modelAndView;
     }
 
-
-
-    @Autowired
-    private MailingNewsValidator mailingNewsValidator;
-    @RequestMapping(value = "/list.html", method = RequestMethod.GET)
-    public ModelAndView mailingSubmit(
-            @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
-            @RequestParam(value = "sortOrder", required = false) String sortOrderParam,
-            @RequestParam(value = "currentPage", required = false) Integer currentPageParam,
-            @RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
-            @RequestParam(value = "currentCategory", required = false) String currentCategoryParam,
-            @RequestParam(value = "currentKeyWords", required = false) String keyWordsParam,
-            @RequestParam(value = "currentColumn", required = false) String currentColumnParam,
-            @RequestParam(value = "currentSortOrder", required = false) SortOrder currentSortOrderParam,
-            MailingNewsForm mailingNewsForm, BindingResult result) {
-
-        ModelAndView modelAndView = new ModelAndView("advertisement/list");
-        mailingNewsValidator.validate(mailingNewsForm, result);
-
-        modelAndView.addObject("currentPage", currentPageParam);
-        modelAndView.addObject("pageSize", pageSizeParam);
-        modelAndView.addObject("currentColumn", currentColumnParam );
-        modelAndView.addObject("currentSortOrder", currentSortOrderParam);
-        modelAndView.addObject("currentKeyWords",keyWordsParam );
-        modelAndView.addObject("sortedBy", sortByNameParam);
-        modelAndView.addObject("sortOrder", sortOrderParam);
-        modelAndView.addObject("currentCategory", currentCategoryParam);
-        return modelAndView;
-    }
     @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
     public ModelAndView processPlacing(
             AdvertisementPlacingForm advertisementPlacingForm,
@@ -306,4 +292,37 @@ public class AdvertisementController {
         }
         return Integer.parseInt(prop.getProperty("list.count"));
     }
+
+
+    /*
+    @Autowired
+    private MailingNewsValidator mailingNewsValidator;
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+        public ModelAndView mailingSubmit(
+                @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
+                @RequestParam(value = "sortOrder", required = false) String sortOrderParam,
+                @RequestParam(value = "currentPage", required = false) Integer currentPageParam,
+                @RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
+                @RequestParam(value = "currentCategory", required = false) String currentCategoryParam,
+                @RequestParam(value = "currentKeyWords", required = false) String keyWordsParam,
+                @RequestParam(value = "currentColumn", required = false) String currentColumnParam,
+                @RequestParam(value = "currentSortOrder", required = false) SortOrder currentSortOrderParam,
+                MailingNewsForm mailingNewsForm, BindingResult result) {
+
+            ModelAndView modelAndView = new ModelAndView("advertisement/list");
+            mailingNewsValidator.validate(mailingNewsForm, result);
+
+            modelAndView.addObject("currentPage", currentPageParam);
+            modelAndView.addObject("pageSize", pageSizeParam);
+            modelAndView.addObject("currentColumn", currentColumnParam );
+            modelAndView.addObject("currentSortOrder", currentSortOrderParam);
+            modelAndView.addObject("currentKeyWords",keyWordsParam );
+            modelAndView.addObject("sortedBy", sortByNameParam);
+            modelAndView.addObject("sortOrder", sortOrderParam);
+            modelAndView.addObject("currentCategory", currentCategoryParam);
+            return modelAndView;
+        }
+
+        */
+
 }
