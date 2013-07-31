@@ -17,7 +17,7 @@
     </logger>
 
     <logger name="org.springframework">
-        <level value="INFO"/>
+        <level value="ERROR"/>
         <appender-ref ref="FILE"/>
     </logger>
 
@@ -37,7 +37,7 @@
     </logger>
 
     <logger name="it.sevenbits">
-        <level value="DEBUG"/>
+        <level value="ERROR"/>
         <appender-ref ref="FILE"/>
     </logger>
 
