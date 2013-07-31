@@ -32,8 +32,8 @@
             <list>
                 <value>it.sevenbits.entity.hibernate.AdvertisementEntity</value>
 				<value>it.sevenbits.entity.hibernate.UserEntity</value>
-
-
+				<value>it.sevenbits.entity.hibernate.CategoryEntity</value>
+                <value>it.sevenbits.entity.hibernate.SubscriberEntity</value>
             </list>
         </property>
         <property name="annotatedPackages">
