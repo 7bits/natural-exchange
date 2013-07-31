@@ -23,6 +23,11 @@ body {
     width:1014px;
 }
 
+.plug {
+    margin:20px auto;
+    width:1014px;
+}
+
 header {
     height:150px;
     background-image: url(../images/header.jpg);
@@ -55,41 +60,42 @@ aside {
     color: #565650;
 }
 
-.vhod {
+.entryBlock {
     position: relative;
     left: 830px;
 }
 
-.vhod1{
+.entry{
      color: #b1ed2f;
-     padding-right: 90px;
+     padding-right: 120px;
 }
 
-.vhod2{
+.registration{
     color: #565650;
 }
 #logotype {
-    font-size:47.36px;
+
     position:absolute;
-    top:.39px;
+    top:39px;
     left:145px;
 }
 
-#logotype + span {
+/*#logotype  span {
     font-family: 'Lobster', cursive;
+    font-size:47.36px ;
     color: #a6d937;
     position:absolute;
     top:.39px;
     left:145px;
 }
 
-#logotype + p {
-    font-size:47.36px;
+#logotype  p {
+    font-size:20px;
     position:absolute;
     top:.39px;
     left:145px;
     font-style: italic;
-}
+}    */
 
 #lk {
     position:absolute;
@@ -98,7 +104,7 @@ aside {
     width: 330px;
     height: 120px;
     text-align:center;
-    background: rgba(246,246,246,.5);
+    background: rgba(246,246,246,.4);
 }
 
 .manage-panel {
@@ -106,7 +112,9 @@ aside {
     top:15px;
     margin-left:85px;
     background: #b1ed2f;
-    box-shadow:0 3px #76dbb8;
+    -moz-box-shadow: 0 5px #5e8a00; /* Для Firefox */
+    -webkit-box-shadow: 0 5px #5e8a00; /* Для Safari и Chrome */
+    box-shadow:0 5px #5e8a00;  /* Параметры тени */
     border-radius: 6px;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
@@ -118,14 +126,18 @@ aside {
 }
 
 .manage-panel:active {
+   /* position:relative;   */
+    top:18px;
     padding: 9px 15px;
-    background: #76dbb8;
+    background: #bcfb33;
+    -moz-box-shadow: 0 2px #5e8a00; /* Для Firefox */
+    -webkit-box-shadow: 0 2px #5e8a00; /* Для Safari и Chrome */
+    box-shadow:0 2px #5e8a00;  /* Параметры тени */
 }
 
 .manage-panel:hover {
     text-decoration:none;
-    background: #76dbb8;
-    border-top-color: #d8d8d8;
+    background: #bcfb33;
 }
 
 .going {
@@ -134,19 +146,19 @@ aside {
     -webkit-border-radius:6px;
     border:1.5px groove #57bb02;
     background:  #b1ed2f;
-    padding:5px 10px;
+    padding:8px 20px;
     color: #57bb02;
     cursor: pointer;
 }
 
 .going:hover {
     text-decoration:none;
-    background: #76dbb8;
+    background: #bcfb33;
 }
 
 .going:active {
     padding: 4px 9px;
-    background: #76dbb8;
+    background: #bcfb33;
 }
 
 
@@ -156,7 +168,7 @@ aside {
     -webkit-border-radius:6px;
     border:none;
     background:  #d8d8d8;
-    padding:5px 10px;
+    padding:10px 20px;
     font-size:14px;
     cursor: pointer;
 }
@@ -172,6 +184,8 @@ aside {
 
 .search{
     float:right;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
     width:140px;
     height:40px;
     border-radius: 6px;
@@ -196,6 +210,8 @@ aside {
 
 .save{
     float:left;
+    font-size:18px;
+    font-family: 'PT Sans', sans-serif;
     width:170px;
     height:40px;
     border-radius: 6px;
@@ -224,7 +240,7 @@ nav {
 
 .pagination1 {
     float:left;
-    padding:60px 10px;
+    padding: 60px 10px 60px 0;
 
 }
 
@@ -235,7 +251,7 @@ nav {
 }
 
 .pageSize{
-    padding:5px 10px;
+    padding:5px 20px;
     background: white;
     border: none;
     font-family: 'PT Sans', sans-serif;
@@ -275,7 +291,7 @@ footer a {
 .sign {
     color: #3e3e38;
     position: absolute;
-    left: 950px;
+    left: 980px;
     top: 130px;
     font-size: 16px;
     font-family: 'PT Sans', sans-serif;
@@ -289,7 +305,7 @@ footer a {
     clear: left;
     padding: 20px 15px;
     position: relative;
-    top: 45px;
+    top: 20px;
 }
 
 .pcate{
@@ -298,31 +314,38 @@ footer a {
 }
 
 input[type="radio"] {
-    display:none;
+   display:none;
+
 }
 
-input[type="radio"] +  span {
+input[type="radio"]  + label::before {
+    content:"";
     display:inline-block;
-    width:19px;
-    height:19px;
-    margin:-1px 4px 0 0;
-    vertical-align:middle;
-    background:url(../images/radio.gif) left top no-repeat;
+    width:16px;
+    height:16px;
+    margin:0 4px 0 0;
+    background:url(../images/checkbox.png);
     cursor:pointer;
+
 }
 
- input[type="radio"]:checked + span {
-     background:url(../images/radio.gif) -19px top no-repeat;
+ input[type="radio"]:checked + label::before {
+     background:url(../images/checkbox_selected.png) ;
  }
+
+ input[type="radio"]:disabled + label::before {
+      background:url(../images/checkbox_selected.png) ;
+ }
+
+ input[type="radio"]:checked:disabled +label::before {
+      background:url(../images/checkbox.png) ;
+ }​
 
 #likes {
     position:absolute;
-    top:20px;
-    left:870px;
-    font: normal 14pt Georgia;
-    border:3px dotted grey;
-    padding:20px;
-    background-image: url(../images/footerLables.gif);
+    top:25px;
+    left:910px;
+
 }
 
 .advertisement-table { 
@@ -346,6 +369,12 @@ input[type="radio"] +  span {
     width: 100%;
     padding: 5px;
 }
+
+/*a.sort: hover {
+    text-decoration:none;
+    border:1px solid yellow;
+    padding:
+}    */
 
 .tr1 {
     background:#f3f3f3;

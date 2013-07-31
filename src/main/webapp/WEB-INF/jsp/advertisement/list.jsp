@@ -14,21 +14,21 @@
     
     <body>
         <header class="centerTop">
-            <div class="vhod">
-                <a href='<c:url value="/advertisement/list.html"/>' class="vhod1">  Вход на сайт </a>
-                <a href='<c:url value="/advertisement/list.html"/>'class="vhod2">  Регистрация </a>
-            </div>
+          <%--  <div class="entryBlock">
+                <a href='<c:url value="/advertisement/list.html"/>' class="entry">  Вход на сайт </a>
+                <a href='<c:url value="/advertisement/list.html"/>'class="registration">  Регистрация </a>
+            </div>  --%>
             <div id=logotype>
-                <img src='<c:url value="/resources/images/logo.gif"/>' alt="ex4ange)"/>
-                <span>Натуральный обмен</span>
-                <p> Помощь молодым родителям</p>
+                <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
+                <%--   <span>Натуральный обмен</span>
+                <p> Помощь молодым родителям</p>     --%>
             </div>
-            <div id=lk>  Лк
+            <div id=lk>
                 <%--********* --%>
                 <div>
-                    <p>Подписка на новости</p>
+                    <p>Узнавайте новости проекта первыми </p>
                     <form:form method="get" commandName="mailingNewsForm">
-                        <p>e-mail: <form:input path="email" size="30" /></p>
+                        <p><form:input path="email" size="30" placeholder="Ваш e-mail"/></p>
                         <p><form:errors path="email" class="error" /></p>
                         <p><input type="submit" value="Подписаться" /></p>
                     </form:form>
@@ -36,10 +36,6 @@
 
                 <%--********* --%>
             </div>
-
-
-
-            <a href='<c:url value="/advertisement/list.html"/>' class="vhod1">  Вход на сайт </a>
         </header>
         <nav class="center">
             <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
@@ -63,7 +59,8 @@
                              			<c:param name="pageSize" value="${pageSize}"/>
                                         <c:param name="currentCategory" value="${currentCategory}"/>
                                 </c:url>
-                                 <a href="${dateSortingUrl}">Дата ▼</a>
+                                 Дата
+                                 <a href="${dateSortingUrl}" style="sort"> ▼ </a>
                             </th>
                             <th class="title">
 <%--                                 <c:set var="sortTitle" value="${!sortTitle}"/> --%>
@@ -323,9 +320,9 @@
                     <button class="save"> Сохранить поиск  </button>
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
-                        <p class="pcate"> <form:radiobutton  path="category" value="nothing" /><span></span>Не выбрано</p>
-                        <p class="pcate"><form:radiobutton path="category" value="clothes" /><span></span>Одежда</p>
-                        <p class="pcate"> <form:radiobutton path="category" value="notclothes" /><span></span>Не одежда</p>
+                        <p class="pcate"> <form:radiobutton  id="one" path="category" value="nothing"  /><label for="one">Не выбрано</label></p>
+                        <p class="pcate"><form:radiobutton id="two" path="category" value="clothes" /><label for="two">Одежда</label></p>
+                        <p class="pcate"> <form:radiobutton id="three" path="category" value="notclothes"  /><label for="three">Не одежда</label></p>
                         <p><form:errors path="category"/></p>
                     </div>
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>
@@ -335,12 +332,15 @@
                 </form:form>
             </aside>
         </div>
-        <div class="center">
+        <div class="plug">
             <div class="commercialAdvert">
             </div>
         </div>
         <footer class="centerTop">
-              <%--      <div id=likes> Соц. Сети </div>    --%>
+                    <div id=likes>
+                        <p text-align="right" > Мы в социальных сетях </p>
+                        <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
+                    </div>
                     <div class="footerLink1">
                         <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
                     </div>

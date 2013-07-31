@@ -13,12 +13,12 @@
 
     <body>
         <header class="centerTop">
-            <div class="vhod">
-                <a href='<c:url value="/advertisement/list.html"/>' class="vhod1">  Вход на сайт </a>
-                <a href='<c:url value="/advertisement/list.html"/>'class="vhod2">  Регистрация </a>
+            <div class="entryBlock">
+                <a href='<c:url value="/advertisement/list.html"/>' class="entry">  Вход на сайт </a>
+                <a href='<c:url value="/advertisement/list.html"/>'class="registration">  Регистрация </a>
             </div>
             <div id=logotype>
-                <img src='<c:url value="/resources/images/logo.gif"/>' alt="ex4ange)"/>
+                <img src='<c:url value="/resources/images/logo.png"/>' alt="ex4ange)"/>
                 Натуральный обмен
             </div>
             <div id=lk>  Лк</div>
@@ -34,8 +34,6 @@
            	</div>
 
             <%--********* --%>
-
-            <a href='<c:url value="/advertisement/list.html"/>' class="vhod1">  Вход на сайт </a>
         </header>
         <nav class="center">
             <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
