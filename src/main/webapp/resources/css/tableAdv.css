@@ -69,12 +69,26 @@ aside {
     color: #565650;
 }
 #logotype {
-    font-family: 'Lobster', cursive;
     font-size:47.36px;
+    position:absolute;
+    top:.39px;
+    left:145px;
+}
+
+#logotype + span {
+    font-family: 'Lobster', cursive;
     color: #a6d937;
     position:absolute;
     top:.39px;
     left:145px;
+}
+
+#logotype + p {
+    font-size:47.36px;
+    position:absolute;
+    top:.39px;
+    left:145px;
+    font-style: italic;
 }
 
 #lk {
@@ -84,7 +98,7 @@ aside {
     width: 330px;
     height: 120px;
     text-align:center;
-    background: #f6f6f6;
+    background: rgba(246,246,246,.5);
 }
 
 .manage-panel {
@@ -283,7 +297,7 @@ footer a {
 
 }
 
-/*input[type="radio"] {
+input[type="radio"] {
     display:none;
 }
 
@@ -293,14 +307,14 @@ input[type="radio"] +  span {
     height:19px;
     margin:-1px 4px 0 0;
     vertical-align:middle;
-    background:url(check_radio_sheet.png) left top no-repeat;
+    background:url(../images/radio.gif) left top no-repeat;
     cursor:pointer;
 }
 
  input[type="radio"]:checked + span {
-     background:url(check_radio_sheet.png) -19px top no-repeat;
+     background:url(../images/radio.gif) -19px top no-repeat;
  }
-       */
+
 #likes {
     position:absolute;
     top:20px;
@@ -308,6 +322,7 @@ input[type="radio"] +  span {
     font: normal 14pt Georgia;
     border:3px dotted grey;
     padding:20px;
+    background-image: url(../images/footerLables.gif);
 }
 
 .advertisement-table { 
@@ -339,9 +354,10 @@ input[type="radio"] +  span {
 
 table {
      /* width: 300px;  Ширина таблицы
-      background: #fffff0;  Цвет фона нечетных строк */
-      width: 100%;
-      border-collapse: collapse; /* Убираем двойные линии между ячейками */
+    background: #fffff0;  Цвет фона нечетных строк */
+    width: 100%;
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+    box-shadow:  none;
 }
 
 tbody {

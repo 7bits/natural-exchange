@@ -5,70 +5,117 @@
 <html lang="ru">
     <head>
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>" />
+        <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
         <title>Просмотр объявления</title>
     </head>
 
     <body>
-        <h1>Объявление </h1>
-        <div class="page-wrapper">
-            <div class='advertisement-table'>
-                <table>
+        <header class="centerTop">
+            <div class="vhod">
+                <a href='<c:url value="/advertisement/list.html"/>' class="vhod1">  Вход на сайт </a>
+                <a href='<c:url value="/advertisement/list.html"/>'class="vhod2">  Регистрация </a>
+            </div>
+            <div id=logotype>
+                <img src='<c:url value="/resources/images/logo.gif"/>' alt="ex4ange)"/>
+                Натуральный обмен
+            </div>
+            <div id=lk>  Лк</div>
+
+            <%--********* --%>
+             <div>
+            <p>Подписка на новости</p>
+            <form:form method="get" commandName="mailingNewsForm">
+            		<p>e-mail:<form:input path="email" size="64" /></p>
+            		<p><span class="error"><form:errors path="email" /></span></p>
+            		<p><input type="submit" value="Подписаться" /></p>
+           	</form:form>
+           	</div>
+
+            <%--********* --%>
+
+            <a href='<c:url value="/advertisement/list.html"/>' class="vhod1">  Вход на сайт </a>
+        </header>
+        <nav class="center">
+            <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
+                Разместить объявление
+            </a>
+        </nav>
+        <div class="center">
+            <section>
+                <div class="viewTitle">
+                    <c:out value="${advertisement.title}"/>
+                    <c:out value="${advertisement.createdDateFormat}"/>
+                </div>
+                <div class="viewCategory">
+                    Категория:
+                    <c:url  value="/advertisement/list.html" var="listPage">
+                        <c:param name="currentCategory" value="${currentCategory}"/>
+                    </c:url>
+                    <form:form method="get" action="${listPage}" commandName="advertisementSearchingForm">
+                </div>
+                <div>
+                    <c:out value="${advertisement.text}"/>
+                </div>
+                <div class="photoCollection">
+                    <img src='<c:url value="/resources/images/${advertisement.photoFile}"/>'/>
+                </div>
+                <div class="contact">
+                     <c:out value="${advertisement.user.firstName}"/>
+                </div>
+            </section>
+            <aside>
+            <%--div class="category-table">
+                <table class="page-wrapper">
                     <thead>
-                        <tr>
-                            <th>
-                                Заголовок
-                            </th>
-                            <th>
-                                Дата
-                            </th>
-                            <th>
-                                Текст
-                            </th>
-                            <th>
-                                Пользователь
-                            </th>
-                            <th>
-                                Фото
-                            </th>
+                        <tr class="headu">
+                            <th>Категории</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <c:forEach items="${categories}" var="category">
                         <tr>
-                            <td><c:out value="${advertisement.title}"/></td>
-                            <td><c:out value="${advertisement.createdDateFormat}"/></td>
-                            <td><c:out value="${advertisement.text}"/></td>
-                            <td><c:out value="${advertisement.user.firstName}"/></td>
-                            <td><img src='<c:url value="/resources/images/${advertisement.photoFile}"/>'/></td>
+                            <td><c:out value="${category}"/></td>
                         </tr>
-                    </tbody>
+                    </c:forEach>
                 </table>
-            </div>
-
-            <c:url  value="/advertisement/list.html" var="listPage">
-                <c:param name="currentCategory" value="${currentCategory}"/>
-            </c:url>
-            <form:form method="get" action="${listPage}" commandName="advertisementSearchingForm">
-
-                <table>
-                    <tr>
-                        <td>Категория :</td>
-                        <td><form:radiobutton path="category" value="nothing" />Не выбрано</td>
-                        <td><form:radiobutton path="category" value="clothes" />Одежда</td>
-                        <td><form:radiobutton path="category" value="notclothes" />Не одежда</td>
-                        <td><form:errors path="category"/></td>
-                    </tr>
-                    <tr>
-                        <td colspan="3">
-                            <input type="hidden" name="currentCategory" value="${currentCategory}"/>
-                            <input type="submit" value="Поиск"/>
-                        </td>
-                    </tr>
-                </table>
-            </form:form>
-
-            <div class="manage-panel">
-                <a href='<c:url value="/advertisement/placing.html"/>'>Создать</a>
+            </div--%>
+                <form:form method="get" commandName="advertisementSearchingForm">
+                    <div>
+                        <form:input class="wordSearch" path="keyWords" placeholder="Поиск" />
+                        <form:errors path="keyWords" />
+                    </div>
+                    <button class="save"> Сохранить поиск  </button>
+                    <input type="submit" class="search" value="Найти"/>
+                    <div class="cate">
+                        <p class="pcate"> <form:radiobutton  path="category" value="nothing" /><span></span>Не выбрано</p>
+                        <p class="pcate"><form:radiobutton path="category" value="clothes" /><span></span>Одежда</p>
+                        <p class="pcate"> <form:radiobutton path="category" value="notclothes" /><span></span>Не одежда</p>
+                        <p><form:errors path="category"/></p>
+                    </div>
+                        <input type="hidden" name="sortedBy" value="${currentColumn}"/>
+                        <input type="hidden" name="currentCategory" value="${currentCategory}"/>
+                        <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
+                        <input type="hidden" name="pageSize" value="${pageSize}"/>
+                </form:form>
+            </aside>
+        </div>
+        <div class="center">
+            <div class="commercialAdvert">
             </div>
         </div>
+        <footer class="centerTop">
+              <%--      <div id=likes> Соц. Сети </div>    --%>
+                    <div class="footerLink1">
+                        <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
+                    </div>
+                    <div class="footerLink">
+                        <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
+                    </div>
+                    <div class="footerLink">
+                        <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
+                    </div>
+                    <p class="sign"> © 2013 Natural Exchange</p>
+        </footer>
     </body>
 </html>

@@ -20,7 +20,8 @@
             </div>
             <div id=logotype>
                 <img src='<c:url value="/resources/images/logo.gif"/>' alt="ex4ange)"/>
-                Натуральный обмен
+                <span>Натуральный обмен</span>
+                <p> Помощь молодым родителям</p>
             </div>
             <div id=lk>  Лк</div>
 
