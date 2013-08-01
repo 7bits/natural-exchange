@@ -28,7 +28,10 @@ public class MailingNewsValidator implements Validator {
     public void validate(Object target, Errors errors) {
         MailingNewsForm MailingNewsForm = (MailingNewsForm) target;
 
-        EmailValidator.getInstance().isValid(((MailingNewsForm) target).getEmail());
+        if (!EmailValidator.getInstance().isValid(((MailingNewsForm) target).getEmail())){
+             errors.reject("Введите корректный e-mail адрес.");
+        }
+
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Введите e-mail адрес.");
         String newsText = MailingNewsForm.getEmail();
 

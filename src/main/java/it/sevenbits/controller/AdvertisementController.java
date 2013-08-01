@@ -77,17 +77,6 @@ public class AdvertisementController {
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         MailingNewsForm mailingNewsForm = new MailingNewsForm();
 
-        if (mailingNewsFormParam != null) {
-            //valid
-            MailingNewsValidator mailingNewsValidator = new MailingNewsValidator();
-            mailingNewsValidator.validate(mailingNewsForm,bindingResult);
-            if (bindingResult.hasErrors()) {
-
-            } else {
-                //TODO add e-mail to Mailng news table
-            }
-
-        }
 
 
         String selectedCategory = advertisementSearchingFormParam.getCategory();
@@ -186,6 +175,19 @@ public class AdvertisementController {
         modelAndView.addObject("pageSize", pageSize);
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
+
+        if (mailingNewsFormParam != null) {
+            //valid
+            MailingNewsValidator mailingNewsValidator = new MailingNewsValidator();
+            mailingNewsValidator.validate(mailingNewsForm,bindingResult);
+            if (bindingResult.hasErrors()) {
+
+            } else {
+                //TODO add e-mail to Mailng news table
+            }
+
+        }
+
         return modelAndView;
     }
 
