@@ -25,6 +25,8 @@
                     <form:form method="get" commandName="mailingNewsForm">
                         <p><form:input path="email" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
                         <p><form:errors path="email"  /></p>
+                        <input type="hidden" name="id" value="${currentId}"/>
+                        <input type="hidden" name="currentCategory" value="${currentCategory}"/>
                         <p><input type="submit" value="Подписаться" class="send" /></p>
                     </form:form>
                 <%-- ********* --%>
@@ -46,7 +48,6 @@
                     <c:url  value="/advertisement/list.html" var="listPage">
                         <c:param name="currentCategory" value="${currentCategory}"/>
                     </c:url>
-                    <form:form method="get" action="${listPage}" commandName="advertisementSearchingForm">
                 </div>
                 <div>
                     <c:out value="${advertisement.text}"/>
@@ -66,7 +67,10 @@
                         </tr>
                     </c:forEach>
 
-                <form:form method="get" commandName="advertisementSearchingForm">
+                <c:url  value="/advertisement/list.html" var="listPage">
+                    <c:param name="currentCategory" value="${currentCategory}"/>
+                </c:url>
+                <form:form method="get" action="${listPage}" commandName="advertisementSearchingForm">
                     <div>
                         <form:input class="wordSearch" path="keyWords" placeholder="Поиск" />
                         <form:errors path="keyWords" />
@@ -79,10 +83,7 @@
                         <p class="pcate"> <form:radiobutton id="three" path="category" value="notclothes"  /><label for="three">Не одежда</label></p>
                         <p><form:errors path="category"/></p>
                     </div>
-                        <input type="hidden" name="sortedBy" value="${currentColumn}"/>
                         <input type="hidden" name="currentCategory" value="${currentCategory}"/>
-                        <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
-                        <input type="hidden" name="pageSize" value="${pageSize}"/>
                 </form:form>
             </aside>
         </div>

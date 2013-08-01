@@ -194,7 +194,7 @@ public class AdvertisementController {
             }
 
         }
-        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+        //modelAndView.addObject("mailingNewsForm", mailingNewsForm);
 
         return modelAndView;
     }
@@ -228,7 +228,9 @@ public class AdvertisementController {
      */
     @RequestMapping(value = "/view.html", method = RequestMethod.GET)
     public ModelAndView view(@RequestParam(value = "id", required = true) Long id,
-                             @RequestParam(value = "currentCategory", required = true) String currentCategory) {
+                             @RequestParam(value = "currentCategory", required = true) String currentCategory,
+                             MailingNewsForm mailingNewsFormParam,
+                             BindingResult bindingResult) {
 
         // Создаем вьюшку по list.jsp, которая выведется этим контроллером на
         // экран
@@ -237,15 +239,22 @@ public class AdvertisementController {
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setCategory(currentCategory);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
+//        MailingNewsForm mailingNewsForm = new MailingNewsForm();
+//        modelAndView.addObject("mailingNewsForm",mailingNewsForm);
         modelAndView.addObject("currentCategory",currentCategory);
+        modelAndView.addObject("currentId",id);
 
         Advertisement advertisement = this.advertisementDao.findById(id);
         modelAndView.addObject("advertisement", advertisement);
-        List<String> categories = new ArrayList<String>();
-        categories.add("Игрушки");
-        categories.add("Одежда");
-        categories.add("Мебель");
-        modelAndView.addObject("categories", categories);
+        if (mailingNewsFormParam.getEmail() != null) {
+            mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
+            if (bindingResult.hasErrors()) {
+                return modelAndView;
+            } else {
+                this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
+            }
+
+        }
 
         return modelAndView;
     }
@@ -260,17 +269,27 @@ public class AdvertisementController {
         advertisementPlacingForm.setCategory("clothes");
         modelAndView.addObject("advertisementPlacingForm",
                 advertisementPlacingForm);
+        MailingNewsForm mvp = new MailingNewsForm();
+        modelAndView.addObject("mailingNewsForm",mvp);
         return modelAndView;
     }
 
     @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
     public ModelAndView processPlacing(
             AdvertisementPlacingForm advertisementPlacingForm,
-            BindingResult result) {
+            BindingResult result,
+            MailingNewsForm mailingNewsFormParam,
+            BindingResult bindingResult) {
         advertisementPlacingValidator
                 .validate(advertisementPlacingForm, result);
         if (result.hasErrors()) {
             return new ModelAndView("advertisement/placing");
+        }
+        mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("advertisement/placing");
+        } else {
+            this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
         }
         AdvertisementEntity tmp = new AdvertisementEntity();
         tmp.setText(advertisementPlacingForm.getText());
