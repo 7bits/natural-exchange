@@ -184,14 +184,13 @@ public class AdvertisementController {
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
 
-        if (mailingNewsFormParam != null) {
-            //valid
-         //   MailingNewsValidator mailingNewsValidator = new MailingNewsValidator();
+        if (mailingNewsFormParam.getEmail() != null) {
+
             mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
             if (bindingResult.hasErrors()) {
-                  return new ModelAndView("advertisement/list");
+                return modelAndView;
             } else {
-                //TODO add e-mail to Mailng news table
+                this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
             }
 
         }

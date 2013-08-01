@@ -6,6 +6,13 @@
 <!doctype html>
 <html lang="ru">
     <head>
+    <!-- Put this script tag to the <head> of your page -->
+    <script type="text/javascript" src="//vk.com/js/api/openapi.js?98"></script>
+
+    <script type="text/javascript">
+      VK.init({apiId: 3783611, onlyWidgets: true});
+    </script>
+
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
         <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
@@ -339,6 +346,13 @@
         <footer class="centerTop">
                     <div id=likes>
                         <p text-align="right" > Мы в социальных сетях </p>
+
+                        <!-- Put this div tag to the place, where the Like block will be -->
+                        <div id="vk_like"></div>
+                        <script type="text/javascript">
+                        VK.Widgets.Like("vk_like", {type: "full"});
+                        </script>
+
                         <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
                     </div>
                     <div class="footerLink1">
