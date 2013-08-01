@@ -1,7 +1,7 @@
 package it.sevenbits.util.form.validator;
 
 
-import it.sevenbits.util.form.NewsPostingfForm;
+import it.sevenbits.util.form.NewsPostingForm;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -19,15 +19,16 @@ public class NewsPostingValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return NewsPostingfForm.class.isAssignableFrom(clazz);
+        return NewsPostingForm.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        NewsPostingfForm NewsPostingForm = (NewsPostingfForm) target;
+        NewsPostingForm NewsPostingForm = (it.sevenbits.util.form.NewsPostingForm) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newsText", "Введите текст новости.");
-        String newsText = NewsPostingForm.getNewsText();
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newsText", "newsText.empty", "Введите текст письма.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newsTitle", "newsTitle.empty", "Введите заголовок.");
+        //String newsText = NewsPostingForm.getNewsText();
 
     }
 }

@@ -11,6 +11,7 @@ import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.MailingNewsForm;
+import it.sevenbits.util.form.NewsPostingForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 
 import java.io.FileInputStream;
@@ -25,6 +26,7 @@ import javax.annotation.Resource;
 
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
+import it.sevenbits.util.form.validator.NewsPostingValidator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -307,6 +309,31 @@ public class AdvertisementController {
         tmp.setCategoryEntity(categoryEntity);
         this.advertisementDao.create(tmp);
         return new ModelAndView("advertisement/placingRequest");
+    }
+
+
+
+    @Autowired
+    private NewsPostingValidator newsPostingValidator;
+
+
+    @RequestMapping(value = "/post.html", method = RequestMethod.GET)
+    public ModelAndView postNews() {
+        ModelAndView modelAndView = new ModelAndView("advertisement/post");
+        modelAndView.addObject("newsPostingForm", new NewsPostingForm());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/post.html", method = RequestMethod.POST)
+    public ModelAndView processPostingNews( NewsPostingForm  newsPostingForm, BindingResult result) {
+
+        newsPostingValidator.validate(newsPostingForm , result);
+        /*
+        if (result.hasErrors()) {
+            return new ModelAndView("advertisement/post");
+        }
+          */
+        return new ModelAndView("advertisement/post");
     }
 
     private int defaultPageSize() {
