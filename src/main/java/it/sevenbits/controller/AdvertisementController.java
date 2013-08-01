@@ -1,8 +1,10 @@
 package it.sevenbits.controller;
 
 import it.sevenbits.dao.AdvertisementDao;
+import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
+import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.util.SortOrder;
@@ -49,6 +51,9 @@ public class AdvertisementController {
 
     @Resource(name = "advertisementDao")
     private AdvertisementDao advertisementDao;
+
+    @Resource(name = "subscriberDao")
+    private SubscriberDao subscribertDao;
 
     /**
      * Gives information about all advertisements for display
@@ -251,6 +256,9 @@ public class AdvertisementController {
 
     @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
     public ModelAndView placing() {
+        this.subscribertDao.create(new Subscriber());
+        this.subscribertDao.create(new Subscriber());
+        this.subscribertDao.create(new Subscriber());
         ModelAndView modelAndView = new ModelAndView("advertisement/placing");
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         advertisementPlacingForm.setCategory("clothes");

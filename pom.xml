@@ -27,8 +27,8 @@
         <configuration>
             <url>http://localhost:8080/manager/text</url>
             <server>tomcat_manager</server>
-            <username>tomcat</username>
-            <password>tomcat</password>
+            <username>sdmitry</username>
+            <password>123456</password>
         </configuration>
     </plugin>
 <plugin>
