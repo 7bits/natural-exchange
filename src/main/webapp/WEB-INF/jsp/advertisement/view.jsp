@@ -36,6 +36,8 @@
                         <p><span class="errorLk"><form:errors path="email"  /> </span></p>
                         <p class="proLk">Узнавайте новости проекта первыми! </p>
                         <p><form:input path="email" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
+                        <input type="hidden" name="id" value="${currentId}"/>
+                        <input type="hidden" name="currentCategory" value="${currentCategory}"/>
                         <p><input type="submit" value="Подписаться" class="send" /></p>
 
                     </form:form>

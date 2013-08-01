@@ -19,18 +19,18 @@ public class AdvertisementPlacingValidator implements Validator {
 	public void validate(Object target, Errors errors) {
         AdvertisementPlacingForm AdvertisementPlacingForm = (AdvertisementPlacingForm) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty", "Title must not be empty.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty", "Заполните поле заголовка.");
         String title = AdvertisementPlacingForm.getTitle();
         if ((title.length()) > 16) {
-            errors.rejectValue("title", "title.tooLong", "Title must not more than 16 characters.");
+            errors.rejectValue("title", "title.tooLong", "Недопустимо больше 16 знаков.");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "text", "text.empty", "Text must not be empty.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "text", "text.empty", "Информация не должна быть пуста.");
         String text = AdvertisementPlacingForm.getText();
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "photoFile", "photoFile.empty", "You must upload image.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "photoFile", "photoFile.empty", "Загрузите картинку.");
         String photoFile = AdvertisementPlacingForm.getText();
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "category", "category.empty", "Category must not be empty.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "category", "category.empty", "Выберите категорию.");
     }
 }

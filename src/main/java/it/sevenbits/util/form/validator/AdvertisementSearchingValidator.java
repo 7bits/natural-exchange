@@ -19,7 +19,7 @@ public class AdvertisementSearchingValidator implements Validator {
 	public void validate(Object target, Errors errors) {
         AdvertisementSearchingForm AdvertisementSearchingForm = (AdvertisementSearchingForm) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "category", "category.empty", "Title must not be empty.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "category", "category.empty", "Выберите категорию.");
         String category = AdvertisementSearchingForm.getCategory();
     }
 }
