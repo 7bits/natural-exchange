@@ -7,12 +7,9 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<title>Размещение объявления</title>
-<style type="text/css">
-span.error {
-	color: red;
-}
-</style>
+    <title>Размещение объявления</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
 </head>
 <body>
         <header class="centerTop">
@@ -25,52 +22,96 @@ span.error {
                 <%--   <span>Натуральный обмен</span>
                 <p> Помощь молодым родителям</p>     --%>
             </div>
+
             <div id=lk>
                 <%--*********   --%>
-                    <p class="proLk">Узнавайте новости проекта первыми! </p>
-                    <form:form method="post" commandName="mailingNewsForm">
+                    <form:form method="post" commandName="mailingNewsForm" class="lk">
+                        <p><span class="errorLk"><form:errors path="email"  /> </span></p>
+                        <p class="proLk">Узнавайте новости проекта первыми! </p>
                         <p><form:input path="email" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                        <p><form:errors path="email" class="error" /></p>
                         <p><input type="submit" value="Подписаться" class="send" /></p>
+
                     </form:form>
                 <%-- ********* --%>
             </div>
         </header>
-            <div> Разместить объявление на сайте </div>
-            <p> Поля, отмеченные звездочкой обязательны для заполнения </p>
-        	<form:form method="post" commandName="advertisementPlacingForm">
-        	    <div>
-		            <p>Заголовок:</p>
-				    <form:input path="title" />
-				<td><span class="error"><form:errors path="title" /></span></td>
-			</tr>
+        <div class="centerR">
+            <p class="pCenter">Разместить объявление на сайте  </p>
+        </div>
+        <div class="center">
+            <form:form method="post" commandName="advertisementPlacingForm">
+                <section>
 
-			<tr>
-				<td>Описание:</td>
-				<td><form:input path="text" /></td>
-				<td><span class="error"><form:errors path="text" /></span></td>
-			</tr>
+                    <p class="pSay"> Поля, отмеченные звездочкой обязательны для заполнения </p>
 
-            <tr>
-				<td>Фотография:</td>
-				<td><form:input path="photoFile" /></td>
-				<td><span class="error"><form:errors path="photoFile" /></span></td>
-			</tr>
+        	        <div>
+		                <p>Заголовок: <span class="star">*</span></p>
+		                <div class="right">
+				        <form:input path="title" class="placeTitle" />
+				        <span class="error"><form:errors path="title" /></span>
+				        </div>
+                    </div>
+                    <div>
+				        <p>Описание:</p>
+				        <div class="right">
+				        <form:input path="text" />
+				        <span class="error"><form:errors path="text" />
+				        </div>
+				    </div>
+				    <div>
+				        <p>Фотография:</p>
+				        <p><form:input path="photoFile" /></p>
+				        <p><span class="error"><form:errors path="photoFile" /></span></p>
+                     </div>
+                         <input type="submit" value="Разместить" />
 
-            <table>
-                <tr>
-                    <td>Категория :</td>
-                    <td><form:radiobutton path="category" value="clothes" />Одежда</td>
-                    <td><form:radiobutton path="category" value="notclothes" />Не одежда</td>
-                    <td><span class="error"><form:errors path="category" /></span></td>
-                </tr>
-            </table>
 
-			<tr>
-				<td colspan="3"><input type="submit" value="Разместить" /></td>
-			</tr>
-		</table>
-	</form:form>
+                </section>
+                <aside>
+                    <div>
+                        Выберите категорию <span class="star">* <span>
+                    </div>
+                    <div class="cate">
+                        <p class="pcate"><form:radiobutton id="two" path="category" value="clothes" /><label for="two">Одежда</label></p>
+                        <p class="pcate"> <form:radiobutton id="three" path="category" value="notclothes"  /><label for="three">Не одежда</label></p>
+                        <p> <span class="error"><form:errors path="category"/></span></p>
+                    </div>
+
+	            </aside>
+	        </form:form>
+        </div>
+        <div class="plug">
+
+            <%--<div class="commercialAdvert">   --%>
+
+            <div>
+                <p> Понравился проект? Расскажи друзьям! </p>
+                <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
+            </div>
+        </div>
+        <footer class="centerTop">
+                    <div class="social">
+                        <p class="socialText"> Мы в социальных сетях: </p>
+
+                       <%-- <!-- Put this div tag to the place, where the Like block will be -->
+                        <div id="vk_like"></div>
+                        <script type="text/javascript">
+                        VK.Widgets.Like("vk_like", {type: "full"});
+                        </script>       --%>
+
+                        <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
+                    </div>
+                    <div class="footerLink1">
+                        <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
+                    </div>
+                    <div class="footerLink">
+                        <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
+                    </div>
+                    <div class="footerLink">
+                        <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
+                    </div>
+                    <p class="sign"> © 2013 Natural Exchange</p>
+        </footer>
 
 </body>
 </html>

@@ -13,7 +13,7 @@
 <script type="text/javascript">
   VK.init({apiId: 3783611, onlyWidgets: true});
 </script>
-
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
         <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
@@ -31,12 +31,13 @@
                 <%--   <span>Натуральный обмен</span>
                 <p> Помощь молодым родителям</p>     --%>
             </div>
+
             <div id=lk>
                 <%--*********   --%>
-                    <p class="proLk">Узнавайте новости проекта первыми! </p>
-                    <form:form method="get" commandName="mailingNewsForm">
+                    <form:form method="get" commandName="mailingNewsForm" class="lk">
+                        <p><span class="errorLk"><form:errors path="email"  /> </span></p>
+                        <p class="proLk">Узнавайте новости проекта первыми! </p>
                         <p><form:input path="email" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                        <p><span class="error"><form:errors path="email"  /> </span></p>
                         <p><input type="submit" value="Подписаться" class="send" /></p>
 
                     </form:form>
@@ -68,12 +69,12 @@
                                  <c:choose>
                                      <c:when  test="${sortOrderDate eq 'ASCENDING'}" >
                                          <a href="${dateSortingUrl}">
-                                              <img src='<c:url value="/resources/images/checkbox.png"/>' alt="Сорт">
+                                              <img class="sort" src='<c:url value="/resources/images/sort_1.png"/>' alt="Сорт">
                                          </a>
                                      </c:when>
                                      <c:otherwise>
                                          <a href="${dateSortingUrl}">
-                                             <img src='<c:url value="/resources/images/checkbox_selected.png"/>' alt="Сорт">
+                                             <img class="sort" src='<c:url value="/resources/images/sort_2.png"/>' alt="Сорт">
                                          </a>
                                      </c:otherwise>
                                  </c:choose>
@@ -91,12 +92,12 @@
                                  <c:choose>
                                      <c:when  test="${sortOrderTitle eq 'ASCENDING'}" >
                                          <a href="${titleSortingUrl}">
-                                              <img src='<c:url value="/resources/images/checkbox.png"/>' alt="Сорт">
+                                              <img class="sort" src='<c:url value="/resources/images/sort_1.png"/>' alt="Сорт">
                                          </a>
                                      </c:when>
                                      <c:otherwise>
                                          <a href="${titleSortingUrl}">
-                                             <img src='<c:url value="/resources/images/checkbox_selected.png"/>' alt="Сорт">
+                                             <img class="sort" src='<c:url value="/resources/images/sort_2.png"/>' alt="Сорт">
                                          </a>
                                      </c:otherwise>
                                  </c:choose>
@@ -373,11 +374,12 @@
                     <div class="social">
                         <p class="socialText"> Мы в социальных сетях: </p>
 
-  <!-- Put this div tag to the place, where the Like block will be -->
-  <div id="vk_like"></div>
-  <script type="text/javascript">
-  VK.Widgets.Like("vk_like", {type: "full"});
-  </script>
+                       <%-- <!-- Put this div tag to the place, where the Like block will be -->
+                        <div id="vk_like"></div>
+                        <script type="text/javascript">
+                        VK.Widgets.Like("vk_like", {type: "full"});
+                        </script>       --%>
+
                         <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
                     </div>
                     <div class="footerLink1">
