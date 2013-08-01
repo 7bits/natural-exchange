@@ -29,11 +29,8 @@ public class MailingNewsValidator implements Validator {
         MailingNewsForm MailingNewsForm = (MailingNewsForm) target;
 
         if (!EmailValidator.getInstance().isValid(((MailingNewsForm) target).getEmail())){
-             errors.reject("Введите корректный e-mail адрес.");
+             errors.rejectValue("email","email.not.correct","Введите корректный e-mail адрес.");
         }
-
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Введите e-mail адрес.");
-        String newsText = MailingNewsForm.getEmail();
 
     }
 }

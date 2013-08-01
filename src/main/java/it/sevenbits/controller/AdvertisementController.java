@@ -62,6 +62,9 @@ public class AdvertisementController {
     @Autowired
     private AdvertisementSearchingValidator advertisementSearchingValidator;
 
+    @Autowired
+    private MailingNewsValidator mailingNewsValidator;
+
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public ModelAndView list(
             @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
@@ -93,7 +96,7 @@ public class AdvertisementController {
         }
         modelAndView.addObject("currentCategory",currentCategory);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
-        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+
 
         String currentColumn = null;
         SortOrder currentSortOrder = null;
@@ -178,15 +181,16 @@ public class AdvertisementController {
 
         if (mailingNewsFormParam != null) {
             //valid
-            MailingNewsValidator mailingNewsValidator = new MailingNewsValidator();
-            mailingNewsValidator.validate(mailingNewsForm,bindingResult);
+         //   MailingNewsValidator mailingNewsValidator = new MailingNewsValidator();
+            mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
             if (bindingResult.hasErrors()) {
-
+                  return new ModelAndView("advertisement/list");
             } else {
                 //TODO add e-mail to Mailng news table
             }
 
         }
+        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
 
         return modelAndView;
     }

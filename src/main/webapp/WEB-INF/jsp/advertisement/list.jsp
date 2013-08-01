@@ -29,7 +29,7 @@
                     <p>Узнавайте новости проекта первыми </p>
                     <form:form method="get" commandName="mailingNewsForm">
                         <p><form:input path="email" size="30" placeholder="Ваш e-mail"/></p>
-                        <p><form:errors path="email" class="error" /></p>
+                        <span class="error"><form:errors path="email" /></span>
                         <p><input type="submit" value="Подписаться" /></p>
                     </form:form>
                 </div>

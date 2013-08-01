@@ -12,6 +12,9 @@ body {
     color:#3e3e38;
 }
 
+.error {
+color:red;
+}
 .centerTop{
     margin:0 auto;
     width:1300px;
