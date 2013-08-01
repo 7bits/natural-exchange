@@ -12,9 +12,10 @@ body {
     color:#3e3e38;
 }
 
-.error {
-color:red;
+span.error {
+	color: red;
 }
+
 .centerTop{
     margin:0 auto;
     width:1300px;
@@ -27,6 +28,9 @@ color:red;
 }
 
 .plug {
+    font-size: 14px;
+    padding-top: 20px;
+    clear:both;
     margin:20px auto;
     width:1014px;
 }
@@ -50,13 +54,13 @@ aside {
     border-radius: 6px;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
-    border: 1px groove #b1ed2f;
-    color: #e1e0e0;
-    padding: 5px 10px;
+    border: 2px solid #b1ed2f;
+   /* color: #e1e0e0;      */
+    padding: 10px 12px;
     margin-bottom: 15px;
     font-family: 'PT Sans', sans-serif;
     font-size: 20px;
-    width: 304px;
+    width: 296px;
 }
 
 .wordSearch:focus {
@@ -102,13 +106,36 @@ aside {
 
 #lk {
     position:absolute;
-    top:22px;
+    top:40px;
     left:830px;
     width: 330px;
-    height: 120px;
+    height: 110px;
     text-align:center;
     background: rgba(246,246,246,.4);
 }
+
+.proLk {
+    font-family: Georgia sans-serif;
+    padding: 5px;
+}
+
+.lkMail {
+font-family: Arial;
+border-radius: 4px;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border: 2px solid #d8d8d8;
+color: #565650;
+padding: 5px 10px;
+margin-bottom: 8px;
+width: 280px;
+font-size: 15px;
+   /* font-family: 'PT Sans', sans-serif;
+    font-size: 20px;     */
+
+}
+
+
 
 .manage-panel {
     position:relative;
@@ -118,11 +145,11 @@ aside {
     -moz-box-shadow: 0 5px #5e8a00; /* Для Firefox */
     -webkit-box-shadow: 0 5px #5e8a00; /* Для Safari и Chrome */
     box-shadow:0 5px #5e8a00;  /* Параметры тени */
-    border-radius: 6px;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
+    border-radius: 4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
     border:none;
-    padding: 10px 17px;
+    padding: 12px 17px;
     font-size:20px;   /* Текст*/
     text-decoration: none;
     vertical-align: middle;
@@ -144,12 +171,13 @@ aside {
 }
 
 .going {
-    border-radius: 6px;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    border:1.5px groove #57bb02;
+    border-radius: 4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border:2px solid #57bb02;
     background:  #b1ed2f;
-    padding:8px 20px;
+    font-weight: bold;
+    padding:7px 20px;
     color: #57bb02;
     cursor: pointer;
 }
@@ -189,27 +217,45 @@ aside {
     float:right;
     font-size: 18px;
     font-family: 'PT Sans', sans-serif;
+    color: d8d8d8; /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
     width:140px;
     height:40px;
-    border-radius: 6px;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;;
+    box-shadow:0 5px #5e8a00;  /* Параметры тени */
+    border-radius: 4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
     background: #b1ed2f;
     border: none;
-    box-shadow:0 3px #76dbb8;
     cursor: pointer;
 }
 
 .search:active {
-    width:138px;
-    height:33px;
-    background: #76dbb8;
+    position:relative;
+    top:3px;
+    background: #bcfb33;
+    -moz-box-shadow: 0 2px #5e8a00; /* Для Firefox */
+    -webkit-box-shadow: 0 2px #5e8a00; /* Для Safari и Chrome */
+    box-shadow:0 2px #5e8a00;  /* Параметры тени */
 }
 
 .search:hover {
-    background: #76dbb8;
+    background: #bcfb33;
 }
 
+.send {                                         /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+    color: #565650;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+    width: 150px;
+    height: 30px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #d8d8d8;
+    border: none;
+    box-shadow: 0 2px #76dbb8;
+    cursor: pointer;
+}
 
 .save{
     float:left;
@@ -231,7 +277,7 @@ em {
 }
 
 nav {
-    height: 75px;
+    height: 82px;
     text-align:center;
 }
 
@@ -253,14 +299,30 @@ nav {
     margin-top:3px;
 }
 
+ .number {
+     padding:0 10px;
+ }
+
 .pageSize{
-    padding:5px 20px;
+    padding:5px;
     background: white;
     border: none;
     font-family: 'PT Sans', sans-serif;
     font-size: 18px;
 
 
+}
+
+.social {
+    position: absolute;
+    left: 935px;
+    top: 20px;
+    font-size: 14px;
+    text-align: right;
+}
+
+.socialText {
+    padding-right:10px;
 }
 
 .commercialAdvert {
@@ -304,7 +366,7 @@ footer a {
     border-radius: 10px;
     -moz-border-radius:10px;
     -webkit-border-radius:10px;
-    border: 2px groove #f3f3f3;
+    border: 2px solid #d8d8d8;
     clear: left;
     padding: 20px 15px;
     position: relative;
@@ -312,7 +374,8 @@ footer a {
 }
 
 .pcate{
-    padding:10px;
+    font-size: 23px;
+    padding:5px;
 
 }
 
@@ -340,44 +403,26 @@ input[type="radio"]  + label::before {
       background:url(../images/checkbox_selected.png) ;
  }
 
- input[type="radio"]:checked:disabled +label::before {
-      background:url(../images/checkbox.png) ;
- }​
+ input[type="radio"]:checked:disabled + label::before {
+      background:url(../images/checkbox.png);
+}​
 
-#likes {
-    position:absolute;
-    top:25px;
-    left:910px;
 
+
+/*
+            */
+
+/*th + a {
+        content:"";
+        display:inline-block;
+    background:url(../images/checkbox.png) ;
 }
 
-.advertisement-table { 
-    float:left;
-    width:80%; 
-}
-
-.category-table {
-    float:right;
-    width:20%;
-}
-
-.advertisement-table table { 
-    text-align:left;
-    width: 100%;
-    padding: 5px;
-}
-
-.category-table table {
-    text-align: center;
-    width: 100%;
-    padding: 5px;
-}
-
-/*a.sort: hover {
+th + a: active {
     text-decoration:none;
     border:1px solid yellow;
     padding:
-}    */
+}        */
 
 .tr1 {
     background:#f3f3f3;
@@ -400,6 +445,7 @@ thead {
       background:#d8d8d8;
       border-radius: 6px;
       border-color:#d8d8d8;
+      border: 2.5px solid #d8d8d8;
 }
 
 table th {
@@ -445,6 +491,8 @@ td.date {
 
 th.date {
     width: 15%;
+    font-size: 20px;
+    font-weight: normal;
 }
 
 td.photo {
@@ -453,6 +501,8 @@ td.photo {
 
 th.photo {
     width: 14%;
+    font-size: 20px;
+    font-weight: normal;
 }
 
 td.category {
@@ -462,15 +512,20 @@ td.category {
 
 th.category {
     width: 16%;
+    font-size: 20px;
+    font-weight: normal;
 }
 
 td.title {
     width: 22%;
     color: #221e1f;
+    font-weight: bold;
 }
 
 th.title {
     width: 22%;
+    font-size: 20px;
+    font-weight: normal;
 }
 
 td.text {
@@ -481,4 +536,6 @@ td.text {
 th.text {
     width: 33%;
     color: #3e3e38;
+    font-size: 20px;
+    font-weight: normal;
 }
