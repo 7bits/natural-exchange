@@ -28,7 +28,7 @@ span.error {
             <div id=lk>
                 <%--*********   --%>
                     <p class="proLk">Узнавайте новости проекта первыми! </p>
-                    <form:form method="get" commandName="mailingNewsForm">
+                    <form:form method="post" commandName="mailingNewsForm">
                         <p><form:input path="email" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
                         <p><form:errors path="email" class="error" /></p>
                         <p><input type="submit" value="Подписаться" class="send" /></p>
@@ -62,7 +62,7 @@ span.error {
                     <td>Категория :</td>
                     <td><form:radiobutton path="category" value="clothes" />Одежда</td>
                     <td><form:radiobutton path="category" value="notclothes" />Не одежда</td>
-                    <td><form:errors path="category"/></td>
+                    <td><span class="error"><form:errors path="category" /></span></td>
                 </tr>
             </table>
 

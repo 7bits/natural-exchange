@@ -30,5 +30,7 @@ public class AdvertisementPlacingValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "photoFile", "photoFile.empty", "You must upload image.");
         String photoFile = AdvertisementPlacingForm.getText();
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "category", "category.empty", "Category must not be empty.");
     }
 }

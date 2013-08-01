@@ -254,10 +254,9 @@ public class AdvertisementController {
                 return modelAndView;
             } else {
                 this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
+                modelAndView.addObject("mailingNewsForm",new MailingNewsForm());
             }
-
         }
-
         return modelAndView;
     }
 
@@ -269,8 +268,7 @@ public class AdvertisementController {
         ModelAndView modelAndView = new ModelAndView("advertisement/placing");
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         advertisementPlacingForm.setCategory("clothes");
-        modelAndView.addObject("advertisementPlacingForm",
-                advertisementPlacingForm);
+        modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
         MailingNewsForm mvp = new MailingNewsForm();
         modelAndView.addObject("mailingNewsForm",mvp);
         return modelAndView;
@@ -278,36 +276,42 @@ public class AdvertisementController {
 
     @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
     public ModelAndView processPlacing(
-            AdvertisementPlacingForm advertisementPlacingForm,
+            AdvertisementPlacingForm advertisementPlacingFormParam,
             BindingResult result,
             MailingNewsForm mailingNewsFormParam,
-            BindingResult bindingResult) {
-        advertisementPlacingValidator
-                .validate(advertisementPlacingForm, result);
-        if (result.hasErrors()) {
-            return new ModelAndView("advertisement/placing");
-        }
-        mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
-        if (bindingResult.hasErrors()) {
-            return new ModelAndView("advertisement/placing");
+            BindingResult mailRes) {
+        if(mailingNewsFormParam.getEmail() != null ){
+            mailingNewsValidator.validate(mailingNewsFormParam,mailRes);
+            ModelAndView mdv = new ModelAndView("advertisement/placing");
+            if (!mailRes.hasErrors()) {
+                this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
+                mdv.addObject("mailingNewsForm",new MailingNewsForm());
+            }
+            AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
+            advertisementPlacingForm.setCategory("clothes");
+            mdv.addObject("advertisementPlacingForm",advertisementPlacingForm);
+            return mdv;
         } else {
-            this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
+            advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
+            if (result.hasErrors()) {
+                return new ModelAndView("advertisement/placing");
+            }
+            AdvertisementEntity tmp = new AdvertisementEntity();
+            tmp.setText(advertisementPlacingFormParam.getText());
+            tmp.setPhotoFile(advertisementPlacingFormParam.getPhotoFile());
+            tmp.setTitle(advertisementPlacingFormParam.getTitle());
+            CategoryEntity categoryEntity = null;
+            if(advertisementPlacingFormParam.getCategory().equals(Category.NAME_CLOTHES)) {
+                categoryEntity = new CategoryEntity(Category.NAME_CLOTHES,"very good",460l,461l,false);
+                categoryEntity.setId(1l);
+            }
+            else if (advertisementPlacingFormParam.getCategory().equals(Category.NAME_NOT_CLOTHES)) {
+                categoryEntity = new CategoryEntity(Category.NAME_NOT_CLOTHES,"very good",460l,461l,false);
+                categoryEntity.setId(2l);
+            }
+            tmp.setCategoryEntity(categoryEntity);
+            this.advertisementDao.create(tmp);
         }
-        AdvertisementEntity tmp = new AdvertisementEntity();
-        tmp.setText(advertisementPlacingForm.getText());
-        tmp.setPhotoFile(advertisementPlacingForm.getPhotoFile());
-        tmp.setTitle(advertisementPlacingForm.getTitle());
-        CategoryEntity categoryEntity = null;
-        if(advertisementPlacingForm.getCategory().equals(Category.NAME_CLOTHES)) {
-            categoryEntity = new CategoryEntity(Category.NAME_CLOTHES,"very good",460l,461l,false);
-            categoryEntity.setId(1l);
-        }
-        else if (advertisementPlacingForm.getCategory().equals(Category.NAME_NOT_CLOTHES)) {
-            categoryEntity = new CategoryEntity(Category.NAME_NOT_CLOTHES,"very good",460l,461l,false);
-            categoryEntity.setId(2l);
-        }
-        tmp.setCategoryEntity(categoryEntity);
-        this.advertisementDao.create(tmp);
         return new ModelAndView("advertisement/placingRequest");
     }
 
