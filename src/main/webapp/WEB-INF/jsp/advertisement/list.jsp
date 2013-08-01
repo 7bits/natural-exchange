@@ -6,6 +6,7 @@
 <!doctype html>
 <html lang="ru">
     <head>
+
     <!-- Put this script tag to the <head> of your page -->
     <script type="text/javascript" src="//vk.com/js/api/openapi.js?98"></script>
 
@@ -31,17 +32,15 @@
                 <p> Помощь молодым родителям</p>     --%>
             </div>
             <div id=lk>
-                <%--********* --%>
-                <div>
-                    <p>Узнавайте новости проекта первыми </p>
+                <%--*********   --%>
+                    <p class="proLk">Узнавайте новости проекта первыми! </p>
                     <form:form method="get" commandName="mailingNewsForm">
-                        <p><form:input path="email" size="30" placeholder="Ваш e-mail"/></p>
-                        <span class="error"><form:errors path="email" /></span>
-                        <p><input type="submit" value="Подписаться" /></p>
-                    </form:form>
-                </div>
+                        <p><form:input path="email" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
+                        <p><span class="error"><form:errors path="email"  /> </span></p>
+                        <p><input type="submit" value="Подписаться" class="send" /></p>
 
-                <%--********* --%>
+                    </form:form>
+                <%-- ********* --%>
             </div>
         </header>
         <nav class="center">
@@ -52,7 +51,6 @@
         <div class="center">
             <section>
                 <table>
-                    <div>
                     <thead>
                         <tr>
                             <!--th>
@@ -67,7 +65,19 @@
                                         <c:param name="currentCategory" value="${currentCategory}"/>
                                 </c:url>
                                  Дата
-                                 <a href="${dateSortingUrl}" style="sort"> ▼ </a>
+                                 <c:choose>
+                                     <c:when  test="${sortOrderDate eq 'ASCENDING'}" >
+                                         <a href="${dateSortingUrl}">
+                                              <img src='<c:url value="/resources/images/checkbox.png"/>' alt="Сорт">
+                                         </a>
+                                     </c:when>
+                                     <c:otherwise>
+                                         <a href="${dateSortingUrl}">
+                                             <img src='<c:url value="/resources/images/checkbox_selected.png"/>' alt="Сорт">
+                                         </a>
+                                     </c:otherwise>
+                                 </c:choose>
+
                             </th>
                             <th class="title">
 <%--                                 <c:set var="sortTitle" value="${!sortTitle}"/> --%>
@@ -77,7 +87,19 @@
 									<c:param name="pageSize" value="${pageSize}"/>
                                     <c:param name="currentCategory" value="${currentCategory}"/>
 								</c:url>
-								<a href="${titleSortingUrl}">Заголовок ▼</a>
+								Заголовок
+                                 <c:choose>
+                                     <c:when  test="${sortOrderTitle eq 'ASCENDING'}" >
+                                         <a href="${titleSortingUrl}">
+                                              <img src='<c:url value="/resources/images/checkbox.png"/>' alt="Сорт">
+                                         </a>
+                                     </c:when>
+                                     <c:otherwise>
+                                         <a href="${titleSortingUrl}">
+                                             <img src='<c:url value="/resources/images/checkbox_selected.png"/>' alt="Сорт">
+                                         </a>
+                                     </c:otherwise>
+                                 </c:choose>
                             </th>
 
                             <th class="text">
@@ -92,7 +114,6 @@
                             </th>
                         </tr>
                     </thead>
-                    </div>
                     <tbody>
                     <c:forEach items="${advertisements}" var="advertisement" varStatus="status">
                         <c:if test="${status.index%2==0}">
@@ -133,7 +154,7 @@
                 <div>
                     <div>
                     <!-- выбор размера страницы -->
-                       <p class="pagination1">  Объявлений на странице:   </p>
+                       <p class="pagination1">  Объявлений на странице   </p>
                        <c:url value="/advertisement/list.html"  var="listUrl" />
                 <%--      <c:param name="sortOrder" value="${currentSortOrder}"/>
                           <c:param name="sortedBy" value="${currentColumn}"/>
@@ -190,10 +211,10 @@
                                         <c:param name="currentCategory" value="${currentCategory}"/>
                                         <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                     </c:url>
-                                    <a href="${pageUrl}"> 2 </a>
+                                    <a href="${pageUrl}" class="number"> 2 </a>
                                 </c:if>
                                 <c:if test="${noOfPage>3}">
-                                    <span> ... </span>
+                                    <span class="number"> ... </span>
                                 </c:if>
                                 <c:if test="${noOfPage>2}">
                                     <c:url value="/advertisement/list.html" var="pageUrl" >
@@ -204,7 +225,7 @@
                                         <c:param name="currentCategory" value="${currentCategory}"/>
                                         <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                     </c:url>
-                                    <a href="${pageUrl}"><c:out value="${noOfPage}"></c:out></a>
+                                    <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
                                 </c:if>
                             </c:when>
                             <c:otherwise>
@@ -216,12 +237,12 @@
                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                 </c:url>
-                                <a href="${pageUrl}"> 1</a>
+                                <a href="${pageUrl}" class="number"> 1</a>
                                 <c:choose>
                                     <c:when test="${currentPage==1}">
                                         <em> 2 </em>
                                         <c:if test="${noOfPage>3}">
-                                            <span> ... </span>
+                                            <span class="number"> ... </span>
                                         </c:if>
                                         <c:if test="${noOfPage>2}">
                                             <c:url value="/advertisement/list.html" var="pageUrl" >
@@ -232,18 +253,18 @@
                                                 <c:param name="currentCategory" value="${currentCategory}"/>
                                                 <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                             </c:url>
-                                            <a href="${pageUrl}"><c:out value="${noOfPage}"></c:out></a>
+                                            <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
                                         </c:if>
                                     </c:when>
                                     <c:otherwise>
                                         <c:if test="${noOfPage>3}">
-                                            <span> ... </span>
+                                            <span class="number"> ... </span>
                                         </c:if>
                                         <c:choose>
                                             <c:when test="${currentPage!=(noOfPage-1)}">
                                                 <em> <c:out value="${currentPage+1}"></c:out></em>
                                                 <c:if test="${currentPage!=(noOfPage-2)}">
-                                                    <span> ... </span>
+                                                    <span class="number"> ... </span>
                                                 </c:if>
                                                 <c:url value="/advertisement/list.html" var="pageUrl" >
                                                     <c:param name="pageSize" value="${pageSize}"/>
@@ -253,7 +274,7 @@
                                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                                 </c:url>
-                                               <a href="${pageUrl}"><c:out value="${noOfPage}"></c:out></a>
+                                               <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
                                             </c:when>
                                             <c:otherwise>
                                                 <c:url value="/advertisement/list.html" var="pageUrl" >
@@ -264,7 +285,7 @@
                                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                                 </c:url>
-                                                <a href="${pageUrl}"><c:out value="${noOfPage-1}"></c:out></a>
+                                                <a href="${pageUrl}" class="number"><c:out value="${noOfPage-1}"></c:out></a>
                                                 <em> <c:out value="${noOfPage}"></c:out></em>
                                             </c:otherwise>
                                         </c:choose>
@@ -340,12 +361,17 @@
             </aside>
         </div>
         <div class="plug">
-            <div class="commercialAdvert">
+
+            <%--<div class="commercialAdvert">   --%>
+
+            <div>
+                <p> Понравился проект? Расскажи друзьям! </p>
+                <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
             </div>
         </div>
         <footer class="centerTop">
-                    <div id=likes>
-                        <p text-align="right" > Мы в социальных сетях </p>
+                    <div class="social">
+                        <p class="socialText"> Мы в социальных сетях: </p>
 
                         <!-- Put this div tag to the place, where the Like block will be -->
                         <div id="vk_like"></div>

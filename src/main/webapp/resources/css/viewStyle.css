@@ -2,21 +2,21 @@
     height:55px;
     width:100%;
     background: #f3f3f3;
-    vertical-align:center;
+    text-align:center;
 }
 
 .viewCategory {
     font-size:14px;
 }
 
-.photoCollection {
+/*.photoCollection {
 
 }
 
 .photoCollection + img {
 
 
-}
+}   */
 
 .contact {
     width:  260px;
