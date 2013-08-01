@@ -44,36 +44,52 @@
 
                     <p class="pSay"> Поля, отмеченные звездочкой обязательны для заполнения </p>
 
-        	        <div>
-		                <p>Заголовок: <span class="star">*</span></p>
+        	        <div class="places">
+		                <div class="left1">
+
+		                    <p>Заголовок: <span class="star">*</span></p>
+		                </div>
 		                <div class="right">
-				        <form:input path="title" class="placeTitle" />
-				        <span class="error"><form:errors path="title" /></span>
+				            <form:input path="title" class="placeTitle" />
+
 				        </div>
+				        <span class="error2"><form:errors path="title" /></span>
                     </div>
-                    <div>
-				        <p>Описание:</p>
-				        <div class="right">
-				        <form:input path="text" />
-				        <span class="error"><form:errors path="text" />
+                    <div class="places">
+                        <div class="left">
+
+				            <p>Описание:<span class="star">*</span></p>
 				        </div>
+				        <div class="right">
+				            <form:textarea path="text" class="placeText"/>
+
+				        </div>
+				        <span class="error2"><form:errors path="text" /> </span>
 				    </div>
-				    <div>
-				        <p>Фотография:</p>
-				        <p><form:input path="photoFile" /></p>
-				        <p><span class="error"><form:errors path="photoFile" /></span></p>
+				    <div class="places">
+				        <div class="left">
+
+				            <p>Фотография:<span class="star">*</span></p>
+				        </div>
+                        <div class="right">
+				            <p><form:input path="photoFile" class="placeTitle" /></p>
+
+                         </div>
+                         <span class="error2"><form:errors path="photoFile" /></span>
+
+                    <div class="think">
+                             <input type="reset" value="Отмена" class="no"/>
+                             <input type="submit" value="Разместить" class="sendAdv"/>
                      </div>
-                         <input type="submit" value="Разместить" />
-
-
+                   </div>
                 </section>
                 <aside>
                     <div>
-                        Выберите категорию <span class="star">* <span>
+                        Выберите категорию: <span class="star">* <span>
                     </div>
-                    <div class="cate">
-                        <p class="pcate"><form:radiobutton id="two" path="category" value="clothes" /><label for="two">Одежда</label></p>
-                        <p class="pcate"> <form:radiobutton id="three" path="category" value="notclothes"  /><label for="three">Не одежда</label></p>
+                    <div class="cate1">
+                        <p class="pcate1"><form:radiobutton id="two" path="category" value="clothes" /><label for="two">Одежда</label></p>
+                        <p class="pcate1"> <form:radiobutton id="three" path="category" value="notclothes"  /><label for="three">Не одежда</label></p>
                         <p> <span class="error"><form:errors path="category"/></span></p>
                     </div>
 

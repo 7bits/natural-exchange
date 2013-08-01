@@ -18,10 +18,33 @@
     color:red;
 }
 
+.error2 {
+    color:red;
+    font-size:14px;
+    position:relative;
+}
+
 .pSay {
      padding: 10px 0;
      font-size: 14px;
      color: #9c9c9c;
+
+}
+
+.placeText {
+     font-family: Arial;
+     border-radius: 4px;
+    -moz-border-radius: 4px;
+     -webkit-border-radius: 4px;
+     border: 2px solid #d8d8d8;
+     color: #565650;
+     padding: 5px 10px;
+     margin-bottom: 8px;
+     width: 430px;
+     font-size: 20px;
+     height: 100px;
+   /* font-family: 'PT Sans', sans-serif;
+    font-size: 20px;     */
 
 }
 
@@ -32,10 +55,10 @@
      -webkit-border-radius: 4px;
      border: 2px solid #d8d8d8;
      color: #565650;
-     padding: 5px 10px;
      margin-bottom: 8px;
-     width: 280px;
-     font-size: 15px;
+     width: 450px;
+     font-size: 20px;
+     height:35px;
    /* font-family: 'PT Sans', sans-serif;
     font-size: 20px;     */
 
@@ -47,4 +70,111 @@
 
 .right {
     float: right;
+}
+
+.left1 {
+    position: relative;
+    font-size: 20px;
+    padding: 7px 0;
+    float: left;
+
+}
+
+.left {
+    font-size: 20px;
+    padding: 7px 0;
+    float: left;
+
+}
+
+.sendAdv{
+    float:right;
+    font-size: 20px;
+    font-family: 'PT Sans', sans-serif;
+    color: d8d8d8; /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+    width:170px;
+    height:40px;
+    box-shadow:0 5px #5e8a00;  /* Параметры тени */
+    border-radius: 4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    background: #b1ed2f;
+    border: none;
+    cursor: pointer;
+}
+
+.sendAdv:active {
+    position:relative;
+    top:3px;
+    background: #bcfb33;
+    -moz-box-shadow: 0 2px #5e8a00; /* Для Firefox */
+    -webkit-box-shadow: 0 2px #5e8a00; /* Для Safari и Chrome */
+    box-shadow:0 2px #5e8a00;  /* Параметры тени */
+}
+
+.sendAdv:hover {
+    background: #bcfb33;
+}
+
+.no{
+    float: left;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+    width: 135px;
+    height: 40px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #d8d8d8;
+    border: none;
+    box-shadow: 0 5px #a49e9e;
+}
+
+.no:hover {
+    background: #e0e0e0;
+}
+
+.no:active {
+    position:relative;
+    top:3px;
+    background: #e0e0e0;
+    -moz-box-shadow: 0 2px #e0e0e0; /* Для Firefox */
+    -webkit-box-shadow: 0 2px #e0e0e0; /* Для Safari и Chrome */
+    box-shadow:0 2px #e0e0e0;  /* Параметры тени */
+}
+
+.places {
+   clear: both;
+   padding-top: 20px;
+   padding-right: 50px;
+}
+
+.cate1{
+    border-radius: 10px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border: 2px solid #d8d8d8;
+    clear: left;
+    padding: 20px 15px;
+    position: relative;
+    top: 15px;
+}
+
+.pcate1{
+    font-size: 20px;
+    padding:5px;
+
+}
+
+.think {
+    clear: both;
+    width: 320px;
+    height: 40px;
+    float: right;
+
+}
+
+input[type="textarea"] {
+   width:470px;
+
 }
