@@ -256,9 +256,6 @@ public class AdvertisementController {
 
     @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
     public ModelAndView placing() {
-        this.subscribertDao.create(new Subscriber());
-        this.subscribertDao.create(new Subscriber());
-        this.subscribertDao.create(new Subscriber());
         ModelAndView modelAndView = new ModelAndView("advertisement/placing");
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         advertisementPlacingForm.setCategory("clothes");

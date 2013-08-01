@@ -25,7 +25,7 @@ public class SubscriberDaoHibernate implements SubscriberDao {
     }
 
     public void create(Subscriber subscriber) {
-        SubscriberEntity tmp = new SubscriberEntity("dimaaasik.s@gmail.com");
+        SubscriberEntity tmp = new SubscriberEntity(subscriber.getEmail());
         this.hibernateTemplate.save(tmp);
     }
 
