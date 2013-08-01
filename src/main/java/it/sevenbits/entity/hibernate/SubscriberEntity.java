@@ -1,11 +1,17 @@
 package it.sevenbits.entity.hibernate;
 
+import it.sevenbits.entity.Subscriber;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "subscriber")
-public class SubscriberEntity extends it.sevenbits.entity.Subscriber {
+public class SubscriberEntity extends Subscriber {
     private Long id;
+
+    public SubscriberEntity(String email) {
+        super(email);
+    }
 
     @Id
     @Column
