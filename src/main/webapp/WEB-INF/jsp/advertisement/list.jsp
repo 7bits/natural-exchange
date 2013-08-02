@@ -198,11 +198,11 @@
                                 <c:param name="currentCategory" value="${currentCategory}"/>
                                 <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                             </c:url>
-                            <a href="${prevPageUrl}" class="going"><</a>
+                            <a href="${prevPageUrl}" class="going1"> </a>
                         </c:if>
                         <c:choose>
                             <c:when test="${currentPage==0}">
-                                <em> 1 </em>
+                                <span class="act"> 1 </span>
                                 <c:if test="${noOfPage>1}">
                                     <c:url value="/advertisement/list.html" var="pageUrl" >
                                         <c:param name="pageSize" value="${pageSize}"/>
@@ -241,7 +241,7 @@
                                 <a href="${pageUrl}" class="number"> 1</a>
                                 <c:choose>
                                     <c:when test="${currentPage==1}">
-                                        <em> 2 </em>
+                                        <span class="act"> 2 </span >
                                         <c:if test="${noOfPage>3}">
                                             <span class="number"> ... </span>
                                         </c:if>
@@ -254,7 +254,9 @@
                                                 <c:param name="currentCategory" value="${currentCategory}"/>
                                                 <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                             </c:url>
-                                            <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
+
+                                                <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
+
                                         </c:if>
                                     </c:when>
                                     <c:otherwise>
@@ -263,7 +265,7 @@
                                         </c:if>
                                         <c:choose>
                                             <c:when test="${currentPage!=(noOfPage-1)}">
-                                                <em> <c:out value="${currentPage+1}"></c:out></em>
+                                                <span class="act"> <c:out value="${currentPage+1}"></c:out></span>
                                                 <c:if test="${currentPage!=(noOfPage-2)}">
                                                     <span class="number"> ... </span>
                                                 </c:if>
@@ -287,7 +289,7 @@
                                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                                 </c:url>
                                                 <a href="${pageUrl}" class="number"><c:out value="${noOfPage-1}"></c:out></a>
-                                                <em> <c:out value="${noOfPage}"></c:out></em>
+                                                <span class="act"> <c:out value="${noOfPage}"></c:out></span>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:otherwise>
@@ -297,7 +299,7 @@
                     <%--<c:forEach var="i" begin="0" end="${noOfPage-1}">
                            <c:choose>
                                 <c:when test="${currentPage==i}">
-                                    <em> <c:out value="${i+1}"></c:out></em>
+                                    <span class="act"> <c:out value="${i+1}"></c:out></span>
                                 </c:when>
                                 <c:otherwise>
                                     <c:url value="/advertisement/list.html" var="pageUrl" >
@@ -320,7 +322,7 @@
                                 <c:param name="currentCategory" value="${currentCategory}"/>
                                 <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                             </c:url>
-                            <a href="${nextPageUrl}" class="going"> > </a>
+                            <a href="${nextPageUrl}" class="going2">  </a>
                         </c:if>
                     </div>
                 </div>
@@ -346,7 +348,7 @@
                         <form:input class="wordSearch" path="keyWords" placeholder="Поиск" />
                         <form:errors path="keyWords" />
                     </div>
-                    <button class="save"> Сохранить поиск  </button>
+                   <%-- <button class="save"> Сохранить поиск  </button>     --%>
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
                         <p class="pcate"> <form:radiobutton  id="one" path="category" value="nothing"  /><label for="one">Не выбрано</label></p>

@@ -7,25 +7,17 @@
 <html lang="ru">
     <head>
 
-        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
-        <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
+    <%-- <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>  --%>
+        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'>
         <title>Объявления</title>
     </head>
 
     <body>
         <header class="centerTop">
-          <%--  <div class="entryBlock">
-                <a href='<c:url value="/advertisement/list.html"/>' class="entry">  Вход на сайт </a>
-                <a href='<c:url value="/advertisement/list.html"/>'class="registration">  Регистрация </a>
-            </div>  --%>
             <div id=logotype>
                 <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-                <%--   <span>Натуральный обмен</span>
-                <p> Помощь молодым родителям</p>     --%>
-            </div>
-            <div id=lk>
-            ЛК
             </div>
         </header>
 <!-- *****************************/header***************************** -->

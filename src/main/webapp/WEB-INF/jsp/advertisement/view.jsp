@@ -102,7 +102,7 @@
                         <form:input class="wordSearch" path="keyWords" placeholder="Поиск" />
                         <form:errors path="keyWords" />
                     </div>
-                    <button class="save"> Сохранить поиск  </button>
+                    <%-- <button class="save"> Сохранить поиск  </button>     --%>
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
                         <p class="pcate"> <form:radiobutton  id="one" path="category" value="nothing"  /><label for="one">Не выбрано</label></p>

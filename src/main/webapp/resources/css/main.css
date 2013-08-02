@@ -67,7 +67,7 @@ aside {
     border-radius: 6px;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
-    border: 2px solid #b1ed2f;
+    border: 2px solid #d8d8d8;
    /* color: #e1e0e0;      */
     padding: 10px 12px;
     margin-bottom: 15px;
@@ -78,7 +78,7 @@ aside {
 }
 
 .wordSearch:focus {
-    color: #565650;
+   border: 2px solid #b1ed2f;
 }
 
 .entryBlock {
@@ -129,12 +129,11 @@ aside {
 }
 
 .proLk {
-    font-family: Georgia sans-serif;
     padding: 5px;
 }
 
 .lkMail {
-font-family: Arial;
+
 border-radius: 4px;
 -moz-border-radius: 4px;
 -webkit-border-radius: 4px;
@@ -144,9 +143,13 @@ padding: 5px 10px;
 margin-bottom: 8px;
 width: 280px;
 font-size: 15px;
-   /* font-family: 'PT Sans', sans-serif;
-    font-size: 20px;     */
+    font-family: 'PT Sans', sans-serif;
+   /* font-size: 20px;     */
 outline:none;
+}
+
+.lkMail:focus {
+   border: 2px solid #b1ed2f;
 }
 
 
@@ -184,37 +187,47 @@ outline:none;
     background: #bcfb33;
 }
 
-.going {
-    border-radius: 4px;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
-    border:2px solid #57bb02;
-    background:  #b1ed2f;
-    font-weight: bold;
-    padding:7px 20px;
-    color: #57bb02;
-    cursor: pointer;
+.going1 {
+     background: url("../images/left.png") repeat scroll 0 0 transparent;
+        bottom: 2px;
+        cursor: pointer;
+        padding: 4px 23.7px;
+        position: relative;
 }
 
-.going:hover {
+.going1:hover {
     text-decoration:none;
-    background: #bcfb33;
-}
-
-.going:active {
-    padding: 4px 9px;
-    background: #bcfb33;
+    background: url(../images/left_hover.png);
 }
 
 
-.ok {
-    border-radius: 6px;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    border:none;
-    background:  #d8d8d8;
-    padding:10px 20px;
-    font-size:14px;
+.going2 {
+
+    background: url("../images/right.png") repeat scroll 0 0 transparent;
+       bottom: 2px;
+       cursor: pointer;
+       padding: 4px 23.7px;
+       position: relative;
+}
+
+.going2:hover {
+
+    background: url(../images/right_hover.png);
+}
+
+
+.ok {                                         /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+    color: #565650;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+    width: 50px;
+    height: 30px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #d8d8d8;
+    border: none;
+    box-shadow: 0 2px #a49e9e;
     cursor: pointer;
 }
 
@@ -222,6 +235,15 @@ outline:none;
     background: #e0e0e0;
 }
 
+   .ok:active{
+    background: #e0e0e0;
+    position:relative;
+    top:1px;
+    background: #e0e0e0;
+    -moz-box-shadow: 0 1px #e0e0e0; /* Для Firefox */
+    -webkit-box-shadow: 0 1px #e0e0e0; /* Для Safari и Chrome */
+    box-shadow:0 1px #e0e0e0;  /* Параметры тени */
+}
 
 .search{
     float:right;
@@ -309,9 +331,10 @@ outline:none;
 }
 
 
-em {
-    color: #aede88;
-    padding: 15px 10px;
+.act {
+       color: #565650;
+        font-weight: bold;
+        padding: 15px 10px;
 }
 
 nav {
@@ -405,9 +428,9 @@ footer a {
     -webkit-border-radius:10px;
     border: 2px solid #d8d8d8;
     clear: left;
-    padding: 20px 15px;
+    padding: 15px;
     position: relative;
-    top: 20px;
+    top: 50px;
 }
 
 .pcate{
@@ -419,10 +442,15 @@ footer a {
 
 a {
     text-decoration:none;
+     color:#3e3e38;
 }
 
 a:hover {
     text-decoration: underline;
+}
+
+a:visited {
+     color:#3e3e38;
 }
 
 input[type="radio"] {
@@ -436,20 +464,20 @@ input[type="radio"]  + label::before {
     width:16px;
     height:16px;
     margin:0 4px 0 0;
-    background:url(../images/checkbox.png);
+    background:url(../images/radio.png);
     cursor:pointer;
 
 }
 
  input[type="radio"]:checked + label::before {
-     background:url(../images/checkbox_selected.png) ;
+     background:url(../images/radio_selected.png) ;
  }
 
  input[type="radio"]:disabled + label::before {
-      background:url(../images/checkbox_selected.png) ;
+      background:url(../images/radio_selected.png) ;
  }
 
  input[type="radio"]:checked:disabled + label::before {
-      background:url(../images/checkbox.png);
+      background:url(../images/radio.png);
 }​
 
