@@ -183,7 +183,9 @@ public class AdvertisementController {
             mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
             if (!bindingResult.hasErrors()) {
                 this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
-                modelAndView.addObject("mailingNewsForm",new MailingNewsForm());
+                MailingNewsForm mailingNewsForm = new MailingNewsForm();
+                mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                modelAndView.addObject("mailingNewsForm",mailingNewsForm);
             }
         }
         return modelAndView;
@@ -225,7 +227,9 @@ public class AdvertisementController {
             mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
             if (!bindingResult.hasErrors()) {
                 this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
-                modelAndView.addObject("mailingNewsForm",new MailingNewsForm());
+                MailingNewsForm mailingNewsForm = new MailingNewsForm();
+                mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                modelAndView.addObject("mailingNewsForm",mailingNewsForm);
             }
         }
         return modelAndView;
@@ -251,11 +255,15 @@ public class AdvertisementController {
             MailingNewsForm mailingNewsFormParam,
             BindingResult mailRes) {
         if(mailingNewsFormParam.getEmail() != null ){
-            mailingNewsValidator.validate(mailingNewsFormParam,mailRes);
+
+            mailingNewsValidator.validate(mailingNewsFormParam, mailRes);
             ModelAndView mdv = new ModelAndView("advertisement/placing");
             if (!mailRes.hasErrors()) {
                 this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
-                mdv.addObject("mailingNewsForm",new MailingNewsForm());
+                MailingNewsForm mailingNewsForm = new MailingNewsForm();
+                mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                mdv.addObject("mailingNewsForm",mailingNewsForm);
+
             }
             AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
             advertisementPlacingForm.setCategory("clothes");
