@@ -85,7 +85,7 @@
                 </section>
                 <aside>
                     <div>
-                        Выберите категорию: <span class="star">* <span>
+                        Выберите категорию: <span class="star">* </span>
                     </div>
                     <div class="cate1">
                         <p class="pcate1"><form:radiobutton id="two" path="category" value="clothes" /><label for="two">Одежда</label></p>

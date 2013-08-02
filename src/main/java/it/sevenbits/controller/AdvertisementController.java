@@ -85,10 +85,6 @@ public class AdvertisementController {
             throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
-        MailingNewsForm mailingNewsForm = new MailingNewsForm();
-
-
-
         String selectedCategory = advertisementSearchingFormParam.getCategory();
         String currentCategory;
         if(currentCategoryParam == null) {
@@ -103,10 +99,8 @@ public class AdvertisementController {
         }
         modelAndView.addObject("currentCategory",currentCategory);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
-
-
-        String currentColumn = null;
-        SortOrder currentSortOrder = null;
+        String currentColumn;
+        SortOrder currentSortOrder;
         if (sortByNameParam == null) {
             currentColumn = Advertisement.CREATED_DATE_COLUMN_CODE;
             currentSortOrder = SortOrder.DESCENDING;
@@ -185,19 +179,13 @@ public class AdvertisementController {
         modelAndView.addObject("pageSize", pageSize);
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
-
         if (mailingNewsFormParam.getEmail() != null) {
-
             mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
-            if (bindingResult.hasErrors()) {
-                return modelAndView;
-            } else {
+            if (!bindingResult.hasErrors()) {
                 this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
+                modelAndView.addObject("mailingNewsForm",new MailingNewsForm());
             }
-
         }
-        //modelAndView.addObject("mailingNewsForm", mailingNewsForm);
-
         return modelAndView;
     }
 
@@ -210,19 +198,6 @@ public class AdvertisementController {
         }
         return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords(category,keyWords);
     }
-    /*
-
-    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
-    public ModelAndView listSubmit(
-            @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
-            @RequestParam(value = "sortOrder", required = false) String sortOrderParam,
-            @RequestParam(value = "currentPage", required = false) Integer currentPageParam,
-            @RequestParam(value = "pageSize", required = false) Integer pageSizeParam)
-            throws FileNotFoundException {
-
-        return null;
-    }
-      */
     /**
      * Gives information about one advertisement by id for display
      *
@@ -241,8 +216,6 @@ public class AdvertisementController {
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setCategory(currentCategory);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
-//        MailingNewsForm mailingNewsForm = new MailingNewsForm();
-//        modelAndView.addObject("mailingNewsForm",mailingNewsForm);
         modelAndView.addObject("currentCategory",currentCategory);
         modelAndView.addObject("currentId",id);
 
@@ -250,9 +223,7 @@ public class AdvertisementController {
         modelAndView.addObject("advertisement", advertisement);
         if (mailingNewsFormParam.getEmail() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
-            if (bindingResult.hasErrors()) {
-                return modelAndView;
-            } else {
+            if (!bindingResult.hasErrors()) {
                 this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
                 modelAndView.addObject("mailingNewsForm",new MailingNewsForm());
             }
@@ -269,8 +240,7 @@ public class AdvertisementController {
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         advertisementPlacingForm.setCategory("clothes");
         modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
-        MailingNewsForm mvp = new MailingNewsForm();
-        modelAndView.addObject("mailingNewsForm",mvp);
+        modelAndView.addObject("mailingNewsForm",new MailingNewsForm());
         return modelAndView;
     }
 
@@ -352,37 +322,4 @@ public class AdvertisementController {
         }
         return Integer.parseInt(prop.getProperty("list.count"));
     }
-
-
-    /*
-    @Autowired
-    private MailingNewsValidator mailingNewsValidator;
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
-        public ModelAndView mailingSubmit(
-                @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
-                @RequestParam(value = "sortOrder", required = false) String sortOrderParam,
-                @RequestParam(value = "currentPage", required = false) Integer currentPageParam,
-                @RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
-                @RequestParam(value = "currentCategory", required = false) String currentCategoryParam,
-                @RequestParam(value = "currentKeyWords", required = false) String keyWordsParam,
-                @RequestParam(value = "currentColumn", required = false) String currentColumnParam,
-                @RequestParam(value = "currentSortOrder", required = false) SortOrder currentSortOrderParam,
-                MailingNewsForm mailingNewsForm, BindingResult result) {
-
-            ModelAndView modelAndView = new ModelAndView("advertisement/list");
-            mailingNewsValidator.validate(mailingNewsForm, result);
-
-            modelAndView.addObject("currentPage", currentPageParam);
-            modelAndView.addObject("pageSize", pageSizeParam);
-            modelAndView.addObject("currentColumn", currentColumnParam );
-            modelAndView.addObject("currentSortOrder", currentSortOrderParam);
-            modelAndView.addObject("currentKeyWords",keyWordsParam );
-            modelAndView.addObject("sortedBy", sortByNameParam);
-            modelAndView.addObject("sortOrder", sortOrderParam);
-            modelAndView.addObject("currentCategory", currentCategoryParam);
-            return modelAndView;
-        }
-
-        */
-
 }
