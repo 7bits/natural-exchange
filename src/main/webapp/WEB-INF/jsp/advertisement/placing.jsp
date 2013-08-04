@@ -50,7 +50,7 @@
 		                    <p>Заголовок: <span class="star">*</span></p>
 		                </div>
 		                <div class="right">
-				            <form:input path="title" class="placeTitle" />
+				            <form:input path="title" class="placeTitle"  maxlength="16"/>
 
 				        </div>
 				        <span class="error2"><form:errors path="title" /></span>
@@ -61,7 +61,7 @@
 				            <p>Описание:<span class="star">*</span></p>
 				        </div>
 				        <div class="right">
-				            <form:textarea path="text" class="placeText"/>
+				            <form:textarea path="text" class="placeText" cols="41"/>
 
 				        </div>
 				        <span class="error2"><form:errors path="text" /> </span>

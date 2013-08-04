@@ -21,40 +21,62 @@
             </div>
         </header>
 <!-- *****************************/header***************************** -->
-	<h1>Рассылка новостей сайта</h1>
+        <div class="centerR">
+            <p class="pCenter"> Рассылка новостей сайта  </p>
+        </div>
+        <div class="center">
+            <p class="pSay"> Чтобы отправить сообщение об обновлениях сайта проекта всем подписавшимся пользователям, заполните форму ниже.</p>
+            <form:form method="post" commandName="newsPostingForm">
+        	        <div class="places postPlace">
+		                <div class="left1">
 
-чтобы отправить сообщение об обновлениях сайта проекта всем подписавшимся пользователям, заполните форму ниже.
-	<form:form method="post" commandName="newsPostingForm">
-	Заголовок письма:
-        <form:input path="newsTitle" />
-        <span class="error"><form:errors path="newsTitle" /></span>
+		                    <p>Заголовок письма:</p>
+		                </div>
+		                <div class="right">
+				            <form:input path="newsTitle" class="placeTitle postText" placeholder="Введите текст"/>
 
-    Текст письма:
-        <form:input type="textarea" path="newsText" />
-        <span class="error"><form:errors path="newsText" /></span>
-        <input type="submit" value="Отправить" />
+				        </div>
+				        <span class="error2"><form:errors path="newsTitle" /></span>
+                    </div>
+                    <div class="places postPlace">
+                        <div class="left">
 
-	</form:form>
+				            <p>Текст письма:</p>
+				        </div>
+				        <div class="right">
+				            <form:textarea path="newsText" class="placeText postText" placeholder="Введите текст" cols="82"/>
 
-
+				        </div>
+				        <span class="error2"><form:errors path="newsText" /> </span>
+				    </div>
+                <div class="think">
+                    <input type="submit" value="Отправить" class="sendAdv" />
+                </div>
+	        </form:form>
+	    </div>
+        <div class="plug">
+            <div>
+                <p> Понравился проект? Расскажи друзьям! </p>
+                <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
+            </div>
+        </div>
 <!-- *****************************footer***************************** -->
 
-  <footer class="centerTop">
-                    <div id=likes>
+        <footer class="centerTop">
+            <div id=likes>
                     <p text-align="right" > Мы в социальных сетях </p>
-
                     <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
-                    </div>
-                    <div class="footerLink1">
+            </div>
+            <div class="footerLink1">
                         <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
-                    </div>
-                    <div class="footerLink">
+            </div>
+            <div class="footerLink">
                         <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
-                    </div>
-                    <div class="footerLink">
+            </div>
+            <div class="footerLink">
                         <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
-                    </div>
-                    <p class="sign"> © 2013 Natural Exchange</p>
+            </div>
+            <p class="sign"> © 2013 Natural Exchange</p>
         </footer>
     </body>
 </html>

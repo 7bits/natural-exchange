@@ -32,7 +32,6 @@
 }
 
 .placeText {
-     font-family: Arial;
      border-radius: 4px;
     -moz-border-radius: 4px;
      -webkit-border-radius: 4px;
@@ -44,9 +43,8 @@
      font-size: 20px;
      height: 100px;
      padding: 0 7px;
-
-   /* font-family: 'PT Sans', sans-serif;
-    font-size: 20px;     */
+     outline:none;
+     font-family: 'PT Sans', sans-serif;
 
 }
 
@@ -55,7 +53,6 @@
 }
 
 .placeTitle{
-     font-family: Arial;
      border-radius: 4px;
     -moz-border-radius: 4px;
      -webkit-border-radius: 4px;
@@ -66,8 +63,8 @@
      font-size: 20px;
      height:35px;
      padding: 0 7px;
-   /* font-family: 'PT Sans', sans-serif;
-    font-size: 20px;     */
+    font-family: 'PT Sans', sans-serif;
+    outline:none;
 
 }
 
@@ -184,4 +181,12 @@
 input[type="textarea"] {
    width:470px;
 
+}
+
+.postText {
+    width: 826px;
+}
+
+.postPlace{
+    padding-right:0;
 }
