@@ -1,6 +1,6 @@
 
-	$(document).ready(function() {
-        $("a.fancybox").fancybox({
-            'overlayShow': true
+
+    $(document).ready(function() {
+          $("a.fancybox").fancybox();
+
         });
-    });

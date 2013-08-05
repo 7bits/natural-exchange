@@ -207,6 +207,16 @@ aside {
     text-decoration:none;
 }
 
+.going:active {
+    background: #bcfb33;
+    position:relative;
+    top:1px;
+    -moz-box-shadow: 0 1px #e0e0e0; /* Для Firefox */
+    -webkit-box-shadow: 0 1px #e0e0e0; /* Для Safari и Chrome */
+    box-shadow:0 1px #e0e0e0;  /* Параметры тени */
+
+}
+
 .ok {                                         /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
     color: #565650;
     font-size: 18px;
