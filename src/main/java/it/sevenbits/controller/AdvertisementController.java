@@ -1,9 +1,11 @@
 package it.sevenbits.controller;
 
 import it.sevenbits.dao.AdvertisementDao;
+import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
+import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
@@ -57,6 +59,9 @@ public class AdvertisementController {
     @Resource(name = "subscriberDao")
     private SubscriberDao subscribertDao;
 
+    @Resource(name = "searchVariantDao")
+    private SearchVariantDao searchVariantDao;
+
     /**
      * Gives information about all advertisements for display
      *
@@ -97,6 +102,8 @@ public class AdvertisementController {
             advertisementSearchingForm.setCategory(currentCategory);
             advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
         }
+        SearchVariant tmp = new SearchVariant("dimka@mail.com","lol wut kon","lflf kaka");
+        this.searchVariantDao.create(tmp);
         modelAndView.addObject("currentCategory",currentCategory);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
         String currentColumn;

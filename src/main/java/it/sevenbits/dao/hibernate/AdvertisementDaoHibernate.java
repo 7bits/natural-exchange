@@ -45,7 +45,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     @Override
     public Advertisement findById(final Long id) {
         AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
-
         return  advertisementEntity;
     }
 
@@ -152,7 +151,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	private List<Advertisement> convertEntityList(List entities) {
-
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
         if (entities != null) {
             List<AdvertisementEntity> advertisementEntityList = (List<AdvertisementEntity>)entities;
@@ -160,7 +158,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 advertisementList.add(entity);
             }
         }
-
         return advertisementList;
     }
 }

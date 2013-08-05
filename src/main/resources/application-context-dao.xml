@@ -34,6 +34,7 @@
 				<value>it.sevenbits.entity.hibernate.UserEntity</value>
 				<value>it.sevenbits.entity.hibernate.CategoryEntity</value>
                 <value>it.sevenbits.entity.hibernate.SubscriberEntity</value>
+                <value>it.sevenbits.entity.hibernate.SearchVariantEntity</value>
             </list>
         </property>
         <property name="annotatedPackages">
