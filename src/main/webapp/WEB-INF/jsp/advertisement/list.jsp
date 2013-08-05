@@ -198,7 +198,7 @@
                                 <c:param name="currentCategory" value="${currentCategory}"/>
                                 <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                             </c:url>
-                            <a href="${prevPageUrl}" class="going1"> </a>
+                            <a href="${prevPageUrl}" class="going"> << </a>
                         </c:if>
                         <c:choose>
                             <c:when test="${currentPage==0}">
@@ -322,7 +322,7 @@
                                 <c:param name="currentCategory" value="${currentCategory}"/>
                                 <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                             </c:url>
-                            <a href="${nextPageUrl}" class="going2">  </a>
+                            <a href="${nextPageUrl}" class="going next"> >> </a>
                         </c:if>
                     </div>
                 </div>

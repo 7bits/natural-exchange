@@ -7,16 +7,13 @@
 <html lang="ru">
     <head>
         <script src='<c:url value="/resources/images/listScript.js"/>'> </script>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <script type="text/javascript" src='<c:url value="/fancybox/lib/jquery.mousewheel-3.0.6.pack.js"/>'></script>
-        <link rel="stylesheet" href="/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-        <script type="text/javascript" src='<c:url value="/fancybox/source/jquery.fancybox.pack.js"/>'></script>
-        <link rel="stylesheet" href="/fancybox/source/helpers/jquery.fancybox-buttons.css" type="text/css" media="screen" />
-        <script type="text/javascript" src='<c:url value="/fancybox/source/helpers/jquery.fancybox-buttons.js"/>'></script>
-        <script type="text/javascript" src='<c:url value="/fancybox/source/helpers/jquery.fancybox-media.js"/>'></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+        <script type="text/javascript" src='<c:url value="/fancybox/jquery.mousewheel-3.0.4.pack.js"/>'></script>
+        <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
+        <script type="text/javascript" src='<c:url value="/fancybox/jquery.fancybox-1.3.4.pack.js"/>'></script>
 
-        <link rel="stylesheet" href="/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
-        <script type="text/javascript" src="/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+        <script type="text/javascript" src='<c:url value="/fancybox/jquery.easing-1.3.pack.js"/>'></script>
+
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>" />
     <%-- <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>  --%>
@@ -65,10 +62,10 @@
 
 
                         <c:if test="${advertisement.category.name eq 'clothes'}">
-                            <span class="viewCate" > Одежда </span>
+                            <a href='<c:url value="/advertisement/list.html?keyWords=&category=clothes&currentCategory=clothes"/>' class="viewCate" > Одежда </a>                           <%-- --%>
                         </c:if>
                         <c:if test="${advertisement.category.name eq 'notclothes'}">
-                            <span class="viewCate" > Не одежда </span>
+                            <a href='<c:url value="/advertisement/list.html?keyWords=&category=notclothes&currentCategory=clothes"/>' class="viewCate" > Не одежда </a>
                         </c:if>
 
                 </div>
@@ -76,7 +73,7 @@
                     <c:out value="${advertisement.text}"/>
                 </div>
                 <div class="photoCollection">
-                    <a class="fancybox" rel="group" href='<c:url value="/resources/images/${advertisement.photoFile}"/>'>
+                    <a class="fancybox"  href='<c:url value="/resources/images/${advertisement.photoFile}"/>'>
                         <img src='<c:url value="/resources/images/${advertisement.photoFile}"/>' alt="" />
                     </a>
 

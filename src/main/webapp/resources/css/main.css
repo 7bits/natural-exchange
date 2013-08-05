@@ -186,30 +186,26 @@ aside {
     background: #bcfb33;
 }
 
-.going1 {
-     background: url("../images/left.png") repeat scroll 0 0 transparent;
-     cursor: pointer;
-     padding: 4px 23.7px;
-}
-
-.going1:hover {
-    text-decoration:none;
-    background: url(../images/left_hover.png);
-}
-
-
-.going2 {
-
-    background: url("../images/right.png") repeat scroll 0 0 transparent;
+.going {
+    box-shadow:0 2px #5e8a00;  /* Параметры тени */
+    border-radius: 4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    background: #b1ed2f;
+    border: none;
     cursor: pointer;
-    padding: 4px 23.7px;
+    text-align: center;
+    padding: 3px 12px 3px 13px;
 }
 
-.going2:hover {
-
-    background: url(../images/right_hover.png);
+.next {
+    padding: 3px 14px;
 }
 
+.going:hover {
+    background: #bcfb33;
+    text-decoration:none;
+}
 
 .ok {                                         /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
     color: #565650;
