@@ -17,7 +17,9 @@
     <body>
         <header class="centerTop">
             <div id=logotype>
-                <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
+                <a href='<c:url value="/advertisement/list.html"/>'>
+                    <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
+                </a>
             </div>
         </header>
 <!-- *****************************/header***************************** -->
@@ -63,20 +65,20 @@
 <!-- *****************************footer***************************** -->
 
         <footer class="centerTop">
-            <div id=likes>
-                    <p text-align="right" > Мы в социальных сетях </p>
-                    <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
-            </div>
-            <div class="footerLink1">
+                    <div class="social">
+                        <p class="socialText"> Мы в социальных сетях: </p>
+                        <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
+                    </div>
+                    <div class="footerLink1">
                         <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
-            </div>
-            <div class="footerLink">
+                    </div>
+                    <div class="footerLink">
                         <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
-            </div>
-            <div class="footerLink">
+                    </div>
+                    <div class="footerLink">
                         <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
-            </div>
-            <p class="sign"> © 2013 Natural Exchange</p>
+                    </div>
+                    <p class="sign"> © 2013 Natural Exchange</p>
         </footer>
     </body>
 </html>

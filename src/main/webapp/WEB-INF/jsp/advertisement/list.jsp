@@ -27,7 +27,9 @@
                 <a href='<c:url value="/advertisement/list.html"/>'class="registration">  Регистрация </a>
             </div>  --%>
             <div id=logotype>
-                <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
+                <a href='<c:url value="/advertisement/list.html"/>'>
+                    <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
+                </a>
                 <%--   <span>Натуральный обмен</span>
                 <p> Помощь молодым родителям</p>     --%>
             </div>

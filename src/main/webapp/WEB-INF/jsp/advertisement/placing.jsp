@@ -6,23 +6,22 @@
 
 <!doctype html>
 <html lang="ru">
-<head>
-    <title>Размещение объявления</title>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
-</head>
-<body>
+    <head>
+        <title>Размещение объявления</title>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
+    </head>
+    <body>
         <header class="centerTop">
           <%--  <div class="entryBlock">
                 <a href='<c:url value="/advertisement/list.html"/>' class="entry">  Вход на сайт </a>
                 <a href='<c:url value="/advertisement/list.html"/>'class="registration">  Регистрация </a>
             </div>  --%>
             <div id=logotype>
-                <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-                <%--   <span>Натуральный обмен</span>
-                <p> Помощь молодым родителям</p>     --%>
+                <a href='<c:url value="/advertisement/list.html"/>'>
+                    <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
+                </a>
             </div>
-
             <div id=lk>
                 <%--*********   --%>
                     <form:form method="post" commandName="mailingNewsForm" class="lk">
@@ -61,7 +60,7 @@
 				            <p>Описание:<span class="star">*</span></p>
 				        </div>
 				        <div class="right">
-				            <form:textarea path="text" class="placeText" cols="41"/>
+				            <form:textarea path="text" class="placeText" />
 
 				        </div>
 				        <span class="error2"><form:errors path="text" /> </span>
