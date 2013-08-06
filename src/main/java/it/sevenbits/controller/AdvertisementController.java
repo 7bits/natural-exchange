@@ -9,6 +9,7 @@ import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
+import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
@@ -42,6 +43,7 @@ import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -102,10 +104,12 @@ public class AdvertisementController {
             advertisementSearchingForm.setCategory(currentCategory);
             advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
         }
-        SearchVariant tmp = new SearchVariant("dimka@mail.com","lol wut kon","lflf kaka");
-        this.searchVariantDao.create(tmp);
-        modelAndView.addObject("currentCategory",currentCategory);
-        modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
+//        MailSenderService mss = new MailSenderService();
+//        mss.sendSearchVariants();
+//        List<SearchVariant> searchVariants = this.searchVariantDao.find();
+//        mss.sendMail("naturalexchangeco@gmail.com","dimaaasik.s@gmail.com","test","LOL");
+//        modelAndView.addObject("currentCategory",currentCategory);
+//        modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
         String currentColumn;
         SortOrder currentSortOrder;
         if (sortByNameParam == null) {
@@ -336,5 +340,12 @@ public class AdvertisementController {
             return 2;
         }
         return Integer.parseInt(prop.getProperty("list.count"));
+    }
+
+    @RequestMapping(value = "/savingSearch.html", method = RequestMethod.GET)
+    public @ResponseBody
+    String getCharNum(@RequestParam(value = "wordSearch", required = false) String wordSearchParam,
+                      @RequestParam(value = "email", required = false) String emailParam) {
+        return "LOL"    ;
     }
 }

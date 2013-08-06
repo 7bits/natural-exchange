@@ -12,7 +12,7 @@ function validateEmail(email) {
   $("#send").click( function(e){
     e.preventDefault();
     var wordSearch =$(".wordSearch").val();
-    var email  = $("#emaiSavel").val();
+    var email  = $("#emailSave").val();
     var mailvalid = validateEmail(email);
   // Проверка правильности электронного адреса
     if(mailvalid == false) {
@@ -23,15 +23,15 @@ function validateEmail(email) {
         // если обе проверки пройдены
         // сначала мы скрываем кнопку отправки
         $("#send").replaceWith("отправка...");
-        var dataSearch = '$wordSearch'+wordSearch+'$email'+email;
+        var dataSearch = 'wordSearch='+wordSearch+'$email='+email;
 
         $.ajax({
           type: 'GET',
-          url: '/advertisement/savingSearch.html',
+          url: '/n-exchange/advertisement/savingSearch.html',
           data: dataSearch,
           success: function(data) {
               $("#contact").fadeOut("fast", function(){
-                $(this).before("<strong>Успешно! Ваше сообщение отправлено :)</strong>");
+                $(this).before("<strong>Успешно!"+data+" Ваше сообщение отправлено :)</strong>");
                 setTimeout("$.fancybox.close()", 1000);
               });
             }
