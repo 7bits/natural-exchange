@@ -1,7 +1,13 @@
 $(document).ready(function() {
-  $("#klik").click( function () {
-       document.getElementById("block").style.display="block";
-       document.getElementById("main").style.display="none";
+
+    $("a.save").fancybox( {
+       "frameWidth" : 1000,
+       "frameHeight" : 500
+
+    });
+ // $("#klik").click( function () {
+ //      document.getElementById("block").style.display="block";
+ //      document.getElementById("main").style.display="none";
        $("#contact").submit(function() { return false; });
 
 function validateEmail(email) {
@@ -32,11 +38,10 @@ function validateEmail(email) {
           success: function(data) {
               $("#contact").fadeOut("fast", function(){
                 $(this).before("<strong>Успешно!"+data+" Ваше сообщение отправлено :)</strong>");
-                setTimeout("$.fancybox.close()", 1000);
+                setTimeout("$.fancybox.close()", 2000);
               });
             }
          });
       }
     });
-} );
 } );

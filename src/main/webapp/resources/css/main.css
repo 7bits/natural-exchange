@@ -325,7 +325,8 @@ aside {
     font-size: 18px;
     font-family: 'PT Sans', sans-serif;
     width: 170px;
-    height: 40px;
+    text-align: center;
+    padding: 8.5px 3px;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -335,6 +336,7 @@ aside {
 }
 
 .save:hover {
+    text-decoration:none;
     background: #e0e0e0;
 }
 

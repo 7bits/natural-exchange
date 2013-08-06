@@ -23,14 +23,14 @@
 
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placeStyle.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
         <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
         <title>Объявления</title>
     </head>
     
     <body>
-    <div id="main">
+
         <header class="centerTop">
           <%--  <div class="entryBlock">
                 <a href='<c:url value="/advertisement/list.html"/>' class="entry">  Вход на сайт </a>
@@ -360,7 +360,7 @@
                         <form:input class="wordSearch" path="keyWords" placeholder="Поиск" name="wordSearch"/>
                         <form:errors path="keyWords" />
                     </div>
-                    <div class="save" id="klik" >Сохранить поиск</div>
+                    <a class="save" href="#main" >Сохранить поиск</a>
 
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
@@ -408,14 +408,16 @@
                     </div>
                     <p class="sign"> © 2013 Natural Exchange</p>
         </footer>
-    </div>
-        <div id="block">
 
+        <div id="block">
+             <div id="main">
                  <form id="contact" name="contact" action="#" method="get">
                    <label for="emailSave">Ваш E-mail</label>
                    <input type="email" id="emailSave" name="emailSave" class="textTitle">
                    <button id="send">Отправить E-mail</button>
                  </form>
                </div>
+         </div>
+
     </body>
 </html>
