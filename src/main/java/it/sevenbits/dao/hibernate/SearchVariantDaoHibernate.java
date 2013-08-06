@@ -34,8 +34,9 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
     }
 
     @Override
-    public SearchVariant findById(final Integer id) {
-        return this.hibernateTemplate.get(SearchVariantEntity.class,id);
+    public SearchVariant findById(final Long id) {
+        SearchVariantEntity tmp =  this.hibernateTemplate.get(SearchVariantEntity.class,id);
+        return  tmp;
     }
 
     @Override
@@ -54,13 +55,13 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
     }
 
     private List<SearchVariant> convertEntityList(List entities) {
-        List<SearchVariant> advertisementList = new ArrayList<SearchVariant>();
+        List<SearchVariant> sList = new ArrayList<SearchVariant>();
         if (entities != null) {
-            List<SearchVariantEntity> advertisementEntityList = (List<SearchVariantEntity>)entities;
-            for (SearchVariantEntity entity : advertisementEntityList) {
-                advertisementList.add(entity);
+            List<SearchVariantEntity> list = (List<SearchVariantEntity>)entities;
+            for (SearchVariantEntity entity : list) {
+                sList.add(entity);
             }
         }
-        return advertisementList;
+        return sList;
     }
 }

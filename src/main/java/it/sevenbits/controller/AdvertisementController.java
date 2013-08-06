@@ -9,6 +9,7 @@ import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
+import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
@@ -104,12 +105,8 @@ public class AdvertisementController {
             advertisementSearchingForm.setCategory(currentCategory);
             advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
         }
-//        MailSenderService mss = new MailSenderService();
-//        mss.sendSearchVariants();
-//        List<SearchVariant> searchVariants = this.searchVariantDao.find();
-//        mss.sendMail("naturalexchangeco@gmail.com","dimaaasik.s@gmail.com","test","LOL");
-//        modelAndView.addObject("currentCategory",currentCategory);
-//        modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
+        modelAndView.addObject("currentCategory",currentCategory);
+        modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
         String currentColumn;
         SortOrder currentSortOrder;
         if (sortByNameParam == null) {

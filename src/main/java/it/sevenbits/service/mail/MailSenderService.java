@@ -23,7 +23,7 @@ public class MailSenderService {
         this.mailSender = mailSender;
     }
 
-    public void sendMail(String from, String to, String subject, String msg) {
+    private void sendMail(String from, String to, String subject, String msg) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
@@ -41,14 +41,16 @@ public class MailSenderService {
 
     public void sendSearchVariants(){
         MailSenderService mailService = getMailService();
-        List<SearchVariant> searchVariants = this.searchVariantDao.find();
-        for (SearchVariant entity : searchVariants) {
-            mailService.sendMail(SERVICE_MAILBOX,entity.getEmail(),"test",entity.getCategories());
-        }
+        mailService.sendMail(SERVICE_MAILBOX,"dimaaasik.s@gmail.com","test","hello my friend1");
+//        List<SearchVariant> searchVariants = this.searchVariantDao.find();
+//        mailService.sendMail(SERVICE_MAILBOX,"dimaaasik.s@gmail.com","test","hello my friend2");
+//        for (SearchVariant entity : searchVariants) {
+//            mailService.sendMail(SERVICE_MAILBOX,entity.getEmail(),"test",entity.getCategories());
+//        }
     }
 
     public void newsPosting() {
         MailSenderService mailService = getMailService();
-        mailService.sendMail(SERVICE_MAILBOX,"naturalexchangeco@gmail.com","test","hello my friend!");
+        mailService.sendMail(SERVICE_MAILBOX,"dimaaasik.s@gmail.com","test","hello my friend!");
     }
 }

@@ -67,6 +67,7 @@ public class SearchVariantEntity extends SearchVariant {
         super.setCreatedDate(createdDate);
     }
 
+    @Column(name = "created_date",length = 200, nullable = false)
     @Override
     public Long getCreatedDate() {
         return super.getCreatedDate();

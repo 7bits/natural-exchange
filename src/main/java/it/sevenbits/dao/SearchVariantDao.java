@@ -21,7 +21,7 @@ public interface SearchVariantDao {
      * @param id
      * @return
      */
-    SearchVariant findById(Integer id);
+    SearchVariant findById(Long id);
 
     /**
      * возвращает  список всех подписчиков
