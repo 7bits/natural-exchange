@@ -12,16 +12,26 @@ body {
     color:#3e3e38;
 }
 
-.textTitle.error {
+.placeTitle.error {
   border-color: #973d3d;
   border-style: solid;
   background: #f0bebe;
   color: #a35959;
 }
 
-.textTitle.error:focus {
+.placeTitle.error:focus {
   border-color: #973d3d;
   color: #a35959;
+}
+
+#main {
+    padding: 100px;
+    width: 1000px;
+    height: 100px;
+    border-radius: 6px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    overflow: visible;
 }
 
 #block {

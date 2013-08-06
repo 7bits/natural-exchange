@@ -17,6 +17,8 @@ table {
     width: 100%;
     border-collapse: collapse; /* Убираем двойные линии между ячейками */
     box-shadow:  none;
+
+    word-wrap: break-word;
 }
 
 tbody {

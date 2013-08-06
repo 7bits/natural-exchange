@@ -364,9 +364,9 @@
 
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
-                        <p class="pcate"> <form:radiobutton  id="one" path="category" value="nothing"  /><label for="one">Не выбрано</label></p>
-                        <p class="pcate"><form:radiobutton id="two" path="category" value="clothes" /><label for="two">Одежда</label></p>
-                        <p class="pcate"> <form:radiobutton id="three" path="category" value="notclothes"  /><label for="three">Не одежда</label></p>
+                        <p class="pcate"> <form:radiobutton  id="one" path="category" value="nothing" name="category" /><label for="one">Не выбрано</label></p>
+                        <p class="pcate"><form:radiobutton id="two" path="category" value="clothes" name="category" /><label for="two">Одежда</label></p>
+                        <p class="pcate"> <form:radiobutton id="three" path="category" value="notclothes"  name="category" /><label for="three">Не одежда</label></p>
                         <p><form:errors path="category"/></p>
                     </div>
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>
@@ -413,8 +413,8 @@
              <div id="main">
                  <form id="contact" name="contact" action="#" method="get">
                    <label for="emailSave">Ваш E-mail</label>
-                   <input type="email" id="emailSave" name="emailSave" class="textTitle">
-                   <button id="send">Отправить E-mail</button>
+                   <input type="email" id="emailSave" name="emailSave" class="placeTitle">
+                   <button id="send" class="send">Отправить E-mail</button>
                  </form>
                </div>
          </div>

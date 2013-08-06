@@ -1,8 +1,10 @@
 $(document).ready(function() {
 
     $("a.save").fancybox( {
-       "frameWidth" : 1000,
-       "frameHeight" : 500
+       "width" : 1000,
+       "height" : 500,
+       "margin" :0,
+       "autoDimensions": false,
 
     });
  // $("#klik").click( function () {
@@ -14,6 +16,8 @@ function validateEmail(email) {
     var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return reg.test(email);
   }
+
+
 
   $("#send").click( function(e){
     e.preventDefault();
@@ -29,7 +33,18 @@ function validateEmail(email) {
         // если обе проверки пройдены
         // сначала мы скрываем кнопку отправки
         $("#send").replaceWith("отправка...");
-        var dataSearch = 'wordSearch='+wordSearch+'$email='+email;
+
+        var radios = document.getElementsByName('category');
+        for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {
+                // do whatever you want with the checked radio
+                var categorySearch= radios[i];
+
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
+        }
+        var dataSearch = 'wordSearch='+wordSearch+'$categorySearch='+categorySearch+'$email='+email;
 
         $.ajax({
           type: 'GET',
