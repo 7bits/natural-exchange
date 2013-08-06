@@ -13,14 +13,24 @@
 <script type="text/javascript">
   VK.init({apiId: 3783611, onlyWidgets: true});
 </script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" language="javascript"></script>
+        <script type="text/javascript" src='<c:url value="/fancybox/jquery.fancybox-1.3.4.pack.js"/>'></script>
+        <script type="text/javascript" src='<c:url value="/fancybox/jquery.easing.1.3.js"/>'></script>
+        <script type="text/javascript" src='<c:url value="/fancybox/jquery.mousewheel-3.0.4.pack.js"/>'></script>
+        <link type="text/css" rel="stylesheet" href="<c:url value="/fancybox/jquery.fancybox-1.3.4.css"/>"  media="screen" />
+
+        <script type="text/javascript" src='<c:url value="/resources/js/saveSearch.js"/>'  language="javascript"> </script>
+
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placeStyle.css"/>" />
         <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
         <title>Объявления</title>
     </head>
     
     <body>
+    <div id="main">
         <header class="centerTop">
           <%--  <div class="entryBlock">
                 <a href='<c:url value="/advertisement/list.html"/>' class="entry">  Вход на сайт </a>
@@ -347,10 +357,11 @@
             </div--%>
                 <form:form method="get" commandName="advertisementSearchingForm">
                     <div>
-                        <form:input class="wordSearch" path="keyWords" placeholder="Поиск" />
+                        <form:input class="wordSearch" path="keyWords" placeholder="Поиск" name="wordSearch"/>
                         <form:errors path="keyWords" />
                     </div>
-                   <%-- <button class="save"> Сохранить поиск  </button>     --%>
+                    <div class="save" id="klik" >Сохранить поиск</div>
+
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
                         <p class="pcate"> <form:radiobutton  id="one" path="category" value="nothing"  /><label for="one">Не выбрано</label></p>
@@ -397,5 +408,14 @@
                     </div>
                     <p class="sign"> © 2013 Natural Exchange</p>
         </footer>
+    </div>
+        <div id="block">
+
+                 <form id="contact" name="contact" action="#" method="get">
+                   <label for="emailSave">Ваш E-mail</label>
+                   <input type="email" id="emailSave" name="emailSave" class="textTitle">
+                   <button id="send">Отправить E-mail</button>
+                 </form>
+               </div>
     </body>
 </html>

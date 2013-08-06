@@ -12,6 +12,22 @@ body {
     color:#3e3e38;
 }
 
+.textTitle.error {
+  border-color: #973d3d;
+  border-style: solid;
+  background: #f0bebe;
+  color: #a35959;
+}
+
+.textTitle.error:focus {
+  border-color: #973d3d;
+  color: #a35959;
+}
+
+#block {
+    display: none;
+}
+
 .lk {
    position:relative;
 }
