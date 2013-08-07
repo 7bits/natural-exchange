@@ -49,14 +49,18 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+
     <!-- DAO classes for model objects -->
     <!--bean id="reportDao" class="com.mutualforce.dao.hibernate.GenericTimedDaoHibernate">
         <constructor-arg type="java.lang.Class" value="com.mutualforce.entities.report.Report"/>
         <constructor-arg type="java.lang.String" value="Report"/>
         <constructor-arg type="org.hibernate.SessionFactory" ref="sessionFactory"/>
     </bean-->
+
     <!--bean id="advertisementDAO" class="it.sevenbits.dao.hibernate.AdvertisementDaoHibernaternate">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean-->
+
+
 
 </beans>

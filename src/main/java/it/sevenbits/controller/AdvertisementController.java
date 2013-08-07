@@ -5,11 +5,9 @@ import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
-import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
-import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
@@ -21,7 +19,6 @@ import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -31,12 +28,9 @@ import javax.annotation.Resource;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import it.sevenbits.util.form.validator.NewsPostingValidator;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.*;
@@ -64,6 +58,9 @@ public class AdvertisementController {
 
     @Resource(name = "searchVariantDao")
     private SearchVariantDao searchVariantDao;
+
+    @Resource(name = "mailService")
+    private MailSenderService mailSenderService;
 
     /**
      * Gives information about all advertisements for display
@@ -95,6 +92,7 @@ public class AdvertisementController {
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         String selectedCategory = advertisementSearchingFormParam.getCategory();
         String currentCategory;
+        this.mailSenderService.sendSearchVariants();
         if(currentCategoryParam == null) {
             advertisementSearchingForm.setCategory("nothing");
             currentCategory = "nothing";
@@ -342,7 +340,8 @@ public class AdvertisementController {
     @RequestMapping(value = "/savingSearch.html", method = RequestMethod.GET)
     public @ResponseBody
     String getCharNum(@RequestParam(value = "wordSearch", required = false) String wordSearchParam,
-                      @RequestParam(value = "email", required = false) String emailParam) {
-        return "LOL"    ;
+                      @RequestParam(value = "email", required = false) String emailParam,
+                      @RequestParam(value = "categorySearch", required = false) String categorySearchParam) {
+        return wordSearchParam+" "+emailParam+" "+categorySearchParam;
     }
 }

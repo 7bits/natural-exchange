@@ -52,7 +52,7 @@ function validateEmail(email) {
           data: dataSearch,
           success: function(data) {
               $("#contact").fadeOut("fast", function(){
-                $(this).before("<strong>Успешно!"+data+" Ваше сообщение отправлено :)</strong>");
+                $(this).before("<strong>" +data+"</strong>");
                 setTimeout("$.fancybox.close()", 2000);
               });
             }

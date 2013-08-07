@@ -1,11 +1,8 @@
 package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.SearchVariantDao;
-import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.entity.SearchVariant;
-import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
-import it.sevenbits.entity.hibernate.SubscriberEntity;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +18,19 @@ import java.util.List;
 @Repository(value = "searchVariantDao")
 public class SearchVariantDaoHibernate implements SearchVariantDao {
 
+//    private SessionFactory sessionFactory;
+//
+//    public void setSessionFactory(SessionFactory sessionFactory) {
+//        this.sessionFactory = sessionFactory;
+//    }
+
     private HibernateTemplate hibernateTemplate;
 
     @Autowired
     public SearchVariantDaoHibernate(final SessionFactory sessionFactory) {
         this.hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
+
 
     public void create(SearchVariant searchVariant) {
         SearchVariantEntity tmp = new SearchVariantEntity(searchVariant.getEmail(),searchVariant.getKeyWords(),searchVariant.getCategories());
