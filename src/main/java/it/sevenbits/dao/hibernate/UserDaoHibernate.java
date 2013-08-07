@@ -8,6 +8,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -71,6 +72,24 @@ public class UserDaoHibernate implements UserDao {
 
         return userList;
     }
+
+
+    public  User getUser(String email) throws UsernameNotFoundException {
+
+        if (!email.equals("123pass@login.ru")) {
+            throw new UsernameNotFoundException(email + " not found");
+        }
+
+        User user = new User();
+        user.setFirstName("bob");
+        user.setLastName("Endy");
+        user.setPassword("123pass");
+        user.setEmail("123pass@local.ru");
+
+
+        return user;
+    }
+
 
     public void update(User user) {
     }

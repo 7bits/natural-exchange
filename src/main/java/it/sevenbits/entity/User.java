@@ -1,5 +1,6 @@
 package it.sevenbits.entity;
 
+import it.sevenbits.security.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,7 +11,7 @@ import java.util.Collection;
  *Класс, представляющий сущность таблицы UserEntity а БД
  */
 public class User
-        /*implements UserDetails*/  {
+        implements UserDetails  {
     private String firstName;
     private String lastName;
     private String email;
@@ -19,13 +20,13 @@ public class User
     private Long updatedDate;
     private String password;
     private Boolean isDeleted;
-    private String role;
+    private Role role;
 
     public User() {
     }
 
     public User(final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate,
-                final Long updatedDate, final Boolean deleted, final String password, final String role) {
+                final Long updatedDate, final Boolean deleted, final String password, final Role role) {
         this.firstName = firstName;
         this.email = email;
         this.lastName = lastName;
@@ -98,21 +99,21 @@ public class User
         this.password = password;
     }
 
-    public String  getRole() {
+    public Role  getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
     public String getPassword() {
         return password;
     }
-  /*
+
     @Override
     public Collection<? extends GrantedAuthority>  getAuthorities() {
-        Collection<String> collection = new ArrayList<>();
+        Collection<Role> collection = new ArrayList<>();
         collection.add(role);
         return collection;
     }
@@ -143,7 +144,6 @@ public class User
     public boolean isEnabled() {
         return isDeleted;
     }
-    */
 
     //TODO add role
     @Override

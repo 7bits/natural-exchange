@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+<security:global-method-security secured-annotations="enabled" />
+
+    <security:http auto-config="true">
+        <security:intercept-url pattern="/css/**" filters="none"/>
+        <security:intercept-url pattern='/user/login.htm*' filters='none'/>
+        <security:intercept-url pattern="/user/login.jsp*" filters="none"/>
+        <security:intercept-url pattern='/**' access='ROLE_USER' />
+
+        <security:form-login login-page='/jsp/login.html'
+                             default-target-url='/advertisement/list.html'
+                             always-use-default-target='true'
+                             authentication-failure-url="/login-failure" />
+
+        <security:logout logout-url="/logout"
+                         logout-success-url="/logoutSuccess.html" />
+
+       <!-- <security:session-management >
+            <fixation-protection></session-fixation-protection>
+        </security:session-management>-->
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref='myUserDetailsService'>
+    <!--        <security:password-encoder hash="sha"><security:salt-source user-property="username"/></security:password-encoder>-->
+            <security:jdbc-user-service data-source-ref="dataSource"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+
+
+
+    <!--UserDetailsServiceRetrieves implementation which retrieves the user details (username, password, enabled flag, and authorities) from a database using JDBC queries.-->
+    <bean id="myUserDetailsService"
+                class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+
+    <!--<security:authentication-manager>
+        <security:authentication-provider >
+            <security:jdbc-user-service data-source-ref="dataSource" />
+        </security:authentication-provider>
+    </security:authentication-manager>-->
+
+
+
+
+</beans>
+                

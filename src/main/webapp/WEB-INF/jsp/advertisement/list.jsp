@@ -32,10 +32,10 @@
     <body>
 
         <header class="centerTop">
-          <%--  <div class="entryBlock">
-                <a href='<c:url value="/advertisement/list.html"/>' class="entry">  Вход на сайт </a>
-                <a href='<c:url value="/advertisement/list.html"/>'class="registration">  Регистрация </a>
-            </div>  --%>
+            <div class="entryBlock">
+                <a href='<c:url value="/user/login.html"/>' class="entry">  Вход на сайт </a>
+              <%--  <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a> --%>
+            </div>
             <div id=logotype>
                 <a href='<c:url value="/advertisement/list.html"/>'>
                     <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
