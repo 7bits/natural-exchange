@@ -13,24 +13,31 @@ import java.util.Set;
 public class UserEntity extends User{
 
     private Long id;
+
     private Set<AdvertisementEntity> advertisements;
+
 
     public UserEntity(){
         super();
     }
 
-    public UserEntity(User user){
-        super(user.getFirstName(),user.getEmail(),user.getLastName(),user.getVklink(),user.getCreatedDate(),user.getUpdateDate(),user.getIsDeleted());
+
+
+    public UserEntity(final String firstName, final String email, final String lastName, final String vkLink,
+                      final Long createdDate, final Long updatedDate, final Boolean deleted, final String password, final String role) {
+        super(firstName,email,lastName,vkLink,createdDate,updatedDate,deleted, password,role);
     }
 
-    public UserEntity(final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate, final Long updatedDate, final Boolean deleted) {
-        super(firstName,email,lastName,vkLink,createdDate,updatedDate,deleted);
+    public UserEntity(User user){
+        super(user.getFirstName(),user.getEmail(),user.getLastName(),user.getVklink(),user.getCreatedDate(),
+                user.getUpdateDate(),user.getIsDeleted(), user.getPassword(), user.getRole());
     }
 
     @OneToMany(mappedBy="userEntity",cascade = CascadeType.ALL)
     public Set<AdvertisementEntity> getAdvertisements() {
         return advertisements;
     }
+
 
     public void setAdvertisements(Set<AdvertisementEntity> advertisements) {
         this.advertisements = advertisements;
@@ -85,8 +92,21 @@ public class UserEntity extends User{
         return super.getEmail();
     }
 
+    @Column(name="password", nullable = false)
+    @Override
+    public String getPassword() {
+        return super.getPassword();
+    }
+
+    @Column(name="role", nullable = false)
+    @Override
+    public String getRole() {
+        return super.getRole();
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
+
 
 }
