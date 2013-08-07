@@ -1,12 +1,21 @@
 $(document).ready(function() {
+  $(".save").click( function () {
 
     $("a.save").fancybox({
-       "width" : 1000,
-       "height" : 500,
+       "width" : 610,
+       "height" : 460,
        "margin" :0,
-       "autoDimensions": false
+       "padding" : 0,
+       "autoDimensions": false,
+       'hideOnOverlayClick' : false,
+       'overlayOpacity' : 0.13 ,
+       'overlayColor' : '#000000',
+       'showCloseButton': false,
+       'scrolling' : 'no'
     });
- // $("#klik").click( function () {
+
+
+ //
  //      document.getElementById("block").style.display="block";
  //      document.getElementById("main").style.display="none";
        $("#contact").submit(function() { return false; });
@@ -16,18 +25,28 @@ function validateEmail(email) {
     return reg.test(email);
   }
 
+//  function validateCaptcha (captchaInput) {
+//      var cap=session.getAttribute("captcha");
+ //     return cap.test(captchaInput);
+ // }
+  $("#close").click( function(){
+      $.fancybox.close();
+  });
+
 
 
   $("#send").click( function(e){
     e.preventDefault();
     var wordSearch =$(".wordSearch").val();
     var email  = $("#emailSave").val();
+  //  var captchaInput = $ (".captchaInput").val();   // captchaInput - имя поля формы
+  //  var captchaValid= validateCaptcha(captchaInput);
     var mailvalid = validateEmail(email);
   // Проверка правильности электронного адреса
     if(mailvalid == false) {
       $("#emailSave").addClass("error");
     }
-    else if(mailvalid == true){
+    else if(mailvalid == true) {
       $("#emailSave").removeClass("error");
         // если обе проверки пройдены
         // сначала мы скрываем кнопку отправки
@@ -38,7 +57,6 @@ function validateEmail(email) {
             if (radios[i].checked) {
                 // do whatever you want with the checked radio
                 var categorySearch= $(radios[i]).val();
-
                 // only one radio can be logically checked, don't check the rest
                 break;
             }
@@ -51,11 +69,17 @@ function validateEmail(email) {
           data: dataSearch,
           success: function(data) {
               $("#contact").fadeOut("fast", function(){
-                $(this).before("<strong>" +data+"</strong>");
+                if (data == "auth") {
+                    $(this).before("<strong> Авторизируйтесь!!! </strong>");
+                 }
+                if (data == "send") {
+                    $(this).before("<strong> Спасибо!!! </strong>");
+                 }
                 setTimeout("$.fancybox.close()", 2000);
               });
             }
          });
       }
     });
-} );
+  });
+});
