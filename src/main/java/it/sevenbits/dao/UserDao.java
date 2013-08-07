@@ -28,6 +28,7 @@ public interface UserDao {
      */
     List<User> find();
 
+    Boolean isExistUserWithEmail(String email);
     /**
      * изменить пользователя
      * @param user

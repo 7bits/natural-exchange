@@ -17,13 +17,6 @@ import java.util.List;
  */
 @Repository(value = "searchVariantDao")
 public class SearchVariantDaoHibernate implements SearchVariantDao {
-
-//    private SessionFactory sessionFactory;
-//
-//    public void setSessionFactory(SessionFactory sessionFactory) {
-//        this.sessionFactory = sessionFactory;
-//    }
-
     private HibernateTemplate hibernateTemplate;
 
     @Autowired

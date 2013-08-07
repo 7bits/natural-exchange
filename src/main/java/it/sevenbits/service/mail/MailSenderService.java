@@ -45,7 +45,6 @@ public class MailSenderService {
     public void sendSearchVariants(){
         MailSenderService mailService = getMailService();
         List<SearchVariant> searchVariants = this.searchVariantDao.find();
-        mailService.sendMail(SERVICE_MAILBOX,"dimaaasik.s@gmail.com","test","hello my friend2");
         for (SearchVariant entity : searchVariants) {
             mailService.sendMail(SERVICE_MAILBOX,entity.getEmail(),"test",entity.getCategories());
         }

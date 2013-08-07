@@ -1,5 +1,7 @@
 package it.sevenbits.entity.hibernate;
 
+import it.sevenbits.entity.User;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -8,13 +10,17 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "user")
-public class UserEntity extends it.sevenbits.entity.User{
+public class UserEntity extends User{
 
     private Long id;
     private Set<AdvertisementEntity> advertisements;
 
     public UserEntity(){
         super();
+    }
+
+    public UserEntity(User user){
+        super(user.getFirstName(),user.getEmail(),user.getLastName(),user.getVklink(),user.getCreatedDate(),user.getUpdateDate(),user.getIsDeleted());
     }
 
     public UserEntity(final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate, final Long updatedDate, final Boolean deleted) {
@@ -75,8 +81,8 @@ public class UserEntity extends it.sevenbits.entity.User{
 
     @Column(name = "email", nullable = false)
     @Override
-    public String getEmailName(){
-        return super.getEmailName();
+    public String getEmail(){
+        return super.getEmail();
     }
 
     public void setId(Long id) {

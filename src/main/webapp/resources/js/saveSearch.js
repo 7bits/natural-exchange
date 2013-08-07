@@ -1,11 +1,10 @@
 $(document).ready(function() {
 
-    $("a.save").fancybox( {
+    $("a.save").fancybox({
        "width" : 1000,
        "height" : 500,
        "margin" :0,
-       "autoDimensions": false,
-
+       "autoDimensions": false
     });
  // $("#klik").click( function () {
  //      document.getElementById("block").style.display="block";
@@ -44,7 +43,7 @@ function validateEmail(email) {
                 break;
             }
         }
-        var dataSearch = 'wordSearch='+wordSearch+'$categorySearch='+categorySearch+'$email='+email;
+        var dataSearch = 'wordSearch='+wordSearch+'&categorySearch='+categorySearch+'&email='+email;
 
         $.ajax({
           type: 'GET',

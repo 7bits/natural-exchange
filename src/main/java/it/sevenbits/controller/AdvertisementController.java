@@ -3,9 +3,8 @@ package it.sevenbits.controller;
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
-import it.sevenbits.entity.Advertisement;
-import it.sevenbits.entity.Category;
-import it.sevenbits.entity.Subscriber;
+import it.sevenbits.dao.UserDao;
+import it.sevenbits.entity.*;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.service.mail.MailSenderService;
@@ -56,6 +55,9 @@ public class AdvertisementController {
     @Resource(name = "subscriberDao")
     private SubscriberDao subscribertDao;
 
+    @Resource(name = "userDao")
+    private UserDao userDao;
+
     @Resource(name = "searchVariantDao")
     private SearchVariantDao searchVariantDao;
 
@@ -92,7 +94,6 @@ public class AdvertisementController {
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         String selectedCategory = advertisementSearchingFormParam.getCategory();
         String currentCategory;
-        this.mailSenderService.sendSearchVariants();
         if(currentCategoryParam == null) {
             advertisementSearchingForm.setCategory("nothing");
             currentCategory = "nothing";
@@ -299,8 +300,6 @@ public class AdvertisementController {
         return new ModelAndView("advertisement/placingRequest");
     }
 
-
-
     @Autowired
     private NewsPostingValidator newsPostingValidator;
 
@@ -337,11 +336,23 @@ public class AdvertisementController {
         return Integer.parseInt(prop.getProperty("list.count"));
     }
 
+    /**
+     *
+     * @param keyWordsParam
+     * @param emailParam
+     * @param categoriesParam
+     * @return 0 - if user with that email doesnt exists
+     *         1 - if user with that email exists
+     */
     @RequestMapping(value = "/savingSearch.html", method = RequestMethod.GET)
     public @ResponseBody
-    String getCharNum(@RequestParam(value = "wordSearch", required = false) String wordSearchParam,
+    String getSavingSearchRequest(@RequestParam(value = "wordSearch", required = false) String keyWordsParam,
                       @RequestParam(value = "email", required = false) String emailParam,
-                      @RequestParam(value = "categorySearch", required = false) String categorySearchParam) {
-        return wordSearchParam+" "+emailParam+" "+categorySearchParam;
+                      @RequestParam(value = "categorySearch", required = false) String categoriesParam) {
+        if(userDao.isExistUserWithEmail(emailParam))
+            return "auth";
+        SearchVariant searchVariant = new SearchVariant(emailParam,keyWordsParam,categoriesParam);
+        this.searchVariantDao.create(searchVariant);
+        return "save";
     }
 }

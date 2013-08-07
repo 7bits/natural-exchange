@@ -73,11 +73,11 @@ public class User {
         return this.lastName;
     }
 
-    public void setEmailName(String value){
+    public void setEmail(String value){
         this.email = value;
     }
 
-    public String getEmailName(){
+    public String getEmail(){
         return this.email;
     }
 
