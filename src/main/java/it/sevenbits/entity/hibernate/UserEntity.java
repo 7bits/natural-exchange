@@ -25,7 +25,7 @@ public class UserEntity extends User{
 
 
     public UserEntity(final String firstName, final String email, final String lastName, final String vkLink,
-                      final Long createdDate, final Long updatedDate, final Boolean deleted, final String password, final Role role) {
+                      final Long createdDate, final Long updatedDate, final Boolean deleted, final String password, final String role) {
         super(firstName,email,lastName,vkLink,createdDate,updatedDate,deleted, password,role);
     }
 
@@ -101,7 +101,7 @@ public class UserEntity extends User{
 
     @Column(name="role", nullable = false)
     @Override
-    public Role getRole() {
+    public String getRole() {
         return super.getRole();
     }
 

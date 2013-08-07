@@ -20,13 +20,13 @@ public class User
     private Long updatedDate;
     private String password;
     private Boolean isDeleted;
-    private Role role;
+    private String role;
 
     public User() {
     }
 
     public User(final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate,
-                final Long updatedDate, final Boolean deleted, final String password, final Role role) {
+                final Long updatedDate, final Boolean deleted, final String password, final String role) {
         this.firstName = firstName;
         this.email = email;
         this.lastName = lastName;
@@ -90,6 +90,9 @@ public class User
         return email;
     }
 
+    public String getRole() {
+        return role;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -99,11 +102,22 @@ public class User
         this.password = password;
     }
 
-    public Role  getRole() {
-        return role;
+
+    public Role  getRoleGrantedAuth() {
+
+        //если только одна роль
+        if (role.equals("ROLE_USER")) {
+            return Role.createUserRole();
+        }
+        if (role.equals("ROLE_ADMIN")) {
+            return Role.createAdminRole();
+        }
+
+        return Role.createModeratorRole();
+
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -114,7 +128,7 @@ public class User
     @Override
     public Collection<? extends GrantedAuthority>  getAuthorities() {
         Collection<Role> collection = new ArrayList<>();
-        collection.add(role);
+        collection.add(this.getRoleGrantedAuth());
         return collection;
     }
 
@@ -162,7 +176,7 @@ public class User
         if (vkLink != null ? !vkLink.equals(user.vkLink) : user.vkLink != null) return false;
 
         if (password != null ? !password.equals(user.password) : user.password  != null ) return false;
-
+        if (role != null ? !role.equals(user.role) : user.role != null) return false;
         return true;
     }
 
@@ -176,6 +190,7 @@ public class User
         result = 31 * result + (updatedDate != null ? updatedDate.hashCode() : 0);
         result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode(): 0);
+        result = 31 * result + (role != null ? role.hashCode(): 0);
 
         return result;
     }
