@@ -15,19 +15,18 @@ import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.NewsPostingForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import javax.annotation.Resource;
 
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import it.sevenbits.util.form.validator.NewsPostingValidator;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -150,7 +150,7 @@ public class AdvertisementController {
         }
         List<Advertisement> advertisements;
         if(keyWordsParam != null) {
-            advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(currentCategories,keyWordsParam,currentSortOrder,currentColumn);
+            advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(currentCategories, keyWordsParam, currentSortOrder, currentColumn);
             advertisementSearchingForm.setKeyWords(keyWordsParam);
             modelAndView.addObject("currentKeyWords",keyWordsParam);
         }
@@ -160,7 +160,7 @@ public class AdvertisementController {
                 if(advertisementSearchingForm.getCategories()==null)
                     advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
                 else
-                    advertisements = findAllAdvertisementsWithCategoryOrderBy(currentCategories,currentSortOrder,currentColumn);
+                    advertisements = findAllAdvertisementsWithCategoryOrderBy(currentCategories, currentSortOrder, currentColumn);
             }
             else {
                 modelAndView.addObject("currentKeyWords",advertisementSearchingFormParam.getKeyWords());
@@ -220,7 +220,7 @@ public class AdvertisementController {
         for(int i=0;i<keyWords.length;i++) {
             keyWords[i] = token.nextToken();
         }
-        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories,keyWords,sortOrder,sortColumn);
+        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories, keyWords, sortOrder, sortColumn);
     }
 
     private List<Advertisement> findAllAdvertisementsWithCategoryOrderBy(String[] categories,
@@ -325,6 +325,7 @@ public class AdvertisementController {
             if (result.hasErrors()) {
                 return new ModelAndView("advertisement/placing");
             }
+            savingFile(advertisementPlacingFormParam.getFile());
             AdvertisementEntity tmp = new AdvertisementEntity();
             tmp.setText(advertisementPlacingFormParam.getText());
             tmp.setPhotoFile(advertisementPlacingFormParam.getPhotoFile());
@@ -342,6 +343,21 @@ public class AdvertisementController {
             this.advertisementDao.create(tmp);
         }
         return new ModelAndView("advertisement/placingRequest");
+    }
+
+    private void savingFile(MultipartFile multipartFile) {
+        String filePlaceToUpload = "D:/Programming/Java/Tests/";
+        UUID id = UUID.randomUUID();
+        String fileName = id.toString().replaceAll("-","");
+        String contentType = multipartFile.getContentType();
+        String filePath = filePlaceToUpload+fileName+"."+contentType;
+        File file = new File(filePath);
+        try {
+        FileUtils.writeByteArrayToFile(file, multipartFile.getBytes());
+        } catch (Throwable e) {
+            //TODO:Opa Gangnam style!
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/makeCaptcha.html")

@@ -38,7 +38,7 @@
             <p class="pCenter">Разместить объявление на сайте  </p>
         </div>
         <div class="center">
-            <form:form method="post" commandName="advertisementPlacingForm">
+            <form:form method="post" commandName="advertisementPlacingForm" enctype="multipart/form-data">
                 <section>
 
                     <p class="pSay"> Поля, отмеченные звездочкой обязательны для заполнения </p>
@@ -72,7 +72,7 @@
 				        </div>
                         <div class="right">
 				            <p><form:input path="photoFile" class="placeTitle" /></p>
-
+                            <p><input name="file" type="file" /></p>
                          </div>
                          <span class="error2"><form:errors path="photoFile" /></span>
 
