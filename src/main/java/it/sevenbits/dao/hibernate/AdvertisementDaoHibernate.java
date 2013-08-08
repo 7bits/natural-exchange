@@ -6,10 +6,7 @@ import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.util.SortOrder;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -133,12 +130,12 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 
     /**
      * Search advertisements from DB, which match category and key words
-     * @param category if null, it isn't use in selection from DB
+     * @param categories if null, it isn't use in selection from DB
      * @param keyWords key words,which searching in title
      * @return
      */
     @Override
-    public List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(final String category,
+    public List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(final String[] categories,
                                                                                    final String[] keyWords,
                                                                                    final SortOrder sortOrder,
                                                                                    final String sortPropertyName) {
@@ -155,8 +152,13 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 criteria.addOrder(Order.desc(sortByName));
                 break;
         }
-        if(category != null) {
-            criteria.createAlias("categoryEntity","category").add(Restrictions.eq("category.name",category));
+        if(categories != null) {
+            criteria.createAlias("categoryEntity","category");
+            Disjunction disjunction = Restrictions.disjunction(); // OR
+            for(int i=0;i<categories.length;i++) {
+                disjunction.add(Restrictions.eq("category.name",categories[i]));
+            }
+            criteria.add(disjunction);
         }
         for(int i=0;i<keyWords.length;i++)
             criteria.add(Restrictions.like("title","%"+keyWords[i]+"%"));
