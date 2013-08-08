@@ -18,6 +18,7 @@ import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -93,6 +94,7 @@ public class AdvertisementController {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setAll();
+       // modelAndView.addObject("currentCategory","kall"/*stringArrayToString(advertisementSearchingForm.getCategories())*/);
 
         String[] selectedCategories = advertisementSearchingFormParam.getCategories();
         String[] currentCategories;
@@ -151,7 +153,6 @@ public class AdvertisementController {
             advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(currentCategories,keyWordsParam,currentSortOrder,currentColumn);
             advertisementSearchingForm.setKeyWords(keyWordsParam);
             modelAndView.addObject("currentKeyWords",keyWordsParam);
-            modelAndView.addObject("currentCategory",stringArrayToString(currentCategories));
         }
         else {
             if(advertisementSearchingFormParam.getKeyWords()==null || advertisementSearchingFormParam.getKeyWords().equals(""))
@@ -212,6 +213,8 @@ public class AdvertisementController {
                                                                                     String keyWordsStr,
                                                                                     SortOrder sortOrder,
                                                                                     String sortColumn) {
+        //mailSenderService.sendMail(MailSenderService.SERVICE_MAILBOX,"dimaaasik.s@gmail.com","test",categories.toString());
+        if(categories.length == 0) return Collections.emptyList();
         StringTokenizer token = new StringTokenizer(keyWordsStr);
         String[] keyWords = new String[token.countTokens()];
         for(int i=0;i<keyWords.length;i++) {
@@ -223,6 +226,7 @@ public class AdvertisementController {
     private List<Advertisement> findAllAdvertisementsWithCategoryOrderBy(String[] categories,
                                                                          SortOrder sortOrder,
                                                                          String sortColumn) {
+        if(categories.length == 0) return Collections.emptyList();
         return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories,null,sortOrder,sortColumn);
     }
 
