@@ -14,6 +14,13 @@ $(document).ready(function() {
        'scrolling' : 'no'
     });
 
+
+  $("#refresh").click( function(){
+     document.getElementById('captchaImg').src = "makeCaptcha.html?id=" + Math.random();
+  });
+
+
+
      document.getElementById("contact").style.display="block";
  //
  //      document.getElementById("block").style.display="block";
@@ -25,19 +32,17 @@ function validateEmail(email) {
     return reg.test(email);
   }
 
-//src="http://www.captcha.ru/captcha/";
-//function reload(){
-//        document.captcha.src='loading.gif';
-//        document.captcha.src=src+'?rand='+Math.random();
-//}
-
-//  function validateCaptcha (captchaInput) {
-//      var cap=session.getAttribute("captcha");
- //     return cap.test(captchaInput);
- // }
+  function validateCaptcha (captchaInput) {
+      var cap='<% = Session ["captcha"] %>';
+      if (cap == captchaInput)
+      {return true;  }
+      else {return false;}
+  }
   $("#close").click( function(){
       $.fancybox.close();
   });
+
+
 
 
 
@@ -45,10 +50,10 @@ function validateEmail(email) {
     e.preventDefault();
     var wordSearch =$(".wordSearch").val();
     var email  = $("#emailSave").val();
-  //  var captchaInput = $ (".captchaInput").val();   // captchaInput - имя поля формы
-  //  var captchaValid= validateCaptcha(captchaInput);
+    var captchaInput = $ (".captchaInput").val();   // captchaInput - имя поля формы
+    var captchaValid= validateCaptcha(captchaInput);
     var mailvalid = validateEmail(email);
-  // Проверка правильности электронного адреса
+    // Проверка правильности электронного адреса
     if(mailvalid == false) {
       $("#emailSave").addClass("error");
     }
@@ -58,14 +63,16 @@ function validateEmail(email) {
         // сначала мы скрываем кнопку отправки
         $("#send").replaceWith("отправка...");
 
-        var radios = document.getElementsByName('category');
-        for (var i = 0, length = radios.length; i < length; i++) {
-            if (radios[i].checked) {
-                // do whatever you want with the checked radio
-                var categorySearch= $(radios[i]).val();
-                // only one radio can be logically checked, don't check the rest
-                break;
-            }
+       var categorySearch="";
+
+        var checkboxes = document.getElementsByName('categories');     //массив боксов
+        for (var i = 0, length = checkboxes.length; i < length; i++) {
+           if (checkboxes[i].checked)  {
+//                // do whatever you want with the checked radio
+                var categorySearch=categorySearch+' '+ checkboxes[i].value;
+//                // only one radio can be logically checked, don't check the rest
+//                break;
+           }
         }
         var dataSearch = 'wordSearch='+wordSearch+'&categorySearch='+categorySearch+'&email='+email;
 
@@ -76,7 +83,7 @@ function validateEmail(email) {
           success: function(data) {
               $("#contact").fadeOut("fast", function(){
                 if (data == "auth") {
-                    $(this).before("<strong> Авторизируйтесь!!! </strong>");
+                    $(this).before("<strong> Авторизуйтесь!!! </strong>");
                  }
                 if (data == "save") {
                     $(this).before("<strong> Спасибо!!! </strong>");

@@ -34,16 +34,16 @@
  response.setContentType("image/jpg");
 
  try {
-
-     Color backgroundColor = Color.red;
-     Color borderColor = Color.red;
+     Color backColor = new Color(215,215,215);
+     Color backgroundColor = new Color(215,215,215);
+     Color borderColor = new Color(215,215,215);
      Color textColor = Color.white;
-     Color circleColor = new Color(160,160,160);
+     Color circleColor = new Color(177,237,47);
      Font textFont = new Font("Arial", Font.PLAIN, 24);
      int charsToPrint = 6;
-     int width = request.getParameter("width") != null ? Integer.parseInt(request.getParameter("width")) : 150;
-     int height = request.getParameter("height") != null ? Integer.parseInt(request.getParameter("height")) : 80;
-     int circlesToDraw = 4;
+     int width = request.getParameter("width") != null ? Integer.parseInt(request.getParameter("width")) : 120;
+     int height = request.getParameter("height") != null ? Integer.parseInt(request.getParameter("height")) : 60;
+     int circlesToDraw = 5;
      float horizMargin = 20.0f;
      float imageQuality = 0.95f; // max is 1.0 (this is for jpeg)
      double rotationRange = 0.7; // this is radians
@@ -52,7 +52,7 @@
      Graphics2D g = (Graphics2D) bufferedImage.getGraphics();
 
      //Draw an oval
-     g.setColor(Color.red);
+     g.setColor(new Color(215,215,215));      // background
      g.fillRect(0, 0, width, height);
 
      // lets make some noisey circles

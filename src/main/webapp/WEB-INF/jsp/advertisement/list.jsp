@@ -24,6 +24,7 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
         <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
         <title>Объявления</title>
@@ -366,9 +367,9 @@
 
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
-                        <p class="pcate"> <form:checkbox  id="one" path="categories" value="games" name="category" /><label for="one">Игры</label></p>
-                        <p class="pcate"><form:checkbox id="two" path="categories" value="clothes" name="category" /><label for="two">Одежда</label></p>
-                        <p class="pcate"> <form:checkbox id="three" path="categories" value="notclothes"  name="category" /><label for="three">Не одежда</label></p>
+                        <p class="pcate"> <form:checkbox  id="one" path="categories" value="games"  /><label for="one">Игры</label></p>
+                        <p class="pcate"><form:checkbox id="two" path="categories" value="clothes"  /><label for="two">Одежда</label></p>
+                        <p class="pcate"> <form:checkbox id="three" path="categories" value="notclothes"   /><label for="three">Не одежда</label></p>
                         <p><form:errors path="categories"/></p>
                     </div>
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>
@@ -414,12 +415,20 @@
         <div id="block">
              <div id="main">
                  <form id="contact" name="contact" action="#" method="get">
-                   <label for="emailSave">Ваш E-mail</label>
-                   <input type="email" id="emailSave" name="emailSave" class="placeTitle">
-                   <button id="send" class="send">Отправить E-mail</button>
-                   <img src='<c:url value="/advertisement/makeCaptcha.html"/>' >
-                   <input type="text" class="captchaInput" name="captchaInput">
-                   <button id="close"> Отмена </button>
+                     <div class="titleSave"> Сохранить параметры поиска </div>
+                     <div class="say"> Введите свой e-mail, и Вы получите письмо с ссылкой на сохраненные параметры Вашего поиска</div>
+                     <input type="email" id="emailSave" name="emailSave" class="placeTitle mail" placeholder="E-mail">
+                     <div class="say"> Введите, пожалуйста, знаки с картинки, чтобы убедиться, что Вы не робот</div>
+                     <div class="capt">
+                         <img id="captchaImg" src='<c:url value="/advertisement/makeCaptcha.html"/>' >
+                         <p > <img id="refresh" class="refresh" src='<c:url value="/resources/images/refresh.png"/>' ></p>
+                         <input type="text" class="captchIn" name="captchaInput">
+
+                     </div>
+                     <div>
+                         <button id="close" class="save close"> Отмена </button>
+                         <button id="send" class="search">Готово</button>
+                     </div>
                  </form>
                </div>
          </div>
