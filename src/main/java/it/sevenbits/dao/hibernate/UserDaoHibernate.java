@@ -74,7 +74,7 @@ public class UserDaoHibernate implements UserDao {
     }
 
 
-    public  User getUser(String email) throws UsernameNotFoundException {
+    public  User findUserByEmail(String email) throws UsernameNotFoundException {
 
         if (!email.equals("123pass@login.ru")) {
             throw new UsernameNotFoundException(email + " not found");

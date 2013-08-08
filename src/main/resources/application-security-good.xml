@@ -3,8 +3,6 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:security="http://www.springframework.org/schema/security"
-             xmlns:bean="http://www.springframework.org/schema/beans"
-             xmlns:p="http://www.springframework.org/schema/security"
              xsi:schemaLocation="
                                 http://www.springframework.org/schema/beans
                                 http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -14,7 +12,7 @@
 <!--<security:global-method-security secured-annotations="enabled" /> -->
 
 
-       <http auto-config="true" access-denied-page="/400.jsp" >
+       <http auto-config="true" >
            <intercept-url pattern="/css/**" access="ROLE_ADMIN"/>
            <intercept-url pattern='/user/login.htm*' access="IS_AUTHENTICATED_ANONYMOUSLY"/>
            <intercept-url pattern="/user/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
@@ -23,33 +21,67 @@
            <intercept-url pattern='/advertisement/**' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'  />
            <intercept-url pattern="/user/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 
-           <form-login login-page='/login.jsp'
+           <form-login login-page='/user/login.html'
                                 default-target-url='/advertisement/list.html'
                                 always-use-default-target='true'
                                 authentication-failure-url="/login-failure" />
 
            <logout logout-url="/user/logout"
                             logout-success-url="/logoutSuccess.html" />
-           <anonymous username="guest" granted-authority="IS_AUTHENTICATED_ANONYMOUSLY"/>
+
       </http>
 
+    <authentication-manager alias="authenticationManager"/>
 
+    <user-service>
+        <user name="jimi" password="jim" authorities="ROLE_USER, ROLE_ADMIN" />
+        <user name="bob" password="bob" authorities="ROLE_USER" />
+    </user-service>
+        <!-- <form-login />login-page="/user/login.html"/-->
+
+        <!--
+    <http auto-config='true'>
+        <intercept-url pattern='/user/login.htm*' access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/advertisement/*" access="ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern='/**' access='ROLE_USER'  />
+
+        <form-login login-page="/user/login.html"
+                    default-target-url='/advertisement/list.html'
+                    always-use-default-target='true'/>
+
+        <form-login />
+    </http> -->
+    <!--
     <authentication-manager>
-        <authentication-provider user-service-ref='myUserDetailsService'>
-            <password-encoder hash="sha"><salt-source user-property="username"/></password-encoder>
-           <!-- <jdbc-user-service data-source-ref="dataSource"/> -->
+        <authentication-provider>
+            <user-service>
+                <user name="jimi" password="jimispassword" authorities="ROLE_ADMIN" />
+                <user name="bob" password="bobspassword" authorities="ROLE_USER" />
+            </user-service>
         </authentication-provider>
-    </authentication-manager>
+    </authentication-manager>-->
 
+
+
+
+   <!-- -->
+    <!--
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref='myUserDetailsService'> -->
+    <!--        <security:password-encoder hash="sha"><security:salt-source user-property="username"/></security:password-encoder>-->
+   <!--         <security:jdbc-user-service data-source-ref="dataSource"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+                                                                                      -->
 
 
 
     <!--UserDetailsServiceRetrieves implementation which retrieves the user details (username, password, enabled flag, and authorities) from a database using JDBC queries.-->
 
-    <bean:bean id="myUserDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
-        <beans:property name="dataSource" ref="dataSource"/>
-        <!--name="dataSource" ref="dataSource"/> -->
-    </bean:bean>
+    <!--<bean id="myUserDetailsService"
+                class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>                                                                              -->
 
 
 

@@ -19,9 +19,9 @@ public class MyUserDetailsService implements UserDetailsService {
     private UserDaoHibernate userDaoManager;
 
     @Override
-    public UserDetails loadUserByUsername(String username)
+    public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-        return userDaoManager.getUser(username);
+        return userDaoManager.findUserByEmail(email);
     }
 
 }

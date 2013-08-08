@@ -33,7 +33,7 @@
 
         <header class="centerTop">
             <div class="entryBlock">
-                <a href='<c:url value="/user/login.html"/>' class="entry">  Вход на сайт </a>
+                <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
               <%--  <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a> --%>
             </div>
             <div id=logotype>
