@@ -3,6 +3,7 @@ package it.sevenbits.dao.hibernate;
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
+import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -134,6 +136,9 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
      * @param keyWords key words,which searching in title
      * @return
      */
+    @Resource(name = "mailService")
+    private MailSenderService mailSenderService;
+
     @Override
     public List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(final String[] categories,
                                                                                    final String[] keyWords,
@@ -156,12 +161,14 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             criteria.createAlias("categoryEntity","category");
             Disjunction disjunction = Restrictions.disjunction(); // OR
             for(int i=0;i<categories.length;i++) {
-                disjunction.add(Restrictions.eq("category.name",categories[i]));
+                disjunction.add(Restrictions.eq("category.name", categories[i]));
             }
             criteria.add(disjunction);
         }
-        for(int i=0;i<keyWords.length;i++)
-            criteria.add(Restrictions.like("title","%"+keyWords[i]+"%"));
+        if(keyWords!=null) {
+            for(int i=0;i<keyWords.length;i++)
+                criteria.add(Restrictions.like("title","%"+keyWords[i]+"%"));
+        }
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 

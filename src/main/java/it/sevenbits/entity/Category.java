@@ -6,6 +6,7 @@ public class Category {
 
     //Temprorary names of categories
     public final static String NAME_CLOTHES = "clothes";
+    public final static String NAME_GAMES = "games";
     public final static String NAME_NOT_CLOTHES = "notclothes";
 
     private String name;

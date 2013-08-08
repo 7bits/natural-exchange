@@ -26,7 +26,7 @@ public class MailSenderService {
         this.mailSender = mailSender;
     }
 
-    private void sendMail(String from, String to, String subject, String msg) {
+    public void sendMail(String from, String to, String subject, String msg) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);

@@ -4,6 +4,7 @@ INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (2,
 INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (3,'dimaaasik.s@gmail.com',1369229028461,'man coat','notclothes');
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (1,'clothes','very good',460,1,461);
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (2,'notclothes','very good',460,1,461);
+INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (3,'games','very good',460,1,461);
 INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role) VALUES (1,'Dmitry','Silerd',460,1,461,'vk.com/322233','test@gmail.com', "123","ROLE_USER");
 INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role) VALUES (2,'Sergey','Konskih',460,1,461,'vk.com/325656','bandit@gmail.com', "111","ROLE_USER");
 INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role) VALUES (3,'Ivan','Vovan',460,1,461,'vk.com/322237','mostwanted@mail.ru', "100","ROLE_ADMIN");
@@ -16,4 +17,5 @@ INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,upda
 INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date,category_id,user_id) VALUES (7,1369259028460,1,'image1.jpg','this is dog','skate',75000,2,1);
 INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date,category_id,user_id) VALUES (8,1369252628460,1,'image2.jpg','this is toys','skate',85000,2,1);
 INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date,category_id,user_id) VALUES (9,1369259828460,1,'image3.jpg','this is something','skate',95000,2,1);
-INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date,category_id,user_id) VALUES (10,1369259828460,1,'импорт','импорт','импорт',95000,2,1);
+INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date,category_id,user_id) VALUES (10,1369259828465,1,'no_photo.png','настольная игра','Ужас Аркхэма',95000,3,1);
+INSERT INTO advertisement (id,created_date,is_deleted,photo_file,text,title,updated_date,category_id,user_id) VALUES (11,1369259828466,1,'no_photo.png','настольная игра','Каркассон',95000,3,1);

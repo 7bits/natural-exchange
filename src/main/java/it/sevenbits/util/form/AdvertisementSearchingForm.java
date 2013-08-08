@@ -1,20 +1,20 @@
 package it.sevenbits.util.form;
 
+import it.sevenbits.entity.Category;
+
 public class AdvertisementSearchingForm {
-    private String category;
+    private String[] categories;
     private String keyWords;
 
     public AdvertisementSearchingForm() {
-        this.category = null;
-        this.keyWords = null;
     }
 
-    public String getCategory() {
-        return category;
+    public String[] getCategories() {
+        return categories;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategories(String[] categories) {
+        this.categories = categories;
     }
 
     public String getKeyWords() {
@@ -23,5 +23,9 @@ public class AdvertisementSearchingForm {
 
     public void setKeyWords(String keyWords) {
         this.keyWords = keyWords;
+    }
+
+    public void setAll() {
+        setCategories(new String[]{Category.NAME_CLOTHES,Category.NAME_GAMES,Category.NAME_NOT_CLOTHES});
     }
 }

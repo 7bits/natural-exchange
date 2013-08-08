@@ -92,19 +92,29 @@ public class AdvertisementController {
             throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
-        String selectedCategory = advertisementSearchingFormParam.getCategory();
-        String currentCategory;
+        advertisementSearchingForm.setAll();
+
+        String[] selectedCategories = advertisementSearchingFormParam.getCategories();
+        String[] currentCategories;
+        //Запуск голой страницы
         if(currentCategoryParam == null) {
-            advertisementSearchingForm.setCategory("nothing");
-            currentCategory = "nothing";
+            advertisementSearchingForm.setAll();
+            currentCategories = null;
         }
+        //Страница с какимито параметрами
         else {
-            if (selectedCategory!=null) currentCategory = selectedCategory;
-            else currentCategory = currentCategoryParam;
-            advertisementSearchingForm.setCategory(currentCategory);
+            //Пришли параметры от формы выбора поиска
+            if (selectedCategories!=null) {
+                currentCategories = selectedCategories;
+            }
+            //От какогото другого элемента
+            else {
+                currentCategories = stringToTokensArray(currentCategoryParam);
+            }
+            advertisementSearchingForm.setCategories(currentCategories);
             advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
         }
-        modelAndView.addObject("currentCategory",currentCategory);
+        modelAndView.addObject("currentCategory",stringArrayToString(currentCategories));
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
         String currentColumn;
         SortOrder currentSortOrder;
@@ -138,26 +148,23 @@ public class AdvertisementController {
         }
         List<Advertisement> advertisements;
         if(keyWordsParam != null) {
-            advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(new String[]{"clothes","notclothes"},keyWordsParam,currentSortOrder,currentColumn);
+            advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(currentCategories,keyWordsParam,currentSortOrder,currentColumn);
             advertisementSearchingForm.setKeyWords(keyWordsParam);
             modelAndView.addObject("currentKeyWords",keyWordsParam);
+            modelAndView.addObject("currentCategory",stringArrayToString(currentCategories));
         }
         else {
             if(advertisementSearchingFormParam.getKeyWords()==null || advertisementSearchingFormParam.getKeyWords().equals(""))
             {
-                if(advertisementSearchingForm.getCategory().equals("nothing"))
+                if(advertisementSearchingForm.getCategories()==null)
                     advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
                 else
-                    advertisements = this.advertisementDao.findAllAdvertisementsWithCategoryAndOrderBy(
-                            currentCategory,
-                            currentSortOrder,
-                            currentColumn
-                    );
+                    advertisements = findAllAdvertisementsWithCategoryOrderBy(currentCategories,currentSortOrder,currentColumn);
             }
             else {
                 modelAndView.addObject("currentKeyWords",advertisementSearchingFormParam.getKeyWords());
                 advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
-                        new String[]{"clothes","notclothes"},
+                        currentCategories,
                         advertisementSearchingFormParam.getKeyWords(),
                         currentSortOrder,
                         currentColumn)
@@ -213,6 +220,34 @@ public class AdvertisementController {
         }
         return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories,keyWords,sortOrder,sortColumn);
     }
+
+    private List<Advertisement> findAllAdvertisementsWithCategoryOrderBy(String[] categories,
+                                                                         SortOrder sortOrder,
+                                                                         String sortColumn) {
+        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories,null,sortOrder,sortColumn);
+    }
+
+    private String stringArrayToString(String[] src) {
+        if(src == null) {
+            return null;
+        }
+        String dest = " ";
+        for(int i=0;i<src.length;i++)
+            dest+=src[i]+" ";
+        return dest;
+    }
+
+    private String[] stringToTokensArray(String str) {
+        if(str == null) {
+            return null;
+        }
+        StringTokenizer token = new StringTokenizer(str);
+        String[] words = new String[token.countTokens()];
+        for(int i=0;i<words.length;i++) {
+            words[i] = token.nextToken();
+        }
+        return words;
+    }
     /**
      * Gives information about one advertisement by id for display
      *
@@ -220,7 +255,7 @@ public class AdvertisementController {
      */
     @RequestMapping(value = "/view.html", method = RequestMethod.GET)
     public ModelAndView view(@RequestParam(value = "id", required = true) Long id,
-                             @RequestParam(value = "currentCategory", required = true) String currentCategory,
+                             @RequestParam(value = "currentCategory", required = true) String[] currentCategory,
                              MailingNewsForm mailingNewsFormParam,
                              BindingResult bindingResult) {
 
@@ -229,7 +264,7 @@ public class AdvertisementController {
         ModelAndView modelAndView = new ModelAndView("advertisement/view");
 
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
-        advertisementSearchingForm.setCategory(currentCategory);
+        advertisementSearchingForm.setCategories(/*currentCategory*/null);
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
         modelAndView.addObject("currentCategory",currentCategory);
         modelAndView.addObject("currentId",id);

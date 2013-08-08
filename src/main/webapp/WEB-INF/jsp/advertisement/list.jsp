@@ -366,10 +366,10 @@
 
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
-                        <p class="pcate"> <form:radiobutton  id="one" path="category" value="nothing" name="category" /><label for="one">Не выбрано</label></p>
-                        <p class="pcate"><form:radiobutton id="two" path="category" value="clothes" name="category" /><label for="two">Одежда</label></p>
-                        <p class="pcate"> <form:radiobutton id="three" path="category" value="notclothes"  name="category" /><label for="three">Не одежда</label></p>
-                        <p><form:errors path="category"/></p>
+                        <p class="pcate"> <form:checkbox  id="one" path="categories" value="games" name="category" /><label for="one">Игры</label></p>
+                        <p class="pcate"><form:checkbox id="two" path="categories" value="clothes" name="category" /><label for="two">Одежда</label></p>
+                        <p class="pcate"> <form:checkbox id="three" path="categories" value="notclothes"  name="category" /><label for="three">Не одежда</label></p>
+                        <p><form:errors path="categories"/></p>
                     </div>
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>
                         <input type="hidden" name="currentCategory" value="${currentCategory}"/>
