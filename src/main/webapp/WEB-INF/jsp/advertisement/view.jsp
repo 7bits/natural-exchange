@@ -104,10 +104,10 @@
                     <%-- <button class="save"> Сохранить поиск  </button>     --%>
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
-                        <p class="pcate"> <form:radiobutton  id="one" path="category" value="nothing"  /><label for="one">Не выбрано</label></p>
-                        <p class="pcate"><form:radiobutton id="two" path="category" value="clothes" /><label for="two">Одежда</label></p>
-                        <p class="pcate"> <form:radiobutton id="three" path="category" value="notclothes"  /><label for="three">Не одежда</label></p>
-                        <p><form:errors path="category"/></p>
+                        <p class="pcate"> <form:checkbox  id="one" path="categories" value="games"  /><label for="one">Игры</label></p>
+                        <p class="pcate"><form:checkbox id="two" path="categories" value="clothes" /><label for="two">Одежда</label></p>
+                        <p class="pcate"> <form:checkbox id="three" path="categories" value="notclothes"  /><label for="three">Не одежда</label></p>
+                        <p><form:errors path="categories"/></p>
                     </div>
                         <input type="hidden" name="currentCategory" value="${currentCategory}"/>
                 </form:form>

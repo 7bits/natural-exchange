@@ -99,7 +99,7 @@ public class AdvertisementController {
         //Запуск голой страницы
         if(currentCategoryParam == null) {
             advertisementSearchingForm.setAll();
-            currentCategories = null;
+            currentCategories = advertisementSearchingForm.getCategories();
         }
         //Страница с какимито параметрами
         else {
@@ -212,7 +212,6 @@ public class AdvertisementController {
                                                                                     String keyWordsStr,
                                                                                     SortOrder sortOrder,
                                                                                     String sortColumn) {
-        //if (category.equals("nothing")) category = null;
         StringTokenizer token = new StringTokenizer(keyWordsStr);
         String[] keyWords = new String[token.countTokens()];
         for(int i=0;i<keyWords.length;i++) {
@@ -255,7 +254,7 @@ public class AdvertisementController {
      */
     @RequestMapping(value = "/view.html", method = RequestMethod.GET)
     public ModelAndView view(@RequestParam(value = "id", required = true) Long id,
-                             @RequestParam(value = "currentCategory", required = true) String[] currentCategory,
+                             @RequestParam(value = "currentCategory", required = true) String currentCategory,
                              MailingNewsForm mailingNewsFormParam,
                              BindingResult bindingResult) {
 
@@ -264,7 +263,7 @@ public class AdvertisementController {
         ModelAndView modelAndView = new ModelAndView("advertisement/view");
 
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
-        advertisementSearchingForm.setCategories(/*currentCategory*/null);
+        advertisementSearchingForm.setCategories(stringToTokensArray(currentCategory));
         modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
         modelAndView.addObject("currentCategory",currentCategory);
         modelAndView.addObject("currentId",id);
