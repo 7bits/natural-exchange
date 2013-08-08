@@ -138,7 +138,7 @@ public class AdvertisementController {
         }
         List<Advertisement> advertisements;
         if(keyWordsParam != null) {
-            advertisements = findAllAdvertisementsWithCategoryAndKeyWords(currentCategory,keyWordsParam);
+            advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(currentCategory,keyWordsParam,currentSortOrder,currentColumn);
             advertisementSearchingForm.setKeyWords(keyWordsParam);
             modelAndView.addObject("currentKeyWords",keyWordsParam);
         }
@@ -156,9 +156,12 @@ public class AdvertisementController {
             }
             else {
                 modelAndView.addObject("currentKeyWords",advertisementSearchingFormParam.getKeyWords());
-                advertisements = findAllAdvertisementsWithCategoryAndKeyWords(
+                advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
                         currentCategory,
-                        advertisementSearchingFormParam.getKeyWords());
+                        advertisementSearchingFormParam.getKeyWords(),
+                        currentSortOrder,
+                        currentColumn)
+                ;
             }
         }
         PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
@@ -198,14 +201,17 @@ public class AdvertisementController {
         return modelAndView;
     }
 
-    private List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWords(String category,String keyWordsStr) {
+    private List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(String category,
+                                                                                    String keyWordsStr,
+                                                                                    SortOrder sortOrder,
+                                                                                    String sortColumn) {
         if (category.equals("nothing")) category = null;
         StringTokenizer token = new StringTokenizer(keyWordsStr);
         String[] keyWords = new String[token.countTokens()];
         for(int i=0;i<keyWords.length;i++) {
             keyWords[i] = token.nextToken();
         }
-        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWords(category,keyWords);
+        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(category,keyWords,sortOrder,sortColumn);
     }
     /**
      * Gives information about one advertisement by id for display

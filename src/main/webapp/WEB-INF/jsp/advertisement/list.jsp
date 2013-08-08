@@ -76,6 +76,7 @@
                                         <c:param name="sortOrder" value="${sortOrderDate}"/>
                              			<c:param name="pageSize" value="${pageSize}"/>
                                         <c:param name="currentCategory" value="${currentCategory}"/>
+                                        <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                 </c:url>
                                  Дата
                                  <c:choose>
@@ -99,6 +100,7 @@
 									<c:param name="sortOrder" value="${sortOrderTitle}"/>
 									<c:param name="pageSize" value="${pageSize}"/>
                                     <c:param name="currentCategory" value="${currentCategory}"/>
+                                    <c:param name="currentKeyWords" value="${currentKeyWords}"/>
 								</c:url>
 								Заголовок
                                  <c:choose>

@@ -88,7 +88,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     }
 
     @Override
-    public List<Advertisement> findAllAdvertisementsWithCategoryAndOrderBy(String category,
+    public List<Advertisement> findAllAdvertisementsWithCategoryAndOrderBy(final String category,
                                                                            final SortOrder sortOrder,
                                                                            final String sortPropertyName) {
         String args[] = new String[1];
@@ -138,9 +138,23 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
      * @return
      */
     @Override
-    public List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWords(String category,
-                                                                            String[] keyWords) {
+    public List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(final String category,
+                                                                                   final String[] keyWords,
+                                                                                   final SortOrder sortOrder,
+                                                                                   final String sortPropertyName) {
+        String sortByName = (sortPropertyName == null)
+                ? Advertisement.CREATED_DATE_COLUMN_CODE
+                : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
+        ;
         DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
+        switch (sortOrder) {
+            case ASCENDING :
+                criteria.addOrder(Order.asc(sortByName));
+                break;
+            case DESCENDING :
+                criteria.addOrder(Order.desc(sortByName));
+                break;
+        }
         if(category != null) {
             criteria.createAlias("categoryEntity","category").add(Restrictions.eq("category.name",category));
         }

@@ -32,11 +32,13 @@ public interface AdvertisementDao {
 
     List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName);
 
-    List<Advertisement> findAllAdvertisementsWithCategoryAndOrderBy(String category,
+    List<Advertisement> findAllAdvertisementsWithCategoryAndOrderBy(final String category,
                                                                     final SortOrder sortOrder,
                                                                     final String sortPropertyName);
-    List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWords(String category,
-                                                                     String[] keyWords);
+    List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(final String category,
+                                                                            final String[] keyWords,
+                                                                            final SortOrder sortOrder,
+                                                                            final String sortPropertyName);
     /**
      * Change advertisement
      * @param advertisement
