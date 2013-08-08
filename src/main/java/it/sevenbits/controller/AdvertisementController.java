@@ -306,6 +306,12 @@ public class AdvertisementController {
         return new ModelAndView("advertisement/placingRequest");
     }
 
+    @RequestMapping(value = "/makeCaptcha.html")
+    public ModelAndView makeCap() {
+        ModelAndView modelAndView = new ModelAndView("advertisement/makeCaptcha");
+        return modelAndView;
+    }
+
     @Autowired
     private NewsPostingValidator newsPostingValidator;
 

@@ -417,7 +417,7 @@
                    <label for="emailSave">Ваш E-mail</label>
                    <input type="email" id="emailSave" name="emailSave" class="placeTitle">
                    <button id="send" class="send">Отправить E-mail</button>
-                   <img src='<c:url value="/resources/images/makeCaptcha.html"/>' >
+                   <img src='<c:url value="/advertisement/makeCaptcha.html"/>' >
                    <input type="text" class="captchaInput" name="captchaInput">
                    <button id="close"> Отмена </button>
                  </form>

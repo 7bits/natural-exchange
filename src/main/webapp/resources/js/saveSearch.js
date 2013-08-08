@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $(".save").click( function () {
+
 
     $("a.save").fancybox({
        "width" : 610,
@@ -14,7 +14,7 @@ $(document).ready(function() {
        'scrolling' : 'no'
     });
 
-
+     document.getElementById("contact").style.display="block";
  //
  //      document.getElementById("block").style.display="block";
  //      document.getElementById("main").style.display="none";
@@ -24,6 +24,12 @@ function validateEmail(email) {
     var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return reg.test(email);
   }
+
+//src="http://www.captcha.ru/captcha/";
+//function reload(){
+//        document.captcha.src='loading.gif';
+//        document.captcha.src=src+'?rand='+Math.random();
+//}
 
 //  function validateCaptcha (captchaInput) {
 //      var cap=session.getAttribute("captcha");
@@ -72,14 +78,15 @@ function validateEmail(email) {
                 if (data == "auth") {
                     $(this).before("<strong> Авторизируйтесь!!! </strong>");
                  }
-                if (data == "send") {
+                if (data == "save") {
                     $(this).before("<strong> Спасибо!!! </strong>");
                  }
                 setTimeout("$.fancybox.close()", 2000);
               });
             }
          });
+          $("#contact").fadeIn("fast");
       }
     });
-  });
+
 });

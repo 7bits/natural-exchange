@@ -483,21 +483,28 @@ a:visited {
      color:#3e3e38;
 }
 
-input[type="radio"] {
+input[type="radio"], input[type="checkbox"]  {
    display:none;
-
 }
 
-input[type="radio"]  + label::before {
+input[type="radio"]  + label::before,input[type="checkbox"]  + label::before {
     content:"";
     display:inline-block;
     width:16px;
     height:16px;
     margin:0 4px 0 0;
-    background:url(../images/radio.png);
     cursor:pointer;
 
 }
+
+input[type="radio"]  + label::before {
+    background:url(../images/radio.png);
+}
+
+input[type="checkbox"]  + label::before {
+    background:url(../images/checkbox.png);
+}
+
 
  input[type="radio"]:checked + label::before {
      background:url(../images/radio_selected.png) ;
@@ -510,4 +517,10 @@ input[type="radio"]  + label::before {
  input[type="radio"]:checked:disabled + label::before {
       background:url(../images/radio.png);
 }​
+
+ input[type="checkbox"]:checked + label::before {
+     background:url(../images/checkbox_selected.png) ;
+ }
+
+
 

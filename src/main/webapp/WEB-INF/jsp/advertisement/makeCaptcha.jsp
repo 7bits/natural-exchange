@@ -1,3 +1,7 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jsp/include.jsp" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page session="false"%>
  <%@ page import="java.util.*"%>
  <%@ page import="java.io.*"%>
  <%@ page import="javax.servlet.*"%>
@@ -6,6 +10,10 @@
  <%@ page import="java.awt.image.*"%>
  <%@ page import="javax.imageio.*"%>
  <%@ page import="java.awt.geom.*"%>
+ <!doctype html>
+ <html lang="ru">
+ <head> </head>
+ <body>
  <%
  //========================================================
  // Kick Ass Captcha JSP
@@ -27,8 +35,8 @@
 
  try {
 
-     Color backgroundColor = Color.grey;
-     Color borderColor = Color.grey;
+     Color backgroundColor = Color.red;
+     Color borderColor = Color.red;
      Color textColor = Color.white;
      Color circleColor = new Color(160,160,160);
      Font textFont = new Font("Arial", Font.PLAIN, 24);
@@ -138,3 +146,5 @@
  throw new RuntimeException("Unable to build image" , ioe);
  }
  %>
+ </body>
+ </html>
