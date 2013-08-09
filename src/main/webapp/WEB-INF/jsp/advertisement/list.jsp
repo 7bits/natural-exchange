@@ -43,7 +43,7 @@
 
                 <sec:authorize ifAnyGranted='IS_AUTHENTICATED_ANONYMOUSLY'>
                     <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
-                    <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a>
+                <%--    <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a>--%>
                 </sec:authorize>
 
             </div>
@@ -294,7 +294,10 @@
                                                 <c:if test="${currentPage!=(noOfPage-2)}">
                                                     <span class="number"> ... </span>
                                                 </c:if>
-                                                <c:url value="/advertisement/list.html" var="pageUrl" >
+                                                <c:url value="/advertisemen
+
+
+t/list.html" var="pageUrl" >
                                                     <c:param name="pageSize" value="${pageSize}"/>
                                                     <c:param name="sortOrder" value="${currentSortOrder}"/>
                                                     <c:param name="sortedBy" value="${currentColumn}"/>
@@ -421,26 +424,6 @@
                     </div>
                     <p class="sign"> © 2013 Natural Exchange</p>
 
-
-
-         <form method="POST"   action="/n-exchange/j_spring_security_check" >
-         <table>
-         	<tr>
-         		<td align="right">E-mail</td>
-         		<td><input type="text" name="j_username" /></td>
-         	</tr>
-         	<tr>
-         		<td align="right">Пароль </td>
-         		<td><input type="password" name="j_password" /></td>
-         	</tr>
-
-         	<tr>
-         		<td colspan="2" align="right">
-         		<input type="submit" value="Login" />
-         		<input type="reset" value="Reset" /></td>
-         	</tr>
-         </table>
-         </form>
 
       </div>
        <div class="plug">

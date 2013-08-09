@@ -47,6 +47,10 @@
         </property>
     </bean>
 
+   <!-- <bean id="listProperty" class="config">
+        <property name="list.count" value="${list.count}"/>
+    </bean>
+       -->
     <bean id="mailService" class="it.sevenbits.service.mail.MailSenderService">
         <property name="mailSender" ref="mailSender" />
     </bean>

@@ -96,7 +96,7 @@
                                 <p>Подтвердите пароль:<span class="star">*</span></p>
                             </div>
                             <div class="right">
-                                <form:input type="password" path="confirmPassword" class="placeText" />
+                                <form:input type="password" path="confirmPassword" class="placeTitle" />
 
                             </div>
                             <span class="error2"><form:errors path="confirmPassword" /> </span>
