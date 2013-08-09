@@ -1,7 +1,9 @@
 package it.sevenbits.service.mail;
 
 import it.sevenbits.dao.SearchVariantDao;
+import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.entity.SearchVariant;
+import it.sevenbits.entity.Subscriber;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -18,6 +20,9 @@ public class MailSenderService {
 
     @Resource(name = "searchVariantDao")
     private SearchVariantDao searchVariantDao;
+
+    @Resource(name = "subscriberDao")
+    private SubscriberDao subscriberDao;
 
     private MailSender mailSender;
 
@@ -49,13 +54,16 @@ public class MailSenderService {
         for (SearchVariant entity : searchVariants) {
             String categories = entity.getCategories().replace(" ","+");
             String url1 = url+ categories;
-            url1 += "&keyWords=" + entity.getKeyWords().replace(" ","+");
+            url1 += "&keyWords=" + entity.getKeyWords().replace(" ", "+");
             mailService.sendMail(SERVICE_MAILBOX,entity.getEmail(),"Ваши варианты поиска",url1);
         }
     }
 
-    public void newsPosting() {
+    public void newsPosting(String title,String text) {
         MailSenderService mailService = getMailService();
-        mailService.sendMail(SERVICE_MAILBOX,"dimaaasik.s@gmail.com","test","hello my friend!");
+        List<Subscriber> subscribers = this.subscriberDao.find();
+        for (Subscriber entity : subscribers) {
+            mailService.sendMail(SERVICE_MAILBOX,entity.getEmail(),title,text);
+        }
     }
 }

@@ -47,14 +47,25 @@ public class SubscriberDaoHibernate implements SubscriberDao {
 
     @Override
     public List<Subscriber> find() {
-        List<Subscriber> subscriberList = new ArrayList<Subscriber>();
-        return subscriberList;
+        DetachedCriteria criteria = DetachedCriteria.forClass(SubscriberEntity.class);
+        return convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
     public void update(Subscriber subscriber) {
     }
 
     public void delete(Subscriber subscriber) {
+    }
+
+    private List<Subscriber> convertEntityList(List entities) {
+        List<Subscriber> subscribers = new ArrayList<Subscriber>();
+        if (entities != null) {
+            List<SubscriberEntity> advertisementEntityList = (List<SubscriberEntity>)entities;
+            for (SubscriberEntity entity : advertisementEntityList) {
+                subscribers.add(entity);
+            }
+        }
+        return subscribers;
     }
 
 }
