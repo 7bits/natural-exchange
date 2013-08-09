@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class UserLogoutController {
 
-    @RequestMapping(value = "user/logout.html", method = RequestMethod.GET)
+    @RequestMapping(value = "q/user/logout.html", method = RequestMethod.GET)
     public ModelAndView helloWorld() {
 
         SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);

@@ -57,7 +57,7 @@
 
 
 
-         <a href="<c:url value="/advertisement/list" />">
+         <a href="<c:url value="/advertisement/list.html" />">
          	Главная
          </a><br/>
 
