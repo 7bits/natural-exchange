@@ -40,6 +40,9 @@
                     <sec:authentication property="principal.username" />
                     <a href="<c:url value="/user/logout.html"/>" >Выйти</a>
                 </sec:authorize>
+                <sec:authorize ifAnyGranted="ROLE_ADMIN">
+                    <a href="<c:url value='/advertisement/post.html'/>" > Рассылка новостей.</a>
+                </sec:authorize>
 
                 <sec:authorize ifAnyGranted='IS_AUTHENTICATED_ANONYMOUSLY'>
                     <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
@@ -392,6 +395,8 @@ t/list.html" var="pageUrl" >
                 </form:form>
             </aside>
         </div>
+
+
         <div class="plug">
 
             <%--<div class="commercialAdvert">   --%>

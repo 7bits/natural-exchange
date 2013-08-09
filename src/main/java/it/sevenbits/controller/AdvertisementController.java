@@ -376,28 +376,36 @@ public class AdvertisementController {
         return modelAndView;
     }
 
-    @Autowired
-    private NewsPostingValidator newsPostingValidator;
 
 
     @RequestMapping(value = "/post.html", method = RequestMethod.GET)
-    public ModelAndView postNews() {
+    public ModelAndView post() {
+
         ModelAndView modelAndView = new ModelAndView("advertisement/post");
-        modelAndView.addObject("newsPostingForm", new NewsPostingForm());
+        NewsPostingForm newsPostingForm = new NewsPostingForm();
+        modelAndView.addObject("newsPostingForm",newsPostingForm);
         return modelAndView;
     }
 
-    @RequestMapping(value = "/post.html", method = RequestMethod.POST)
-    public ModelAndView processPostingNews( NewsPostingForm  newsPostingForm, BindingResult result) {
 
-        newsPostingValidator.validate(newsPostingForm , result);
-        /*
-        if (result.hasErrors()) {
-            return new ModelAndView("advertisement/post");
+
+    @Autowired
+    NewsPostingValidator newsPostingValidator;
+
+    @RequestMapping(value = "/post.html", method = RequestMethod.POST)
+    public ModelAndView posting(NewsPostingForm newsPostingFormParam, BindingResult result) {
+
+        if(newsPostingFormParam != null ){
+            newsPostingValidator.validate(newsPostingFormParam, result);
+            if (result.hasErrors()) {
+                return new ModelAndView("advertisement/post");
+            }
+            this.mailSenderService.newsPosting(newsPostingFormParam.getNewsTitle(), newsPostingFormParam.getNewsText());
         }
-          */
         return new ModelAndView("advertisement/post");
     }
+
+
 
     private int defaultPageSize() {
         Properties prop = new Properties();

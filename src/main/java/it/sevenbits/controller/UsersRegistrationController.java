@@ -38,7 +38,7 @@ import javax.annotation.Resource;
 public class UsersRegistrationController {
 
     final Logger logger = LoggerFactory
-            .getLogger(AdvertisementController.class);
+            .getLogger(UsersRegistrationController.class);
 
     @RequestMapping(value = "/registration.html", method = RequestMethod.GET)
     public ModelAndView registrationForm() {
