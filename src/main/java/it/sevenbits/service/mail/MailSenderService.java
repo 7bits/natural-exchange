@@ -2,14 +2,12 @@ package it.sevenbits.service.mail;
 
 import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.entity.SearchVariant;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -49,8 +47,9 @@ public class MailSenderService {
         List<SearchVariant> searchVariants = this.searchVariantDao.find();
         String url = "http://n-exchange.local:8282/n-exchange/advertisement/list.html?"+"currentCategory=";
         for (SearchVariant entity : searchVariants) {
-            String url1 = url+entity.getCategories();
-            url1 += "&keyWords=" + entity.getKeyWords();
+            String categories = entity.getCategories().replace(" ","+");
+            String url1 = url+ categories;
+            url1 += "&keyWords=" + entity.getKeyWords().replace(" ","+");
             mailService.sendMail(SERVICE_MAILBOX,entity.getEmail(),"Ваши варианты поиска",url1);
         }
     }

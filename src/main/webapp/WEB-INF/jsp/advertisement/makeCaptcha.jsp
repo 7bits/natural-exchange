@@ -14,8 +14,8 @@
  <html lang="ru">
  <head> </head>
  <body>
- <%--
  <%
+
  //========================================================
  // Kick Ass Captcha JSP
  //
@@ -147,6 +147,5 @@
  throw new RuntimeException("Unable to build image" , ioe);
  }
  %>
- --%>
  </body>
  </html>
