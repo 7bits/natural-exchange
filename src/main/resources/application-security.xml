@@ -30,33 +30,32 @@
                                 default-target-url='/advertisement/list.html'
                                 always-use-default-target='true'
                                 authentication-failure-url="/auth_failed.html" />
+           <security:logout logout-url="/user/logout.html"/>
 
            <security:anonymous username="guest"  granted-authority="IS_AUTHENTICATED_ANONYMOUSLY"/>
       </security:http>
 
-    <!--
+<!--
     <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider> -->
-
-            <!--<security:password-encoder hash="sha"><security:salt-source user-property="username"/></security:password-encoder>-->
-    <!--        <security:jdbc-user-service
+       <security:authentication-provider>
+           <security:jdbc-user-service
                         data-source-ref="dataSource"
                               users-by-username-query="SELECT u.email as username, u.password as password, u.enabled as enabled FROM it.sevenbits.entity.User u WHERE u.email = ?"
                         authorities-by-username-query="SELECT u.email as username, u.role as authority                          FROM it.sevenbits.entity.User u WHERE u.email = ?" />
         </security:authentication-provider>
 
-    </security:authentication-manager>  -->
+    </security:authentication-manager>
+    -->
 
 <security:authentication-manager>
     <security:authentication-provider>
         <security:user-service>
-            <security:user name="admin" password="pass" authorities="ROLE_ADMIN"/>
-            <security:user name="user1" password="1111" authorities="ROLE_USER"/>
-            <security:user name="user2" password="2222" disabled="true" authorities="ROLE_USER"/>
+            <security:user name="admin@test.ru" password="pass" authorities="ROLE_ADMIN"/>
+            <security:user name="user1@test.ru" password="1111" authorities="ROLE_USER"/>
+            <security:user name="user2@test.ru" password="2222" disabled="true" authorities="ROLE_USER"/>
         </security:user-service>
     </security:authentication-provider>
 </security:authentication-manager>
-
 
 
     <bean:bean id="myUserDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
@@ -67,12 +66,11 @@
 
 
     <!--<security:authentication-manager>
-        <security:authentication-provider >
-            <security:jdbc-user-service data-source-ref="dataSource" />
+        <security:authentication-provider user-service-ref="myUserDetailsService" >
+         <security:password-encoder hash="sha"><security:salt-source user-property="username"/></security:password-encoder>
         </security:authentication-provider>
-
-    </security:authentication-manager>-->
-
+    </security:authentication-manager>
+        -->
 
 
 </beans:beans>

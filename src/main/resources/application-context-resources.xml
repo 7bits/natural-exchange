@@ -15,6 +15,7 @@
                 <value>classpath:jdbc.properties</value>
                 <value>classpath:hibernate.properties</value>
                 <value>classpath:mailSender.properties</value>
+                <value>classpath:list.properties</value>
             </list>
         </property>
     </bean>

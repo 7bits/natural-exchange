@@ -27,28 +27,32 @@
 
 
         </header>
-       <div class="center">
-
-           <div style="color: red"> Упс. Неудача какая :( </div>
+   <div class="center">
 
 
 
-           </div>
+           <a href="<c:url value="/advertisement/list" />">
+           	Главная
+           </a><br/>
 
 
 
+           <h2> Упс %( Попробуйте еще раз, возможно Вы ввели неправильно пароль или логин. Проверьте CapsLock.</h2>
+         <div class="plug">
 
-       <div class="plug">
+
+
+              <%--<div class="commercialAdvert">   --%>
+
+              <div>
+                  <p> Понравился проект? Расскажи друзьям! </p>
+                  <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
+                  </div>
+         </div>
+   </div>
 
 
 
-            <%--<div class="commercialAdvert">   --%>
-
-            <div>
-                <p> Понравился проект? Расскажи друзьям! </p>
-                <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
-            </div>
-       </div>
        <footer class="centerTop">
                     <div class="social">
                         <p class="socialText"> Мы в социальных сетях: </p>

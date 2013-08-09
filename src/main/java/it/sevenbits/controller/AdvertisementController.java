@@ -391,7 +391,7 @@ public class AdvertisementController {
             prop.load(inStream);
             inStream.close();
         } catch (IOException e) {
-            return 2;
+            return 4;
         }
         return Integer.parseInt(prop.getProperty("list.count"));
     }

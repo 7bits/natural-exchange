@@ -38,12 +38,12 @@
 
                 <sec:authorize ifAnyGranted='ROLE_USER, ROLE_ADMIN'>
                     <sec:authentication property="principal.username" />
-                    Выйти
+                    <a href="<c:url value="/user/logout.html"/>" >Выйти</a>
                 </sec:authorize>
 
                 <sec:authorize ifAnyGranted='IS_AUTHENTICATED_ANONYMOUSLY'>
                     <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
-              <%--  <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a> --%>
+                    <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a>
                 </sec:authorize>
 
             </div>
