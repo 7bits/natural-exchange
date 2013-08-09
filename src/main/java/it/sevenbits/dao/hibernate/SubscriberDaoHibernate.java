@@ -48,8 +48,6 @@ public class SubscriberDaoHibernate implements SubscriberDao {
     @Override
     public List<Subscriber> find() {
         List<Subscriber> subscriberList = new ArrayList<Subscriber>();
-
-
         return subscriberList;
     }
 

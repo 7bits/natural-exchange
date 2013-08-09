@@ -11,6 +11,23 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
+
+        <script language="JavaScript">
+            function Validate()
+            {
+                var image =document.getElementById("image").value;
+                if(image!=''){
+                    var checkimg = image.toLowerCase();
+                    if (!checkimg.match(/(\.jpg|\.png|\.JPG|\.PNG|\.jpeg|\.JPEG)$/)){
+                        alert("Please enter Image File Extensions .jpg,.png,.jpeg");
+                        document.getElementById("image").focus();
+                        return false;
+                    }
+                }
+                return true;
+            }
+        </script>
+
     </head>
     <body>
         <header class="centerTop">
@@ -39,7 +56,7 @@
             <p class="pCenter">Разместить объявление на сайте  </p>
         </div>
         <div class="center">
-            <form:form method="post" commandName="advertisementPlacingForm" enctype="multipart/form-data">
+            <form:form method="post" commandName="advertisementPlacingForm" enctype="multipart/form-data" onSubmit="return Validate();">
                 <section>
 
                     <p class="pSay"> Поля, отмеченные звездочкой обязательны для заполнения </p>
@@ -72,7 +89,7 @@
 				            <p>Фотография:<span class="star">*</span></p>
 				        </div>
                         <div class="right">
-                            <p><input name="image" type="file" value="Загрузить" /></p>
+                            <p><input name="image" type="file" value="Загрузить" id="image" /></p>
                          </div>
 
                     <div class="think">
