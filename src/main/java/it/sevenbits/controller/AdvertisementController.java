@@ -297,6 +297,7 @@ public class AdvertisementController {
         advertisementPlacingForm.setCategory("clothes");
         modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
         modelAndView.addObject("mailingNewsForm",new MailingNewsForm());
+        mailSenderService.sendSearchVariants();
         return modelAndView;
     }
 

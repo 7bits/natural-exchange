@@ -1,7 +1,5 @@
 SET NAMES utf8;
-INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (1,'dimaaasik.s@gmail.com',1369229028460,'man coat','clothes');
-INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (2,'dimaaasik.s@gmail.com',1369229028463,'coat','clothes');
-INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (3,'dimaaasik.s@gmail.com',1369229028461,'man coat','notclothes');
+INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (1,'dimaaasik.s@gmail.com',1369229028460,'man coat','clothes games');
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (1,'clothes','very good',460,1,461);
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (2,'notclothes','very good',460,1,461);
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (3,'games','very good',460,1,461);

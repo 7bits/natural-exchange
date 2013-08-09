@@ -26,7 +26,7 @@ public class MailSenderService {
         this.mailSender = mailSender;
     }
 
-    public void sendMail(String from, String to, String subject, String msg) {
+    private void sendMail(String from, String to, String subject, String msg) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
@@ -45,8 +45,11 @@ public class MailSenderService {
     public void sendSearchVariants(){
         MailSenderService mailService = getMailService();
         List<SearchVariant> searchVariants = this.searchVariantDao.find();
+        String url = "http://n-exchange.local:8282/n-exchange/advertisement/list.html?"+"currentCategory=";
         for (SearchVariant entity : searchVariants) {
-            mailService.sendMail(SERVICE_MAILBOX,entity.getEmail(),"test",entity.getCategories());
+            String url1 = url+entity.getCategories();
+            url1 += "&keyWords=" + entity.getKeyWords();
+            mailService.sendMail(SERVICE_MAILBOX,entity.getEmail(),"Ваши варианты поиска",url1);
         }
     }
 
