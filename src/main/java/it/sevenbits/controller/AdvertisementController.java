@@ -284,9 +284,15 @@ public class AdvertisementController {
         if (mailingNewsFormParam.getEmail() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
             if (!bindingResult.hasErrors()) {
-                this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
+                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmail());
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                if(this.subscribertDao.isExists(subscriber)) {
+                    mailingNewsForm.setEmail("Вы уже подписаны.");
+                }
+                else {
+                    this.subscribertDao.create(subscriber);
+                    mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                }
                 modelAndView.addObject("mailingNewsForm",mailingNewsForm);
             }
         }
@@ -303,7 +309,7 @@ public class AdvertisementController {
         advertisementPlacingForm.setCategory("clothes");
         modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
         modelAndView.addObject("mailingNewsForm",new MailingNewsForm());
-        mailSenderService.sendSearchVariants();
+        //mailSenderService.sendSearchVariants();
         return modelAndView;
     }
 
@@ -314,15 +320,19 @@ public class AdvertisementController {
             MailingNewsForm mailingNewsFormParam,
             BindingResult mailRes) {
         if(mailingNewsFormParam.getEmail() != null ){
-
             mailingNewsValidator.validate(mailingNewsFormParam, mailRes);
             ModelAndView mdv = new ModelAndView("advertisement/placing");
             if (!mailRes.hasErrors()) {
-                this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
+                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmail());
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                if(this.subscribertDao.isExists(subscriber)) {
+                    mailingNewsForm.setEmail("Вы уже подписаны.");
+                }
+                else {
+                    this.subscribertDao.create(subscriber);
+                    mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                }
                 mdv.addObject("mailingNewsForm",mailingNewsForm);
-
             }
             AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
             advertisementPlacingForm.setCategory("clothes");
@@ -334,7 +344,13 @@ public class AdvertisementController {
                 return new ModelAndView("advertisement/placing");
             }
             FileManager fileManager = new FileManager();
-            String photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+            String photo;
+            if(advertisementPlacingFormParam.getImage().isEmpty()) {
+                photo = "no_photo.png";
+            }
+            else {
+                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+            }
             AdvertisementEntity tmp = new AdvertisementEntity();
             tmp.setText(advertisementPlacingFormParam.getText());
             tmp.setPhotoFile(photo);
