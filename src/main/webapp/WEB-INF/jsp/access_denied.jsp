@@ -28,6 +28,7 @@
           <title>Вход в систему</title>
 </head>
 <body>
+
       <header class="centerTop">
                <div class="entryBlock">
                    <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>

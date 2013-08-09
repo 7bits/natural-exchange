@@ -34,23 +34,15 @@ $(document).ready(function() {
   $("#refresh").click( function(){
      document.getElementById('captchaImg').src = "makeCaptcha.html?id=" + Math.random();
   });
-
-
-
      document.getElementById("contact").style.display="block";
  //
  //      document.getElementById("block").style.display="block";
  //      document.getElementById("main").style.display="none";
        $("#contact").submit(function() { return false; });
 
-
   $("#close").click( function(){
       $.fancybox.close();
   });
-
-   var cap='<% = session ["captcha"] %>';
-
-
 
   $("#send").click( function(e){
     e.preventDefault();

@@ -21,6 +21,7 @@
         <link type="text/css" rel="stylesheet" href="<c:url value="/fancybox/jquery.fancybox-1.3.4.css"/>"  media="screen" />
 
         <script type="text/javascript" src='<c:url value="/resources/js/saveSearch.js"/>'  language="javascript"> </script>
+        <script type="text/javascript" src='<c:url value="/resources/js/checkbox.js"/>'  language="javascript"> </script>
 
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
@@ -157,7 +158,17 @@
                                 </td>
                                 <td class="text"><c:out value="${advertisement.text}"/></td>
                                 <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
-                                <td class="category"><c:out value="${advertisement.category.name}"/></td>
+                                <td class="category">
+                                      <c:if test="${advertisement.category.name eq 'games'}">
+                                              Игры
+                                      </c:if>
+                                      <c:if test="${advertisement.category.name eq 'clothes'}">
+                                              Одежда
+                                      </c:if>
+                                      <c:if test="${advertisement.category.name eq 'notclothes'}">
+                                              Не одежда
+                                      </c:if>
+                                </td>
                              </tr>
                         </c:if>
                         <c:if test="${status.index%2==1}">
@@ -172,7 +183,18 @@
                                 </td>
                                 <td class="text"><c:out value="${advertisement.text}"/></td>
                                 <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
-                                <td class="category"><c:out value="${advertisement.category.name}"/></td>
+                                <td class="category">
+                                      <c:if test="${advertisement.category.name eq 'games'}">
+                                              Игры
+                                      </c:if>
+                                      <c:if test="${advertisement.category.name eq 'clothes'}">
+                                              Одежда
+                                      </c:if>
+                                      <c:if test="${advertisement.category.name eq 'notclothes'}">
+                                              Не одежда
+                                      </c:if>
+
+                                 </td>
                              </tr>
                         </c:if>
                     </c:forEach>
@@ -382,10 +404,10 @@ t/list.html" var="pageUrl" >
                     <a class="save" href="#main" >Сохранить поиск</a>
 
                     <input type="submit" class="search" value="Найти"/>
-                    <div class="cate">
-                        <p class="pcate"> <form:checkbox  id="one1" path="categories" value="games"  /><label for="one1">Игры</label></p>
-                        <p class="pcate"><form:checkbox id="two2" path="categories" value="clothes"  /><label for="two2">Одежда</label></p>
-                        <p class="pcate"> <form:checkbox id="three3" path="categories" value="notclothes"   /><label for="three3">Не одежда</label></p>
+                    <div class="cate" id="cate">
+                        <p class="pcate"> <form:checkbox  id="one1" path="categories" value="games"  /><label  for="one1"> <span name="cate"></span> Игры</label></p>
+                        <p class="pcate"><form:checkbox id="two2" path="categories" value="clothes"  /><label  for="two2"> <span name="cate"></span>Одежда</label></p>
+                        <p class="pcate"> <form:checkbox id="three3" path="categories" value="notclothes"   /><label  for="three3"><span name="cate"></span>Не одежда</label></p>
                         <p><form:errors path="categories"/></p>
                     </div>
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>

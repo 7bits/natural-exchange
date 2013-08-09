@@ -11,16 +11,8 @@
 <%-- !doctype html--%>
 <html lang="ru">
 <head>
-       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" language="javascript"></script>
-         <script type="text/javascript" src='<c:url value="/fancybox/jquery.fancybox-1.3.4.pack.js"/>'></script>
-         <script type="text/javascript" src='<c:url value="/fancybox/jquery.easing.1.3.js"/>'></script>
-         <script type="text/javascript" src='<c:url value="/fancybox/jquery.mousewheel-3.0.4.pack.js"/>'></script>
-         <link type="text/css" rel="stylesheet" href="<c:url value="/fancybox/jquery.fancybox-1.3.4.css"/>"  media="screen" />
-
-         <script type="text/javascript" src='<c:url value="/resources/js/saveSearch.js"/>'  language="javascript"> </script>
-
          <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
-         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
+         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>" />
          <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
          <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
          <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
@@ -29,71 +21,48 @@
 </head>
 <body>
       <header class="centerTop">
-               <div class="entryBlock">
-                   <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
-                 <%--  <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a> --%>
-               </div>
                <div id=logotype>
                    <a href='<c:url value="/advertisement/list.html"/>'>
                        <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
                    </a>
-                   <%--   <span>Натуральный обмен</span>
-                   <p> Помощь молодым родителям</p>     --%>
                </div>
+      </header>
 
-               <div id=lk>
-                   <%--*********   --%>
-              <%--         <form:form method="get" commandName="mailingNewsForm" class="lk">
-                           <p><span class="errorLk"><form:errors path="email"  /> </span></p>
-                           <p class="proLk">Узнавайте новости проекта первыми! </p>
-                           <p><form:input path="email" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                           <p><input type="submit" value="Подписаться" class="send" /></p>
-
-                       </form:form>  --%>
-                   <%-- ********* --%>
-               </div>
-           </header>
-       <div class="center">
-
-
-
-         <a href='<c:url value="/advertisement/list.html" />'>
-         	Главная
-         </a><br/>
-
-
-
-         <form method="POST"   action='<c:url value="/j_spring_security_check"/>'  >
-         <table>
-         	<tr>
-         		<td align="right">E-mail</td>
-         		<td><input type="text" name="j_username" /></td>
-         	</tr>
-         	<tr>
-         		<td align="right">Пароль </td>
-         		<td><input type="password" name="j_password" /></td>
-         	</tr>
-
-         	<tr>
-         		<td colspan="2" align="right"><input type="submit" value="Login" />
-         		<input type="reset" value="Reset" /></td>
-         	</tr>
-         </table>
-         </form>
-
+      <div class="centerR">
+          <p class="pCenter titleSave"> Вход в систему </p>
       </div>
-       <div class="plug">
+      <div class="center">
+          <form method="POST"   action="<c:url value="/j_spring_security_check"/>"  >
+               <div class="places">
+         	       <div class="left1">
+                      <p>Пароль:</p>
+         	       </div>
+                   <div class="right">
+         			   <input type="password" name="j_password"  class="logus"/>
+                    </div>
+               </div>
+               <div class="places">
+         	       <div class="left1">
+                      <p>E-mail:</p>
+         	       </div>
+                   <div class="right">
+         			  <input type="text" name="j_username"  class="logus"/>
+                   </div>
+               </div>
+               <div class="buttonArea">
+         		   <input type="reset" value="Отмена" class="close" />
+         		   <input type="submit" value="Войти" class="sendOk" />
+               </div>
 
-
-
-            <%--<div class="commercialAdvert">   --%>
-
-            <div>
-                <p> Понравился проект? Расскажи друзьям! </p>
-                <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
-            </div>
-       </div>
-       <footer class="centerTop">
+         </form>
+      </div>
+      <div class="plug">
+          <div>
+              <p> Понравился проект? Расскажи друзьям! </p>
+              <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
+          </div>
+      </div>
+      <footer class="centerTop">
                     <div class="social">
                         <p class="socialText"> Мы в социальных сетях: </p>
 
@@ -116,6 +85,5 @@
                     </div>
                     <p class="sign"> © 2013 Natural Exchange</p>
         </footer>
-
 </body>
 </html>
