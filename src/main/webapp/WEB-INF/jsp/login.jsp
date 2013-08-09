@@ -43,13 +43,13 @@
 
                <div id=lk>
                    <%--*********   --%>
-                       <form:form method="get" commandName="mailingNewsForm" class="lk">
+              <%--         <form:form method="get" commandName="mailingNewsForm" class="lk">
                            <p><span class="errorLk"><form:errors path="email"  /> </span></p>
                            <p class="proLk">Узнавайте новости проекта первыми! </p>
                            <p><form:input path="email" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
                            <p><input type="submit" value="Подписаться" class="send" /></p>
 
-                       </form:form>
+                       </form:form>  --%>
                    <%-- ********* --%>
                </div>
            </header>
@@ -63,7 +63,7 @@
 
 
 
-         <form method="POST"  commandName="user" action="/login.html"/>" >
+         <form method="POST"   action="<c:url value="/j_spring_security_check"/>"  >
          <table>
          	<tr>
          		<td align="right">E-mail</td>

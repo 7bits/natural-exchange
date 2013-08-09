@@ -390,6 +390,13 @@ public class AdvertisementController {
         return Integer.parseInt(prop.getProperty("list.count"));
     }
 
+    @RequestMapping(value = "/user/auth_failed.html", method = RequestMethod.GET)
+    public ModelAndView auth() {
+        ModelAndView modelAndView = new ModelAndView("user/auth_failed");
+
+        return modelAndView;
+    }
+
     /**
      *
      * @param keyWordsParam

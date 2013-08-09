@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session="false"%>
 
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
@@ -15,8 +13,8 @@
 <body>
         <header class="centerTop">
             <div class="entryBlock">
-                <p> <c:out value="${userDB.email}"/></p>
-            </div>  --%>
+
+            </div>
             <div id=logotype>
                 <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
                 <%--   <span>Натуральный обмен</span>
@@ -24,15 +22,7 @@
             </div>
 
             <div id=lk>
-                <%--*********   --%>
-                    <form:form method="post" commandName="mailingNewsForm" class="lk">
-                        <p><span class="errorLk"><form:errors path="email"  /> </span></p>
-                        <p class="proLk">Узнавайте новости проекта первыми! </p>
-                        <p><form:input path="email" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                        <p><input type="submit" value="Подписаться" class="send" /></p>
 
-                    </form:form>
-                <%-- ********* --%>
             </div>
 
 

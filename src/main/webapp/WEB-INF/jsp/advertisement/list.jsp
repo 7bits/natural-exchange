@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <%@ page session="false"%>
 
 <!doctype html>
@@ -34,8 +35,17 @@
 
         <header class="centerTop">
             <div class="entryBlock">
-                <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
+
+                <sec:authorize ifAnyGranted='ROLE_USER, ROLE_ADMIN'>
+                    <sec:authentication property="principal.username" />
+                    Выйти
+                </sec:authorize>
+
+                <sec:authorize ifAnyGranted='IS_AUTHENTICATED_ANONYMOUSLY'>
+                    <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
               <%--  <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a> --%>
+                </sec:authorize>
+
             </div>
             <div id=logotype>
                 <a href='<c:url value="/advertisement/list.html"/>'>
@@ -410,6 +420,31 @@
                         <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
                     </div>
                     <p class="sign"> © 2013 Natural Exchange</p>
+
+
+
+         <form method="POST"   action="/n-exchange/j_spring_security_check" >
+         <table>
+         	<tr>
+         		<td align="right">E-mail</td>
+         		<td><input type="text" name="j_username" /></td>
+         	</tr>
+         	<tr>
+         		<td align="right">Пароль </td>
+         		<td><input type="password" name="j_password" /></td>
+         	</tr>
+
+         	<tr>
+         		<td colspan="2" align="right">
+         		<input type="submit" value="Login" />
+         		<input type="reset" value="Reset" /></td>
+         	</tr>
+         </table>
+         </form>
+
+      </div>
+       <div class="plug">
+
         </footer>
 
         <div id="block">

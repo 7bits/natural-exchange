@@ -4,7 +4,7 @@
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:security="http://www.springframework.org/schema/security"
              xmlns:bean="http://www.springframework.org/schema/beans"
-             xmlns:p="http://www.springframework.org/schema/security"
+
              xsi:schemaLocation="
                                 http://www.springframework.org/schema/beans
                                 http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -14,37 +14,49 @@
 <!--<security:global-method-security secured-annotations="enabled" /> -->
 
 
-       <http auto-config="true" access-denied-page="/400.jsp" >
-           <intercept-url pattern="/css/**" access="ROLE_ADMIN"/>
-           <intercept-url pattern='/user/login.htm*' access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-           <intercept-url pattern="/user/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-           <intercept-url pattern="/advertisement/post.htm*" access="ROLE_ADMIN" />
-           <intercept-url pattern="/advertisement/placing.htm*" access="ROLE_USER" />
-           <intercept-url pattern='/advertisement/**' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'  />
-           <intercept-url pattern="/user/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+       <security:http auto-config="true" access-denied-page="/access_denied.jsp" >
+           <security:intercept-url pattern="/css/**" access="ROLE_ADMIN"/>
+           <security:intercept-url pattern='/login.htm*' access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+           <security:intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+           <security:intercept-url pattern="/advertisement/post.htm*" access="ROLE_ADMIN" />
+           <security:intercept-url pattern="/advertisement/placing*.*" access="ROLE_USER, ROLE_ADMIN" />
+           <security:intercept-url pattern='/advertisement/view*' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'  />
+           <security:intercept-url pattern='/advertisement/list.*' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'  />
+           <security:intercept-url pattern="/user/auth*" access="ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY" />
+           <security:intercept-url pattern="/user/**" access="ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY" />
 
-           <form-login login-page='/login.jsp'
+           <security:form-login login-page='/login'
                                 default-target-url='/advertisement/list.html'
                                 always-use-default-target='true'
-                                authentication-failure-url="/login-failure" />
+                                authentication-failure-url="/auth_failed.html" />
 
-           <logout logout-url="/user/logout"
-                            logout-success-url="/logoutSuccess.html" />
-           <anonymous username="guest" granted-authority="IS_AUTHENTICATED_ANONYMOUSLY"/>
-      </http>
+           <security:anonymous username="guest"  granted-authority="IS_AUTHENTICATED_ANONYMOUSLY"/>
+      </security:http>
+
+    <!--
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider> -->
+
+            <!--<security:password-encoder hash="sha"><security:salt-source user-property="username"/></security:password-encoder>-->
+    <!--        <security:jdbc-user-service
+                        data-source-ref="dataSource"
+                              users-by-username-query="SELECT u.email as username, u.password as password, u.enabled as enabled FROM it.sevenbits.entity.User u WHERE u.email = ?"
+                        authorities-by-username-query="SELECT u.email as username, u.role as authority                          FROM it.sevenbits.entity.User u WHERE u.email = ?" />
+        </security:authentication-provider>
+
+    </security:authentication-manager>  -->
+
+<security:authentication-manager>
+    <security:authentication-provider>
+        <security:user-service>
+            <security:user name="admin" password="pass" authorities="ROLE_ADMIN"/>
+            <security:user name="user1" password="1111" authorities="ROLE_USER"/>
+            <security:user name="user2" password="2222" disabled="true" authorities="ROLE_USER"/>
+        </security:user-service>
+    </security:authentication-provider>
+</security:authentication-manager>
 
 
-    <authentication-manager>
-        <authentication-provider user-service-ref='myUserDetailsService'>
-            <password-encoder hash="sha"><salt-source user-property="username"/></password-encoder>
-           <!-- <jdbc-user-service data-source-ref="dataSource"/> -->
-        </authentication-provider>
-    </authentication-manager>
-
-
-
-
-    <!--UserDetailsServiceRetrieves implementation which retrieves the user details (username, password, enabled flag, and authorities) from a database using JDBC queries.-->
 
     <bean:bean id="myUserDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
         <beans:property name="dataSource" ref="dataSource"/>
