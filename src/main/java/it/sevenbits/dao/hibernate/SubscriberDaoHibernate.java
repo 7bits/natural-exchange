@@ -4,6 +4,8 @@ import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.hibernate.SubscriberEntity;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -32,6 +34,15 @@ public class SubscriberDaoHibernate implements SubscriberDao {
     @Override
     public Subscriber findById(final Integer id) {
         return new Subscriber();
+    }
+
+    @Override
+    public boolean isExists(Subscriber subscriber) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(SubscriberEntity.class);
+        criteria.add(Restrictions.eq("email",subscriber.getEmail()));
+        List<SubscriberEntity> subscribers = this.hibernateTemplate.findByCriteria(criteria);
+        if (subscribers.isEmpty()) return false;
+        return true;
     }
 
     @Override

@@ -201,9 +201,15 @@ public class AdvertisementController {
         if (mailingNewsFormParam.getEmail() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
             if (!bindingResult.hasErrors()) {
-                this.subscribertDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
+                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmail());
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                if(this.subscribertDao.isExists(subscriber)) {
+                    mailingNewsForm.setEmail("Вы уже подписаны.");
+                }
+                else {
+                    this.subscribertDao.create(subscriber);
+                    mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                }
                 modelAndView.addObject("mailingNewsForm",mailingNewsForm);
             }
         }

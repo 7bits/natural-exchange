@@ -9,6 +9,9 @@ import javax.persistence.*;
 public class SubscriberEntity extends Subscriber {
     private Long id;
 
+    public SubscriberEntity() {
+    }
+
     public SubscriberEntity(String email) {
         super(email);
     }

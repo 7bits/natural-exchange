@@ -72,7 +72,7 @@
 				            <p>Фотография:<span class="star">*</span></p>
 				        </div>
                         <div class="right">
-                            <p><input name="image" type="file" /></p>
+                            <p><input name="image" type="file" value="Загрузить" /></p>
                          </div>
 
                     <div class="think">

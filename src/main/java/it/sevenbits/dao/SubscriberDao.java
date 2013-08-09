@@ -23,11 +23,14 @@ public interface SubscriberDao {
      */
     Subscriber findById(Integer id);
 
+    boolean isExists(Subscriber subscriber);
+
     /**
      * возвращает  список всех подписчиков
      * @return
      */
     List<Subscriber> find();
+
 
     /**
      * изменить подписчиков
