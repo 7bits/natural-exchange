@@ -71,10 +71,8 @@
 				            <p>Фотография:<span class="star">*</span></p>
 				        </div>
                         <div class="right">
-				            <p><form:input path="photoFile" class="placeTitle" /></p>
-                            <p><input name="file" type="file" /></p>
+                            <p><input name="image" type="file" /></p>
                          </div>
-                         <span class="error2"><form:errors path="photoFile" /></span>
 
                     <div class="think">
                              <input type="reset" value="Отмена" class="no"/>

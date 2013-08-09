@@ -8,6 +8,7 @@ import it.sevenbits.entity.*;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.service.mail.MailSenderService;
+import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
@@ -325,10 +326,11 @@ public class AdvertisementController {
             if (result.hasErrors()) {
                 return new ModelAndView("advertisement/placing");
             }
-            savingFile(advertisementPlacingFormParam.getFile());
+            FileManager fileManager = new FileManager();
+            String photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
             AdvertisementEntity tmp = new AdvertisementEntity();
             tmp.setText(advertisementPlacingFormParam.getText());
-            tmp.setPhotoFile(advertisementPlacingFormParam.getPhotoFile());
+            tmp.setPhotoFile(photo);
             tmp.setTitle(advertisementPlacingFormParam.getTitle());
             CategoryEntity categoryEntity = null;
             if(advertisementPlacingFormParam.getCategory().equals(Category.NAME_CLOTHES)) {
@@ -343,21 +345,6 @@ public class AdvertisementController {
             this.advertisementDao.create(tmp);
         }
         return new ModelAndView("advertisement/placingRequest");
-    }
-
-    private void savingFile(MultipartFile multipartFile) {
-        String filePlaceToUpload = "D:/Programming/Java/Tests/";
-        UUID id = UUID.randomUUID();
-        String fileName = id.toString().replaceAll("-","");
-        String contentType = multipartFile.getContentType();
-        String filePath = filePlaceToUpload+fileName+"."+contentType;
-        File file = new File(filePath);
-        try {
-        FileUtils.writeByteArrayToFile(file, multipartFile.getBytes());
-        } catch (Throwable e) {
-            //TODO:Opa Gangnam style!
-            e.printStackTrace();
-        }
     }
 
     @RequestMapping(value = "/makeCaptcha.html")

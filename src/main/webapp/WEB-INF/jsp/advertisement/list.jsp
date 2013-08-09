@@ -143,7 +143,7 @@
                                     <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
                                 </td>
                                 <td class="text"><c:out value="${advertisement.text}"/></td>
-                                <td class="photo"><img src='<c:url value="/resources/images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
+                                <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
                                 <td class="category"><c:out value="${advertisement.category.name}"/></td>
                              </tr>
                         </c:if>
@@ -158,7 +158,7 @@
                                     <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
                                 </td>
                                 <td class="text"><c:out value="${advertisement.text}"/></td>
-                                <td class="photo"><img src='<c:url value="/resources/images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
+                                <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
                                 <td class="category"><c:out value="${advertisement.category.name}"/></td>
                              </tr>
                         </c:if>

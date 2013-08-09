@@ -5,24 +5,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class AdvertisementPlacingForm {
     private String title;
     private String text;
-    private String photoFile;
     private String category;
-    MultipartFile file;
+    MultipartFile image;
 
-    public MultipartFile getFile() {
-        return file;
+    public MultipartFile getImage() {
+        return image;
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-
-    public String getPhotoFile() {
-        return photoFile;
-    }
-
-    public void setPhotoFile(String photoFile) {
-        this.photoFile = photoFile;
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 
     public String getText() {
