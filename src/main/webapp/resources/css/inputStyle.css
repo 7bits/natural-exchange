@@ -1,50 +1,64 @@
+@charset "utf-8";
+
 input[type="radio"] {
    display:none;
 }
 
-input[type="radio"]  + label::before,
-input[type="checkbox"]  + label::before {
+input[type="radio"]  + label::before{
     content:"";
     display:inline-block;
     width:16px;
     height:16px;
     margin:0 4px 0 0;
     cursor:pointer;
-
-}
-
-input[type="radio"]  + label::before {
     background:url(../images/radio.png);
 }
-
-input[type="checkbox"]  + label::before {
-    background:url(../images/checkbox.png);
-}
-
 
  input[type="radio"]:checked + label::before {
      background:url(../images/radio_selected.png) ;
  }
 
-  input[type="checkbox"]:checked + label::before {
-      background:url(../images/checkbox_selected.png) ;
-  }
+ input[type="radio"]:checked:disabled + label::before {
+      background:url(../images/radio.png);
+}​
 
  input[type="radio"]:disabled + label::before {
       background:url(../images/radio_selected.png) ;
  }
 
-  input[type="checkbox"]:disabled + label::before {
+/*input[type="checkbox"] {
+   display:none;
+}
+
+label + input[type="checkbox"]::before {
+    content:"";
+    display:inline-block;
+    width:16px;
+    height:16px;
+    margin:0 4px 0 0;
+    cursor:pointer;
+    background:url(../images/checkbox.png);
+}
+
+input[type="checkbox"] + input + label::before {
+    content:"";
+    display:inline-block;
+    width:16px;
+    height:16px;
+    margin:0 4px 0 0;
+    cursor:pointer;
+    background:url(../images/checkbox.png);
+}
+
+  input[type="checkbox"]:checked + input + label::before {
+      background:url(../images/checkbox_selected.png) ;
+  }
+
+  input[type="checkbox"]:disabled + input + label::before {
        background:url(../images/checkbox_selected.png) ;
   }
 
- input[type="radio"]:checked:disabled + label::before {
-      background:url(../images/radio.png);
-}​
-
- input[type="checkbox"]:checked:disabled + label::before {
-     background:url(../images/checkbox.png) ;
- }
-
-
-
+   input[type="checkbox"]:checked:disabled + input + label::before {
+        background:url(../images/checkbox.png);
+  }​
+  */

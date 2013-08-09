@@ -16,6 +16,7 @@
 
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
     <%-- <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>  --%>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'>
         <title>Просмотр объявления</title>
@@ -61,13 +62,14 @@
                 <div class="viewCategory">
 
                         Категория:
-
-
+                        <c:if test="${advertisement.category.name eq 'games'}">
+                              <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+games+"/>' class="viewCate" > Игры </a>                           <%-- --%>
+                        </c:if>
                         <c:if test="${advertisement.category.name eq 'clothes'}">
-                            <a href='<c:url value="/advertisement/list.html?keyWords=&category=clothes&currentCategory=clothes"/>' class="viewCate" > Одежда </a>                           <%-- --%>
+                            <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+clothes+"/>' class="viewCate" > Одежда </a>                           <%-- --%>
                         </c:if>
                         <c:if test="${advertisement.category.name eq 'notclothes'}">
-                            <a href='<c:url value="/advertisement/list.html?keyWords=&category=notclothes&currentCategory=clothes"/>' class="viewCate" > Не одежда </a>
+                            <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+notclothes+"/>' class="viewCate" > Не одежда </a>
                         </c:if>
 
                 </div>

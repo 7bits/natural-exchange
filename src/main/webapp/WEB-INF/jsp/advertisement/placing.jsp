@@ -9,6 +9,7 @@
     <head>
         <title>Размещение объявления</title>
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
     </head>
     <body>
@@ -85,6 +86,7 @@
                         Выберите категорию: <span class="star">* </span>
                     </div>
                     <div class="cate1">
+                        <p class="pcate1"><form:radiobutton id="one" path="category" value="games" /><label for="one">Игры</label></p>
                         <p class="pcate1"><form:radiobutton id="two" path="category" value="clothes" /><label for="two">Одежда</label></p>
                         <p class="pcate1"> <form:radiobutton id="three" path="category" value="notclothes"  /><label for="three">Не одежда</label></p>
                         <p> <span class="error"><form:errors path="category"/></span></p>

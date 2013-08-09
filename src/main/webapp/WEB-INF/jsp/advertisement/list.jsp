@@ -377,9 +377,9 @@
 
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
-                        <p class="pcate"> <form:checkbox  id="one" path="categories" value="games"  /><label for="one">Игры</label></p>
-                        <p class="pcate"><form:checkbox id="two" path="categories" value="clothes"  /><label for="two">Одежда</label></p>
-                        <p class="pcate"> <form:checkbox id="three" path="categories" value="notclothes"   /><label for="three">Не одежда</label></p>
+                        <p class="pcate"> <form:checkbox  id="one1" path="categories" value="games"  /><label for="one1">Игры</label></p>
+                        <p class="pcate"><form:checkbox id="two2" path="categories" value="clothes"  /><label for="two2">Одежда</label></p>
+                        <p class="pcate"> <form:checkbox id="three3" path="categories" value="notclothes"   /><label for="three3">Не одежда</label></p>
                         <p><form:errors path="categories"/></p>
                     </div>
                         <input type="hidden" name="sortedBy" value="${currentColumn}"/>
@@ -460,9 +460,10 @@
                          <input type="text" class="captchIn" name="captchaInput">
 
                      </div>
-                     <div>
-                         <button id="close" class="save close"> Отмена </button>
-                         <button id="send" class="search">Готово</button>
+                     <div id="message">  </div>
+                     <div class="buttonArea">
+                         <button id="close" class="close"> Отмена </button>
+                         <button id="send" class="sendOk">Готово</button>
                      </div>
                  </form>
                </div>

@@ -12,6 +12,13 @@ body {
     color:#3e3e38;
 }
 
+#message {
+color: red;
+font-size: 14px;
+padding-left: 45px;
+height: 20px;
+}
+
 .placeTitle.error {
   border-color: #973d3d;
   border-style: solid;
@@ -33,6 +40,12 @@ body {
 
 .refresh {
     padding: 20px 25px;
+    cursor: pointer;
+}
+
+.buttonArea {
+    margin: 10px auto;
+    width: 220px;
 }
 
 .captchIn {
@@ -74,15 +87,70 @@ color: #9c9c9c;
     float:left;
 }
 
-.close {
-   width: 200px;
+.sendOk{
+    float:right;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+    color: d8d8d8; /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+    width:100px;
+    height:40px;
+    box-shadow:0 5px #5e8a00;  /* Параметры тени */
+    border-radius: 4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    background: #b1ed2f;
+    border: none;
+    cursor: pointer;
 }
+
+.sendOk:active {
+    position:relative;
+    top:3px;
+    background: #bcfb33;
+    -moz-box-shadow: 0 2px #5e8a00; /* Для Firefox */
+    -webkit-box-shadow: 0 2px #5e8a00; /* Для Safari и Chrome */
+    box-shadow:0 2px #5e8a00;  /* Параметры тени */
+}
+
+.sendOk:hover {
+    background: #bcfb33;
+}
+
+.close {
+    float: left;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+    width: 100px;
+    text-align: center;
+    padding: 8.5px 3px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #d8d8d8;
+    border: none;
+    box-shadow: 0 5px #a49e9e;
+}
+
+.close:hover {
+    text-decoration:none;
+    background: #e0e0e0;
+}
+
+.close:active {
+    position:relative;
+    top:3px;
+    background: #e0e0e0;
+    -moz-box-shadow: 0 2px #e0e0e0; /* Для Firefox */
+    -webkit-box-shadow: 0 2px #e0e0e0; /* Для Safari и Chrome */
+    box-shadow:0 2px #e0e0e0;  /* Параметры тени */
+}
+
 
 #main {
     background: url(../images/background_left_bottom.jpg) left bottom no-repeat, url(../images/background_right_top.jpg) right top no-repeat;
     width: 606px;
     height: 456px;
-    border: 2px solid #d8d8d8;
+ /*   border: 2px solid #d8d8d8;*/
     border-radius: 6px;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;

@@ -410,6 +410,7 @@ public class AdvertisementController {
     String getSavingSearchRequest(@RequestParam(value = "wordSearch", required = false) String keyWordsParam,
                       @RequestParam(value = "email", required = false) String emailParam,
                       @RequestParam(value = "categorySearch", required = false) String categoriesParam) {
+
         if(userDao.isExistUserWithEmail(emailParam))
             return "auth";
         SearchVariant searchVariant = new SearchVariant(emailParam,keyWordsParam,categoriesParam);
