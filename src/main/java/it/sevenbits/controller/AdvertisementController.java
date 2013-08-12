@@ -5,11 +5,8 @@ import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
-import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
-import it.sevenbits.entity.hibernate.AdvertisementEntity;
-import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
@@ -418,6 +415,7 @@ public class AdvertisementController {
         if (userDao.isExistUserWithEmail(emailParam)) {
             return "auth";
         }
+        mailSenderService.sendSearchVariant(emailParam, keyWordsParam, categoriesParam);
         SearchVariant searchVariant = new SearchVariant(emailParam, keyWordsParam, categoriesParam);
         this.searchVariantDao.create(searchVariant);
         return "save";
