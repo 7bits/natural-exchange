@@ -4,7 +4,6 @@ import it.sevenbits.dao.hibernate.UserDaoHibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,7 +20,7 @@ public class MyUserDetailsService implements UserDetailsService {
     private UserDaoHibernate userDaoManager;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String email) {
         return userDaoManager.findUserByEmail(email);
     }
 

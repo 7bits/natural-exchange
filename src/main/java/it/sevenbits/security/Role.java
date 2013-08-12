@@ -127,7 +127,7 @@ public final class Role implements GrantedAuthority {
     public String toString() {
 
         return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE)
-            .append( this.getName())
+            .append(this.getName())
             .append("description", "(" + this.getDescription() + ")")
             .toString();
     }
