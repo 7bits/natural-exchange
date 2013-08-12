@@ -4,7 +4,10 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
-import it.sevenbits.entity.*;
+import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.Category;
+import it.sevenbits.entity.SearchVariant;
+import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.service.mail.MailSenderService;
@@ -15,31 +18,27 @@ import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.NewsPostingForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
-
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
-
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
+import java.util.StringTokenizer;
 import javax.annotation.Resource;
-
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import it.sevenbits.util.form.validator.NewsPostingValidator;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.*;
-
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -48,8 +47,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "advertisement")
 public class AdvertisementController {
-    final Logger logger = LoggerFactory
-            .getLogger(AdvertisementController.class);
+
+    private final Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
 
     @Resource(name = "advertisementDao")
     private AdvertisementDao advertisementDao;
@@ -66,6 +65,12 @@ public class AdvertisementController {
     @Resource(name = "mailService")
     private MailSenderService mailSenderService;
 
+    @Autowired
+    private AdvertisementSearchingValidator advertisementSearchingValidator;
+
+    @Autowired
+    private MailingNewsValidator mailingNewsValidator;
+
     /**
      * Gives information about all advertisements for display
      *
@@ -74,51 +79,37 @@ public class AdvertisementController {
      *             sortDateOrder = true if ascending, false othewise
      *             sortTitleOrder = so on
      */
-
-    @Autowired
-    private AdvertisementSearchingValidator advertisementSearchingValidator;
-
-    @Autowired
-    private MailingNewsValidator mailingNewsValidator;
-
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public ModelAndView list(
-            @RequestParam(value = "sortedBy", required = false) String sortByNameParam,
-            @RequestParam(value = "sortOrder", required = false) String sortOrderParam,
-            @RequestParam(value = "currentPage", required = false) Integer currentPageParam,
-            @RequestParam(value = "pageSize", required = false) Integer pageSizeParam,
-            @RequestParam(value = "currentCategory", required = false) String currentCategoryParam,
-            @RequestParam(value = "currentKeyWords", required = false) String keyWordsParam,
-            AdvertisementSearchingForm advertisementSearchingFormParam,
-            MailingNewsForm mailingNewsFormParam, BindingResult bindingResult)
+            @RequestParam(value = "sortedBy", required = false)final String sortByNameParam,
+            @RequestParam(value = "sortOrder", required = false)final String sortOrderParam,
+            @RequestParam(value = "currentPage", required = false)final Integer currentPageParam,
+            @RequestParam(value = "pageSize", required = false)final Integer pageSizeParam,
+            @RequestParam(value = "currentCategory", required = false)final String currentCategoryParam,
+            @RequestParam(value = "currentKeyWords", required = false)final String keyWordsParam,
+            final AdvertisementSearchingForm advertisementSearchingFormParam,
+            final MailingNewsForm mailingNewsFormParam, final BindingResult bindingResult)
             throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setAll();
-       // modelAndView.addObject("currentCategory","kall"/*stringArrayToString(advertisementSearchingForm.getCategories())*/);
-
         String[] selectedCategories = advertisementSearchingFormParam.getCategories();
         String[] currentCategories;
-        //Запуск голой страницы
-        if(currentCategoryParam == null) {
+        if (currentCategoryParam == null) { //запуск пустой страницы
             advertisementSearchingForm.setAll();
             currentCategories = advertisementSearchingForm.getCategories();
-        }
-        //Страница с какимито параметрами
-        else {
+        } else {
             //Пришли параметры от формы выбора поиска
-            if (selectedCategories!=null) {
+            if (selectedCategories != null) {
                 currentCategories = selectedCategories;
-            }
-            //От какогото другого элемента
-            else {
+            } else { //От какогото другого элемента
                 currentCategories = stringToTokensArray(currentCategoryParam);
             }
             advertisementSearchingForm.setCategories(currentCategories);
             advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
         }
-        modelAndView.addObject("currentCategory",stringArrayToString(currentCategories));
-        modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
+        modelAndView.addObject("currentCategory", stringArrayToString(currentCategories));
+        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
         String currentColumn;
         SortOrder currentSortOrder;
         if (sortByNameParam == null) {
@@ -139,32 +130,33 @@ public class AdvertisementController {
         }
         SortOrder newSortOrder = SortOrder.getViceVersa(currentSortOrder);
         if (currentColumn.equals(Advertisement.TITLE_COLUMN_CODE)) {
-            modelAndView.addObject("sortedByTitle",Advertisement.TITLE_COLUMN_CODE);
-            modelAndView.addObject("sortOrderTitle",newSortOrder.toString());
-            modelAndView.addObject("sortedByDate",Advertisement.CREATED_DATE_COLUMN_CODE);
-            modelAndView.addObject("sortOrderDate",SortOrder.ASCENDING.toString());
+            modelAndView.addObject("sortedByTitle", Advertisement.TITLE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderTitle", newSortOrder.toString());
+            modelAndView.addObject("sortedByDate", Advertisement.CREATED_DATE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderDate", SortOrder.ASCENDING.toString());
         } else {
-            modelAndView.addObject("sortedByTitle",Advertisement.TITLE_COLUMN_CODE);
-            modelAndView.addObject("sortOrderTitle",SortOrder.ASCENDING.toString());
-            modelAndView.addObject("sortedByDate",Advertisement.CREATED_DATE_COLUMN_CODE);
-            modelAndView.addObject("sortOrderDate",newSortOrder.toString());
+            modelAndView.addObject("sortedByTitle", Advertisement.TITLE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderTitle", SortOrder.ASCENDING.toString());
+            modelAndView.addObject("sortedByDate", Advertisement.CREATED_DATE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderDate", newSortOrder.toString());
         }
         List<Advertisement> advertisements;
-        if(keyWordsParam != null) {
-            advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(currentCategories, keyWordsParam, currentSortOrder, currentColumn);
+        if (keyWordsParam != null) {
+            advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
+                    currentCategories, keyWordsParam, currentSortOrder, currentColumn
+            );
             advertisementSearchingForm.setKeyWords(keyWordsParam);
-            modelAndView.addObject("currentKeyWords",keyWordsParam);
-        }
-        else {
-            if(advertisementSearchingFormParam.getKeyWords()==null || advertisementSearchingFormParam.getKeyWords().equals(""))
+            modelAndView.addObject("currentKeyWords", keyWordsParam);
+        } else {
+            if (advertisementSearchingFormParam.getKeyWords() == null || advertisementSearchingFormParam.getKeyWords().equals(""))
             {
-                if(advertisementSearchingForm.getCategories()==null)
+                if (advertisementSearchingForm.getCategories() == null) {
                     advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
-                else
+                } else {
                     advertisements = findAllAdvertisementsWithCategoryOrderBy(currentCategories, currentSortOrder, currentColumn);
-            }
-            else {
-                modelAndView.addObject("currentKeyWords",advertisementSearchingFormParam.getKeyWords());
+                }
+            } else {
+                modelAndView.addObject("currentKeyWords", advertisementSearchingFormParam.getKeyWords());
                 advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
                         currentCategories,
                         advertisementSearchingFormParam.getKeyWords(),
@@ -176,21 +168,21 @@ public class AdvertisementController {
         PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
         pageList.setSource(advertisements);
         int pageSize;
-        if (pageSizeParam == null)
+        if (pageSizeParam == null) {
             pageSize = defaultPageSize();
-        else
+        } else {
             pageSize = pageSizeParam.intValue();
-
+        }
         pageList.setPageSize(pageSize);
         int noOfPage = pageList.getPageCount();
 
         int currentPage;
-        if (currentPageParam == null || currentPageParam >= noOfPage)
+        if (currentPageParam == null || currentPageParam >= noOfPage) {
             currentPage = 0;
-        else
+        } else {
             currentPage = currentPageParam.intValue();
+        }
         pageList.setPage(currentPage);
-
         modelAndView.addObject("advertisements", pageList.getPageList());
         modelAndView.addObject("defaultPageSize", defaultPageSize());
         modelAndView.addObject("noOfPage", noOfPage);
@@ -199,61 +191,63 @@ public class AdvertisementController {
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
         if (mailingNewsFormParam.getEmail() != null) {
-            mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
+            mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
             if (!bindingResult.hasErrors()) {
                 Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmail());
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                if(this.subscribertDao.isExists(subscriber)) {
+                if (this.subscribertDao.isExists(subscriber)) {
                     mailingNewsForm.setEmail("Вы уже подписаны.");
-                }
-                else {
+                } else {
                     this.subscribertDao.create(subscriber);
                     mailingNewsForm.setEmail("Ваш e-mail добавлен.");
                 }
-                modelAndView.addObject("mailingNewsForm",mailingNewsForm);
+                modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
         }
         return modelAndView;
     }
 
-    private List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(String[] categories,
-                                                                                    String keyWordsStr,
-                                                                                    SortOrder sortOrder,
-                                                                                    String sortColumn) {
-        //mailSenderService.sendMail(MailSenderService.SERVICE_MAILBOX,"dimaaasik.s@gmail.com","test",categories.toString());
-        if(categories.length == 0) return Collections.emptyList();
+    private List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
+            final String[] categories, final String keyWordsStr, final SortOrder sortOrder, final String sortColumn
+    ) {
+        if (categories.length == 0) {
+            return Collections.emptyList();
+        }
         StringTokenizer token = new StringTokenizer(keyWordsStr);
         String[] keyWords = new String[token.countTokens()];
-        for(int i=0;i<keyWords.length;i++) {
+        for (int i = 0; i < keyWords.length; i++) {
             keyWords[i] = token.nextToken();
         }
         return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories, keyWords, sortOrder, sortColumn);
     }
 
-    private List<Advertisement> findAllAdvertisementsWithCategoryOrderBy(String[] categories,
-                                                                         SortOrder sortOrder,
-                                                                         String sortColumn) {
-        if(categories.length == 0) return Collections.emptyList();
-        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories,null,sortOrder,sortColumn);
+    private List<Advertisement> findAllAdvertisementsWithCategoryOrderBy(
+            final String[] categories, final SortOrder sortOrder, final String sortColumn
+    ) {
+        if (categories.length == 0) {
+            return Collections.emptyList();
+        }
+        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories, null, sortOrder, sortColumn);
     }
 
-    private String stringArrayToString(String[] src) {
-        if(src == null) {
+    private String stringArrayToString(final String[] src) {
+        if (src == null) {
             return null;
         }
         String dest = " ";
-        for(int i=0;i<src.length;i++)
-            dest+=src[i]+" ";
+        for (int i = 0 ; i < src.length ; i++) {
+            dest += src[i] + " ";
+        }
         return dest;
     }
 
-    private String[] stringToTokensArray(String str) {
-        if(str == null) {
+    private String[] stringToTokensArray(final String str) {
+        if (str == null) {
             return null;
         }
         StringTokenizer token = new StringTokenizer(str);
         String[] words = new String[token.countTokens()];
-        for(int i=0;i<words.length;i++) {
+        for (int i = 0 ; i < words.length ; i++) {
             words[i] = token.nextToken();
         }
         return words;
@@ -264,36 +258,30 @@ public class AdvertisementController {
      * @return jsp-page with advertisement information
      */
     @RequestMapping(value = "/view.html", method = RequestMethod.GET)
-    public ModelAndView view(@RequestParam(value = "id", required = true) Long id,
-                             @RequestParam(value = "currentCategory", required = true) String currentCategory,
-                             MailingNewsForm mailingNewsFormParam,
-                             BindingResult bindingResult) {
-
-        // Создаем вьюшку по list.jsp, которая выведется этим контроллером на
-        // экран
+    public ModelAndView view(@RequestParam(value = "id", required = true) final Long id,
+                             @RequestParam(value = "currentCategory", required = true) final String currentCategory,
+                             final MailingNewsForm mailingNewsFormParam, final BindingResult bindingResult
+    ) {
         ModelAndView modelAndView = new ModelAndView("advertisement/view");
-
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setCategories(stringToTokensArray(currentCategory));
-        modelAndView.addObject("advertisementSearchingForm",advertisementSearchingForm);
-        modelAndView.addObject("currentCategory",currentCategory);
-        modelAndView.addObject("currentId",id);
-
+        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
+        modelAndView.addObject("currentCategory", currentCategory);
+        modelAndView.addObject("currentId", id);
         Advertisement advertisement = this.advertisementDao.findById(id);
         modelAndView.addObject("advertisement", advertisement);
         if (mailingNewsFormParam.getEmail() != null) {
-            mailingNewsValidator.validate(mailingNewsFormParam,bindingResult);
+            mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
             if (!bindingResult.hasErrors()) {
                 Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmail());
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                if(this.subscribertDao.isExists(subscriber)) {
+                if (this.subscribertDao.isExists(subscriber)) {
                     mailingNewsForm.setEmail("Вы уже подписаны.");
-                }
-                else {
+                } else {
                     this.subscribertDao.create(subscriber);
                     mailingNewsForm.setEmail("Ваш e-mail добавлен.");
                 }
-                modelAndView.addObject("mailingNewsForm",mailingNewsForm);
+                modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
         }
         return modelAndView;
@@ -307,36 +295,35 @@ public class AdvertisementController {
         ModelAndView modelAndView = new ModelAndView("advertisement/placing");
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         advertisementPlacingForm.setCategory("clothes");
-        modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
-        modelAndView.addObject("mailingNewsForm",new MailingNewsForm());
-        //mailSenderService.sendSearchVariants();
+        modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
+        modelAndView.addObject("mailingNewsForm", new MailingNewsForm());
         return modelAndView;
     }
 
     @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
     public ModelAndView processPlacing(
-            AdvertisementPlacingForm advertisementPlacingFormParam,
-            BindingResult result,
-            MailingNewsForm mailingNewsFormParam,
-            BindingResult mailRes) {
-        if(mailingNewsFormParam.getEmail() != null ){
+            final AdvertisementPlacingForm advertisementPlacingFormParam,
+            final BindingResult result,
+            final MailingNewsForm mailingNewsFormParam,
+            final BindingResult mailRes
+    ) {
+        if (mailingNewsFormParam.getEmail() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam, mailRes);
             ModelAndView mdv = new ModelAndView("advertisement/placing");
             if (!mailRes.hasErrors()) {
                 Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmail());
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                if(this.subscribertDao.isExists(subscriber)) {
+                if (this.subscribertDao.isExists(subscriber)) {
                     mailingNewsForm.setEmail("Вы уже подписаны.");
-                }
-                else {
+                } else {
                     this.subscribertDao.create(subscriber);
                     mailingNewsForm.setEmail("Ваш e-mail добавлен.");
                 }
-                mdv.addObject("mailingNewsForm",mailingNewsForm);
+                mdv.addObject("mailingNewsForm", mailingNewsForm);
             }
             AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
             advertisementPlacingForm.setCategory("clothes");
-            mdv.addObject("advertisementPlacingForm",advertisementPlacingForm);
+            mdv.addObject("advertisementPlacingForm", advertisementPlacingForm);
             return mdv;
         } else {
             advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
@@ -345,10 +332,9 @@ public class AdvertisementController {
             }
             FileManager fileManager = new FileManager();
             String photo;
-            if(advertisementPlacingFormParam.getImage().isEmpty()) {
+            if (advertisementPlacingFormParam.getImage().isEmpty()) {
                 photo = "no_photo.png";
-            }
-            else {
+            } else {
                 photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
             }
             AdvertisementEntity tmp = new AdvertisementEntity();
@@ -356,13 +342,13 @@ public class AdvertisementController {
             tmp.setPhotoFile(photo);
             tmp.setTitle(advertisementPlacingFormParam.getTitle());
             CategoryEntity categoryEntity = null;
-            if(advertisementPlacingFormParam.getCategory().equals(Category.NAME_CLOTHES)) {
-                categoryEntity = new CategoryEntity(Category.NAME_CLOTHES,"very good",460l,461l,false);
-                categoryEntity.setId(1l);
-            }
-            else if (advertisementPlacingFormParam.getCategory().equals(Category.NAME_NOT_CLOTHES)) {
-                categoryEntity = new CategoryEntity(Category.NAME_NOT_CLOTHES,"very good",460l,461l,false);
-                categoryEntity.setId(2l);
+            Long date = 460L;
+            if (advertisementPlacingFormParam.getCategory().equals(Category.NAME_CLOTHES)) {
+                categoryEntity = new CategoryEntity(Category.NAME_CLOTHES, "very good", date, date, false);
+                categoryEntity.setId(1L);
+            } else if (advertisementPlacingFormParam.getCategory().equals(Category.NAME_NOT_CLOTHES)) {
+                categoryEntity = new CategoryEntity(Category.NAME_NOT_CLOTHES, "very good", date, date, false);
+                categoryEntity.setId(2L);
             }
             tmp.setCategoryEntity(categoryEntity);
             this.advertisementDao.create(tmp);
@@ -376,26 +362,25 @@ public class AdvertisementController {
         return modelAndView;
     }
 
-
-
     @RequestMapping(value = "/post.html", method = RequestMethod.GET)
     public ModelAndView post() {
 
         ModelAndView modelAndView = new ModelAndView("advertisement/post");
         NewsPostingForm newsPostingForm = new NewsPostingForm();
-        modelAndView.addObject("newsPostingForm",newsPostingForm);
+        modelAndView.addObject("newsPostingForm", newsPostingForm);
         return modelAndView;
     }
 
-
-
+    /**
+     * News posting Validator class
+     */
     @Autowired
-    NewsPostingValidator newsPostingValidator;
+    private NewsPostingValidator newsPostingValidator;
 
     @RequestMapping(value = "/post.html", method = RequestMethod.POST)
-    public ModelAndView posting(NewsPostingForm newsPostingFormParam, BindingResult result) {
+    public ModelAndView posting(final NewsPostingForm newsPostingFormParam, final BindingResult result) {
 
-        if(newsPostingFormParam != null ){
+        if (newsPostingFormParam != null) {
             newsPostingValidator.validate(newsPostingFormParam, result);
             if (result.hasErrors()) {
                 return new ModelAndView("advertisement/post");
@@ -423,27 +408,27 @@ public class AdvertisementController {
     @RequestMapping(value = "/user/auth_failed.html", method = RequestMethod.GET)
     public ModelAndView auth() {
         ModelAndView modelAndView = new ModelAndView("user/auth_failed");
-
         return modelAndView;
     }
 
     /**
      *
-     * @param keyWordsParam
-     * @param emailParam
-     * @param categoriesParam
+     * @param keyWordsParam Key words
+     * @param emailParam Email
+     * @param categoriesParam Categories
      * @return 0 - if user with that email doesnt exists
      *         1 - if user with that email exists
      */
     @RequestMapping(value = "/savingSearch.html", method = RequestMethod.GET)
-    public @ResponseBody
-    String getSavingSearchRequest(@RequestParam(value = "wordSearch", required = false) String keyWordsParam,
-                      @RequestParam(value = "email", required = false) String emailParam,
-                      @RequestParam(value = "categorySearch", required = false) String categoriesParam) {
+    @ResponseBody public
+    String getSavingSearchRequest(@RequestParam(value = "wordSearch", required = false) final String keyWordsParam,
+                      @RequestParam(value = "email", required = false) final String emailParam,
+                      @RequestParam(value = "categorySearch", required = false) final String categoriesParam) {
 
-        if(userDao.isExistUserWithEmail(emailParam))
+        if (userDao.isExistUserWithEmail(emailParam)) {
             return "auth";
-        SearchVariant searchVariant = new SearchVariant(emailParam,keyWordsParam,categoriesParam);
+        }
+        SearchVariant searchVariant = new SearchVariant(emailParam, keyWordsParam, categoriesParam);
         this.searchVariantDao.create(searchVariant);
         return "save";
     }
