@@ -19,10 +19,11 @@ import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.NewsPostingForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.Properties;
 import java.util.StringTokenizer;
 import javax.annotation.Resource;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
@@ -397,13 +398,15 @@ public class AdvertisementController {
 
 
     private int defaultPageSize() {
-        ResourceBundle bundle;
+        Properties prop = new Properties();
         try {
-            bundle = ResourceBundle.getBundle("list.count");
-            return Integer.parseInt(bundle.getString("list.count"));
-        } catch (MissingResourceException e) {
+            InputStream inStream = getClass().getClassLoader().getResourceAsStream("list.properties");
+            prop.load(inStream);
+            inStream.close();
+        } catch (IOException e) {
             return DEFAULT_PAGE_SIZE;
         }
+        return Integer.parseInt(prop.getProperty("list.count"));
     }
 
     @RequestMapping(value = "/user/auth_failed.html", method = RequestMethod.GET)
