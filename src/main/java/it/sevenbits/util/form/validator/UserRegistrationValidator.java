@@ -1,6 +1,5 @@
 package it.sevenbits.util.form.validator;
 
-import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.UserRegistrationForm;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
@@ -31,9 +30,15 @@ public class UserRegistrationValidator implements Validator {
         if (!EmailValidator.getInstance().isValid(((UserRegistrationForm) target).getEmail())) {
             errors.rejectValue("email", "email.not.correct", "Введите корректный e-mail адрес.");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.empty", "Введите Ваше имя, пожалуйста.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "lastName.empty", "Введите Вашу фамилию, пожалуйста.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty", "Пароль не может быть пустым.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(
+                errors, "firstName", "firstName.empty", "Введите Ваше имя, пожалуйста."
+        );
+        ValidationUtils.rejectIfEmptyOrWhitespace(
+                errors, "lastName", "lastName.empty", "Введите Вашу фамилию, пожалуйста."
+        );
+        ValidationUtils.rejectIfEmptyOrWhitespace(
+                errors, "password", "password.empty", "Пароль не может быть пустым."
+        );
         if (!password.equals(confirmPassword)) {
             errors.rejectValue("confirmPassword", "password.not.correct", "Пароль не подтвержден, повторите.");
         }

@@ -338,25 +338,11 @@ public class AdvertisementController {
             } else {
                 photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
             }
-            AdvertisementEntity tmp = new AdvertisementEntity();
-            tmp.setText(advertisementPlacingFormParam.getText());
-            tmp.setPhotoFile(photo);
-            tmp.setTitle(advertisementPlacingFormParam.getTitle());
-            CategoryEntity categoryEntity = null;
-            Long date = 460L;
-            if (advertisementPlacingFormParam.getCategory().equals(Category.NAME_CLOTHES)) {
-                categoryEntity = new CategoryEntity(Category.NAME_CLOTHES, "very good", date, date, false);
-                categoryEntity.setId(1L);
-            } else if (advertisementPlacingFormParam.getCategory().equals(Category.NAME_NOT_CLOTHES)) {
-                categoryEntity = new CategoryEntity(Category.NAME_NOT_CLOTHES, "very good", date, date, false);
-                categoryEntity.setId(2L);
-            }
-            tmp.setCategoryEntity(categoryEntity);
-//            Advertisement tmp = new Advertisement();
-//            tmp.setText(advertisementPlacingFormParam.getText());
-//            tmp.setPhotoFile(photo);
-//            tmp.setTitle(advertisementPlacingFormParam.getTitle());
-//            this.advertisementDao.create(tmp);
+            Advertisement advertisement = new Advertisement();
+            advertisement.setText(advertisementPlacingFormParam.getText());
+            advertisement.setPhotoFile(photo);
+            advertisement.setTitle(advertisementPlacingFormParam.getTitle());
+            this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), null);
         }
         return new ModelAndView("advertisement/placingRequest");
     }

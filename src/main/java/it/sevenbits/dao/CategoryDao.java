@@ -1,6 +1,7 @@
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.Category;
+import it.sevenbits.entity.hibernate.CategoryEntity;
 
 import java.util.List;
 
@@ -22,8 +23,9 @@ public interface CategoryDao {
      */
     Category findById(Long id);
 
-    Category findByTitle(final String title);
+    Category findByName(final String name);
 
+    CategoryEntity findEntityByName(final String name);
 
     /**
      * Return list of categories

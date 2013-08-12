@@ -27,7 +27,9 @@ public class AdvertisementPlacingValidator implements Validator {
             errors.rejectValue("title", "title.tooLong", "Недопустимо больше 16 знаков.");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "text", "text.empty", "Информация не должна быть пуста.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(
+                errors, "text", "text.empty", "Информация не должна быть пуста."
+        );
         String text = advertisementPlacingForm.getText();
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "category", "category.empty", "Выберите категорию.");

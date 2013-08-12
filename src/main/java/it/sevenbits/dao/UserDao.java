@@ -40,7 +40,7 @@ public interface UserDao {
      * @param email e-mail
      * @return  user with given e-mail
      */
-    public  User findUserByEmail(final String email);
+    User findUserByEmail(final String email);
 
     /**
      * удалить пользователя

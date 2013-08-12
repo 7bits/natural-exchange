@@ -4,8 +4,8 @@
 package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.AdvertisementDao;
+import it.sevenbits.dao.CategoryDao;
 import it.sevenbits.entity.Advertisement;
-import it.sevenbits.entity.Category;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
@@ -39,6 +39,9 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         this.hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
 
+    @Resource(name = "categoryDao")
+    private CategoryDao categoryDao;
+
     private AdvertisementEntity toEntity(final Advertisement advertisement) {
         AdvertisementEntity tmp = new AdvertisementEntity();
         tmp.setTitle(advertisement.getTitle());
@@ -51,11 +54,11 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     }
 
     @Override
-    public Advertisement create(final Advertisement advertisement, final Category category, final User user) {
+    public Advertisement create(final Advertisement advertisement, final String categoryName, final User user) {
         AdvertisementEntity advertisementEntity = toEntity(advertisement);
-        CategoryEntity categoryEntity = new CategoryEntity(category);
+        CategoryEntity categoryEntity = this.categoryDao.findEntityByName(categoryName);
         advertisementEntity.setCategoryEntity(categoryEntity);
-        return this.hibernateTemplate.merge(advertisement);
+        return this.hibernateTemplate.merge(advertisementEntity);
     }
 
     /**
