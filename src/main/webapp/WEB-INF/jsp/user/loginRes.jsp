@@ -26,9 +26,9 @@
             <div id=lk>
                 <%--*********   --%>
                     <form:form method="post" commandName="mailingNewsForm" class="lk">
-                        <p><span class="errorLk"><form:errors path="email"  /> </span></p>
+                        <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
                         <p class="proLk">Узнавайте новости проекта первыми! </p>
-                        <p><form:input path="email" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
+                        <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
                         <p><input type="submit" value="Подписаться" class="send" /></p>
 
                     </form:form>

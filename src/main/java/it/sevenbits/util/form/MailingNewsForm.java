@@ -10,13 +10,13 @@ package it.sevenbits.util.form;
  */
 public class MailingNewsForm {
 
-    private String email;
+    private String emailNews;
 
-    public String getEmail() {
-        return email;
+    public String getEmailNews() {
+        return emailNews;
     }
 
-    public void setEmail(final String email) {
-        this.email = email;
+    public void setEmailNews(final String email) {
+        this.emailNews = email;
     }
 }

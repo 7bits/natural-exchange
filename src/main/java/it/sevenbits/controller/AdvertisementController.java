@@ -18,12 +18,11 @@ import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.NewsPostingForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import javax.annotation.Resource;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
@@ -47,6 +46,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value = "advertisement")
 public class AdvertisementController {
+    private static final Integer DEFAULT_PAGE_SIZE = 10;
 
     private final Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
 
@@ -190,16 +190,16 @@ public class AdvertisementController {
         modelAndView.addObject("pageSize", pageSize);
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
-        if (mailingNewsFormParam.getEmail() != null) {
+        if (mailingNewsFormParam.getEmailNews() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
             if (!bindingResult.hasErrors()) {
-                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmail());
+                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
                 if (this.subscribertDao.isExists(subscriber)) {
-                    mailingNewsForm.setEmail("Вы уже подписаны.");
+                    mailingNewsForm.setEmailNews("Вы уже подписаны.");
                 } else {
                     this.subscribertDao.create(subscriber);
-                    mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                    mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
                 }
                 modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
@@ -270,16 +270,16 @@ public class AdvertisementController {
         modelAndView.addObject("currentId", id);
         Advertisement advertisement = this.advertisementDao.findById(id);
         modelAndView.addObject("advertisement", advertisement);
-        if (mailingNewsFormParam.getEmail() != null) {
+        if (mailingNewsFormParam.getEmailNews() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
             if (!bindingResult.hasErrors()) {
-                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmail());
+                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
                 if (this.subscribertDao.isExists(subscriber)) {
-                    mailingNewsForm.setEmail("Вы уже подписаны.");
+                    mailingNewsForm.setEmailNews("Вы уже подписаны.");
                 } else {
                     this.subscribertDao.create(subscriber);
-                    mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                    mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
                 }
                 modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
@@ -307,17 +307,17 @@ public class AdvertisementController {
             final MailingNewsForm mailingNewsFormParam,
             final BindingResult mailRes
     ) {
-        if (mailingNewsFormParam.getEmail() != null) {
+        if (mailingNewsFormParam.getEmailNews() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam, mailRes);
             ModelAndView mdv = new ModelAndView("advertisement/placing");
             if (!mailRes.hasErrors()) {
-                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmail());
+                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
                 if (this.subscribertDao.isExists(subscriber)) {
-                    mailingNewsForm.setEmail("Вы уже подписаны.");
+                    mailingNewsForm.setEmailNews("Вы уже подписаны.");
                 } else {
                     this.subscribertDao.create(subscriber);
-                    mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                    mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
                 }
                 mdv.addObject("mailingNewsForm", mailingNewsForm);
             }
@@ -397,16 +397,13 @@ public class AdvertisementController {
 
 
     private int defaultPageSize() {
-        Properties prop = new Properties();
+        ResourceBundle bundle;
         try {
-            FileInputStream inStream = new FileInputStream(
-                    "D://Julia/Java/workspace/n-exchange/src/main/resources/list.properties");
-            prop.load(inStream);
-            inStream.close();
-        } catch (IOException e) {
-            return 4;
+            bundle = ResourceBundle.getBundle("list.count");
+            return Integer.parseInt(bundle.getString("list.count"));
+        } catch (MissingResourceException e) {
+            return DEFAULT_PAGE_SIZE;
         }
-        return Integer.parseInt(prop.getProperty("list.count"));
     }
 
     @RequestMapping(value = "/user/auth_failed.html", method = RequestMethod.GET)

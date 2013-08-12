@@ -28,7 +28,7 @@ public class UserRegistrationValidator implements Validator {
         UserRegistrationForm userRegistrationForm = (it.sevenbits.util.form.UserRegistrationForm) target;
         String password = userRegistrationForm.getPassword();
         String confirmPassword = userRegistrationForm.getConfirmPassword();
-        if (!EmailValidator.getInstance().isValid(((MailingNewsForm) target).getEmail())) {
+        if (!EmailValidator.getInstance().isValid(((UserRegistrationForm) target).getEmail())) {
             errors.rejectValue("email", "email.not.correct", "Введите корректный e-mail адрес.");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.empty", "Введите Ваше имя, пожалуйста.");

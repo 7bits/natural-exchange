@@ -23,8 +23,8 @@ public class MailingNewsValidator implements Validator {
 
     @Override
     public void validate(final Object target, final Errors errors) {
-        if (!EmailValidator.getInstance().isValid(((MailingNewsForm) target).getEmail())) {
-             errors.rejectValue("email", "email.not.correct", "Введите корректный e-mail адрес.");
+        if (!EmailValidator.getInstance().isValid(((MailingNewsForm) target).getEmailNews())) {
+             errors.rejectValue("emailNews", "email.not.correct", "Введите корректный e-mail адрес.");
         }
     }
 }

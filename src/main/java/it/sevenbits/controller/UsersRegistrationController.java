@@ -78,13 +78,13 @@ public class UsersRegistrationController {
             final UserRegistrationForm userRegistrationFormParam, final BindingResult result,
             final MailingNewsForm mailingNewsFormParam, final BindingResult mailRes
     ) {
-        if (mailingNewsFormParam.getEmail() != null) {
+        if (mailingNewsFormParam.getEmailNews() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam, mailRes);
             ModelAndView mdv = new ModelAndView("user/registration");
             if (!mailRes.hasErrors()) {
-                this.subscriberDao.create(new Subscriber(mailingNewsFormParam.getEmail()));
+                this.subscriberDao.create(new Subscriber(mailingNewsFormParam.getEmailNews()));
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                mailingNewsForm.setEmail("Ваш e-mail добавлен.");
+                mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
                 mdv.addObject("mailingNewsForm", mailingNewsForm);
 
             }
