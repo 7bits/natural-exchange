@@ -36,6 +36,13 @@ public interface UserDao {
     void update(User user);
 
     /**
+     *
+     * @param email e-mail
+     * @return  user with given e-mail
+     */
+    public  User findUserByEmail(final String email);
+
+    /**
      * удалить пользователя
      * @param user
      */

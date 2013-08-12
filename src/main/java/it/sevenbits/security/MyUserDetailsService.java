@@ -1,10 +1,13 @@
 package it.sevenbits.security;
 
+import it.sevenbits.dao.UserDao;
 import it.sevenbits.dao.hibernate.UserDaoHibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,12 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserDaoHibernate userDaoManager;
+    @Resource(name = "userDao")
+    private UserDao userDao;
 
     @Override
     public UserDetails loadUserByUsername(final String email) {
-        return userDaoManager.findUserByEmail(email);
+        return this.userDao.findUserByEmail(email);
     }
 
 }

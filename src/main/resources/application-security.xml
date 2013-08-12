@@ -47,7 +47,7 @@
     </security:authentication-manager>
     -->
 
-<security:authentication-manager>
+<!--<security:authentication-manager>
     <security:authentication-provider>
         <security:user-service>
             <security:user name="admin@test.ru" password="pass" authorities="ROLE_ADMIN"/>
@@ -57,12 +57,15 @@
     </security:authentication-provider>
 </security:authentication-manager>
 
-
-    <bean:bean id="myUserDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
-        <beans:property name="dataSource" ref="dataSource"/>
+-->
+    <bean:bean id="myUserDetailsService" class="it.sevenbits.security.MyUserDetailsService">
         <!--name="dataSource" ref="dataSource"/> -->
     </bean:bean>
+    <authentication-manager>
+        <authentication-provider user-service-ref='myUserDetailsService'>
 
+        </authentication-provider>
+    </authentication-manager>
 
 
     <!--<security:authentication-manager>
