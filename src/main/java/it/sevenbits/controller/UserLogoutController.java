@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * controller makes page for logout
+ */
 @Controller
 public class UserLogoutController {
 
@@ -15,8 +18,7 @@ public class UserLogoutController {
     public ModelAndView helloWorld() {
 
         SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
-        ModelAndView logout = new ModelAndView("advertisement/list");
-        return logout;
+        return new ModelAndView("advertisement/list");
     }
 
 }
