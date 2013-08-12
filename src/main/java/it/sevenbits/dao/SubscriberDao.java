@@ -1,8 +1,6 @@
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.Subscriber;
-import it.sevenbits.entity.User;
-
 import java.util.List;
 
 /**
@@ -12,14 +10,14 @@ public interface SubscriberDao {
 
     /**
      * добавить подписчика
-     * @param subscriber
+     * @param subscriber - subscriber to add in DB
      */
     void create(Subscriber subscriber);
 
     /**
      *  найти подписчика по id
-     * @param id
-     * @return
+     * @param id  identif. number of subscriber in DB
+     * @return    subscriber
      */
     Subscriber findById(Integer id);
 
@@ -27,19 +25,19 @@ public interface SubscriberDao {
 
     /**
      * возвращает  список всех подписчиков
-     * @return
+     * @return  list of all subscribers
      */
     List<Subscriber> find();
 
 
     /**
      * изменить подписчиков
-     * @param subscriber
+     * @param subscriber subscriber to change
     void update(Subscriber subscriber);
 
     /**
      * удалить подписчиков
-     * @param subscriber
+     * @param subscriber subscriber to delete
      */
     void delete(Subscriber subscriber);
 }

@@ -1,10 +1,6 @@
-/**
- * Interface provides methods for working with variants of search
- */
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.SearchVariant;
-import it.sevenbits.entity.Subscriber;
 
 import java.util.List;
 
