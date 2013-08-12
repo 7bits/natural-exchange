@@ -1,3 +1,6 @@
+/**
+ * Interface provides methods for working with variants of search
+ */
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.SearchVariant;
@@ -6,19 +9,19 @@ import it.sevenbits.entity.Subscriber;
 import java.util.List;
 
 /**
- *Интерфейс, предоставляющий методы работы с сущностью UserEntity
+ *Интерфейс
  */
 public interface SearchVariantDao {
 
     /**
-     * добавить подписчика
-     * @param searchVariant
+     * create variant of search and add it to DB
+     * @param searchVariant  search variant
      */
     void create(SearchVariant searchVariant);
 
     /**
-     *  найти подписчика по id
-     * @param id
+     *  id
+     * @param id -
      * @return
      */
     SearchVariant findById(Long id);

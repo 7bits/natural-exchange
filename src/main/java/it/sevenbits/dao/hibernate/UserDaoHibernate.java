@@ -28,19 +28,17 @@ public class UserDaoHibernate implements UserDao {
         this.hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
 
-    public void create(User user) {
+    public void create(final User user) {
         UserEntity tmp = new UserEntity(user);
         this.hibernateTemplate.save(tmp);
     }
 
     @Override
-    public Boolean isExistUserWithEmail(String email) {
+    public Boolean isExistUserWithEmail(final String email) {
         DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
-        criteria.add(Restrictions.like("email",email));
+        criteria.add(Restrictions.like("email", email));
         List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
-        if(!users.isEmpty())
-            return true;
-        return false;
+        return !users.isEmpty();
     }
 
     @Override
@@ -61,11 +59,11 @@ public class UserDaoHibernate implements UserDao {
         userList.add(user);
 
         //user.setId(2);
-        user=new User();
+        user = new User();
         user.setFirstName("Annie");
         userList.add(user);
 
-        user=new User();
+        user = new User();
         //user.setId(3);
         user.setFirstName("Valentine");
         userList.add(user);
@@ -74,27 +72,22 @@ public class UserDaoHibernate implements UserDao {
     }
 
 
-    public  User findUserByEmail(String email) throws UsernameNotFoundException {
+    public  User findUserByEmail(final String email) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
+        criteria.add(Restrictions.like("email", email));
+        List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
+        if (users.size() != 1) {
+            throw new UsernameNotFoundException(email + " not found.");
 
-        if (!email.equals("test@gmail.com")) {
-            throw new UsernameNotFoundException(email + " not found");
         }
-
-        User user = new User();
-        user.setFirstName("bob");
-        user.setLastName("Endy");
-        user.setPassword("123");
-        user.setEmail("test@gmail.com");
-
-
-        return user;
+        return users.get(0);
     }
 
 
-    public void update(User user) {
+    public void update(final User user) {
     }
 
-    public void delete(User user) {
+    public void delete(final User user) {
     }
 
 }

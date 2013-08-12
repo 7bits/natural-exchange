@@ -26,7 +26,7 @@ public class SubscriberDaoHibernate implements SubscriberDao {
         this.hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
 
-    public void create(Subscriber subscriber) {
+    public void create(final Subscriber subscriber) {
         SubscriberEntity tmp = new SubscriberEntity(subscriber.getEmail());
         this.hibernateTemplate.save(tmp);
     }
@@ -37,11 +37,13 @@ public class SubscriberDaoHibernate implements SubscriberDao {
     }
 
     @Override
-    public boolean isExists(Subscriber subscriber) {
+    public boolean isExists(final Subscriber subscriber) {
         DetachedCriteria criteria = DetachedCriteria.forClass(SubscriberEntity.class);
-        criteria.add(Restrictions.eq("email",subscriber.getEmail()));
+        criteria.add(Restrictions.eq("email", subscriber.getEmail()));
         List<SubscriberEntity> subscribers = this.hibernateTemplate.findByCriteria(criteria);
-        if (subscribers.isEmpty()) return false;
+        if (subscribers.isEmpty()) {
+            return false;
+        }
         return true;
     }
 
@@ -51,16 +53,16 @@ public class SubscriberDaoHibernate implements SubscriberDao {
         return convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
-    public void update(Subscriber subscriber) {
+    public void update(final Subscriber subscriber) {
     }
 
-    public void delete(Subscriber subscriber) {
+    public void delete(final Subscriber subscriber) {
     }
 
-    private List<Subscriber> convertEntityList(List entities) {
+    private List<Subscriber> convertEntityList(final List entities) {
         List<Subscriber> subscribers = new ArrayList<Subscriber>();
         if (entities != null) {
-            List<SubscriberEntity> advertisementEntityList = (List<SubscriberEntity>)entities;
+            List<SubscriberEntity> advertisementEntityList = (List<SubscriberEntity>) entities;
             for (SubscriberEntity entity : advertisementEntityList) {
                 subscribers.add(entity);
             }

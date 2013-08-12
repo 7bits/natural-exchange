@@ -1,3 +1,6 @@
+/**
+ *  Class, which implements AdvertisementDao for Hibernate
+ */
 package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.AdvertisementDao;
@@ -5,17 +8,18 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.*;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
-
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 import static it.sevenbits.util.SortOrder.ASCENDING;
 
@@ -53,8 +57,8 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     }
 
     @SuppressWarnings("incomplete-switch")
-	@Override
-	public List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName) {
+    @Override
+    public List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName) {
 
         //TODO: Move default sort column to properties
         String sortByName = (sortPropertyName == null)
@@ -68,6 +72,9 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 break;
             case DESCENDING :
                 criteria.addOrder(Order.desc(sortByName));
+                break;
+            default:
+                //
                 break;
         }
 
@@ -87,11 +94,11 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     }
 
     @Override
-    public List<Advertisement> findAllAdvertisementsWithCategoryAndOrderBy(final String category,
-                                                                           final SortOrder sortOrder,
-                                                                           final String sortPropertyName) {
-        String args[] = new String[1];
-        Object values[] = new Object[1];
+    public List<Advertisement> findAllAdvertisementsWithCategoryAndOrderBy(
+            final String category, final SortOrder sortOrder, final String sortPropertyName
+    ) {
+        String [] args = new String[1];
+        Object [] values = new Object[1];
         args[0] = "categoryParam";
         values[0] = category;
         String sortByName = (sortPropertyName == null)
@@ -108,15 +115,19 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             case DESCENDING :
                 sortTypeForNamedQueryName = "Desc";
                 break;
+            default:
+                //
+                break;
         }
-        if(sortByName.equals(Advertisement.TITLE_COLUMN_CODE))
+        if (sortByName.equals(Advertisement.TITLE_COLUMN_CODE)) {
             sortByTargetForNamedQueryName = "Title";
-        else
+        } else {
             sortByTargetForNamedQueryName = "Date";
-        String namedQueryName = "findAllAdvertisementsWithCategoryAndOrderBy"+
-                sortByTargetForNamedQueryName+
+        }
+        String namedQueryName = "findAllAdvertisementsWithCategoryAndOrderBy" +
+                sortByTargetForNamedQueryName +
                 sortTypeForNamedQueryName;
-        lst =  this.hibernateTemplate.findByNamedQueryAndNamedParam(namedQueryName,args,values);
+        lst = this.hibernateTemplate.findByNamedQueryAndNamedParam(namedQueryName, args, values);
         return convertEntityList(lst);
     }
 
@@ -156,27 +167,31 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             case DESCENDING :
                 criteria.addOrder(Order.desc(sortByName));
                 break;
+            default:
+                //
+                break;
         }
-        if(categories != null) {
-            criteria.createAlias("categoryEntity","category");
-            Disjunction disjunction = Restrictions.disjunction(); // OR
-            for(int i=0;i<categories.length;i++) {
+        if (categories != null) {
+            criteria.createAlias("categoryEntity", "category");
+            Disjunction disjunction = Restrictions.disjunction();
+            for (int i = 0; i < categories.length; i++) {
                 disjunction.add(Restrictions.eq("category.name", categories[i]));
             }
             criteria.add(disjunction);
         }
-        if(keyWords!=null) {
-            for(int i=0;i<keyWords.length;i++)
-                criteria.add(Restrictions.like("title","%"+keyWords[i]+"%"));
+        if (keyWords != null) {
+            for (int i = 0; i < keyWords.length; i++) {
+                criteria.add(Restrictions.like("title", "%" + keyWords[i] + "%"));
+            }
         }
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-	private List<Advertisement> convertEntityList(List entities) {
+    private List<Advertisement> convertEntityList(final List entities) {
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
         if (entities != null) {
-            List<AdvertisementEntity> advertisementEntityList = (List<AdvertisementEntity>)entities;
+            List<AdvertisementEntity> advertisementEntityList = (List<AdvertisementEntity>) entities;
             for (AdvertisementEntity entity : advertisementEntityList) {
                 advertisementList.add(entity);
             }
