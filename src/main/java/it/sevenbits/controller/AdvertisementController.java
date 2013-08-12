@@ -351,7 +351,11 @@ public class AdvertisementController {
                 categoryEntity.setId(2L);
             }
             tmp.setCategoryEntity(categoryEntity);
-            this.advertisementDao.create(tmp);
+//            Advertisement tmp = new Advertisement();
+//            tmp.setText(advertisementPlacingFormParam.getText());
+//            tmp.setPhotoFile(photo);
+//            tmp.setTitle(advertisementPlacingFormParam.getTitle());
+//            this.advertisementDao.create(tmp);
         }
         return new ModelAndView("advertisement/placingRequest");
     }

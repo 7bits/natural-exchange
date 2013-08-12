@@ -5,7 +5,10 @@ package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.Category;
+import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
+import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
 import org.hibernate.SessionFactory;
@@ -36,9 +39,22 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         this.hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
 
+    private AdvertisementEntity toEntity(final Advertisement advertisement) {
+        AdvertisementEntity tmp = new AdvertisementEntity();
+        tmp.setTitle(advertisement.getTitle());
+        tmp.setCreatedDate(advertisement.getCreatedDate());
+        tmp.setPhotoFile(advertisement.getPhotoFile());
+        tmp.setText(advertisement.getText());
+        tmp.setIsDeleted(advertisement.getIsDeleted());
+        tmp.setUpdatedDate(advertisement.getUpdatedDate());
+        return tmp;
+    }
+
     @Override
-    public Advertisement create(final Advertisement advertisement) {
-        //TODO Check encoding trouble with MySQL
+    public Advertisement create(final Advertisement advertisement, final Category category, final User user) {
+        AdvertisementEntity advertisementEntity = toEntity(advertisement);
+        CategoryEntity categoryEntity = new CategoryEntity(category);
+        advertisementEntity.setCategoryEntity(categoryEntity);
         return this.hibernateTemplate.merge(advertisement);
     }
 

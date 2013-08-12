@@ -4,6 +4,8 @@
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.Category;
+import it.sevenbits.entity.User;
 import it.sevenbits.util.SortOrder;
 
 import java.util.List;
@@ -17,7 +19,7 @@ public interface AdvertisementDao {
      * Create new advertisement
      * @param advertisement - advertisement to add in DB
      */
-    Advertisement create(Advertisement advertisement);
+    Advertisement create(Advertisement advertisement, Category category, User user);
 
     /**
      * Find advertisement by id
