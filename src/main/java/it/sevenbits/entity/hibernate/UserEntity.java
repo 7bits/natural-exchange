@@ -1,9 +1,15 @@
 package it.sevenbits.entity.hibernate;
 
 import it.sevenbits.entity.User;
-import it.sevenbits.security.Role;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.Set;
 
 /**
@@ -11,36 +17,40 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "user")
-public class UserEntity extends User{
+public class UserEntity extends User {
 
     private Long id;
 
     private Set<AdvertisementEntity> advertisements;
 
 
-    public UserEntity(){
+    public UserEntity() {
         super();
     }
 
 
 
-    public UserEntity(final String firstName, final String email, final String lastName, final String vkLink,
-                      final Long createdDate, final Long updatedDate, final Boolean deleted, final String password, final String role) {
-        super(firstName,email,lastName,vkLink,createdDate,updatedDate,deleted, password,role);
+    public UserEntity(
+            final String firstName, final String email, final String lastName,
+            final String vkLink, final Long createdDate, final Long updatedDate,
+            final Boolean deleted, final String password, final String role
+    ) {
+        super(firstName, email, lastName, vkLink, createdDate, updatedDate, deleted, password, role);
     }
 
-    public UserEntity(User user){
-        super(user.getFirstName(),user.getEmail(),user.getLastName(),user.getVklink(),user.getCreatedDate(),
-                user.getUpdateDate(),user.getIsDeleted(), user.getPassword(), user.getRole());
+    public UserEntity(final User user) {
+        super(
+                user.getFirstName(), user.getEmail(), user.getLastName(), user.getVklink(), user.getCreatedDate(),
+                user.getUpdateDate(), user.getIsDeleted(), user.getPassword(), user.getRole()
+        );
     }
 
-    @OneToMany(mappedBy="userEntity",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     public Set<AdvertisementEntity> getAdvertisements() {
         return advertisements;
     }
 
-
-    public void setAdvertisements(Set<AdvertisementEntity> advertisements) {
+    public void setAdvertisements(final Set<AdvertisementEntity> advertisements) {
         this.advertisements = advertisements;
     }
 
@@ -77,35 +87,35 @@ public class UserEntity extends User{
 
     @Column(name = "first_name", nullable = false)
     @Override
-    public String getFirstName(){
+    public String getFirstName() {
         return super.getFirstName();
     }
 
     @Column(name = "last_name", nullable = false)
     @Override
-    public String getLastName(){
+    public String getLastName() {
         return super.getLastName();
     }
 
     @Column(name = "email", nullable = false)
     @Override
-    public String getEmail(){
+    public String getEmail() {
         return super.getEmail();
     }
 
-    @Column(name="password", nullable = false)
+    @Column(name = "password", nullable = false)
     @Override
     public String getPassword() {
         return super.getPassword();
     }
 
-    @Column(name="role", nullable = false)
+    @Column(name = "role", nullable = false)
     @Override
     public String getRole() {
         return super.getRole();
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

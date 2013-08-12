@@ -24,7 +24,7 @@ public class SearchVariant {
         createdDate = calendar.getTimeInMillis();
     }
 
-    public SearchVariant(String email, String keyWords, String categories) {
+    public SearchVariant(final String email, final String keyWords, final String categories) {
         this.email = email;
         this.keyWords = keyWords;
         this.categories = categories;
@@ -37,7 +37,7 @@ public class SearchVariant {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -45,7 +45,7 @@ public class SearchVariant {
         return keyWords;
     }
 
-    public void setKeyWords(String keyWords) {
+    public void setKeyWords(final String keyWords) {
         this.keyWords = keyWords;
     }
 
@@ -53,11 +53,11 @@ public class SearchVariant {
         return categories;
     }
 
-    public void setCategories(String categories) {
+    public void setCategories(final String categories) {
         this.categories = categories;
     }
 
-    public void setCreatedDate(Long createdDate) {
+    public void setCreatedDate(final Long createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -79,16 +79,28 @@ public class SearchVariant {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         SearchVariant that = (SearchVariant) o;
 
-        if (!categories.equals(that.categories)) return false;
-        if (!createdDate.equals(that.createdDate)) return false;
-        if (!email.equals(that.email)) return false;
-        if (!keyWords.equals(that.keyWords)) return false;
+        if (!categories.equals(that.categories)) {
+            return false;
+        }
+        if (!createdDate.equals(that.createdDate)) {
+            return false;
+        }
+        if (!email.equals(that.email)) {
+            return false;
+        }
+        if (!keyWords.equals(that.keyWords)) {
+            return false;
+        }
 
         return true;
     }

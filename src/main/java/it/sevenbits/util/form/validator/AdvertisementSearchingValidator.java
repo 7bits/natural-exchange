@@ -17,7 +17,7 @@ public class AdvertisementSearchingValidator implements Validator {
     }
 
     @Override
-	public void validate(final Object target, final Errors errors) {
+    public void validate(final Object target, final Errors errors) {
         AdvertisementSearchingForm advertisementSearchingForm = (AdvertisementSearchingForm) target;
     }
 }

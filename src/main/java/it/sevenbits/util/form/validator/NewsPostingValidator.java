@@ -18,17 +18,14 @@ import org.springframework.validation.Validator;
 public class NewsPostingValidator implements Validator {
 
     @Override
-    public boolean supports(Class<?> clazz) {
+    public boolean supports(final Class<?> clazz) {
         return NewsPostingForm.class.isAssignableFrom(clazz);
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
-        NewsPostingForm NewsPostingForm = (it.sevenbits.util.form.NewsPostingForm) target;
-
+    public void validate(final Object target, final Errors errors) {
+        NewsPostingForm newsPostingForm = (it.sevenbits.util.form.NewsPostingForm) target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newsText", "newsText.empty", "Введите текст письма.");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newsTitle", "newsTitle.empty", "Введите заголовок.");
-        //String newsText = NewsPostingForm.getNewsText();
-
     }
 }

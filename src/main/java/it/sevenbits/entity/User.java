@@ -3,15 +3,13 @@ package it.sevenbits.entity;
 import it.sevenbits.security.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  *Класс, представляющий сущность таблицы UserEntity а БД
  */
-public class User
-        implements UserDetails  {
+public class User implements UserDetails  {
     private String firstName;
     private String lastName;
     private String email;
@@ -25,15 +23,18 @@ public class User
     public User() {
     }
 
-    public User(final String firstName, final String email, final String lastName, final String vkLink, final Long createdDate,
-                final Long updatedDate, final Boolean deleted, final String password, final String role) {
+    public User(
+            final String firstName, final String email, final String lastName,
+            final String vkLink, final Long createdDate, final Long updatedDate,
+            final Boolean deleted, final String password, final String role
+    ) {
         this.firstName = firstName;
         this.email = email;
         this.lastName = lastName;
         this.vkLink = vkLink;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-        isDeleted = deleted;
+        this.isDeleted = deleted;
         this.password = password;
         this.role = role;
     }
@@ -70,19 +71,19 @@ public class User
         isDeleted = deleted;
     }
 
-    public void setFirstName(String value){
+    public void setFirstName(final String value) {
         this.firstName = value;
     }
 
-    public String getFirstName(){
+    public String getFirstName() {
         return this.firstName;
     }
 
-    public void setLastName(String value){
+    public void setLastName(final String value) {
         this.lastName = value;
     }
 
-    public String getLastName(){
+    public String getLastName() {
         return this.lastName;
     }
 
@@ -94,11 +95,11 @@ public class User
         return role;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -117,7 +118,7 @@ public class User
 
     }
 
-    public void setRole(String role) {
+    public void setRole(final String role) {
         this.role = role;
     }
 
@@ -131,8 +132,6 @@ public class User
         collection.add(this.getRoleGrantedAuth());
         return collection;
     }
-
-
 
     @Override
     public String getUsername() {
@@ -159,39 +158,59 @@ public class User
         return isDeleted;
     }
 
-    //TODO add role
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         User user = (User) o;
 
-        if (createdDate != null ? !createdDate.equals(user.createdDate) : user.createdDate != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-        if (isDeleted != null ? !isDeleted.equals(user.isDeleted) : user.isDeleted != null) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        if (updatedDate != null ? !updatedDate.equals(user.updatedDate) : user.updatedDate != null) return false;
-        if (vkLink != null ? !vkLink.equals(user.vkLink) : user.vkLink != null) return false;
+        if (!createdDate.equals(user.createdDate)) {
+            return false;
+        }
+        if (!email.equals(user.email)) {
+            return false;
+        }
+        if (!firstName.equals(user.firstName)) {
+            return false;
+        }
+        if (!isDeleted.equals(user.isDeleted)) {
+            return false;
+        }
+        if (!lastName.equals(user.lastName)) {
+            return false;
+        }
+        if (!password.equals(user.password)) {
+            return false;
+        }
+        if (!role.equals(user.role)) {
+            return false;
+        }
+        if (!updatedDate.equals(user.updatedDate)) {
+            return false;
+        }
+        if (!vkLink.equals(user.vkLink)) {
+            return false;
+        }
 
-        if (password != null ? !password.equals(user.password) : user.password  != null ) return false;
-        if (role != null ? !role.equals(user.role) : user.role != null) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = firstName != null ? firstName.hashCode() : 0;
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (vkLink != null ? vkLink.hashCode() : 0);
-        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
-        result = 31 * result + (updatedDate != null ? updatedDate.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode(): 0);
-        result = 31 * result + (role != null ? role.hashCode(): 0);
-
+        int result = firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + vkLink.hashCode();
+        result = 31 * result + createdDate.hashCode();
+        result = 31 * result + updatedDate.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + isDeleted.hashCode();
+        result = 31 * result + role.hashCode();
         return result;
     }
 }

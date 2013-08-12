@@ -1,6 +1,5 @@
 package it.sevenbits.util.form.validator;
 
-
 import it.sevenbits.util.form.MailingNewsForm;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
@@ -18,17 +17,14 @@ import org.springframework.validation.Validator;
 public class MailingNewsValidator implements Validator {
 
     @Override
-    public boolean supports(Class<?> clazz) {
+    public boolean supports(final Class<?> clazz) {
         return MailingNewsForm.class.isAssignableFrom(clazz);
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
-        MailingNewsForm MailingNewsForm = (MailingNewsForm) target;
-
-        if (!EmailValidator.getInstance().isValid(((MailingNewsForm) target).getEmail())){
+    public void validate(final Object target, final Errors errors) {
+        if (!EmailValidator.getInstance().isValid(((MailingNewsForm) target).getEmail())) {
              errors.rejectValue("email", "email.not.correct", "Введите корректный e-mail адрес.");
         }
-
     }
 }

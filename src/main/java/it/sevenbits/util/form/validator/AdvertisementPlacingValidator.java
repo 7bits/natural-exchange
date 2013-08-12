@@ -19,9 +19,8 @@ public class AdvertisementPlacingValidator implements Validator {
     }
 
     @Override
-	public void validate(final Object target, final Errors errors) {
+    public void validate(final Object target, final Errors errors) {
         AdvertisementPlacingForm advertisementPlacingForm = (AdvertisementPlacingForm) target;
-
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty", "Заполните поле заголовка.");
         String title = advertisementPlacingForm.getTitle();
         if ((title.length()) > maxTitleLength) {
