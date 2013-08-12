@@ -2,6 +2,9 @@ package it.sevenbits.util.form;
 
 import it.sevenbits.entity.Category;
 
+/**
+ * Class for advertisements searching spring form
+ */
 public class AdvertisementSearchingForm {
     private String[] categories;
     private String keyWords;
@@ -13,7 +16,7 @@ public class AdvertisementSearchingForm {
         return categories;
     }
 
-    public void setCategories(String[] categories) {
+    public void setCategories(final String[] categories) {
         this.categories = categories;
     }
 
@@ -21,11 +24,11 @@ public class AdvertisementSearchingForm {
         return keyWords;
     }
 
-    public void setKeyWords(String keyWords) {
+    public void setKeyWords(final String keyWords) {
         this.keyWords = keyWords;
     }
 
     public void setAll() {
-        setCategories(new String[]{Category.NAME_CLOTHES,Category.NAME_GAMES,Category.NAME_NOT_CLOTHES});
+        setCategories(new String[]{Category.NAME_CLOTHES, Category.NAME_GAMES, Category.NAME_NOT_CLOTHES});
     }
 }

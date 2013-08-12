@@ -1,5 +1,8 @@
 package it.sevenbits.util;
 
+/**
+ * Sort order
+ */
 public enum SortOrder {
     /**
      * Enumeration value indicating the items are sorted in increasing order.
@@ -24,7 +27,7 @@ public enum SortOrder {
     NONE;
 
     public static SortOrder getViceVersa(final SortOrder sortOrder) {
-        if ((sortOrder == null)||(sortOrder == NONE)) {
+        if ((sortOrder == null) || (sortOrder == NONE)) {
             return ASCENDING;
         } else if (SortOrder.ASCENDING.equals(sortOrder)) {
             return DESCENDING;

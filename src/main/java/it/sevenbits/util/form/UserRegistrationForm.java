@@ -22,7 +22,7 @@ public class UserRegistrationForm {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -30,7 +30,7 @@ public class UserRegistrationForm {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -38,7 +38,7 @@ public class UserRegistrationForm {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -46,7 +46,7 @@ public class UserRegistrationForm {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -54,7 +54,7 @@ public class UserRegistrationForm {
         return confirmPassword;
     }
 
-    public void setConfirmPassword(String confirmPassword) {
+    public void setConfirmPassword(final String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
 
@@ -62,35 +62,7 @@ public class UserRegistrationForm {
         return vkLink;
     }
 
-    public void setVkLink(String vkLink) {
+    public void setVkLink(final String vkLink) {
         this.vkLink = vkLink;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserRegistrationForm that = (UserRegistrationForm) o;
-
-        if (!confirmPassword.equals(that.confirmPassword)) return false;
-        if (!email.equals(that.email)) return false;
-        if (!firstName.equals(that.firstName)) return false;
-        if (!lastName.equals(that.lastName)) return false;
-        if (!password.equals(that.password)) return false;
-        if (!vkLink.equals(that.vkLink)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = firstName.hashCode();
-        result = 31 * result + lastName.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + confirmPassword.hashCode();
-        result = 31 * result + vkLink.hashCode();
-        return result;
     }
 }

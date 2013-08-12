@@ -2,17 +2,20 @@ package it.sevenbits.util.form;
 
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Class for advertisement placing spring form
+ */
 public class AdvertisementPlacingForm {
     private String title;
     private String text;
     private String category;
-    MultipartFile image;
+    private MultipartFile image;
 
     public MultipartFile getImage() {
         return image;
     }
 
-    public void setImage(MultipartFile image) {
+    public void setImage(final MultipartFile image) {
         this.image = image;
     }
 
@@ -20,7 +23,7 @@ public class AdvertisementPlacingForm {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(final String text) {
         this.text = text;
     }
 
@@ -28,7 +31,7 @@ public class AdvertisementPlacingForm {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -36,7 +39,7 @@ public class AdvertisementPlacingForm {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(final String category) {
         this.category = category;
     }
 }

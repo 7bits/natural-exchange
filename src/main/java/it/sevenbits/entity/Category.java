@@ -1,13 +1,22 @@
 package it.sevenbits.entity;
 
-import java.util.Set;
-
+/**
+ * Class for cateroty
+ */
 public class Category {
 
-    //Temprorary names of categories
-    public final static String NAME_CLOTHES = "clothes";
-    public final static String NAME_GAMES = "games";
-    public final static String NAME_NOT_CLOTHES = "notclothes";
+    /**
+     * Category name
+    */
+    public static final String NAME_CLOTHES = "clothes";
+    /**
+     * Category name
+    */
+    public static final String NAME_GAMES = "games";
+    /**
+     * Category name
+    */
+    public static final String NAME_NOT_CLOTHES = "notclothes";
 
     private String name;
     private String description;
@@ -67,31 +76,43 @@ public class Category {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Category category = (Category) o;
 
-        if (createdDate != null ? !createdDate.equals(category.createdDate) : category.createdDate != null)
+        if (!createdDate.equals(category.createdDate)) {
             return false;
-        if (description != null ? !description.equals(category.description) : category.description != null)
+        }
+        if (!description.equals(category.description)) {
             return false;
-        if (isDeleted != null ? !isDeleted.equals(category.isDeleted) : category.isDeleted != null) return false;
-        if (name != null ? !name.equals(category.name) : category.name != null) return false;
-        if (updatedDate != null ? !updatedDate.equals(category.updatedDate) : category.updatedDate != null)
+        }
+        if (!isDeleted.equals(category.isDeleted)) {
             return false;
+        }
+        if (!name.equals(category.name)) {
+            return false;
+        }
+        if (!updatedDate.equals(category.updatedDate)) {
+            return false;
+        }
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
-        result = 31 * result + (updatedDate != null ? updatedDate.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        int result = name.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + createdDate.hashCode();
+        result = 31 * result + updatedDate.hashCode();
+        result = 31 * result + isDeleted.hashCode();
         return result;
     }
+
 }

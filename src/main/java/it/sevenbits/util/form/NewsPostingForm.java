@@ -18,7 +18,7 @@ public class NewsPostingForm {
         return newsText;
     }
 
-    public void setNewsText(String newsText) {
+    public void setNewsText(final String newsText) {
         this.newsText = newsText;
     }
 
@@ -26,7 +26,7 @@ public class NewsPostingForm {
         return newsTitle;
     }
 
-    public void setNewsTitle(String newsTitle) {
+    public void setNewsTitle(final String newsTitle) {
         this.newsTitle = newsTitle;
     }
 }

@@ -1,6 +1,15 @@
 package it.sevenbits.entity.hibernate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  *Class, which presents Advertisement entity for Hibernate
@@ -8,33 +17,32 @@ import javax.persistence.*;
 @Entity
 @Table(name = "advertisement")
 @NamedQueries({
-        @NamedQuery (
+        @NamedQuery(
                 name = "findAllAdvertisements",
                 query = "select a from AdvertisementEntity a"
         ),
         @NamedQuery (
         name = "findAllAdvertisementsWithCategoryAndOrderByTitleAsc",
-        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam "+
+        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam " +
                 "order by a.title asc "
         ),
         @NamedQuery (
         name = "findAllAdvertisementsWithCategoryAndOrderByTitleDesc",
-        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam "+
+        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam " +
                 "order by a.title desc "
         ),
         @NamedQuery (
         name = "findAllAdvertisementsWithCategoryAndOrderByDateAsc",
-        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam "+
+        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam " +
                 "order by a.createdDate asc "
         ),
         @NamedQuery (
         name = "findAllAdvertisementsWithCategoryAndOrderByDateDesc",
-        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam "+
+        query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam " +
                 "order by a.createdDate desc"
         )
 })
 public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
-    //private Long userId;
     private Long id;
     private CategoryEntity categoryEntity;
     private UserEntity userEntity;
@@ -62,13 +70,13 @@ public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
         return id;
     }
 
-    @Column(name = "title",length = 200, nullable = false)
+    @Column(name = "title", length = 200, nullable = false)
     @Override
     public String getTitle() {
         return super.getTitle();
     }
 
-    @Column(name = "text",length = 1000, nullable = false)
+    @Column(name = "text", length = 1000, nullable = false)
     @Override
     public String getText() {
         return super.getText();
@@ -103,12 +111,12 @@ public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
         super.setCategory(categoryEntity);
     }
 
-    public void setUserEntity(UserEntity userEntity) {
+    public void setUserEntity(final UserEntity userEntity) {
         this.userEntity = userEntity;
         super.setUser(userEntity);
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 }

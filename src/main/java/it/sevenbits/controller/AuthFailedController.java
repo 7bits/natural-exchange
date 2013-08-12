@@ -18,6 +18,4 @@ public class AuthFailedController {
     public ModelAndView auth() {
         return new ModelAndView("/auth_failed");
     }
-
-
 }
