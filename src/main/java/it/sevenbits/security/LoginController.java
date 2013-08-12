@@ -8,41 +8,27 @@ package it.sevenbits.security;
  *
  */
 
-
-import java.security.Principal;
-
-import it.sevenbits.dao.SubscriberDao;
-import it.sevenbits.entity.Subscriber;
-import it.sevenbits.util.form.MailingNewsForm;
-import it.sevenbits.util.form.validator.MailingNewsValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-
+/**
+ * Controller for login page
+ */
 @Controller
 public class LoginController {
 
-    @RequestMapping(value="/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login() {
-
-
-        ModelAndView modelAndView = new ModelAndView("/login");
-
-        return modelAndView;
+        return new ModelAndView("/login");
     }
 
 
-    @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logout(ModelMap model) {
-
-        return "login";
-
-    }
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(final ModelMap model) {
+         return "login";
+     }
 
 }
