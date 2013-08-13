@@ -92,7 +92,7 @@
                     </div>
                     <div class="places">
                         <div class="left">
-                            <p>ссылка на профиль в контакте:<span class="star">*</span></p>
+                            <p>ссылка на профиль в контакте:<span class="star"></span></p>
                         </div>
                         <div class="right">
                             <form:input path="vkLink" class="placeTitle" />

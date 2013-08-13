@@ -4,21 +4,15 @@ import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
-
-
-
-
-
 import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.UserRegistrationForm;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import it.sevenbits.util.form.validator.UserRegistrationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -26,10 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import org.springframework.web.servlet.ModelAndView;
-
-
+import it.sevenbits.util.TimeManager;
 import javax.annotation.Resource;
 
 /**
@@ -91,26 +83,30 @@ public class UsersRegistrationController {
             UserRegistrationForm userRegistrationForm = new UserRegistrationForm();
             mdv.addObject("userRegistrationForm", userRegistrationForm);
             return mdv;
-        } else {
-            if (userRegistrationFormParam.getEmail() != null) {
-                userRegistrationValidator.validate(userRegistrationFormParam, result);
-                if (result.hasErrors()) {
-                    return new ModelAndView("/registration");
-                }
-                User user = new User();
-                user.setFirstName(userRegistrationFormParam.getFirstName());
-                user.setLastName(userRegistrationFormParam.getLastName());
-                user.setEmail(userRegistrationFormParam.getEmail());
-                user.setPassword(userRegistrationFormParam.getPassword());
-                user.setVklink(userRegistrationFormParam.getVkLink());
-                user.setRole("ROLE_USER");
-                this.userDao.create(user);
-                Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(),
-                        user.getPassword(), user.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            }
         }
-        return new ModelAndView("/registration");
+        if (userRegistrationFormParam.getEmail() != null) {
+            userRegistrationValidator.validate(userRegistrationFormParam, result);
+            if (result.hasErrors()) {
+                return new ModelAndView("user/registration");
+            }
+            User user = new User();
+            user.setFirstName(userRegistrationFormParam.getFirstName());
+            user.setLastName(userRegistrationFormParam.getLastName());
+            user.setEmail(userRegistrationFormParam.getEmail());
+            user.setPassword(userRegistrationFormParam.getPassword());
+            user.setVklink(userRegistrationFormParam.getVkLink());
+            user.setIsDeleted(false);
+            user.setUpdateDate(TimeManager.getTime());
+            user.setCreatedDate(TimeManager.getTime());
+            user.setRole("ROLE_USER");
+
+            this.userDao.create(user);
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user,
+                    user.getPassword(), user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+
+        }
+        return new ModelAndView("advertisement/list");
     }
 }

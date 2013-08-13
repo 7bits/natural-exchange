@@ -4,7 +4,6 @@ import it.sevenbits.dao.UserDao;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 
 /**
@@ -19,6 +18,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Resource(name = "userDao")
     private UserDao userDao;
+
 
     @Override
     public UserDetails loadUserByUsername(final String email) {

@@ -33,38 +33,35 @@
     </head>
     <body>
     <header class="centerTop">
-            <div class="entryBlock">
-                <sec:authorize ifAnyGranted='ROLE_USER, ROLE_ADMIN'>
-                    <sec:authentication property="principal.username" />
-                    <a href="<c:url value="/user/logout.html"/>" >Выйти</a>
-                </sec:authorize>
-                <sec:authorize ifAnyGranted="ROLE_ADMIN">
-                    <a href="<c:url value='/advertisement/post.html'/>" > Рассылка новостей.</a>
-                </sec:authorize>
-
-                <sec:authorize ifAnyGranted='IS_AUTHENTICATED_ANONYMOUSLY'>
-                    <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
-                <%--    <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a>--%>
-                </sec:authorize>
-            </div>
-            <div id=logotype>
-                <a href='<c:url value="/advertisement/list.html"/>'>
-                    <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-                </a>
-                <%--   <span>Натуральный обмен</span>
-                <p> Помощь молодым родителям</p>     --%>
-            </div>
-            <div id=lk>
-                <%--*********   --%>
-                    <form:form method="get" commandName="mailingNewsForm" class="lk">
-                        <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
-                        <p class="proLk">Узнавайте новости проекта первыми! </p>
-                        <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                        <p><input type="submit" value="Подписаться" class="send" /></p>
-                    </form:form>
-                <%-- ********* --%>
-            </div>
-        </header>
+        <div class="entryBlock">
+            <sec:authorize ifAnyGranted='IS_AUTHENTICATED_ANONYMOUSLY'>
+                <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
+                <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a>
+            </sec:authorize>
+        </div>
+        <div id=logotype>
+            <a href='<c:url value="/advertisement/list.html"/>'>
+                <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
+            </a>
+        </div>
+        <div id=lk>
+        <sec:authorize ifAnyGranted="ROLE_ADMIN">
+            <a href="<c:url value='/advertisement/post.html'/>" > Рассылка новостей.</a>
+        </sec:authorize>
+        <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER" >
+            <a href="<c:url value="/user/logout.html"/>" > Выйти </a>
+            <strong><sec:authentication property="principal.username"/></strong>
+        </sec:authorize>
+        <sec:authorize ifAnyGranted="IS_AUTHENTICATED_ANONYMOUSLY">
+            <form:form method="get" commandName="mailingNewsForm" class="lk">
+                <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
+                <p class="proLk">Узнавайте новости проекта первыми! </p>
+                <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
+                <p><input type="submit" value="Подписаться" class="send" /></p>
+            </form:form>
+        </sec:authorize>
+        </div>
+    </header>
         <nav class="center">
             <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
                 Разместить объявление
@@ -344,7 +341,7 @@
             <!-- ******************* /pagination  ************************  -->
             </section>
             <aside>
-            <%--div class="category-table">
+            <%--<div class="category-table">
                 <table class="page-wrapper">
                     <thead>
                         <tr class="headu">
@@ -357,7 +354,7 @@
                         </tr>
                     </c:forEach>
                 </table>
-            </div--%>
+            </div>--%>
                 <form:form method="get" commandName="advertisementSearchingForm">
                     <div>
                         <form:input class="wordSearch" path="keyWords" placeholder="Поиск" name="wordSearch"/>
