@@ -10,8 +10,9 @@
 
 <%-- !doctype html--%>
 <html lang="ru">
-<head><title>Выход из системы</title>
-</head>
-<body>
-</body>
+    <head>
+        <title>Выход из системы</title>
+    </head>
+    <body>
+    </body>
 </html>
