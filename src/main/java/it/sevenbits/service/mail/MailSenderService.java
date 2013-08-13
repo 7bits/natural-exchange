@@ -62,7 +62,7 @@ public class MailSenderService {
         mailService.sendMail(SERVICE_MAILBOX, email, "Ваши варианты поиска", generateSearchVariantUrl(keyWords, categories));
     }
 
-    private String generateSearchVariantUrl(final String keyWords ,final String categories) {
+    private String generateSearchVariantUrl(final String keyWords , final String categories) {
         String baseUrl = "http://n-exchange.local/n-exchange/advertisement/list.html?" + "currentCategory=";
         return baseUrl + categories.replace(" ", "+") + "&keyWords=" + keyWords.replace(" ", "+");
     }

@@ -25,10 +25,17 @@ public class CategoryDaoHibernate implements CategoryDao {
         this.hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
 
+    private CategoryEntity toEntity(final Category category) {
+        CategoryEntity categoryEntity = new CategoryEntity(
+                category.getName(), category.getDescription(), category.getUpdatedDate(),
+                category.getCreatedDate(), category.getIsDeleted()
+        );
+        return categoryEntity;
+    }
+
     @Override
     public void create(final Category category) {
-        CategoryEntity tmp = new CategoryEntity(category);
-        this.hibernateTemplate.save(tmp);
+        this.hibernateTemplate.save(toEntity(category));
     }
 
     @Override

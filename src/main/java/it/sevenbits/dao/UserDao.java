@@ -1,6 +1,7 @@
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.User;
+import it.sevenbits.entity.hibernate.UserEntity;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public interface UserDao {
      * @return
      */
     User findById(Integer id);
+
+    UserEntity findEntityByEmail(String name);
 
     /**
      * возвращает  список всех пользователей

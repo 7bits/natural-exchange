@@ -5,10 +5,11 @@ package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.CategoryDao;
+import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
-import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
+import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
 import org.hibernate.SessionFactory;
@@ -42,6 +43,9 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     @Resource(name = "categoryDao")
     private CategoryDao categoryDao;
 
+    @Resource(name = "userDao")
+    private UserDao userDao;
+
     private AdvertisementEntity toEntity(final Advertisement advertisement) {
         AdvertisementEntity tmp = new AdvertisementEntity();
         tmp.setTitle(advertisement.getTitle());
@@ -54,10 +58,12 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     }
 
     @Override
-    public Advertisement create(final Advertisement advertisement, final String categoryName, final User user) {
+    public Advertisement create(final Advertisement advertisement, final String categoryName, final String userName) {
         AdvertisementEntity advertisementEntity = toEntity(advertisement);
         CategoryEntity categoryEntity = this.categoryDao.findEntityByName(categoryName);
+        UserEntity userEntity = this.userDao.findEntityByEmail(userName);
         advertisementEntity.setCategoryEntity(categoryEntity);
+        advertisementEntity.setUserEntity(userEntity);
         return this.hibernateTemplate.merge(advertisementEntity);
     }
 

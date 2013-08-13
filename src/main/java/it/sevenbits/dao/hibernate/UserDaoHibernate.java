@@ -28,9 +28,16 @@ public class UserDaoHibernate implements UserDao {
         this.hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
 
+    private UserEntity toEntity(final User user) {
+        UserEntity userEntity = new UserEntity(
+                user.getFirstName(), user.getEmail(), user.getLastName(),
+                user.getVklink(), user.getCreatedDate(), user.getUpdateDate(),
+                user.getIsDeleted(), user.getPassword(), user.getRole());
+        return userEntity;
+    }
+
     public void create(final User user) {
-        UserEntity tmp = new UserEntity(user);
-        this.hibernateTemplate.save(tmp);
+        this.hibernateTemplate.save(toEntity(user));
     }
 
     @Override
@@ -50,24 +57,16 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
+    public UserEntity findEntityByEmail(final String name) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
+        criteria.add(Restrictions.like("email", name));
+        List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
+        return users.get(0);
+    }
+
+    @Override
     public List<User> find() {
         List<User> userList = new ArrayList<User>();
-        User user = new User();
-
-        //user.setId(1);
-        user.setFirstName("Dmitry ");
-        userList.add(user);
-
-        //user.setId(2);
-        user = new User();
-        user.setFirstName("Annie");
-        userList.add(user);
-
-        user = new User();
-        //user.setId(3);
-        user.setFirstName("Valentine");
-        userList.add(user);
-
         return userList;
     }
 

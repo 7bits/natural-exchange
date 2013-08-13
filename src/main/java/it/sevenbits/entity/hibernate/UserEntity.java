@@ -38,13 +38,6 @@ public class UserEntity extends User {
         super(firstName, email, lastName, vkLink, createdDate, updatedDate, deleted, password, role);
     }
 
-    public UserEntity(final User user) {
-        super(
-                user.getFirstName(), user.getEmail(), user.getLastName(), user.getVklink(), user.getCreatedDate(),
-                user.getUpdateDate(), user.getIsDeleted(), user.getPassword(), user.getRole()
-        );
-    }
-
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
     public Set<AdvertisementEntity> getAdvertisements() {
         return advertisements;

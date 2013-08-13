@@ -30,6 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -339,7 +341,14 @@ public class AdvertisementController {
             advertisement.setText(advertisementPlacingFormParam.getText());
             advertisement.setPhotoFile(photo);
             advertisement.setTitle(advertisementPlacingFormParam.getTitle());
-            this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), null);
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String userName;
+            if (principal instanceof UserDetails) {
+                userName = ((UserDetails) principal).getUsername();
+            } else {
+                userName = principal.toString();
+            }
+            this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName);
         }
         return new ModelAndView("advertisement/placingRequest");
     }

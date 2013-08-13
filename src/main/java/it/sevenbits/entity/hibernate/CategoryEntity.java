@@ -1,8 +1,5 @@
 package it.sevenbits.entity.hibernate;
 
-
-import it.sevenbits.entity.Category;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,13 +31,6 @@ public class CategoryEntity extends it.sevenbits.entity.Category {
 
     public CategoryEntity() {
         super();
-    }
-
-    public CategoryEntity(final Category category) {
-        super(
-                category.getName(), category.getDescription(), category.getUpdatedDate(),
-                category.getCreatedDate(), category.getIsDeleted()
-        );
     }
 
     public CategoryEntity(
