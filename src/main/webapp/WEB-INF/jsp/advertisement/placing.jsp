@@ -11,23 +11,7 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
-
-        <script language="JavaScript">
-            function Validate()
-            {
-                var image =document.getElementById("image").value;
-                if(image!=''){
-                    var checkimg = image.toLowerCase();
-                    if (!checkimg.match(/(\.jpg|\.png|\.JPG|\.PNG|\.jpeg|\.JPEG)$/)){
-                        alert("Please enter Image File Extensions .jpg,.png,.jpeg");
-                        document.getElementById("image").focus();
-                        return false;
-                    }
-                }
-                return true;
-            }
-        </script>
-
+        <script type="text/javascript" src='<c:url value="/resources/js/badImage.js"/>'  language="javascript"> </script>
     </head>
     <body>
         <header class="centerTop">
