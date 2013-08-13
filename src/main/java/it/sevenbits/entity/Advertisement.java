@@ -1,11 +1,6 @@
 package it.sevenbits.entity;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
+import it.sevenbits.util.TimeManager;
 
 /**
  *Class, which presents object Advertisement
@@ -34,9 +29,7 @@ public class Advertisement {
      * Constructor by default
      */
     public Advertisement() {
-        TimeZone timeZone = TimeZone.getDefault();
-        Calendar calendar = new GregorianCalendar(timeZone);
-        createdDate = calendar.getTimeInMillis();
+        createdDate = TimeManager.getTime();
         updatedDate = 0L;
         isDeleted = false;
     }
@@ -107,15 +100,10 @@ public class Advertisement {
 
     /**
      * Show advertisement created date for users timezone.
-     * @return String with date "hh:mm dd.MM.yyyy".
+     * @return String with date.
      */
     public String getCreatedDateFormat() {
-        TimeZone timeZone = TimeZone.getDefault();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MM.yyyy");
-        dateFormat.setTimeZone(timeZone);
-        Calendar calendar = new GregorianCalendar(timeZone);
-        calendar.setTimeInMillis(createdDate);
-        return dateFormat.format(calendar.getTime());
+        return TimeManager.getDateString(createdDate);
     }
 
     @Override
