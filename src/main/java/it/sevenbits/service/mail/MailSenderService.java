@@ -52,9 +52,7 @@ public class MailSenderService {
         MailSenderService mailService = getMailService();
         List<SearchVariant> searchVariants = this.searchVariantDao.find();
         for (SearchVariant entity : searchVariants) {
-            String categories = entity.getCategories().replace(" ", "+");
-            String keyWords = entity.getKeyWords().replace(" ", "+");
-            String url = generateSearchVariantUrl(keyWords, categories);
+            String url = generateSearchVariantUrl(entity.getCategories(), entity.getKeyWords());
             mailService.sendMail(SERVICE_MAILBOX, entity.getEmail(), "Ваши варианты поиска", url);
         }
     }
@@ -65,8 +63,8 @@ public class MailSenderService {
     }
 
     private String generateSearchVariantUrl(final String keyWords ,final String categories) {
-        String baseUrl = "http://n-exchange.local:8282/n-exchange/advertisement/list.html?" + "currentCategory=";
-        return baseUrl + categories + "&keyWords=" + keyWords;
+        String baseUrl = "http://n-exchange.local/n-exchange/advertisement/list.html?" + "currentCategory=";
+        return baseUrl + categories.replace(" ", "+") + "&keyWords=" + keyWords.replace(" ", "+");
     }
 
     public void newsPosting(final String title, final String text) {
