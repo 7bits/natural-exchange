@@ -87,11 +87,11 @@
                             <th class="date">
 <%--                                 <c:set var="sortDate" value="${!sortDate}"/> --%>
                                 <c:url value="/advertisement/list.html" var="dateSortingUrl">
-                             			<c:param name="sortedBy" value="${sortedByDate}"/>
-                                        <c:param name="sortOrder" value="${sortOrderDate}"/>
-                             			<c:param name="pageSize" value="${pageSize}"/>
-                                        <c:param name="currentCategory" value="${currentCategory}"/>
-                                        <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                    <c:param name="sortedBy" value="${sortedByDate}"/>
+                                    <c:param name="sortOrder" value="${sortOrderDate}"/>
+                                    <c:param name="pageSize" value="${pageSize}"/>
+                                    <c:param name="currentCategory" value="${currentCategory}"/>
+                                    <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                 </c:url>
                                  Дата
                                  <c:choose>
@@ -110,14 +110,14 @@
                             </th>
                             <th class="title">
 <%--                                 <c:set var="sortTitle" value="${!sortTitle}"/> --%>
-								<c:url value="/advertisement/list.html" var="titleSortingUrl">
-									<c:param name="sortedBy" value="${sortedByTitle}"/>
-									<c:param name="sortOrder" value="${sortOrderTitle}"/>
-									<c:param name="pageSize" value="${pageSize}"/>
+                                <c:url value="/advertisement/list.html" var="titleSortingUrl">
+                                    <c:param name="sortedBy" value="${sortedByTitle}"/>
+                                    <c:param name="sortOrder" value="${sortOrderTitle}"/>
+                                    <c:param name="pageSize" value="${pageSize}"/>
                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
-								</c:url>
-								Заголовок
+                                </c:url>
+                                Заголовок
                                  <c:choose>
                                      <c:when  test="${sortOrderTitle eq 'ASCENDING'}" >
                                          <a href="${titleSortingUrl}">
@@ -146,57 +146,36 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${advertisements}" var="advertisement" varStatus="status">
-                        <c:if test="${status.index%2==0}">
-                            <tr>
-                                <td class="date"><c:out value="${advertisement.createdDateFormat}"/></td>
-                                <td class="title">
-                                    <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
-                                        <c:param name="id" value="${advertisement.id}"/>
-                                        <c:param name="currentCategory" value="${currentCategory}"/>
-                                    </c:url>
-                                    <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
-                                </td>
-                                <td class="text"><c:out value="${advertisement.text}"/></td>
-                                <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
-                                <td class="category">
-                                      <c:if test="${advertisement.category.name eq 'games'}">
+                        <c:choose>
+                            <c:when test="${status.index%2==0}">
+                                <tr>
+                            </c:when>
+                            <c:otherwise>
+                                <tr class="tr1">
+                            </c:otherwise>
+                        </c:choose>
+                                    <td class="date"><c:out value="${advertisement.createdDateFormat}"/></td>
+                                    <td class="title">
+                                        <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
+                                            <c:param name="id" value="${advertisement.id}"/>
+                                            <c:param name="currentCategory" value="${currentCategory}"/>
+                                        </c:url>
+                                        <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
+                                    </td>
+                                    <td class="text"><c:out value="${advertisement.text}"/></td>
+                                    <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
+                                    <td class="category">
+                                        <c:if test="${advertisement.category.name eq 'games'}">
                                               Игры
-                                      </c:if>
-                                      <c:if test="${advertisement.category.name eq 'clothes'}">
+                                        </c:if>
+                                        <c:if test="${advertisement.category.name eq 'clothes'}">
                                               Одежда
-                                      </c:if>
-                                      <c:if test="${advertisement.category.name eq 'notclothes'}">
+                                        </c:if>
+                                        <c:if test="${advertisement.category.name eq 'notclothes'}">
                                               Не одежда
-                                      </c:if>
-                                </td>
-                             </tr>
-                        </c:if>
-                        <c:if test="${status.index%2==1}">
-                            <tr class="tr1">
-                                <td class="date"><c:out value="${advertisement.createdDateFormat}"/></td>
-                                <td class="title">
-                                    <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
-                                        <c:param name="id" value="${advertisement.id}"/>
-                                        <c:param name="currentCategory" value="${currentCategory}"/>
-                                     </c:url>
-                                    <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
-                                </td>
-                                <td class="text"><c:out value="${advertisement.text}"/></td>
-                                <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
-                                <td class="category">
-                                      <c:if test="${advertisement.category.name eq 'games'}">
-                                              Игры
-                                      </c:if>
-                                      <c:if test="${advertisement.category.name eq 'clothes'}">
-                                              Одежда
-                                      </c:if>
-                                      <c:if test="${advertisement.category.name eq 'notclothes'}">
-                                              Не одежда
-                                      </c:if>
-
-                                 </td>
-                             </tr>
-                        </c:if>
+                                        </c:if>
+                                    </td>
+                                </tr>
                     </c:forEach>
                     </tbody>
                 </table>
@@ -206,14 +185,11 @@
                     <div>
                     <!-- выбор размера страницы -->
                        <p class="pagination1">  Объявлений на странице   </p>
-                       <c:url value="/advertisement/list.html"  var="listUrl" />
-                <%--      <c:param name="sortOrder" value="${currentSortOrder}"/>
-                          <c:param name="sortedBy" value="${currentColumn}"/>
-                          </c:url>
-                --%></div>
+                    </div>
                     <div>
                         <form action="${listUrl}" method="get" class="pagination">
-                            <select name="pageSize" class="pageSize">
+                            <div class="pageSize">
+                            <select name="pageSize" >
                                 <option value="${pageSize}"> <c:out value="${pageSize}"> </c:out> </option>
                                 <c:if test="${pageSize!=2}">
                                     <option value="${defaultPageSize}"><c:out value="${defaultPageSize}"></c:out></option>
@@ -228,6 +204,8 @@
                                     <option value="3">3</option>
                                 </c:if>
                             </select>
+
+                            </div>
                             <input type="hidden" name="sortedBy" value="${currentColumn}"/>
                             <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
                             <input type="hidden" name="currentCategory" value="${currentCategory}"/>
@@ -319,10 +297,7 @@
                                                 <c:if test="${currentPage!=(noOfPage-2)}">
                                                     <span class="number"> ... </span>
                                                 </c:if>
-                                                <c:url value="/advertisemen
-
-
-t/list.html" var="pageUrl" >
+                                                <c:url value="/advertisement/list.html" var="pageUrl" >
                                                     <c:param name="pageSize" value="${pageSize}"/>
                                                     <c:param name="sortOrder" value="${currentSortOrder}"/>
                                                     <c:param name="sortedBy" value="${currentColumn}"/>
@@ -428,9 +403,10 @@ t/list.html" var="pageUrl" >
                 <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
             </div>
         </div>
-        <footer class="centerTop">
-                    <div class="social">
-                        <p class="socialText"> Мы в социальных сетях: </p>
+        <footer>
+        <div class="centerTop">
+            <div class="social">
+                <p class="socialText"> Мы в социальных сетях: </p>
 
                        <%-- <!-- Put this div tag to the place, where the Like block will be -->
                         <div id="vk_like"></div>
@@ -438,25 +414,20 @@ t/list.html" var="pageUrl" >
                         VK.Widgets.Like("vk_like", {type: "full"});
                         </script>       --%>
 
-                        <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
-                    </div>
-                    <div class="footerLink1">
-                        <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
-                    </div>
-                    <div class="footerLink">
-                        <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
-                    </div>
-                    <div class="footerLink">
-                        <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
-                    </div>
-                    <p class="sign"> © 2013 Natural Exchange</p>
-
-
-      </div>
-       <div class="plug">
-
+                <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
+            </div>
+            <div class="footerLink1">
+                 <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
+            </div>
+            <div class="footerLink">
+                 <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
+            </div>
+            <div class="footerLink">
+                 <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
+            </div>
+            <p class="sign"> © 2013 Natural Exchange</p>
+        </div>
         </footer>
-
         <div id="block">
              <div id="main">
                  <form id="contact" name="contact" action="#" method="get">
@@ -476,6 +447,9 @@ t/list.html" var="pageUrl" >
                          <button id="send" class="sendOk">Готово</button>
                      </div>
                  </form>
+                 <div class="saving">
+                     Поиск сохранен! на ваш e-mail было отправлено письмо со ссылкой на сахраненный поиск.
+                 </div>
                </div>
          </div>
 

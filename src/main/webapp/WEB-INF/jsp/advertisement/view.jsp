@@ -13,11 +13,12 @@
         <link type="text/css" rel="stylesheet" href="<c:url value="/fancybox/jquery.fancybox-1.3.4.css"/>"  media="screen" />
 
         <script type="text/javascript" src='<c:url value="/resources/js/listScript.js"/>'  language="javascript"> </script>
+        <script type="text/javascript" src='<c:url value="/resources/js/checkbox.js"/>'  language="javascript"> </script>
 
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
-    <%-- <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>  --%>
+       <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
+    <%--  <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>  --%>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'>
         <title>Просмотр объявления</title>
     </head>
@@ -106,9 +107,9 @@
                     <%-- <button class="save"> Сохранить поиск  </button>     --%>
                     <input type="submit" class="search" value="Найти"/>
                     <div class="cate">
-                        <p class="pcate"> <form:checkbox  id="one" path="categories" value="games"  /><label for="one">Игры</label></p>
-                        <p class="pcate"><form:checkbox id="two" path="categories" value="clothes" /><label for="two">Одежда</label></p>
-                        <p class="pcate"> <form:checkbox id="three" path="categories" value="notclothes"  /><label for="three">Не одежда</label></p>
+                        <p class="pcate"> <form:checkbox  id="one1" path="categories" value="games"  /><label for="one1"><span name="cate"></span>Игры</label></p>
+                        <p class="pcate"><form:checkbox id="two2" path="categories" value="clothes" /><label for="two2"><span name="cate"></span>Одежда</label></p>
+                        <p class="pcate"> <form:checkbox id="three3" path="categories" value="notclothes"  /><label for="three3"><span name="cate"></span>Не одежда</label></p>
                         <p><form:errors path="categories"/></p>
                     </div>
                         <input type="hidden" name="currentCategory" value="${currentCategory}"/>
@@ -116,9 +117,6 @@
             </aside>
         </div>
         <div class="plug">
-
-            <%--<div class="commercialAdvert">   --%>
-
             <div>
                 <p> Понравился проект? Расскажи друзьям! </p>
                 <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />

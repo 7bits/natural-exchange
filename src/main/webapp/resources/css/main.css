@@ -44,6 +44,7 @@ height: 20px;
 }
 
 .buttonArea {
+    clear: both;
     margin: 10px auto;
     width: 220px;
 }
@@ -166,10 +167,10 @@ color: #9c9c9c;
 }
 
 .errorLk {
-	color: red;
-	font-size: 14px;
-	position:absolute;
-	bottom: 100px;
+    color: red;
+    font-size: 14px;
+    position:absolute;
+    bottom: 100px;
     left: 20px;
 
 }
@@ -370,6 +371,7 @@ aside {
     color: #565650;
     font-size: 18px;
     font-family: 'PT Sans', sans-serif;
+    float: right;
     width: 50px;
     height: 30px;
     border-radius: 4px;
@@ -509,16 +511,25 @@ nav {
 .pagination2 {
     float:left;
     padding:60px 10px;
-    width: 45%;
+ /*   width: 45%;  */
 }
 
  .number {
      padding:0 10px;
  }
 
-.pageSize{
+
+.pageSize {
+        background: url(../images/num.png) no-repeat;
+        width: 70px;
+        float: left;
+}
+
+select {
+    outline: none;
+    width: 57px;
+    background: none;
     padding:5px;
-    background: white;
     border: none;
     font-family: 'PT Sans', sans-serif;
     font-size: 18px;

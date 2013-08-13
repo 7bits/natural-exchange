@@ -60,34 +60,28 @@
                 <section>
 
                     <p class="pSay"> Поля, отмеченные звездочкой обязательны для заполнения </p>
-
-        	        <div class="places">
-		                <div class="left1">
-
-		                    <p>Заголовок: <span class="star">*</span></p>
-		                </div>
-		                <div class="right">
-				            <form:input path="title" class="placeTitle"  maxlength="16"/>
-
-				        </div>
-				        <span class="error2"><form:errors path="title" /></span>
+                    <div class="places">
+                        <div class="left1">
+                            <p>Заголовок: <span class="star">*</span></p>
+                            <span class="error2">не более 16 символов <form:errors path="title" /></span>
+                        </div>
+                        <div class="right">
+                            <form:input path="title" class="placeTitle"  maxlength="16"/>
+                        </div>
                     </div>
                     <div class="places">
                         <div class="left">
-
-				            <p>Описание:<span class="star">*</span></p>
-				        </div>
-				        <div class="right">
-				            <form:textarea path="text" class="placeText" />
-
-				        </div>
-				        <span class="error2"><form:errors path="text" /> </span>
-				    </div>
-				    <div class="places">
-				        <div class="left">
-
-				            <p>Фотография:<span class="star">*</span></p>
-				        </div>
+                            <p>Описание:<span class="star">*</span></p>
+                            <span class="error2"><form:errors path="text" /> </span>
+                        </div>
+                        <div class="right">
+                            <form:textarea path="text" class="placeText" />
+                        </div>
+                    </div>
+                    <div class="places">
+                        <div class="left">
+                            <p>Фотография:<span class="star">*</span></p>
+                        </div>
                         <div class="right">
                             <p><input name="image" type="file" value="Загрузить" id="image" /></p>
                          </div>
@@ -108,9 +102,8 @@
                         <p class="pcate1"> <form:radiobutton id="three" path="category" value="notclothes"  /><label for="three">Не одежда</label></p>
                         <p> <span class="error"><form:errors path="category"/></span></p>
                     </div>
-
-	            </aside>
-	        </form:form>
+                </aside>
+            </form:form>
         </div>
         <div class="plug">
 

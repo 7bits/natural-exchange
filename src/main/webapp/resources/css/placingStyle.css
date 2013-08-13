@@ -10,24 +10,24 @@
 }
 
 .placeText {
-     border-radius: 4px;
-    -moz-border-radius: 4px;
-     -webkit-border-radius: 4px;
-     border: 2px solid #d8d8d8;
-     color: #565650;
-     padding: 5px 10px;
-     margin-bottom: 8px;
-     width: 450px;
-     font-size: 20px;
-     height: 100px;
-     padding: 0 7px;
-     outline:none;
-     font-family: 'PT Sans', sans-serif;
-     resize:none;
+    border-radius: 4px;
+   -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border: 2px solid #d8d8d8;
+    color: #565650;
+    padding: 5px 10px;
+    margin-bottom: 8px;
+    width: 450px;
+    font-size: 20px;
+    height: 100px;
+    padding: 0 7px;
+    outline:none;
+    font-family: 'PT Sans', sans-serif;
+    resize:none;
 }
 
 .pCenter {
-   padding: 15px 10px;
+    padding: 15px 10px;
 
 }
 
@@ -47,12 +47,11 @@
      color: #9c9c9c;
 }
 
-
 .placeText:focus , .placeTitle:focus  {
      border: 2px solid #b1ed2f;
 }
 
-.placeTitle{
+.placeTitle {
      border-radius: 4px;
     -moz-border-radius: 4px;
      -webkit-border-radius: 4px;
