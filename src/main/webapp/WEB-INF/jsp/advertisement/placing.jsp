@@ -83,12 +83,12 @@
                         </div>
                         <div class="right">
                             <p><input name="image" type="file" value="Загрузить" id="image" /></p>
-                         </div>
+                        </div>
 
                     <div class="think">
-                             <input type="reset" value="Отмена" class="no"/>
-                             <input type="submit" value="Разместить" class="sendAdv"/>
-                     </div>
+                         <input type="reset" value="Отмена" class="no"/>
+                         <input type="submit" value="Разместить" class="sendAdv"/>
+                    </div>
                    </div>
                 </section>
                 <aside>

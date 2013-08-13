@@ -23,7 +23,7 @@
             </div>
         </header>
         <div class="centerR">
-              <p class="pCenter"> Ваше объявление очень важно для нас!  </p>
+            <p class="pCenter"> Ваше объявление очень важно для нас!  </p>
         </div>
         <div class="center">
             <br>
@@ -32,8 +32,8 @@
         </div>
         <div class="plug">
             <div>
-                 <p> Понравился проект? Расскажи друзьям! </p>
-                 <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
+                <p> Понравился проект? Расскажи друзьям! </p>
+                <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
             </div>
         </div>
         <footer class="centerTop">
@@ -45,10 +45,10 @@
                 <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
             </div>
             <div class="footerLink">
-                 <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
+                <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
             </div>
             <div class="footerLink">
-                 <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
+                <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
             </div>
             <p class="sign"> © 2013 Natural Exchange</p>
         </footer>

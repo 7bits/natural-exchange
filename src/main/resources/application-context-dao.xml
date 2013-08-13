@@ -31,8 +31,8 @@
         <property name="annotatedClasses">
             <list>
                 <value>it.sevenbits.entity.hibernate.AdvertisementEntity</value>
-				<value>it.sevenbits.entity.hibernate.UserEntity</value>
-				<value>it.sevenbits.entity.hibernate.CategoryEntity</value>
+                <value>it.sevenbits.entity.hibernate.UserEntity</value>
+                <value>it.sevenbits.entity.hibernate.CategoryEntity</value>
                 <value>it.sevenbits.entity.hibernate.SubscriberEntity</value>
                 <value>it.sevenbits.entity.hibernate.SearchVariantEntity</value>
             </list>
@@ -49,7 +49,6 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-
     <!-- DAO classes for model objects -->
     <!--bean id="reportDao" class="com.mutualforce.dao.hibernate.GenericTimedDaoHibernate">
         <constructor-arg type="java.lang.Class" value="com.mutualforce.entities.report.Report"/>
@@ -60,7 +59,5 @@
     <!--bean id="advertisementDAO" class="it.sevenbits.dao.hibernate.AdvertisementDaoHibernaternate">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean-->
-
-
 
 </beans>
