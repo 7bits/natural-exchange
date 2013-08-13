@@ -31,7 +31,7 @@
     </head>
     <body>
         <header class="centerTop">
-          <%--  <div class="entryBlock">
+            <%--  <div class="entryBlock">
                 <a href='<c:url value="/advertisement/list.html"/>' class="entry">  Вход на сайт </a>
                 <a href='<c:url value="/advertisement/list.html"/>'class="registration">  Регистрация </a>
             </div>  --%>
@@ -42,13 +42,12 @@
             </div>
             <div id=lk>
                 <%--*********   --%>
-                    <form:form method="post" commandName="mailingNewsForm" class="lk">
-                        <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
-                        <p class="proLk">Узнавайте новости проекта первыми! </p>
-                        <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                        <p><input type="submit" value="Подписаться" class="send" /></p>
-
-                    </form:form>
+                <form:form method="post" commandName="mailingNewsForm" class="lk">
+                    <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
+                    <p class="proLk">Узнавайте новости проекта первыми! </p>
+                    <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
+                    <p><input type="submit" value="Подписаться" class="send" /></p>
+                </form:form>
                 <%-- ********* --%>
             </div>
         </header>
@@ -106,37 +105,32 @@
             </form:form>
         </div>
         <div class="plug">
-
             <%--<div class="commercialAdvert">   --%>
-
             <div>
                 <p> Понравился проект? Расскажи друзьям! </p>
                 <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
             </div>
         </div>
         <footer class="centerTop">
-                    <div class="social">
-                        <p class="socialText"> Мы в социальных сетях: </p>
-
-                       <%-- <!-- Put this div tag to the place, where the Like block will be -->
-                        <div id="vk_like"></div>
-                        <script type="text/javascript">
-                        VK.Widgets.Like("vk_like", {type: "full"});
-                        </script>       --%>
-
-                        <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
-                    </div>
-                    <div class="footerLink1">
-                        <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
-                    </div>
-                    <div class="footerLink">
-                        <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
-                    </div>
-                    <div class="footerLink">
-                        <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
-                    </div>
-                    <p class="sign"> © 2013 Natural Exchange</p>
+            <div class="social">
+                <p class="socialText"> Мы в социальных сетях: </p>
+                <%-- <!-- Put this div tag to the place, where the Like block will be -->
+                <div id="vk_like"></div>
+                <script type="text/javascript">
+                VK.Widgets.Like("vk_like", {type: "full"});
+                </script>       --%>
+                <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
+            </div>
+            <div class="footerLink1">
+                <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
+            </div>
+            <div class="footerLink">
+                <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
+            </div>
+            <div class="footerLink">
+                <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
+            </div>
+            <p class="sign"> © 2013 Natural Exchange</p>
         </footer>
-
-</body>
+    </body>
 </html>
