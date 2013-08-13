@@ -13,7 +13,5 @@
 <head><title>Выход из системы</title>
 </head>
 <body>
-      </header>
-
 </body>
 </html>
