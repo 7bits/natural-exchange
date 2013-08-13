@@ -7,13 +7,13 @@
 <!doctype html>
 <html lang="ru">
     <head>
+        <!-- Put this script tag to the <head> of your page -->
+        <script type="text/javascript" src="//vk.com/js/api/openapi.js?98"></script>
 
-    <!-- Put this script tag to the <head> of your page -->
-    <script type="text/javascript" src="//vk.com/js/api/openapi.js?98"></script>
+        <script type="text/javascript">
+            VK.init({apiId: 3783611, onlyWidgets: true});
+        </script>
 
-<script type="text/javascript">
-  VK.init({apiId: 3783611, onlyWidgets: true});
-</script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" language="javascript"></script>
         <script type="text/javascript" src='<c:url value="/fancybox/jquery.fancybox-1.3.4.pack.js"/>'></script>
         <script type="text/javascript" src='<c:url value="/fancybox/jquery.easing.1.3.js"/>'></script>
@@ -31,12 +31,9 @@
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
         <title>Объявления</title>
     </head>
-    
     <body>
-
-        <header class="centerTop">
+    <header class="centerTop">
             <div class="entryBlock">
-
                 <sec:authorize ifAnyGranted='ROLE_USER, ROLE_ADMIN'>
                     <sec:authentication property="principal.username" />
                     <a href="<c:url value="/user/logout.html"/>" >Выйти</a>
@@ -49,7 +46,6 @@
                     <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
                 <%--    <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a>--%>
                 </sec:authorize>
-
             </div>
             <div id=logotype>
                 <a href='<c:url value="/advertisement/list.html"/>'>
@@ -58,7 +54,6 @@
                 <%--   <span>Натуральный обмен</span>
                 <p> Помощь молодым родителям</p>     --%>
             </div>
-
             <div id=lk>
                 <%--*********   --%>
                     <form:form method="get" commandName="mailingNewsForm" class="lk">
@@ -66,7 +61,6 @@
                         <p class="proLk">Узнавайте новости проекта первыми! </p>
                         <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
                         <p><input type="submit" value="Подписаться" class="send" /></p>
-
                     </form:form>
                 <%-- ********* --%>
             </div>
@@ -85,7 +79,7 @@
                                 Автор
                             </th-->
                             <th class="date">
-<%--                                 <c:set var="sortDate" value="${!sortDate}"/> --%>
+                                <%--<c:set var="sortDate" value="${!sortDate}"/> --%>
                                 <c:url value="/advertisement/list.html" var="dateSortingUrl">
                                     <c:param name="sortedBy" value="${sortedByDate}"/>
                                     <c:param name="sortOrder" value="${sortOrderDate}"/>
@@ -93,23 +87,22 @@
                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                 </c:url>
-                                 Дата
-                                 <c:choose>
-                                     <c:when  test="${sortOrderDate eq 'ASCENDING'}" >
+                                Дата
+                                <c:choose>
+                                    <c:when  test="${sortOrderDate eq 'ASCENDING'}" >
                                          <a href="${dateSortingUrl}">
                                               <img class="sort" src='<c:url value="/resources/images/sort_1.png"/>' alt="Сорт">
                                          </a>
-                                     </c:when>
-                                     <c:otherwise>
-                                         <a href="${dateSortingUrl}">
-                                             <img class="sort" src='<c:url value="/resources/images/sort_2.png"/>' alt="Сорт">
-                                         </a>
-                                     </c:otherwise>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="${dateSortingUrl}">
+                                            <img class="sort" src='<c:url value="/resources/images/sort_2.png"/>' alt="Сорт">
+                                        </a>
+                                    </c:otherwise>
                                  </c:choose>
-
                             </th>
                             <th class="title">
-<%--                                 <c:set var="sortTitle" value="${!sortTitle}"/> --%>
+                                <%--<c:set var="sortTitle" value="${!sortTitle}"/> --%>
                                 <c:url value="/advertisement/list.html" var="titleSortingUrl">
                                     <c:param name="sortedBy" value="${sortedByTitle}"/>
                                     <c:param name="sortOrder" value="${sortOrderTitle}"/>
@@ -118,24 +111,22 @@
                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                 </c:url>
                                 Заголовок
-                                 <c:choose>
-                                     <c:when  test="${sortOrderTitle eq 'ASCENDING'}" >
-                                         <a href="${titleSortingUrl}">
-                                              <img class="sort" src='<c:url value="/resources/images/sort_1.png"/>' alt="Сорт">
-                                         </a>
-                                     </c:when>
-                                     <c:otherwise>
-                                         <a href="${titleSortingUrl}">
-                                             <img class="sort" src='<c:url value="/resources/images/sort_2.png"/>' alt="Сорт">
-                                         </a>
-                                     </c:otherwise>
-                                 </c:choose>
+                                <c:choose>
+                                    <c:when  test="${sortOrderTitle eq 'ASCENDING'}" >
+                                        <a href="${titleSortingUrl}">
+                                            <img class="sort" src='<c:url value="/resources/images/sort_1.png"/>' alt="Сорт">
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="${titleSortingUrl}">
+                                            <img class="sort" src='<c:url value="/resources/images/sort_2.png"/>' alt="Сорт">
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
                             </th>
-
                             <th class="text">
                                 Описание
                             </th>
-
                             <th class="photo">
                                 Фото
                             </th>
@@ -145,66 +136,64 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${advertisements}" var="advertisement" varStatus="status">
-                        <c:choose>
-                            <c:when test="${status.index%2==0}">
-                                <tr>
-                            </c:when>
-                            <c:otherwise>
-                                <tr class="tr1">
-                            </c:otherwise>
-                        </c:choose>
-                                    <td class="date"><c:out value="${advertisement.createdDateFormat}"/></td>
-                                    <td class="title">
-                                        <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
-                                            <c:param name="id" value="${advertisement.id}"/>
-                                            <c:param name="currentCategory" value="${currentCategory}"/>
-                                        </c:url>
-                                        <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
-                                    </td>
-                                    <td class="text"><c:out value="${advertisement.text}"/></td>
-                                    <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
-                                    <td class="category">
-                                        <c:if test="${advertisement.category.name eq 'games'}">
-                                              Игры
-                                        </c:if>
-                                        <c:if test="${advertisement.category.name eq 'clothes'}">
-                                              Одежда
-                                        </c:if>
-                                        <c:if test="${advertisement.category.name eq 'notclothes'}">
-                                              Не одежда
-                                        </c:if>
-                                    </td>
-                                </tr>
-                    </c:forEach>
+                        <c:forEach items="${advertisements}" var="advertisement" varStatus="status">
+                            <c:choose>
+                                <c:when test="${status.index%2==0}">
+                                    <tr>
+                                </c:when>
+                                <c:otherwise>
+                                    <tr class="tr1">
+                                </c:otherwise>
+                            </c:choose>
+                                        <td class="date"><c:out value="${advertisement.createdDateFormat}"/></td>
+                                        <td class="title">
+                                            <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
+                                                <c:param name="id" value="${advertisement.id}"/>
+                                                <c:param name="currentCategory" value="${currentCategory}"/>
+                                            </c:url>
+                                            <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
+                                        </td>
+                                        <td class="text"><c:out value="${advertisement.text}"/></td>
+                                        <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
+                                        <td class="category">
+                                            <c:if test="${advertisement.category.name eq 'games'}">
+                                                  Игры
+                                            </c:if>
+                                            <c:if test="${advertisement.category.name eq 'clothes'}">
+                                                  Одежда
+                                            </c:if>
+                                            <c:if test="${advertisement.category.name eq 'notclothes'}">
+                                                  Не одежда
+                                            </c:if>
+                                        </td>
+                                    </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
-
             <!-- ******************* pagination  ************************  -->
                 <div>
                     <div>
-                    <!-- выбор размера страницы -->
-                       <p class="pagination1">  Объявлений на странице   </p>
+                        <!-- выбор размера страницы -->
+                        <p class="pagination1">  Объявлений на странице   </p>
                     </div>
                     <div>
                         <form action="${listUrl}" method="get" class="pagination">
                             <div class="pageSize">
-                            <select name="pageSize" >
-                                <option value="${pageSize}"> <c:out value="${pageSize}"> </c:out> </option>
-                                <c:if test="${pageSize!=2}">
-                                    <option value="${defaultPageSize}"><c:out value="${defaultPageSize}"></c:out></option>
-                                </c:if>
-                                <c:if test="${pageSize!=5}">
-                                    <option value="5">5</option>
-                                </c:if>
-                                <c:if test="${pageSize!=15}">
-                                    <option value="15">15</option>
-                                </c:if>
-                                <c:if test="${pageSize!=3}">
-                                    <option value="3">3</option>
-                                </c:if>
-                            </select>
-
+                                <select name="pageSize" >
+                                    <option value="${pageSize}"> <c:out value="${pageSize}"> </c:out> </option>
+                                    <c:if test="${pageSize!=2}">
+                                        <option value="${defaultPageSize}"><c:out value="${defaultPageSize}"></c:out></option>
+                                    </c:if>
+                                    <c:if test="${pageSize!=5}">
+                                        <option value="5">5</option>
+                                    </c:if>
+                                    <c:if test="${pageSize!=15}">
+                                        <option value="15">15</option>
+                                    </c:if>
+                                    <c:if test="${pageSize!=3}">
+                                        <option value="3">3</option>
+                                    </c:if>
+                                </select>
                             </div>
                             <input type="hidden" name="sortedBy" value="${currentColumn}"/>
                             <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
@@ -282,9 +271,7 @@
                                                 <c:param name="currentCategory" value="${currentCategory}"/>
                                                 <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                             </c:url>
-
-                                                <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
-
+                                            <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
                                         </c:if>
                                     </c:when>
                                     <c:otherwise>
@@ -305,7 +292,7 @@
                                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
                                                 </c:url>
-                                               <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
+                                                <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
                                             </c:when>
                                             <c:otherwise>
                                                 <c:url value="/advertisement/list.html" var="pageUrl" >
@@ -324,8 +311,8 @@
                                 </c:choose>
                             </c:otherwise>
                         </c:choose>
-                    <%--<c:forEach var="i" begin="0" end="${noOfPage-1}">
-                           <c:choose>
+                        <%--<c:forEach var="i" begin="0" end="${noOfPage-1}">
+                            <c:choose>
                                 <c:when test="${currentPage==i}">
                                     <span class="act"> <c:out value="${i+1}"></c:out></span>
                                 </c:when>
@@ -393,11 +380,8 @@
             </aside>
         </div>
 
-
         <div class="plug">
-
             <%--<div class="commercialAdvert">   --%>
-
             <div>
                 <p> Понравился проект? Расскажи друзьям! </p>
                 <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
@@ -407,13 +391,11 @@
         <div class="centerTop">
             <div class="social">
                 <p class="socialText"> Мы в социальных сетях: </p>
-
-                       <%-- <!-- Put this div tag to the place, where the Like block will be -->
-                        <div id="vk_like"></div>
-                        <script type="text/javascript">
-                        VK.Widgets.Like("vk_like", {type: "full"});
-                        </script>       --%>
-
+                    <%-- <!-- Put this div tag to the place, where the Like block will be -->
+                    <div id="vk_like"></div>
+                    <script type="text/javascript">
+                    VK.Widgets.Like("vk_like", {type: "full"});
+                    </script>       --%>
                 <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
             </div>
             <div class="footerLink1">
@@ -429,29 +411,27 @@
         </div>
         </footer>
         <div id="block">
-             <div id="main">
-                 <form id="contact" name="contact" action="#" method="get">
-                     <div class="titleSave"> Сохранить параметры поиска </div>
-                     <div class="say"> Введите свой e-mail, и Вы получите письмо с ссылкой на сохраненные параметры Вашего поиска</div>
-                     <input type="email" id="emailSave" name="emailSave" class="placeTitle mail" placeholder="E-mail">
-                     <div class="say"> Введите, пожалуйста, знаки с картинки, чтобы убедиться, что Вы не робот</div>
-                     <div class="capt">
-                         <img id="captchaImg" src='<c:url value="/advertisement/makeCaptcha.html"/>' >
-                         <p > <img id="refresh" class="refresh" src='<c:url value="/resources/images/refresh.png"/>' ></p>
-                         <input type="text" class="captchIn" name="captchaInput">
-
-                     </div>
-                     <div id="message">  </div>
-                     <div class="buttonArea">
-                         <button id="close" class="close"> Отмена </button>
-                         <button id="send" class="sendOk">Готово</button>
-                     </div>
-                 </form>
-                 <div class="saving">
-                     Поиск сохранен! на ваш e-mail было отправлено письмо со ссылкой на сахраненный поиск.
-                 </div>
-               </div>
-         </div>
-
+            <div id="main">
+                <form id="contact" name="contact" action="#" method="get">
+                    <div class="titleSave"> Сохранить параметры поиска </div>
+                    <div class="say"> Введите свой e-mail, и Вы получите письмо с ссылкой на сохраненные параметры Вашего поиска</div>
+                    <input type="email" id="emailSave" name="emailSave" class="placeTitle mail" placeholder="E-mail"/>
+                    <div class="say"> Введите, пожалуйста, знаки с картинки, чтобы убедиться, что Вы не робот</div>
+                    <div class="capt">
+                        <img id="captchaImg" src='<c:url value="/advertisement/makeCaptcha.html"/>' />
+                        <p><img id="refresh" class="refresh" src='<c:url value="/resources/images/refresh.png"/>' ></p>
+                        <input type="text" class="captchIn" name="captchaInput"/>
+                    </div>
+                    <div id="message">  </div>
+                    <div class="buttonArea">
+                        <button id="close" class="close"> Отмена </button>
+                        <button id="send" class="sendOk">Готово</button>
+                    </div>
+                </form>
+                <div class="saving">
+                 Поиск сохранен! на ваш e-mail было отправлено письмо со ссылкой на сахраненный поиск.
+                </div>
+            </div>
+        </div>
     </body>
 </html>
