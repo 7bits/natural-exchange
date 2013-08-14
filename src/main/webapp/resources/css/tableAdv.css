@@ -11,31 +11,31 @@ img.sort {
 }
 
 table {
+    table-layout: fixed;
      /* width: 300px;  Ширина таблицы
     background: #fffff0;  Цвет фона нечетных строк */
     width: 100%;
     border-collapse: collapse; /* Убираем двойные линии между ячейками */
     box-shadow:  none;
-
     word-wrap: break-word;
 }
 
 tbody {
-      border: 2.5px solid #d8d8d8; /* Рамка вокруг таблицы */
+    border: 2.5px solid #d8d8d8; /* Рамка вокруг таблицы */
 }
 
 thead {
-      background:#d8d8d8;
-      border-radius: 6px;
-      border-color:#d8d8d8;
-      border: 2.5px solid #d8d8d8;
+    background:#d8d8d8;
+    border-radius: 6px;
+    border-color:#d8d8d8;
+    border: 2.5px solid #d8d8d8;
 }
 
 table th {
-      height: 51px;
-      font-size: 20px;
-      font-weight: normal;
-      text-align: left;
+    height: 51px;
+    font-size: 20px;
+    font-weight: normal;
+    text-align: left;
 }
 
 table tr {
@@ -64,14 +64,14 @@ table img {
 }
 
 td.date {
-    padding: 5px 30px 5px 10px;
+    padding: 5px 10px;
     font-size: 17px;
     width: 15%;
     color: #9c9c9c;
 }
 
 th.date {
-    width: 15%;
+    width: 18%;
     padding-left: 12px;
 }
 
