@@ -14,28 +14,21 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
     </head>
     <body>
-        <header class="centerTop">
-            <%--  <div class="entryBlock">
+
+<header class="centerTop">
+        <div class="entryBlock">
+            <sec:authorize ifAnyGranted='IS_AUTHENTICATED_ANONYMOUSLY'>
                 <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
                 <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a>
-            </div>  --%>
-            <div id=logotype>
-                <a href='<c:url value="/advertisement/list.html"/>'>
-                    <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-                </a>
-            </div>
-            <div id=lk>
-                <%--*********   --%>
-                <form:form method="post" commandName="mailingNewsForm" class="lk">
-                    <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
-                    <p class="proLk">Узнавайте новости проекта первыми! </p>
-                    <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                    <p><input type="submit" value="Подписаться" class="send" /></p>
-                </form:form>
-                <%-- ********* --%>
-            </div>
-        </header>
-        <div class="centerR">
+            </sec:authorize>
+        </div>
+        <div id=logotype>
+            <a href='<c:url value="/advertisement/list.html"/>'>
+                <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
+            </a>
+        </div>
+    </header>
+    <div class="centerR">
             <p class="pCenter">Регистрация </p>
         </div>
         <div class="center">
@@ -43,61 +36,39 @@
                 <section>
                     <p class="pSay"> Поля, отмеченные звездочкой обязательны для заполнения </p>
                     <div class="places">
-                        <div class="left1">
-                            <p>Имя: <span class="star">*</span></p>
-                        </div>
-                        <div class="right">
-                            <form:input  type="text" path="firstName"  class="placeTitle"  maxlength="30"/>
-
-                        </div>
-                        <span class="error2"><form:errors path="firstName" /></span>
-                    </div>
-                    <div class="places">
-                        <div class="left">
-                            <p>Фамилия:<span class="star">*</span></p>
-                        </div>
-                        <div class="right">
-                            <form:input type="text" path="lastName" class="placeTitle" />
-                        </div>
-                        <span class="error2"><form:errors path="lastName" /> </span>
-                    </div>
-                    <div class="places">
-                        <div class="left">
-
-                            <p>E-mail:<span class="star">*</span></p>
-                        </div>
-                        <div class="right">
-                            <form:input type="text" path="email" class="placeTitle" />
-
-                        </div>
+                        <div class="left"><label for="e1">E-mail:<span class="star">*</span></div>
+                        <div class="right"><form:input id="e1" type="text" path="email" class="placeTitle" /></div>
                         <span class="error2"><form:errors path="email" /> </span>
                     </div>
                     <div class="places">
-                        <div class="left">
-                            <p>Пароль:<span class="star">*</span></p>
-                        </div>
-                        <div class="right">
-                            <form:input type="password" path="password" class="placeTitle" />
-                        </div>
+                        <div class="left"><p>Пароль:<span class="star">*</span></p></div>
+                        <div class="right"><form:input type="password" path="password" class="placeTitle" />   </div>
                         <span class="error2"><form:errors path="password" /> </span>
                     </div>
                     <div class="places">
-                        <div class="left">
-                            <p>Подтвердите пароль:<span class="star">*</span></p>
-                        </div>
-                        <div class="right">
-                            <form:input type="password" path="confirmPassword" class="placeTitle" />
-                        </div>
+                        <div class="left"><p>Подтвердите пароль:<span class="star">*</span></p></div>
+                        <div class="right"><form:input type="password" path="confirmPassword" class="placeTitle" /></div>
                         <span class="error2"><form:errors path="confirmPassword" /> </span>
                     </div>
                     <div class="places">
-                        <div class="left">
-                            <p>ссылка на профиль в контакте:<span class="star"></span></p>
-                        </div>
-                        <div class="right">
-                            <form:input path="vkLink" class="placeTitle" />
-                        </div>
+                        <div class="left1"> Имя: </div>
+                        <div class="right"><form:input  type="text" path="firstName"  placeholder="Введите Ваше имя" class="placeTitle"  maxlength="30"/></div>
+                        <span class="error2"><form:errors path="firstName" /> </span>
+                    </div>
+
+                    <div class="places">
+                        <div class="left">Фамилия: </div>
+                        <div class="right"><form:input type="text" placeholder="Введите Вашу фамилию" path="lastName" class="placeTitle" /></div>
+                        <span class="error2"><form:errors path="lastName" /> </span>
+                    </div>
+                    <div class="places">
+                        <div class="left"><p>Ссылка на профиль в контакте: </p></div>
+                        <div class="right"><form:input type="text" path="vkLink" placeholder="Введите id Вашего аккаунта" class="placeTitle" /></div>
                         <span class="error2"><form:errors path="vkLink" /> </span>
+                    </div>
+                    <div class="places">
+                        <form:checkbox id="one1" path="isReceiveNews" value="true"  />
+                        <label for="one1">Присылать мне новости проекта</label>
                     </div>
                     <div class="think">
                          <input type="reset" value="Очистить" class="no"/>

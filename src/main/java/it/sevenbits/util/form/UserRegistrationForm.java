@@ -11,12 +11,29 @@ public class UserRegistrationForm {
 
     //@NotBlank(message = "Новость должна быть. Заполните поле.")
     //@Length(max=2000)
-    private String firstName;
-    private String lastName;
     private String email;
     private String password;
     private String confirmPassword;
+    private String firstName;
+    private String lastName;
+    private String isReceiveNews;
     private String vkLink;
+
+    public String getVkLink() {
+        return vkLink;
+    }
+
+    public void setVkLink(final String vkLink) {
+        this.vkLink = vkLink;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(final String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -50,19 +67,11 @@ public class UserRegistrationForm {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
+    public String getIsReceiveNews() {
+        return isReceiveNews;
     }
 
-    public void setConfirmPassword(final String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
-    public String getVkLink() {
-        return vkLink;
-    }
-
-    public void setVkLink(final String vkLink) {
-        this.vkLink = vkLink;
+    public void setIsReceiveNews(final String receiveNews) {
+        isReceiveNews = receiveNews;
     }
 }

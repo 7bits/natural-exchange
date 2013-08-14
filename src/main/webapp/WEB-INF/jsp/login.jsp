@@ -30,28 +30,20 @@
             <p class="pCenter titleSave"> Вход в систему </p>
         </div>
         <div class="center">
-            <form method="POST"   action="<c:url value="/j_spring_security_check"/>"  >
-                <div class="places">
-                    <div class="left1">
-                        <p>Пароль:</p>
-                    </div>
-                    <div class="right">
-                        <input type="password" name="j_password"  class="logus"/>
-                    </div>
-                </div>
-                <div class="places">
-                    <div class="left1">
-                        <p>E-mail:</p>
-                    </div>
-                    <div class="right">
-                        <input type="text" name="j_username"  class="logus"/>
-                    </div>
-                </div>
-                <div class="buttonArea">
-                    <input type="reset" value="Отмена" class="close" />
-                    <input type="submit" value="Войти" class="sendOk" />
-                </div>
-            </form>
+        <form method="POST"   action="<c:url value="/j_spring_security_check"/>"  >
+            <div class="places">
+                <div class="left1"><p> E-mail: </p></div>
+                <div class="right"><input type="text" name="j_username"  class="logus"/></div>
+            </div>
+            <div class="places">
+                <div class="left1"> <p>Пароль: </p> </div>
+                <div class="right"><input type="password" name="j_password"  class="logus"/></div>
+            </div>
+            <div class="buttonArea">
+                <input type="reset" value="Отмена" class="close" />
+                <input type="submit" value="Войти" class="sendOk" />
+            </div>
+        </form>
         </div>
         <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
     </body>

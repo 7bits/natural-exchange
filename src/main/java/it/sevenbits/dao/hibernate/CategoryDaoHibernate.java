@@ -58,7 +58,9 @@ public class CategoryDaoHibernate implements CategoryDao {
 
     @Override
     public List<Category> findAll() {
-        return null;
+        DetachedCriteria criteria = DetachedCriteria.forClass(CategoryEntity.class);
+        List<Category> categories = this.hibernateTemplate.findByCriteria(criteria);
+        return categories;
     }
 
     @Override

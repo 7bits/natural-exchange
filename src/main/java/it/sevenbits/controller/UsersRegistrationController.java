@@ -4,9 +4,9 @@ import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
+import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.UserRegistrationForm;
-import it.sevenbits.util.form.validator.MailingNewsValidator;
 import it.sevenbits.util.form.validator.UserRegistrationValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,77 +36,62 @@ public class UsersRegistrationController {
      */
      private final Logger logger = LoggerFactory.getLogger(UsersRegistrationController.class);
 
-    @RequestMapping(value = "/registration.html", method = RequestMethod.GET)
-    public ModelAndView registrationForm() {
-
-        ModelAndView modelAndView = new ModelAndView("user/registration");
-        MailingNewsForm mailingNewsForm = new MailingNewsForm();
-        UserRegistrationForm userRegistrationForm = new UserRegistrationForm();
-        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
-        modelAndView.addObject("userRegistrationForm", userRegistrationForm);
-        return modelAndView;
-    }
-
+    /**
+     *
+     */
     @Resource(name = "userDao")
     private UserDao userDao;
 
     /**
      *
      */
-    @Autowired
-    private UserRegistrationValidator userRegistrationValidator;
-
-    /**
-     *
-     */
-    @Autowired
-    private MailingNewsValidator mailingNewsValidator;
-
     @Resource(name = "subscriberDao")
     private SubscriberDao subscriberDao;
 
+    @Autowired
+    private UserRegistrationValidator userRegistrationValidator;
+
+    @RequestMapping(value = "/registration.html", method = RequestMethod.GET)
+    public ModelAndView registrationForm() {
+
+        ModelAndView modelAndView = new ModelAndView("user/registration");
+        UserRegistrationForm userRegistrationForm = new UserRegistrationForm();
+        modelAndView.addObject("userRegistrationForm", userRegistrationForm);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
     public ModelAndView registrationRequestForm(
-            final UserRegistrationForm userRegistrationFormParam, final BindingResult result,
-            final MailingNewsForm mailingNewsFormParam, final BindingResult mailRes
+            final UserRegistrationForm userRegistrationFormParam, final BindingResult result
     ) {
-        if (mailingNewsFormParam.getEmailNews() != null) {
-            mailingNewsValidator.validate(mailingNewsFormParam, mailRes);
-            ModelAndView mdv = new ModelAndView("user/registration");
-            if (!mailRes.hasErrors()) {
-                this.subscriberDao.create(new Subscriber(mailingNewsFormParam.getEmailNews()));
-                MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
-                mdv.addObject("mailingNewsForm", mailingNewsForm);
-
-            }
-            UserRegistrationForm userRegistrationForm = new UserRegistrationForm();
-            mdv.addObject("userRegistrationForm", userRegistrationForm);
-            return mdv;
+        userRegistrationValidator.validate(userRegistrationFormParam, result);
+        if (result.hasErrors()) {
+            return new ModelAndView("user/registration");
         }
-        if (userRegistrationFormParam.getEmail() != null) {
-            userRegistrationValidator.validate(userRegistrationFormParam, result);
-            if (result.hasErrors()) {
-                return new ModelAndView("user/registration");
+        User user = new User();
+        user.setEmail(userRegistrationFormParam.getEmail());
+        user.setPassword(userRegistrationFormParam.getPassword());
+        user.setFirstName(userRegistrationFormParam.getFirstName());
+        user.setLastName(userRegistrationFormParam.getLastName());
+        user.setVklink(userRegistrationFormParam.getVkLink());
+        user.setIsDeleted(false);
+        user.setUpdateDate(TimeManager.getTime());
+        user.setCreatedDate(TimeManager.getTime());
+        user.setRole("ROLE_USER");
+        if (userRegistrationFormParam.getIsReceiveNews().equals("true")) {
+            Subscriber subscriber = new Subscriber(userRegistrationFormParam.getEmail());
+            if (!this.subscriberDao.isExists(subscriber)) {
+                this.subscriberDao.create(subscriber);
             }
-            User user = new User();
-            user.setFirstName(userRegistrationFormParam.getFirstName());
-            user.setLastName(userRegistrationFormParam.getLastName());
-            user.setEmail(userRegistrationFormParam.getEmail());
-            user.setPassword(userRegistrationFormParam.getPassword());
-            user.setVklink(userRegistrationFormParam.getVkLink());
-            user.setIsDeleted(false);
-            user.setUpdateDate(TimeManager.getTime());
-            user.setCreatedDate(TimeManager.getTime());
-            user.setRole("ROLE_USER");
-
-            this.userDao.create(user);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(user,
-                    user.getPassword(), user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
         }
-        return new ModelAndView("advertisement/list");
+        this.userDao.create(user);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(),
+                user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        ModelAndView modelAndView = new ModelAndView("user/registrationRequest");
+        modelAndView.addObject("advertisementSearchingForm", new AdvertisementSearchingForm());
+        MailingNewsForm mailingNewsForm = new MailingNewsForm();
+        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+        return  modelAndView;
     }
 }

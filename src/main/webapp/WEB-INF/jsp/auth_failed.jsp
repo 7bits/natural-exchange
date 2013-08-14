@@ -21,7 +21,7 @@
             <a href="<c:url value="/advertisement/list" />">
                 Главная
             </a><br/>
-            <h2> Упс %( Попробуйте еще раз, возможно Вы ввели неправильно пароль или логин. Проверьте CapsLock.</h2>
+            <h3> Попробуйте еще раз, возможно Вы ввели неправильно пароль или логин. Проверьте CapsLock.</h3>
         </div>
         <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
     </body>

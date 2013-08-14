@@ -1,11 +1,14 @@
 package it.sevenbits.util.form.validator;
 
+import it.sevenbits.dao.UserDao;
 import it.sevenbits.util.form.UserRegistrationForm;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+
+import javax.annotation.Resource;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +19,9 @@ import org.springframework.validation.Validator;
  */
 @Component
 public class UserRegistrationValidator implements Validator {
+    @Resource(name = "userDao")
+    private UserDao userDao;
+
 
     @Override
     public boolean supports(final Class<?> clazz) {
@@ -27,21 +33,21 @@ public class UserRegistrationValidator implements Validator {
         UserRegistrationForm userRegistrationForm = (it.sevenbits.util.form.UserRegistrationForm) target;
         String password = userRegistrationForm.getPassword();
         String confirmPassword = userRegistrationForm.getConfirmPassword();
+        String email = userRegistrationForm.getEmail();
         if (!EmailValidator.getInstance().isValid(((UserRegistrationForm) target).getEmail())) {
             errors.rejectValue("email", "email.not.correct", "Введите корректный e-mail адрес.");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(
-                errors, "firstName", "firstName.empty", "Введите Ваше имя, пожалуйста."
-        );
-        ValidationUtils.rejectIfEmptyOrWhitespace(
-                errors, "lastName", "lastName.empty", "Введите Вашу фамилию, пожалуйста."
-        );
-        ValidationUtils.rejectIfEmptyOrWhitespace(
-                errors, "password", "password.empty", "Пароль не может быть пустым."
-        );
-        if (!password.equals(confirmPassword)) {
-            errors.rejectValue("confirmPassword", "password.not.correct", "Пароль не подтвержден, повторите.");
+        if (this.userDao.isExistUserWithEmail(email)) {
+            errors.rejectValue("email","email.user.exists", "Пользователь с таким e-mail существует.");
         }
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty", "Пароль не может быть пустым.");
+        if (!password.equals(confirmPassword)) {
+            errors.rejectValue("confirmPassword", "password.not.confirm", "Пароль не подтвержден, повторите.");
+        }
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.not.empty", "Введите Ваше имя.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "lastName.not.empty", "Введите Вашу фамилию.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "vkLink", "vkLink.not.empty", "Введите ссылку на аккаунт.");
+
     }
 }
 
