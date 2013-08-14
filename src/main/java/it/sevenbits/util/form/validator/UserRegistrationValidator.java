@@ -32,7 +32,6 @@ public class UserRegistrationValidator implements Validator {
     public void validate(final Object target, final Errors errors) {
         UserRegistrationForm userRegistrationForm = (it.sevenbits.util.form.UserRegistrationForm) target;
         String password = userRegistrationForm.getPassword();
-        String confirmPassword = userRegistrationForm.getConfirmPassword();
         String email = userRegistrationForm.getEmail();
         if (!EmailValidator.getInstance().isValid(((UserRegistrationForm) target).getEmail())) {
             errors.rejectValue("email", "email.not.correct", "Введите корректный e-mail адрес.");
@@ -41,13 +40,8 @@ public class UserRegistrationValidator implements Validator {
             errors.rejectValue("email","email.user.exists", "Пользователь с таким e-mail существует.");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty", "Пароль не может быть пустым.");
-        if (!password.equals(confirmPassword)) {
-            errors.rejectValue("confirmPassword", "password.not.confirm", "Пароль не подтвержден, повторите.");
-        }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.not.empty", "Введите Ваше имя.");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "lastName.not.empty", "Введите Вашу фамилию.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "vkLink", "vkLink.not.empty", "Введите ссылку на аккаунт.");
-
     }
 }
 

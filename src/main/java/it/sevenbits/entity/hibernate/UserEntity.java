@@ -60,7 +60,7 @@ public class UserEntity extends User {
         return super.getCreatedDate();
     }
 
-    @Column(name = "vk_link", nullable = false)
+    @Column(name = "vk_link", nullable = true)
     @Override
     public String getVklink() {
         return super.getVklink();

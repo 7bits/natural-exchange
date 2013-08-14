@@ -78,7 +78,7 @@ public class UsersRegistrationController {
         user.setUpdateDate(TimeManager.getTime());
         user.setCreatedDate(TimeManager.getTime());
         user.setRole("ROLE_USER");
-        if (userRegistrationFormParam.getIsReceiveNews().equals("true")) {
+        if (userRegistrationFormParam.getIsReceiveNews() != null) {
             Subscriber subscriber = new Subscriber(userRegistrationFormParam.getEmail());
             if (!this.subscriberDao.isExists(subscriber)) {
                 this.subscriberDao.create(subscriber);

@@ -19,7 +19,16 @@ public class User implements UserDetails  {
     private String password;
     private Boolean isDeleted;
     private String role;
+   // private String activationCode;
 
+   /* public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(final String activationCode) {
+        this.activationCode = activationCode;
+    }
+     */
     public User() {
     }
 
@@ -43,46 +52,9 @@ public class User implements UserDetails  {
         return createdDate;
     }
 
-    public void setCreatedDate(final Long createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getVklink() {
-        return vkLink;
-    }
-
-    public void setVklink(final String vklink) {
-        this.vkLink = vklink;
-    }
-
-    public Long getUpdateDate() {
-        return updatedDate;
-    }
-
-    public void setUpdateDate(final Long updateDate) {
-        this.updatedDate = updateDate;
-    }
-
     public boolean getIsDeleted() {
         return isDeleted;
     }
-
-    public void setIsDeleted(final boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public void setFirstName(final String value) {
-        this.firstName = value;
-    }
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    public void setLastName(final String value) {
-        this.lastName = value;
-    }
-
     public String getLastName() {
         return this.lastName;
     }
@@ -95,6 +67,44 @@ public class User implements UserDetails  {
         return role;
     }
 
+    public String getVklink() {
+        return vkLink;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Long getUpdateDate() {
+        return updatedDate;
+    }
+    public String getFirstName() {
+        return this.firstName;
+    }
+    public void setIsDeleted(final boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public void setFirstName(final String value) {
+        this.firstName = value;
+    }
+
+    public void setLastName(final String value) {
+        this.lastName = value;
+    }
+
+    public void setCreatedDate(final Long createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public void setVklink(final String vklink) {
+        this.vkLink = vklink;
+    }
+
+    public void setUpdateDate(final Long updateDate) {
+        this.updatedDate = updateDate;
+    }
+
     public void setEmail(final String email) {
         this.email = email;
     }
@@ -102,8 +112,9 @@ public class User implements UserDetails  {
     public void setPassword(final String password) {
         this.password = password;
     }
-
-
+    public void setRole(final String role) {
+        this.role = role;
+    }
     public Role  getRoleGrantedAuth() {
 
         //если только одна роль
@@ -113,20 +124,10 @@ public class User implements UserDetails  {
         if (role.equals("ROLE_ADMIN")) {
             return Role.createAdminRole();
         }
-
         return Role.createModeratorRole();
-
     }
 
-    public void setRole(final String role) {
-        this.role = role;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
+   @Override
     public Collection<? extends GrantedAuthority>  getAuthorities() {
         Collection<Role> collection = new ArrayList<>();
         collection.add(this.getRoleGrantedAuth());

@@ -13,7 +13,6 @@ public class UserRegistrationForm {
     //@Length(max=2000)
     private String email;
     private String password;
-    private String confirmPassword;
     private String firstName;
     private String lastName;
     private String isReceiveNews;
@@ -25,14 +24,6 @@ public class UserRegistrationForm {
 
     public void setVkLink(final String vkLink) {
         this.vkLink = vkLink;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(final String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 
     public String getFirstName() {
