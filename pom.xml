@@ -44,6 +44,67 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <property>
+                    <name>server</name>
+                    <value>prod</value>
+                </property>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/src/main/resources/prod</directory>
+                        <includes>
+                            <include>*.*</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>server</name>
+                    <value>local</value>
+                </property>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/src/main/resources/local</directory>
+                        <includes>
+                            <include>*.*</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>staging</id>
+            <activation>
+                <property>
+                    <name>server</name>
+                    <value>staging</value>
+                </property>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>${basedir}/src/main/resources/staging</directory>
+                        <includes>
+                            <include>*.*</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
+
     <!-- Dependences -->
 
     <dependencies>

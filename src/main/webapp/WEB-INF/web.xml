@@ -22,7 +22,7 @@
             /WEB-INF/application-context*.xml
             classpath:application-context*.xml
 
-            classpath:application-security.xml
+            classpath:local/application-security.xml
 
         </param-value>
     </context-param>

@@ -22,7 +22,6 @@ public class FileManager {
         try {
             FileUtils.writeByteArrayToFile(file, multipartFile.getBytes());
         } catch (Throwable e) {
-            //TODO:Opa Gangnam style!
             e.printStackTrace();
         }
         return fileName;
