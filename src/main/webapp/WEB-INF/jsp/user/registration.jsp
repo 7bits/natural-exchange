@@ -46,11 +46,6 @@
                         <span class="error2"><form:errors path="password" /> </span>
                     </div>
                     <div class="places">
-                        <div class="left"><p>Подтвердите пароль:<span class="star">*</span></p></div>
-                        <div class="right"><form:input type="password" path="confirmPassword" class="placeTitle" /></div>
-                        <span class="error2"><form:errors path="confirmPassword" /> </span>
-                    </div>
-                    <div class="places">
                         <div class="left1"> Имя: </div>
                         <div class="right"><form:input  type="text" path="firstName"  placeholder="Введите Ваше имя" class="placeTitle"  maxlength="30"/></div>
                         <span class="error2"><form:errors path="firstName" /> </span>
@@ -61,11 +56,11 @@
                         <div class="right"><form:input type="text" placeholder="Введите Вашу фамилию" path="lastName" class="placeTitle" /></div>
                         <span class="error2"><form:errors path="lastName" /> </span>
                     </div>
-                    <div class="places">
+                <%--<div class="places">
                         <div class="left"><p>Ссылка на профиль в контакте: </p></div>
                         <div class="right"><form:input type="text" path="vkLink" placeholder="Введите id Вашего аккаунта" class="placeTitle" /></div>
                         <span class="error2"><form:errors path="vkLink" /> </span>
-                    </div>
+                    </div>--%>
                     <div class="places">
                         <form:checkbox id="one1" path="isReceiveNews" value="true"  />
                         <label for="one1">Присылать мне новости проекта</label>

@@ -18,7 +18,7 @@
             <div id=lk> </div>
         </header>
         <div class="center">
-            <a href="<c:url value="/advertisement/list" />">
+            <a href="<c:url value="/advertisement/list.html" />">
                 Главная
             </a><br/>
             <h3> Попробуйте еще раз, возможно Вы ввели неправильно пароль или логин. Проверьте CapsLock.</h3>
