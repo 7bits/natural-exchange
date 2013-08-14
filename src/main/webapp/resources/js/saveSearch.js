@@ -1,7 +1,7 @@
 $(document).ready(function() {
     document.getElementById("contact").style.display="block";
     $("a.save").fancybox({
-        "width" : 610,
+        "width" : 600,
         "height" : 460,
         "margin" :0,
         "padding" : 0,
@@ -59,8 +59,8 @@ $(document).ready(function() {
                             $(this).before("<strong> Авторизуйтесь!!! </strong>");
                         }
                         if (data == "save") {
-                            $(this).style.display="none";
-                            $('.saving').style.display="block";
+                            //$(this).css.display="none";
+                            document.getElementById("saving").style.display="block";
 
                         }
                         setTimeout("$.fancybox.close()", 2000);

@@ -16,5 +16,6 @@
         <div class="">
            400 Bad Request
         </div>
+        <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
     </body>
 </html>

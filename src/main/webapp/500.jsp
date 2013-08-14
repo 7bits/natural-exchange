@@ -16,5 +16,6 @@
         <div class="">
             500
         </div>
+        <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
     </body>
 </html>

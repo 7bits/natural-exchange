@@ -1,6 +1,5 @@
 @charset "utf-8";
 
-
 img.sort {
    width:16px;
    height:12px;
@@ -33,19 +32,24 @@ thead {
 }
 
 table th {
-      height: 60px;
+      height: 51px;
+      font-size: 20px;
+      font-weight: normal;
+      text-align: left;
 }
 
 table tr {
-        color: #3e3e38;
-        border-width:1px;
-        padding:5px;
+    color: #3e3e38;
+    border-width:1px;
+    padding:5px;
 
 }
 
 table td {
     border-width:1px;
-    padding:15px 20px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    vertical-align: top;
     height:25px;
  /*   border: 1px dotted #cdcdcd;     */
 }
@@ -54,43 +58,36 @@ table a{
     color: #3e3e38;
 }
 
-
-
 table img {
    /* height: 85px;   */
     width: 70px;
 }
 
 td.date {
+    padding: 5px 30px 5px 10px;
+    font-size: 17px;
     width: 15%;
     color: #9c9c9c;
 }
 
 th.date {
     width: 15%;
-    font-size: 20px;
-    font-weight: normal;
+    padding-left: 12px;
 }
 
-td.photo {
+.photo {
     width: 14%;
-}
-
-th.photo {
-    width: 14%;
-    font-size: 20px;
-    font-weight: normal;
+    text-align: center;
 }
 
 td.category {
     width: 16%;
+    padding-left: 5px;
     color: #565650;
 }
 
 th.category {
     width: 16%;
-    font-size: 20px;
-    font-weight: normal;
 }
 
 td.title {
@@ -101,18 +98,11 @@ td.title {
 
 th.title {
     width: 22%;
-    font-size: 20px;
-    font-weight: normal;
 }
 
-td.text {
+.text {
     width: 33%;
     color: #3e3e38;
+    padding-left: 10px;
 }
 
-th.text {
-    width: 33%;
-    color: #3e3e38;
-    font-size: 20px;
-    font-weight: normal;
-}

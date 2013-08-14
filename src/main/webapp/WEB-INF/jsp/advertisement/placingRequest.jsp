@@ -15,13 +15,7 @@
 
     </head>
     <body>
-        <header class="centerTop">
-            <div id=logotype>
-                <a href='<c:url value="/advertisement/list.html"/>'>
-                    <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-                </a>
-            </div>
-        </header>
+        <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="centerR">
             <p class="pCenter"> Ваше объявление очень важно для нас!  </p>
         </div>

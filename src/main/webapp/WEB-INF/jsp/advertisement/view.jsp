@@ -11,41 +11,21 @@
         <script type="text/javascript" src='<c:url value="/fancybox/jquery.easing.1.3.js"/>'></script>
         <script type="text/javascript" src='<c:url value="/fancybox/jquery.mousewheel-3.0.4.pack.js"/>'></script>
         <link type="text/css" rel="stylesheet" href="<c:url value="/fancybox/jquery.fancybox-1.3.4.css"/>"  media="screen" />
+
+        <script type="text/javascript" src='<c:url value="/resources/js/saveSearch.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/listScript.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/checkbox.js"/>'  language="javascript"> </script>
+
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
-        <%--  <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'>  --%>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/mainAsideStyle.css"/>" />
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'>
         <title>Просмотр объявления</title>
     </head>
-
     <body>
-        <header class="centerTop">
-            <div id=logotype>
-                <a href='<c:url value="/advertisement/list.html"/>'>
-                    <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-                </a>
-            </div>
-            <div id=lk>
-                <%--*********   --%>
-                <form:form method="get" commandName="mailingNewsForm" class="lk">
-                    <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
-                    <p class="proLk">Узнавайте новости проекта первыми! </p>
-                    <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                    <input type="hidden" name="id" value="${currentId}"/>
-                    <input type="hidden" name="currentCategory" value="${currentCategory}"/>
-                    <p><input type="submit" value="Подписаться" class="send" /></p>
-                </form:form>
-                <%-- ********* --%>
-            </div>
-        </header>
-        <nav class="center">
-            <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
-                Разместить объявление
-            </a>
-        </nav>
+        <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
             <section>
                 <div class="viewTitle">
@@ -81,60 +61,29 @@
                     <c:out value="${advertisement.user.firstName}"/>
                 </div>
             </section>
-            <aside>
-                <%--
-                    <c:forEach items="${categories}" var="category">
-                        <tr>
-                            <td><c:out value="${category}"/></td>
-                        </tr>
-                    </c:forEach>
-                 --%>
-                <c:url  value="/advertisement/list.html" var="listPage">
-                    <c:param name="currentCategory" value="${currentCategory}"/>
-                </c:url>
-                <form:form method="get" action="${listPage}" commandName="advertisementSearchingForm">
-                    <div>
-                        <form:input class="wordSearch" path="keyWords" placeholder="Поиск" />
-                        <form:errors path="keyWords" />
-                    </div>
-                    <%-- <button class="save"> Сохранить поиск  </button>     --%>
-                    <input type="submit" class="search" value="Найти"/>
-                    <div class="cate" id="cate">
-                        <p class="pcate"> <form:checkbox  id="one1" path="categories" value="games"  /><label for="one1"><span name="cate"></span>Игры</label></p>
-                        <p class="pcate"><form:checkbox id="two2" path="categories" value="clothes" /><label for="two2"><span name="cate"></span>Одежда</label></p>
-                        <p class="pcate"> <form:checkbox id="three3" path="categories" value="notclothes"  /><label for="three3"><span name="cate"></span>Не одежда</label></p>
-                        <p><form:errors path="categories"/></p>
-                    </div>
-                    <input type="hidden" name="currentCategory" value="${currentCategory}"/>
-                </form:form>
-            </aside>
+            <%@ include file="/WEB-INF/jsp/advertisement/aside.jsp" %>
         </div>
-        <div class="plug">
-            <div>
-                <p> Понравился проект? Расскажи друзьям! </p>
-                <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
-            </div>
+        <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
+        <div id="block">
+            <%@ include file="/WEB-INF/jsp/advertisement/savingSearch.jsp" %>
         </div>
-        <footer class="centerTop">
-            <div class="social">
-                <p class="socialText"> Мы в социальных сетях: </p>
-                <%-- <!-- Put this div tag to the place, where the Like block will be -->
-                <div id="vk_like"></div>
-                <script type="text/javascript">
-                VK.Widgets.Like("vk_like", {type: "full"});
-                </script>       --%>
-                <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
-            </div>
-            <div class="footerLink1">
-                <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
-            </div>
-            <div class="footerLink">
-                <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
-            </div>
-            <div class="footerLink">
-                <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
-            </div>
-            <p class="sign"> © 2013 Natural Exchange</p>
-        </footer>
     </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

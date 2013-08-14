@@ -24,6 +24,7 @@
         <script type="text/javascript" src='<c:url value="/resources/js/checkbox.js"/>'  language="javascript"> </script>
 
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/mainAsideStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
@@ -32,41 +33,8 @@
         <title>Объявления</title>
     </head>
     <body>
-    <header class="centerTop">
-        <div class="entryBlock">
-            <sec:authorize ifAnyGranted='IS_AUTHENTICATED_ANONYMOUSLY'>
-                <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
-                <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a>
-            </sec:authorize>
-        </div>
-        <div id=logotype>
-            <a href='<c:url value="/advertisement/list.html"/>'>
-                <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-            </a>
-        </div>
-        <div id=lk>
-        <sec:authorize ifAnyGranted="ROLE_ADMIN">
-            <a href="<c:url value='/advertisement/post.html'/>" > Рассылка новостей.</a>
-        </sec:authorize>
-        <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER" >
-            <a href="<c:url value="/user/logout.html"/>" > Выйти </a>
-            <strong><sec:authentication property="principal.username"/></strong>
-        </sec:authorize>
-        <sec:authorize ifAnyGranted="IS_AUTHENTICATED_ANONYMOUSLY">
-            <form:form method="get" commandName="mailingNewsForm" class="lk">
-                <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
-                <p class="proLk">Узнавайте новости проекта первыми! </p>
-                <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                <p><input type="submit" value="Подписаться" class="send" /></p>
-            </form:form>
-        </sec:authorize>
-        </div>
-    </header>
-        <nav class="center">
-            <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
-                Разместить объявление
-            </a>
-        </nav>
+    <div class="helper">
+        <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
             <section>
                 <table>
@@ -340,95 +308,13 @@
                 </div>
             <!-- ******************* /pagination  ************************  -->
             </section>
-            <aside>
-            <%--<div class="category-table">
-                <table class="page-wrapper">
-                    <thead>
-                        <tr class="headu">
-                            <th>Категории</th>
-                        </tr>
-                    </thead>
-                    <c:forEach items="${categories}" var="category">
-                        <tr>
-                            <td><c:out value="${category}"/></td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </div>--%>
-                <form:form method="get" commandName="advertisementSearchingForm">
-                    <div>
-                        <form:input class="wordSearch" path="keyWords" placeholder="Поиск" name="wordSearch"/>
-                        <form:errors path="keyWords" />
-                    </div>
-                    <a class="save" href="#main" >Сохранить поиск</a>
 
-                    <input type="submit" class="search" value="Найти"/>
-                    <div class="cate" id="cate">
-                        <p class="pcate"> <form:checkbox  id="one1" path="categories" value="games"  /><label  for="one1"> <span name="cate"></span> Игры</label></p>
-                        <p class="pcate"><form:checkbox id="two2" path="categories" value="clothes"  /><label  for="two2"> <span name="cate"></span>Одежда</label></p>
-                        <p class="pcate"> <form:checkbox id="three3" path="categories" value="notclothes"   /><label  for="three3"><span name="cate"></span>Не одежда</label></p>
-                        <p><form:errors path="categories"/></p>
-                    </div>
-                        <input type="hidden" name="sortedBy" value="${currentColumn}"/>
-                        <input type="hidden" name="currentCategory" value="${currentCategory}"/>
-                        <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
-                        <input type="hidden" name="pageSize" value="${pageSize}"/>
-                </form:form>
-            </aside>
+                <%@ include file="/WEB-INF/jsp/advertisement/aside.jsp" %>
         </div>
-
-        <div class="plug">
-            <%--<div class="commercialAdvert">   --%>
-            <div>
-                <p> Понравился проект? Расскажи друзьям! </p>
-                <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
-            </div>
-        </div>
-        <footer>
-        <div class="centerTop">
-            <div class="social">
-                <p class="socialText"> Мы в социальных сетях: </p>
-                    <%-- <!-- Put this div tag to the place, where the Like block will be -->
-                    <div id="vk_like"></div>
-                    <script type="text/javascript">
-                    VK.Widgets.Like("vk_like", {type: "full"});
-                    </script>       --%>
-                <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
-            </div>
-            <div class="footerLink1">
-                 <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
-            </div>
-            <div class="footerLink">
-                 <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
-            </div>
-            <div class="footerLink">
-                 <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
-            </div>
-            <p class="sign"> © 2013 Natural Exchange</p>
-        </div>
-        </footer>
+        <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
         <div id="block">
-            <div id="main">
-                <form id="contact" name="contact" action="#" method="get">
-                    <div class="titleSave"> Сохранить параметры поиска </div>
-                    <div class="say"> Введите свой e-mail, и Вы получите письмо с ссылкой на сохраненные параметры Вашего поиска</div>
-                    <input type="email" id="emailSave" name="emailSave" class="placeTitle mail" placeholder="E-mail"/>
-                    <div class="say"> Введите, пожалуйста, знаки с картинки, чтобы убедиться, что Вы не робот</div>
-                    <div class="capt">
-                        <img id="captchaImg" src='<c:url value="/advertisement/makeCaptcha.html"/>' />
-                        <p><img id="refresh" class="refresh" src='<c:url value="/resources/images/refresh.png"/>' ></p>
-                        <input type="text" class="captchIn" name="captchaInput"/>
-                    </div>
-                    <div id="message">  </div>
-                    <div class="buttonArea">
-                        <button id="close" class="close"> Отмена </button>
-                        <button id="send" class="sendOk">Готово</button>
-                    </div>
-                </form>
-                <div class="saving">
-                 Поиск сохранен! на ваш e-mail было отправлено письмо со ссылкой на сахраненный поиск.
-                </div>
-            </div>
+            <%@ include file="/WEB-INF/jsp/advertisement/savingSearch.jsp" %>
         </div>
+    </div>
     </body>
 </html>

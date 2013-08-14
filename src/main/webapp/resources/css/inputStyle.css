@@ -14,30 +14,20 @@ input[type="radio"]  + label::before{
     background:url(../images/radio.png);
 }
 
- input[type="radio"]:checked + label::before {
-     background:url(../images/radio_selected.png) ;
- }
+input[type="radio"]:checked + label::before {
+    background:url(../images/radio_selected.png) ;
+}
 
- input[type="radio"]:checked:disabled + label::before {
-      background:url(../images/radio.png);
+input[type="radio"]:checked:disabled + label::before {
+    background:url(../images/radio.png);
 }​
 
- input[type="radio"]:disabled + label::before {
-      background:url(../images/radio_selected.png) ;
- }
+input[type="radio"]:disabled + label::before {
+    background:url(../images/radio_selected.png) ;
+}
 
 input[type="checkbox"] {
    display:none;
-}
-
-label + input[type="checkbox"]::before {
-    content:"";
-    display:inline-block;
-    width:16px;
-    height:16px;
-    margin:0 4px 0 0;
-    cursor:pointer;
-    background:url(../images/checkbox.png);
 }
 
 input[type="checkbox"] + input + label span {
@@ -45,19 +35,32 @@ input[type="checkbox"] + input + label span {
     display:inline-block;
     width:16px;
     height:16px;
-    margin:0 4px 0 0;
+    margin:0 15px 0 0;
     cursor:pointer;
     background:url(../images/checkbox.png);
 }
 
-  input[type="checkbox"]:checked + input + label span {
-      background:url(../images/checkbox_selected.png) ;
-  }
+input[type="checkbox"]:checked + input + label span {
+    background:url(../images/checkbox_selected.png) ;
+}
 
-/*  input[type="checkbox"]:disabled + input + label span {
+/*
+
+ label + input[type="checkbox"]::before {
+     content:"";
+     display:inline-block;
+     width:16px;
+     height:16px;
+     margin:0 4px 0 0;
+     cursor:pointer;
+     background:url(../images/checkbox.png);
+ }
+
+ input[type="checkbox"]:disabled + input + label span {
        background:url(../images/checkbox_selected.png) ;
   }
 
    input[type="checkbox"]:checked:disabled + input + label span {
         background:url(../images/checkbox.png);
   }​  */
+

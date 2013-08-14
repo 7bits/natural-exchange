@@ -13,13 +13,7 @@
         <title>Объявления</title>
     </head>
     <body>
-        <header class="centerTop">
-            <div id=logotype>
-                <a href='<c:url value="/advertisement/list.html"/>'>
-                    <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-                </a>
-            </div>
-        </header>
+        <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="centerR">
             <p class="pCenter"> Рассылка новостей сайта  </p>
         </div>
@@ -49,28 +43,6 @@
                 </div>
             </form:form>
         </div>
-        <div class="plug">
-            <div>
-                <p> Понравился проект? Расскажи друзьям! </p>
-                <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
-            </div>
-        </div>
-        <!-- *****************************footer***************************** -->
-        <footer class="centerTop">
-            <div class="social">
-                <p class="socialText"> Мы в социальных сетях: </p>
-                <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
-            </div>
-            <div class="footerLink1">
-                <a href='<c:url value="/advertisement/list.html"/>'> О проекте </a>
-            </div>
-            <div class="footerLink">
-                <a href='<c:url value="/advertisement/list.html"/>'>  Как обмениваться </a>
-            </div>
-            <div class="footerLink">
-                <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
-            </div>
-            <p class="sign"> © 2013 Natural Exchange</p>
-        </footer>
+        <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
     </body>
 </html>
