@@ -16,7 +16,7 @@ public class FileManager {
         String idStr = id.toString().replaceAll("-", "");
         String contentType = getType(multipartFile.getOriginalFilename());
         String fileName = "img_" + idStr + "." + contentType;
-        String directory = "/home/sdmitry/Myprojects/n-exchange/src/main/webapp/resources/images/user_images/";
+        String directory = "/home/n-exchange/src/main/webapp/resources/images/user_images/";
         String filePath = directory + fileName;
         File file = new File(filePath);
         try {
