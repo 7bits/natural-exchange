@@ -44,7 +44,7 @@ public class MailSenderService {
     }
 
     private MailSenderService getMailService() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("local/application-context-resources.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("application-context-resources.xml");
         return (MailSenderService) context.getBean("mailService");
     }
 
