@@ -29,7 +29,7 @@
                     <div class="right"><input type="password" name="j_password"  class="logus"/></div>
                 </div>
                 <div class="buttonArea">
-                    <input type="reset" value="Отмена" class="close" />
+                    <p class="close" id='closeWindow'> Отмена </p>
                     <input type="submit" value="Войти" class="sendOk" />
                 </div>
             </form>

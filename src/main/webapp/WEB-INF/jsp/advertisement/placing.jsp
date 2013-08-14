@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page session="false"%>
 
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
@@ -26,7 +25,7 @@
                     <div class="places">
                         <div class="left1">
                             <p>Заголовок: <span class="star">*</span></p>
-                            <span class="error2">не более 16 символов <form:errors path="title" /></span>
+                            <span class="error2">не более 16 символов <br> <form:errors path="title" /></span>
                         </div>
                         <div class="right">
                             <form:input path="title" class="placeTitle"  maxlength="16"/>
@@ -43,17 +42,16 @@
                     </div>
                     <div class="places">
                         <div class="left">
-                            <p>Фотография:<span class="star">*</span></p>
+                            <p>Фотография:</p>
                         </div>
                         <div class="right">
                             <p><input name="image" type="file" value="Загрузить" id="image" /></p>
                         </div>
-
+                    </div>
                     <div class="think">
-                         <input type="reset" value="Отмена" class="no"/>
+                         <input type="reset" value="Отмена" class="no" id="closeWindow" />
                          <input type="submit" value="Разместить" class="sendAdv"/>
                     </div>
-                   </div>
                 </section>
                 <aside>
                     <div>

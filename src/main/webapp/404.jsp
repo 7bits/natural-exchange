@@ -8,9 +8,9 @@
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
+        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'>
         <title>404</title>
-
     </head>
     <body class="">
         <div class="">

@@ -11,16 +11,15 @@ $(document).ready(function() {
         'scrolling' : 'no'
     });
     $("#contact").keypress(function(e){
-        if(e.keyCode==13) {
+        if(e.keyCode===13) {
         e.preventDefault();
-        //нажата клавиша enter - здесь ваш код
         }
     });
     $.fancybox.resize();
     $("#refresh").click( function() {
         document.getElementById('captchaImg').src = "makeCaptcha.html?id=" + Math.random();
     });
-    $("#contact").submit(function() { return false; });    //отмена стандартной реакции
+    $("#contact").submit(function() { return false; });
     $("#close").click( function(){
         $.fancybox.close();
     });
@@ -29,23 +28,19 @@ $(document).ready(function() {
         document.getElementById('message').innerHTML = "";
         var wordSearch =$(".wordSearch").val();
         var email = $("#emailSave").val();
-        var captchaInput = $ (".captchaInput").val();   // captchaInput - имя поля формы
+        var captchaInput = $ (".captchaInput").val();
         var captchaValid = validateCaptcha(captchaInput);
-        var mailvalid = validateEmail(email);   // Проверка правильности электронного адреса
+        var mailvalid = validateEmail(email);
         if(mailvalid == false) {
-            document.getElementById('message').innerHTML = "Введите корректный e-mail адрес."; //    $("#emailSave").addClass("error");
+            document.getElementById('message').innerHTML = "Введите корректный e-mail адрес.";
         }
-        else if (mailvalid == true) {  //  $("#emailSave").removeClass("error");
-        // если обе проверки пройдены
-        // сначала мы скрываем кнопку отправки
+        else if (mailvalid == true) {
             $("#send").replaceWith("отправка...");
             var categorySearch="";
-            var checkboxes = document.getElementsByName('categories');     //массив боксов
+            var checkboxes = document.getElementsByName('categories');
             for (var i = 0, length = checkboxes.length; i < length; i++) {
-                if (checkboxes[i].checked)  {       // do whatever you want with the checked radio
+                if (checkboxes[i].checked)  {
                     var categorySearch=categorySearch+' '+ checkboxes[i].value;
-                // only one radio can be logically checked, don't check the rest
-                //   break;
                 }
             }
             var dataSearch = 'wordSearch='+wordSearch+'&categorySearch='+categorySearch+'&email='+email;
@@ -53,15 +48,13 @@ $(document).ready(function() {
                 type: 'GET',
                 url: '/n-exchange/advertisement/savingSearch.html',
                 data: dataSearch,
-                success: function(data) { //  document.getElementById("contact").style.display="none";
+                success: function(data) {
                     $("#contact").fadeOut("fast", function(){
-                        if (data == "auth") {
+                        if (data === "auth") {
                             $(this).before("<strong> Авторизуйтесь!!! </strong>");
                         }
-                        if (data == "save") {
-                            //$(this).css.display="none";
+                        if (data === "save") {
                             document.getElementById("saving").style.display="block";
-
                         }
                         setTimeout("$.fancybox.close()", 2000);
                     });
@@ -70,19 +63,6 @@ $(document).ready(function() {
             $("#contact").fadeIn("fast");
         }
     });
-
-        $("a.login").fancybox({
-            "imageScale" : false,
-            "width" : 600,
-            "height" : 460,
-            "margin" :0,
-            "padding" : 0,
-            'modal' :  true,
-            'overlayOpacity' : 0.13 ,
-            'overlayColor' : '#000000',
-            'scrolling' : 'no'
-        });
-
 });
 
 function validateEmail(email) {
@@ -92,7 +72,7 @@ function validateEmail(email) {
 
 function validateCaptcha (captchaInput) {
     var cap='<% = Session ["captcha"] %>';
-    if (cap == captchaInput) {
+    if (cap === captchaInput) {
         return true;
     }
     else {

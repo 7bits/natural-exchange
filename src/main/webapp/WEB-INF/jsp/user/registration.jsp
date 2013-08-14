@@ -14,21 +14,8 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
     </head>
     <body>
-
-<header class="centerTop">
-        <div class="entryBlock">
-            <sec:authorize ifAnyGranted='IS_AUTHENTICATED_ANONYMOUSLY'>
-                <a href='<c:url value="/login.html"/>' class="entry">  Вход на сайт </a>
-                <a href='<c:url value="/user/registration.html"/>'class="registration">  Регистрация </a>
-            </sec:authorize>
-        </div>
-        <div id=logotype>
-            <a href='<c:url value="/advertisement/list.html"/>'>
-                <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-            </a>
-        </div>
-    </header>
-    <div class="centerR">
+        <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
+        <div class="centerR">
             <p class="pCenter">Регистрация </p>
         </div>
         <div class="center">
