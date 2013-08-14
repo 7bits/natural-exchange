@@ -170,6 +170,19 @@ body {
     overflow: visible;
 }
 
+#mainEntry {
+    padding: 100px 60px;
+    background: url(../images/background_left_bottom.jpg) left bottom no-repeat, url(../images/background_right_top.jpg) right top no-repeat;
+    width: 550px;
+    height: 110px;
+ /*   border: 2px solid #d8d8d8;*/
+    border-radius: 6px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    overflow: visible;
+}
+
+
 #block {
     display: none;
 }

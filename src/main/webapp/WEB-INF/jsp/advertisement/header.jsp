@@ -21,7 +21,7 @@
             </sec:authorize>
             <sec:authorize ifAnyGranted="IS_AUTHENTICATED_ANONYMOUSLY">
                 <div class="entry">
-                    <a href='<c:url value="/login.html"/>'>  Вход на сайт </a>
+                    <a class='login' href='<c:url value="/login.html"/>'>  Вход на сайт </a>
                 </div>
                 <div>
                     <a href='<c:url value="/user/registration.html"/>'>  Регистрация </a>

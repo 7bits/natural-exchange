@@ -71,6 +71,18 @@ $(document).ready(function() {
         }
     });
 
+        $("a.login").fancybox({
+            "imageScale" : false,
+            "width" : 600,
+            "height" : 460,
+            "margin" :0,
+            "padding" : 0,
+            'modal' :  true,
+            'overlayOpacity' : 0.13 ,
+            'overlayColor' : '#000000',
+            'scrolling' : 'no'
+        });
+
 });
 
 function validateEmail(email) {
