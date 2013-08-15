@@ -9,10 +9,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'/>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <title>400</title>
 
     </head>
-    <body class="">
+    <body>
+
         <div class="">
            400 Bad Request
         </div>

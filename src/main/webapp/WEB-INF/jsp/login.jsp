@@ -15,6 +15,7 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
+        <script type="text/javascript" src='<c:url value="/resources/js/loginWindow.js"/>'  language="javascript"> </script>
         <title>Вход в систему</title>
     </head>
     <body>
@@ -29,7 +30,7 @@
                     <div class="right"><input type="password" name="j_password"  class="logus"/></div>
                 </div>
                 <div class="buttonArea">
-                    <p class="close" id='closeWindow'> Отмена </p>
+                    <p class="close" id='close-window'> Отмена </p>
                     <input type="submit" value="Войти" class="sendOk" />
                 </div>
             </form>

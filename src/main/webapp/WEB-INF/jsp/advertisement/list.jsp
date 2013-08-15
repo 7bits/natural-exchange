@@ -7,10 +7,7 @@
     <head>
         <!-- Put this script tag to the <head> of your page -->
         <script type="text/javascript" src="//vk.com/js/api/openapi.js?98"></script>
-
-        <script type="text/javascript">
-            VK.init({apiId: 3783611, onlyWidgets: true});
-        </script>
+        <script type="text/javascript" src='<c:url value="/resources/js/vkScript.js"/>'  language="javascript"></script>
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" language="javascript"></script>
         <script type="text/javascript" src='<c:url value="/fancybox/jquery.fancybox-1.3.4.pack.js"/>'></script>
@@ -28,11 +25,10 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
         <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'/>
-        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' />
+        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'/>
         <title>Объявления</title>
     </head>
     <body>
-    <div class="helper">
         <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
             <section>
@@ -307,13 +303,11 @@
                 </div>
             <!-- ******************* /pagination  ************************  -->
             </section>
-
-                <%@ include file="/WEB-INF/jsp/advertisement/aside.jsp" %>
+            <%@ include file="/WEB-INF/jsp/advertisement/aside.jsp" %>
         </div>
         <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
         <div id="block">
             <%@ include file="/WEB-INF/jsp/advertisement/savingSearch.jsp" %>
         </div>
-    </div>
     </body>
 </html>

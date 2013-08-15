@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    "use strict";
     document.getElementById("contact").style.display="block";
     $("a.save").fancybox({
         "width" : 600,
@@ -17,7 +18,7 @@ $(document).ready(function() {
     });
     $.fancybox.resize();
     $("#refresh").click( function() {
-        document.getElementById('captchaImg').src = "makeCaptcha.html?id=" + Math.random();
+        document.getElementById('captcha-img').src = "makeCaptcha.html?id=" + Math.random();
     });
     $("#contact").submit(function() { return false; });
     $("#close").click( function(){
@@ -31,10 +32,10 @@ $(document).ready(function() {
         var captchaInput = $ (".captchaInput").val();
         var captchaValid = validateCaptcha(captchaInput);
         var mailvalid = validateEmail(email);
-        if(mailvalid == false) {
+        if(mailvalid === false) {
             document.getElementById('message').innerHTML = "Введите корректный e-mail адрес.";
         }
-        else if (mailvalid == true) {
+        else if (mailvalid === true) {
             $("#send").replaceWith("отправка...");
             var categorySearch="";
             var checkboxes = document.getElementsByName('categories');
@@ -56,7 +57,7 @@ $(document).ready(function() {
                         if (data === "save") {
                             document.getElementById("saving").style.display="block";
                         }
-                        setTimeout("$.fancybox.close()", 2000);
+                        setTimeout("$.fancybox.close();", 2000);
                     });
                 }
             });
@@ -66,11 +67,13 @@ $(document).ready(function() {
 });
 
 function validateEmail(email) {
+    "use strict";
     var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return reg.test(email);
   }
 
 function validateCaptcha (captchaInput) {
+    "use strict";
     var cap='<% = Session ["captcha"] %>';
     if (cap === captchaInput) {
         return true;

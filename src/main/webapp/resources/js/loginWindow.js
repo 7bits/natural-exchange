@@ -1,13 +1,12 @@
 $(document).ready(function() {
-    $("#contact").keypress(function(e){
-        if(e.keyCode===13) {
-        e.preventDefault();
-        }
-    });
+ //   $("#contact").keypress(function(e){
+ //       if(e.keyCode===13) {
+ //       e.preventDefault();
+ //       }
+ //   });
     $.fancybox.resize();
-    $("#contact").submit(function() { return false; });
-    $("#closeWindow").click( function(e){
-        e.preventDefault();
+ //   $("#contact").submit(function() { return false; });
+    $("#close-window").click( function(){
         $.fancybox.close();
     });
     $("a.login").fancybox({

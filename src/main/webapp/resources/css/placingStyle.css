@@ -52,21 +52,19 @@
 }
 
 .placeTitle {
-     border-radius: 4px;
+    border-radius: 4px;
     -moz-border-radius: 4px;
-     -webkit-border-radius: 4px;
-     border: 2px solid #d8d8d8;
-     color: #565650;
-     margin-bottom: 8px;
-     width: 450px;
-     font-size: 20px;
-     height:35px;
-     padding: 0 7px;
+    -webkit-border-radius: 4px;
+    border: 2px solid #d8d8d8;
+    color: #565650;
+    margin-bottom: 8px;
+    width: 450px;
+    font-size: 20px;
+    height:35px;
+    padding: 0 7px;
     font-family: 'PT Sans', sans-serif;
     outline:none;
-
 }
-
 
 .right {
     float: right;
@@ -77,24 +75,21 @@
     font-size: 20px;
     padding: 7px 0;
     float: left;
-
 }
 
 .left {
     font-size: 20px;
     padding: 7px 25px 7px 0;
     float: left;
-
 }
 
 .sendAdv{
     float:right;
     font-size: 20px;
     font-family: 'PT Sans', sans-serif;
-    color: d8d8d8; /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
     width:170px;
     height:40px;
-    box-shadow:0 5px #5e8a00;  /* Параметры тени */
+    box-shadow:0 5px #5e8a00;
     border-radius: 4px;
     -moz-border-radius:4px;
     -webkit-border-radius:4px;
@@ -107,16 +102,16 @@
     position:relative;
     top:3px;
     background: #bcfb33;
-    -moz-box-shadow: 0 2px #5e8a00; /* Для Firefox */
-    -webkit-box-shadow: 0 2px #5e8a00; /* Для Safari и Chrome */
-    box-shadow:0 2px #5e8a00;  /* Параметры тени */
+    -moz-box-shadow: 0 2px #5e8a00;
+    -webkit-box-shadow: 0 2px #5e8a00;
+    box-shadow:0 2px #5e8a00;
 }
 
 .sendAdv:hover {
     background: #bcfb33;
 }
 
-.no{
+.no {
     float: left;
     font-size: 18px;
     font-family: 'PT Sans', sans-serif;
@@ -138,9 +133,65 @@
     position:relative;
     top:3px;
     background: #e0e0e0;
-    -moz-box-shadow: 0 2px #e0e0e0; /* Для Firefox */
-    -webkit-box-shadow: 0 2px #e0e0e0; /* Для Safari и Chrome */
-    box-shadow:0 2px #e0e0e0;  /* Параметры тени */
+    -moz-box-shadow: 0 2px #e0e0e0;
+    -webkit-box-shadow: 0 2px #e0e0e0;
+    box-shadow:0 2px #e0e0e0;
+}
+
+.back {
+    float: left;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+    padding: 8px 12px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #d8d8d8;
+    border: none;
+    box-shadow: 0 5px #a49e9e;
+}
+
+.back:hover {
+    background: #e0e0e0;
+    text-decoration:none;
+}
+
+.back:active {
+    position:relative;
+    top:3px;
+    background: #e0e0e0;
+    -moz-box-shadow: 0 2px #e0e0e0;
+    -webkit-box-shadow: 0 2px #e0e0e0;
+    box-shadow:0 2px #e0e0e0;
+}
+
+.send-reg {
+    color: #3e3e38;
+    margin-left: 20px;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+    width:200px;
+    height:40px;
+    box-shadow:0 5px #5e8a00;
+    border-radius: 4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    background: #b1ed2f;
+    border: none;
+    cursor: pointer;
+}
+
+.send-reg:active {
+    position:relative;
+    top:3px;
+    background: #bcfb33;
+    -moz-box-shadow: 0 2px #5e8a00;
+    -webkit-box-shadow: 0 2px #5e8a00;
+    box-shadow:0 2px #5e8a00;
+}
+
+.send-reg:hover {
+    background: #bcfb33;
 }
 
 .places {
@@ -171,11 +222,10 @@
     width: 320px;
     height: 40px;
     float: right;
-
 }
 
 input[type="textarea"] {
-   width:470px;
+    width:470px;
 
 }
 

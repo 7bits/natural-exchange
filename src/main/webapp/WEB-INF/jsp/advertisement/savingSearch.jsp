@@ -6,9 +6,9 @@
                     <input type="email" id="emailSave" name="emailSave" class="mail placeTitle" placeholder="E-mail"/>
                     <div class="say"> Введите, пожалуйста, знаки с картинки, чтобы убедиться, что Вы не робот</div>
                     <div class="capt">
-                        <img id="captchaImg" src='<c:url value="/advertisement/makeCaptcha.html"/>' />
+                        <img id="captcha-img" src='<c:url value="/advertisement/makeCaptcha.html"/>' />
                         <p><img id="refresh" class="refresh" src='<c:url value="/resources/images/refresh.png"/>' ></p>
-                        <input type="text" class="captchIn" name="captchaInput"/>
+                        <input type="text" class="captch-in" name="captchaInput"/>
                     </div>
                     <div id="message">  </div>
                     <div class="buttonArea">
@@ -17,6 +17,11 @@
                     </div>
                 </form>
                 <div id="saving" class="saving">
-                 Поиск сохранен! на ваш e-mail было отправлено письмо со ссылкой на сохраненный поиск.
+                    <div class="thanks">
+                            Поиск сохранен!
+                    </div>
+                    <p class="thanks">
+                    Hа ваш e-mail было отправлено письмо со ссылкой на сохраненный поиск.
+                    </p>
                 </div>
             </div>
