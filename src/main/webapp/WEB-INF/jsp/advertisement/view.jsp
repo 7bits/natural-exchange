@@ -23,6 +23,7 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/mainAsideStyle.css"/>" />
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'>
+        <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
         <title>Просмотр объявления</title>
     </head>
     <body>

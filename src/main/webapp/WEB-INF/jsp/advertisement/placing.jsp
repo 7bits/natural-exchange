@@ -6,6 +6,7 @@
 <!doctype html>
 <html lang="ru">
     <head>
+        <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
         <title>Размещение объявления</title>
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
@@ -22,7 +23,6 @@
         <div class="center">
             <form:form method="post" commandName="advertisementPlacingForm" enctype="multipart/form-data" onSubmit="return Validate();">
                 <section>
-
                     <p class="pSay"> Поля, отмеченные звездочкой обязательны для заполнения </p>
                     <div class="places">
                         <div class="left1">

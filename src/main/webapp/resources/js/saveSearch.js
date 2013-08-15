@@ -29,14 +29,14 @@ $(document).ready(function() {
         document.getElementById('message').innerHTML = "";
         var wordSearch =$(".wordSearch").val();
         var email = $("#emailSave").val();
-        var captchaInput = $ (".captchaInput").val();
+        var captchaInput = $("#captchaInput").val();
         var captchaValid = validateCaptcha(captchaInput);
         var mailvalid = validateEmail(email);
         if(mailvalid === false) {
             document.getElementById('message').innerHTML = "Введите корректный e-mail адрес.";
         }
-        else if (!captchaInput) {
-             document.getElementById('message').innerHTML = "Символы с картинки не верны.";
+        else if (captchaInput==="") {
+             document.getElementById('message').innerHTML = "Символы с картинки не верны   ";
         }
         else if (mailvalid === true) {
             $("#send").replaceWith("отправка...");
@@ -55,7 +55,7 @@ $(document).ready(function() {
                 success: function(data) {
                     $("#contact").fadeOut("fast", function(){
                         if (data === "auth") {
-                            $(this).before("<strong> Авторизуйтесь!!! </strong>");
+                            document.getElementById("auth").style.display="block";
                         }
                         if (data === "save") {
                             document.getElementById("saving").style.display="block";
@@ -65,6 +65,8 @@ $(document).ready(function() {
                 }
             });
             $("#contact").fadeIn("fast");
+            document.getElementById("saving").style.display="none";
+            document.getElementById("auth").style.display="none";
         }
     });
 });

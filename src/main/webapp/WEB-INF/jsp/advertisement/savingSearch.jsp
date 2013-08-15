@@ -8,7 +8,7 @@
                     <div class="capt">
                         <img id="captcha-img" src='<c:url value="/advertisement/makeCaptcha.html"/>' />
                         <p><img id="refresh" class="refresh" src='<c:url value="/resources/images/refresh.png"/>' ></p>
-                        <input type="text" class="captch-in" maxlength="6" name="captchaInput"/>
+                        <input type="text" class="captch-in" maxlength="6" id="captchaInput"/>
                     </div>
                     <div id="message">  </div>
                     <div class="buttonArea">
@@ -18,10 +18,18 @@
                 </form>
                 <div id="saving" class="saving">
                     <div class="thanks">
-                            Поиск сохранен!
+                        Поиск сохранен!
                     </div>
                     <p class="thanks">
-                    Hа ваш e-mail было отправлено письмо со ссылкой на сохраненный поиск.
+                        Hа ваш e-mail было отправлено письмо со ссылкой на сохраненный поиск.
+                    </p>
+                </div>
+                <div id="auth" class="saving">
+                    <div class="thanks">
+                        Ваш email нам знаком!
+                    </div>
+                    <p class="thanks">
+                        Авторизуйтесь для удобного управления.
                     </p>
                 </div>
             </div>

@@ -1,27 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="false"%>
-
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 
 <!doctype html>
 <html lang="ru">
     <head>
+        <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
         <title>Размещение объявления</title>
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/errorPageStyle.css"/>" />
+        <%@ include file="/WEB-INF/jsp/headInclude.jsp" %>
     </head>
     <body>
-        <header class="centerTop">
-            <div id=logotype>
-                <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-            </div>
-            <div id=lk> </div>
-        </header>
+        <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
-            <a href="<c:url value="/advertisement/list.html" />">
-                Главная
-            </a><br/>
-            <h3> Попробуйте еще раз, возможно Вы ввели неправильно пароль или логин. Проверьте CapsLock.</h3>
+            <p class="comeback">
+                Попробуйте еще раз, возможно Вы ввели неправильно пароль или логин. Проверьте CapsLock. <br> <br> <br>
+                <a href='<c:url value="/advertisement/list.html"/>'>
+                    На главную
+                </a>
+            </p>
         </div>
         <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
     </body>

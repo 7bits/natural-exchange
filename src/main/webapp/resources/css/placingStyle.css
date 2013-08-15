@@ -160,8 +160,8 @@
     position:relative;
     top:3px;
     background: #e0e0e0;
-    -moz-box-shadow: 0 2px #e0e0e0;
-    -webkit-box-shadow: 0 2px #e0e0e0;
+    -moz-box-shadow: 0 2px #a49e9e;
+    -webkit-box-shadow: 0 2px #a49e9e;
     box-shadow:0 2px #e0e0e0;
 }
 

@@ -11,6 +11,7 @@
 <%-- !doctype html--%>
 <html lang="ru">
     <head>
+        <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
         <title>Выход из системы</title>
     </head>
     <body>

@@ -1,11 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
     <div class="plug">
-            <%--<div class="commercialAdvert">   --%>
-            <div>
-                <p> Понравился проект? Расскажи друзьям! </p>
-                <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
-            </div>
+        <div>
+            <p> Понравился проект? Расскажи друзьям! </p>
+            <img  src='<c:url value="/resources/images/fixLike.png"/>' alt="Лайкни в вк"  />
+        </div>
     </div>
     <footer>
         <div class="centerTop">

@@ -11,6 +11,7 @@
         <script type="text/javascript" src='<c:url value="/fancybox/jquery.mousewheel-3.0.4.pack.js"/>'></script>
         <link type="text/css" rel="stylesheet" href="<c:url value="/fancybox/jquery.fancybox-1.3.4.css"/>"  media="screen" />
 
+        <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
         <title>Регистрация</title>
 
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
@@ -65,11 +66,11 @@
                 </section>
                 <aside>
                     <div>
-                        Регистрация на сайте позволяет Вам размещать свои объявления. <br>
-                        Также зарегистрированным пользователям   <br>
-                        в близжайшем будущем будет доступна возможность
-                        получать на почту уведомления о новых объявлениях на сайте,
-                        удовлетворяющих их сохраненным поисковым запросам.
+                    Регистрация на сайте позволяет Вам размещать свои объявления. <br>
+                    Также зарегистрированным пользователям   <br>
+                    в близжайшем будущем будет доступна возможность
+                    получать на почту уведомления о новых объявлениях на сайте,
+                    удовлетворяющих их сохраненным поисковым запросам.
                     </div>
                 </aside>
             </form:form>

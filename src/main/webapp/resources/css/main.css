@@ -154,14 +154,15 @@ body {
     position:relative;
     top:3px;
     background: #e0e0e0;
-    -moz-box-shadow: 0 2px #e0e0e0;
-    -webkit-box-shadow: 0 2px #e0e0e0;
-    box-shadow:0 2px #e0e0e0;
+    -moz-box-shadow: 0 2px #a49e9e;
+    -webkit-box-shadow: 0 2px #a49e9e;
+    box-shadow:0 2px #a49e9e;
 }
 
 div.thanks {
     color: #52ba01;
-    margin: 80px auto 120px;
+    margin: 0px auto 120px;
+    padding-top:80px;
     font-size: 23px;
 }
 
