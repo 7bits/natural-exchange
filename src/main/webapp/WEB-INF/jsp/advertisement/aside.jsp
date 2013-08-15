@@ -25,7 +25,11 @@
                     </div>
                 </form:form>
 
-                <form:form method="get" commandName="mailingNewsForm" class="lk">
+                <c:url  value="/advertisement/view.html" var="viewPage">
+                    <c:param name="id" value="${currentId}"/>
+                    <c:param name="currentCategory" value="${currentCategory}"/>
+                </c:url>
+                <form:form method="get" action="${viewPage}" commandName="mailingNewsForm" class="lk">
                     <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
                     <p class="proLk">Узнавайте новости проекта первыми! </p>
                     <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>

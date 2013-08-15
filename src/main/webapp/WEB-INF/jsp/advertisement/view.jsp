@@ -26,6 +26,7 @@
         <title>Просмотр объявления</title>
     </head>
     <body>
+    <div><img src="//mc.yandex.ru/watch/22070809" style="position:absolute; left:-9999px;" alt="" /></div>
         <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
             <section>
