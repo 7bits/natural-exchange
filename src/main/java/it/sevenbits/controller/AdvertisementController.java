@@ -392,7 +392,7 @@ public class AdvertisementController {
     private int defaultPageSize() {
         Properties prop = new Properties();
         try {
-            InputStream inStream = getClass().getClassLoader().getResourceAsStream("list.properties");
+            InputStream inStream = getClass().getClassLoader().getResourceAsStream("common.properties");
             prop.load(inStream);
             inStream.close();
         } catch (IOException e) {

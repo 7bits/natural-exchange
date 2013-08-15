@@ -49,6 +49,6 @@ CREATE TABLE
   role varchar(255) NOT NULL,
   is_deleted bit(1) NOT NULL,
   email varchar(255) NOT NULL,
-  vk_link varchar(255) NOT NULL,
+  vk_link varchar(255),
   PRIMARY KEY (id)
 );

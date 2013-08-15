@@ -9,7 +9,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Service for mail posting
@@ -28,7 +31,6 @@ public class MailSenderService {
     private SubscriberDao subscriberDao;
 
     private MailSender mailSender;
-
 
     public void setMailSender(final MailSender mailSender) {
         this.mailSender = mailSender;
@@ -63,7 +65,17 @@ public class MailSenderService {
     }
 
     private String generateSearchVariantUrl(final String keyWords , final String categories) {
-        String baseUrl = "http://n-exchange.local/n-exchange/advertisement/list.html?" + "currentCategory=";
+        Properties prop = new Properties();
+        try {
+            InputStream inStream = getClass().getClassLoader().getResourceAsStream("common.properties");
+            prop.load(inStream);
+            inStream.close();
+        } catch (IOException e) {
+            //TODO:need to do something
+            e.printStackTrace();
+        }
+        String domen = prop.getProperty("mail.service.domen");
+        String baseUrl = domen + "/advertisement/list.html?" + "currentCategory=";
         return baseUrl + categories.replace(" ", "+") + "&keyWords=" + keyWords.replace(" ", "+");
     }
 

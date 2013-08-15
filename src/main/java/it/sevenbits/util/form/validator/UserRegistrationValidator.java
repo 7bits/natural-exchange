@@ -37,7 +37,7 @@ public class UserRegistrationValidator implements Validator {
             errors.rejectValue("email", "email.not.correct", "Введите корректный e-mail адрес.");
         }
         if (this.userDao.isExistUserWithEmail(email)) {
-            errors.rejectValue("email","email.user.exists", "Пользователь с таким e-mail существует.");
+            errors.rejectValue("email", "email.user.exists", "Пользователь с таким e-mail существует.");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty", "Пароль не может быть пустым.");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.not.empty", "Введите Ваше имя.");
