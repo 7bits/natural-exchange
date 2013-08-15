@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 #advertisementSearchingForm{
-    background: rgba(246,246,246,.4);
+    background: #f3f3f3;
     padding: 4px;
     padding-bottom: 24px;
 }
@@ -138,7 +138,7 @@ aside {
 #mailingNewsForm {
     padding: 4px;
     margin-top: 20px;
-    background: rgba(246,246,246,.4);
+    background: #f3f3f3;
 }
 
 .proLk {

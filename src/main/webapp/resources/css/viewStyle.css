@@ -37,23 +37,17 @@
 }
 
 .photoCollection img {
- /*  width:170px;  */
+   /*  width:170px;  */
    height:120px;
-
 }
+
 .photoCollection {
     padding: 20px 0;
 
 }
 
-.contact img {
-    padding:10px;
-}
-
 .contact {
-    width:  260px;
-    height:  140px;
-    background: #f6f6f6;
+    color: #52ba01;
 }
 
 .logus {

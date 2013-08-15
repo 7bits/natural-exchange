@@ -58,9 +58,11 @@
                         <img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="" />
                     </a>
                 </div>
-                <div class="contact">
-                    <img src='<c:url value="/resources/images/face.png"/>'/>
-                    <c:out value="${advertisement.user.firstName}"/>
+                <div class="viewTitle">
+                    Объявление от
+                    <p class="contact">
+                    <c:out value="${advertisement.user.email}"/>
+                    </p>
                 </div>
             </section>
             <%@ include file="/WEB-INF/jsp/advertisement/aside.jsp" %>

@@ -26,7 +26,7 @@
                     Но мы делаем все возможное,    <br>
                     чтобы это исправить
                 </div>
-                <img src='<c:url value="/resources/images/fixLike.png"/>' class="oops" />
+                <img src='<c:url value="/resources/images/face.jpg"/>' class="oops" />
             </div>
             <p class="comeback">
                 Вы можете вернуться

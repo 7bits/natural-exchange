@@ -27,7 +27,7 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
         <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'/>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'/>
-        <title>Объявления</title>
+        <title>Натуральный обмен</title>
     </head>
     <body>
         <!-- Yandex.Metrika counter -->
