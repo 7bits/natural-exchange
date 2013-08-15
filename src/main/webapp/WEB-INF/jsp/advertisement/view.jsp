@@ -54,9 +54,16 @@
                     <c:out value="${advertisement.text}"/>
                 </div>
                 <div class="photoCollection">
-                    <a class="fancybox"  href='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>'>
-                        <img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="" />
-                    </a>
+                    <c:choose>
+                        <c:when test="${advertisement.photoFile eq 'no_photo.png'}">
+                            <img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="" />
+                        </c:when>
+                        <c:otherwise>
+                            <a class="fancybox"  href='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>'>
+                               <img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="" />
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
                 <div class="viewTitle">
                     Объявление от

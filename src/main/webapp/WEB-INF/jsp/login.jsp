@@ -14,26 +14,29 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
-        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic' >
-        <script type="text/javascript" src='<c:url value="/resources/js/loginWindow.js"/>'  language="javascript"> </script>
+        <%@ include file="/WEB-INF/jsp/headInclude.jsp" %>
         <title>Вход в систему</title>
     </head>
     <body>
-        <div id=mainEntry>
-            <form method="POST"   action="<c:url value="/j_spring_security_check"/>"  >
-                <div class="places">
-                    <div class="left1"><p> E-mail: </p></div>
-                    <div class="right"><input type="text" name="j_username"  class="logus"/></div>
-                </div>
-                <div class="places">
-                    <div class="left1"> <p>Пароль: </p> </div>
-                    <div class="right"><input type="password" name="j_password"  class="logus"/></div>
-                </div>
-                <div class="buttonArea">
-                    <p class="close" id='close-window'> Отмена </p>
-                    <input type="submit" value="Войти" class="sendOk" />
-                </div>
-            </form>
+        <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
+        <div class="center">
+            <div id=mainEntry>
+                <form method="POST"   action="<c:url value="/j_spring_security_check"/>"  >
+                    <div class="places">
+                        <div class="left1"><p> E-mail: </p></div>
+                        <div class="right"><input type="text" name="j_username"  class="logus"/></div>
+                    </div>
+                    <div class="places">
+                        <div class="left1"> <p>Пароль: </p> </div>
+                        <div class="right"><input type="password" name="j_password"  class="logus"/></div>
+                    </div>
+                    <div class="buttonArea">
+                        <p class="close" id='close-window'> Отмена </p>
+                        <input type="submit" value="Войти" class="sendOk" />
+                    </div>
+                </form>
+            </div>
         </div>
+        <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
     </body>
 </html>

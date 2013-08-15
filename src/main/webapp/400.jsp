@@ -8,14 +8,19 @@
 <!--[if gt IE 8]><!--> <html class="b-error-page no-js" lang="en"> <!--<![endif]-->
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <%@ include file="/WEB-INF/jsp/headInclude.jsp" %>
-
+        <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'/>
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/errorPageStyle.css"/>" />
         <title>400</title>
     </head>
     <body>
-        <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
+        <header class="centerTop">
+            <div id=logotype>
+                <a href='<c:url value="/advertisement/list.html"/>'>
+                    <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
+                </a>
+            </div>
+        </header>
         <div class="center">
             <div class="oopses">
                 <div class="error-title">

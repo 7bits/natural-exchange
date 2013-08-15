@@ -8,7 +8,7 @@
                     <div class="capt">
                         <img id="captcha-img" src='<c:url value="/advertisement/makeCaptcha.html"/>' />
                         <p><img id="refresh" class="refresh" src='<c:url value="/resources/images/refresh.png"/>' ></p>
-                        <input type="text" class="captch-in" name="captchaInput"/>
+                        <input type="text" class="captch-in" maxlength="6" name="captchaInput"/>
                     </div>
                     <div id="message">  </div>
                     <div class="buttonArea">

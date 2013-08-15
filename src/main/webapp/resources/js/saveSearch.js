@@ -35,6 +35,9 @@ $(document).ready(function() {
         if(mailvalid === false) {
             document.getElementById('message').innerHTML = "Введите корректный e-mail адрес.";
         }
+        else if (!captchaInput) {
+             document.getElementById('message').innerHTML = "Символы с картинки не верны.";
+        }
         else if (mailvalid === true) {
             $("#send").replaceWith("отправка...");
             var categorySearch="";

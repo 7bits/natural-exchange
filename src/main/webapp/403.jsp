@@ -11,7 +11,7 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/errorPageStyle.css"/>" />
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'>
-        <title>404</title>
+        <title>403</title>
     </head>
     <body>
         <header class="centerTop">
@@ -24,7 +24,7 @@
         <div class="center">
             <div class="oopses">
                 <div class="error-title">
-                    Ошибка 404
+                    Ошибка 403
                 </div>
                 <div class="error-text">
                     Упс! Что-то пошло не так :-(   <br>
