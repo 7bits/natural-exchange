@@ -1,0 +1,36 @@
+.error-title {
+    font-size:35px;
+    color:#52ba01;
+    margin:200px auto 100px;
+    text-align: center;
+}
+
+.error-text {
+    font-size:20px;
+    text-align: center;
+    margin:20px auto 100px;
+}
+
+.comeback {
+    margin:20px auto 100px;
+    font-size:23px;
+    text-align: center;
+}
+
+.comeback a {
+    color:#52ba01;
+}
+
+.comeback a:visited {
+    color:#52ba01;
+}
+
+img.oops {
+    top: 80px;
+    position: absolute;
+    left: 700px;
+}
+
+.oopses {
+    position:relative;
+}
