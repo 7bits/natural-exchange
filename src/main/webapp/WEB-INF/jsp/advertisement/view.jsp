@@ -26,7 +26,7 @@
         <title>Просмотр объявления</title>
     </head>
     <body>
-    <div><img src="//mc.yandex.ru/watch/22070809" style="position:absolute; left:-9999px;" alt="" /></div>
+        <noscript><div><img src="//mc.yandex.ru/watch/22070809" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
         <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
             <section>
@@ -54,8 +54,8 @@
                     <c:out value="${advertisement.text}"/>
                 </div>
                 <div class="photoCollection">
-                    <a class="fancybox"  href='<c:url value="/resources/images/${advertisement.photoFile}"/>'>
-                        <img src='<c:url value="/resources/images/${advertisement.photoFile}"/>' alt="" />
+                    <a class="fancybox"  href='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>'>
+                        <img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="" />
                     </a>
                 </div>
                 <div class="contact">

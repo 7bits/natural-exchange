@@ -14,7 +14,7 @@
         <script type="text/javascript" src='<c:url value="/resources/js/badImage.js"/>'  language="javascript"> </script>
     </head>
     <body>
-        <div><img src="//mc.yandex.ru/watch/22070809" style="position:absolute; left:-9999px;" alt="" /></div>
+        <noscript><div><img src="//mc.yandex.ru/watch/22070809" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
         <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="centerR">
             <p class="pCenter">Разместить объявление на сайте  </p>
