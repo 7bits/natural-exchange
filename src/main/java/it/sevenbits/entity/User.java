@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- *Класс, представляющий сущность таблицы UserEntity а БД
+ *Class for entity, that represents User in DB
  */
 public class User implements UserDetails  {
     private String firstName;
@@ -19,23 +19,34 @@ public class User implements UserDetails  {
     private String password;
     private Boolean isDeleted;
     private String role;
-   // private String activationCode;
+    private String activationCode;
+    private Long activationDate;
 
-   /* public String getActivationCode() {
+
+
+    public String getActivationCode() {
         return activationCode;
     }
 
     public void setActivationCode(final String activationCode) {
         this.activationCode = activationCode;
     }
-     */
+
+    public Long getActivationDate() {
+        return activationDate;
+    }
+
+    public void setActivationDate(final Long activationDate) {
+        this.activationDate = activationDate;
+    }
+
     public User() {
     }
 
     public User(
-            final String firstName, final String email, final String lastName,
-            final String vkLink, final Long createdDate, final Long updatedDate,
-            final Boolean deleted, final String password, final String role
+            final String firstName, final String email, final String lastName, final String vkLink,
+            final Long createdDate, final Long updatedDate, final Boolean deleted, final String password,
+            final String role, final String activationCode, final Long activationDate
     ) {
         this.firstName = firstName;
         this.email = email;
@@ -46,6 +57,8 @@ public class User implements UserDetails  {
         this.isDeleted = deleted;
         this.password = password;
         this.role = role;
+        this.activationCode = activationCode;
+        this.activationDate = activationDate;
     }
 
     public Long getCreatedDate() {
@@ -161,57 +174,38 @@ public class User implements UserDetails  {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final User that = (User) o;
 
-        User user = (User) o;
-
-        if (!createdDate.equals(user.createdDate)) {
-            return false;
-        }
-        if (!email.equals(user.email)) {
-            return false;
-        }
-        if (!firstName.equals(user.firstName)) {
-            return false;
-        }
-        if (!isDeleted.equals(user.isDeleted)) {
-            return false;
-        }
-        if (!lastName.equals(user.lastName)) {
-            return false;
-        }
-        if (!password.equals(user.password)) {
-            return false;
-        }
-        if (!role.equals(user.role)) {
-            return false;
-        }
-        if (!updatedDate.equals(user.updatedDate)) {
-            return false;
-        }
-        if (!vkLink.equals(user.vkLink)) {
-            return false;
-        }
+        if (firstName != null ? ! firstName.equals(that.firstName) : that.firstName != null) return false;
+        if (email != null ? ! email.equals(that.email) : that.email != null) return false;
+        if (lastName != null ? ! lastName.equals(that.lastName) : that.lastName != null) return false;
+        if (vkLink != null ? ! vkLink.equals(that.vkLink) : that.vkLink != null) return false;
+        if (createdDate != null ? ! createdDate.equals(that.createdDate) : that.createdDate!= null) return false;
+        if (password != null ? ! password.equals(that.password) : that.password!= null) return false;
+        if (updatedDate != null ? !updatedDate.equals(that.updatedDate) : that.updatedDate != null) return false;
+        if (isDeleted != null ? ! isDeleted.equals(that.isDeleted) : that.isDeleted!= null) return false;
+        if (role != null ? ! role.equals(that.role) : that.role!= null) return false;
+        if (activationCode!= null ? !activationCode.equals(that.activationCode) : that.activationCode!= null) return false;
+        if (activationDate != null ? ! activationDate.equals(that.activationDate) : that.activationDate!= null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = firstName.hashCode();
-        result = 31 * result + lastName.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + vkLink.hashCode();
-        result = 31 * result + createdDate.hashCode();
-        result = 31 * result + updatedDate.hashCode();
-        result = 31 * result + password.hashCode();
-        result = 31 * result + isDeleted.hashCode();
-        result = 31 * result + role.hashCode();
+        int result = email!= null ? email.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName!= null ? lastName.hashCode() : 0);
+        result = 31 * result + (password!= null ? password.hashCode() : 0);
+        result = 31 * result + (vkLink!= null ? vkLink.hashCode() : 0);
+        result = 31 * result + (activationDate!= null ? activationDate.hashCode() : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + (updatedDate != null ? updatedDate.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (role!= null ? role.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         return result;
     }
 }

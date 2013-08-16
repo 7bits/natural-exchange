@@ -15,7 +15,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+        <project></project>
         <slf4j>1.5.8</slf4j>
     </properties>
     <build>

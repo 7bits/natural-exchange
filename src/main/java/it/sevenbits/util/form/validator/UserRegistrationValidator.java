@@ -40,8 +40,8 @@ public class UserRegistrationValidator implements Validator {
             errors.rejectValue("email", "email.user.exists", "Пользователь с таким e-mail существует.");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty", "Пароль не может быть пустым.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.not.empty", "Введите Ваше имя.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "lastName.not.empty", "Введите Вашу фамилию.");
+      //  ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.not.empty", "Введите Ваше имя.");
+       // ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "lastName.not.empty", "Введите Вашу фамилию.");
     }
 }
 

@@ -37,7 +37,11 @@ public interface UserDao {
      * @param user
      */
     void update(User user);
-
+    /**
+     * update user after registration
+     * @param  user - the user with the confirmed registration
+     */
+    void updateActivationCode(User user) ;
     /**
      *
      * @param email e-mail

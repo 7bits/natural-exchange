@@ -31,11 +31,12 @@ public class UserEntity extends User {
 
 
     public UserEntity(
-            final String firstName, final String email, final String lastName,
-            final String vkLink, final Long createdDate, final Long updatedDate,
-            final Boolean deleted, final String password, final String role
+            final String firstName, final String email, final String lastName, final String vkLink,
+            final Long createdDate, final Long updatedDate, final Boolean deleted, final String password,
+            final String role, final String activationCode, final Long activationDate
     ) {
-        super(firstName, email, lastName, vkLink, createdDate, updatedDate, deleted, password, role);
+        super(firstName, email, lastName, vkLink, createdDate, updatedDate, deleted, password, role, activationCode,
+                activationDate);
     }
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
@@ -60,12 +61,6 @@ public class UserEntity extends User {
         return super.getCreatedDate();
     }
 
-    @Column(name = "vk_link", nullable = true)
-    @Override
-    public String getVklink() {
-        return super.getVklink();
-    }
-
     @Column(name = "updated_date", nullable = false)
     @Override
     public Long getUpdateDate() {
@@ -76,18 +71,6 @@ public class UserEntity extends User {
     @Override
     public boolean getIsDeleted() {
         return super.getIsDeleted();
-    }
-
-    @Column(name = "first_name", nullable = false)
-    @Override
-    public String getFirstName() {
-        return super.getFirstName();
-    }
-
-    @Column(name = "last_name", nullable = false)
-    @Override
-    public String getLastName() {
-        return super.getLastName();
     }
 
     @Column(name = "email", nullable = false)
@@ -106,6 +89,36 @@ public class UserEntity extends User {
     @Override
     public String getRole() {
         return super.getRole();
+    }
+
+    @Column(name = "first_name", nullable = true)
+    @Override
+    public String getFirstName() {
+        return super.getFirstName();
+    }
+
+    @Column(name = "last_name", nullable = true)
+    @Override
+    public String getLastName() {
+        return super.getLastName();
+    }
+
+    @Column(name = "vk_link", nullable = true)
+    @Override
+    public String getVklink() {
+        return super.getVklink();
+    }
+
+    @Column(name = "activation_code", nullable = true)
+    @Override
+    public String getActivationCode() {
+        return super.getActivationCode();
+    }
+
+    @Column(name = "activation_date", nullable = true)
+    @Override
+    public Long getActivationDate() {
+        return super.getActivationDate();
     }
 
     public void setId(final Long id) {

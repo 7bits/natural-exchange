@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +24,13 @@ public class MailSenderService {
      * Service mailbox
      */
     public static final String SERVICE_MAILBOX = "naturalexchangeco@gmail.com";
-
+    /**
+     *
+     */
+    public static final String THANKS_FOR_REGISTRATION = "Чтобы подтвердить регистрацию на нашем сайте, пройдите по ссылке: ";
+    /**
+     *
+     */
     @Resource(name = "searchVariantDao")
     private SearchVariantDao searchVariantDao;
 
@@ -65,16 +72,7 @@ public class MailSenderService {
     }
 
     private String generateSearchVariantUrl(final String keyWords , final String categories) {
-        Properties prop = new Properties();
-        try {
-            InputStream inStream = getClass().getClassLoader().getResourceAsStream("common.properties");
-            prop.load(inStream);
-            inStream.close();
-        } catch (IOException e) {
-            //TODO:need to do something
-            e.printStackTrace();
-        }
-        String domen = prop.getProperty("mail.service.domen");
+        String domen = getDomen();
         String baseUrl = domen + "/advertisement/list.html?" + "currentCategory=";
         return baseUrl + categories.replace(" ", "+") + "&keyWords=" + keyWords.replace(" ", "+");
     }
@@ -86,4 +84,24 @@ public class MailSenderService {
             mailService.sendMail(SERVICE_MAILBOX, entity.getEmail(), title, text);
         }
     }
-}
+
+    public void sendRegisterMail(final String to, final String code) {
+        MailSenderService mailService = getMailService();
+        String link = getDomen() + "/user/magic.html?user=" + code + "&mail=" + to;
+        String text = THANKS_FOR_REGISTRATION + link;
+        String title = "регистрация на сайте";
+        mailService.sendMail(SERVICE_MAILBOX, to, title, text);
+    }
+
+    private  String getDomen() {
+        Properties prop = new Properties();
+        try {
+            InputStream inStream = getClass().getClassLoader().getResourceAsStream("common.properties");
+            prop.load(inStream);
+            inStream.close();
+        } catch (IOException e) {
+            //TODO:need to do something
+            e.printStackTrace();
+        }
+        return prop.getProperty("mail.service.domen");
+}   }

@@ -30,14 +30,15 @@ public class UserDaoHibernate implements UserDao {
 
     private UserEntity toEntity(final User user) {
         UserEntity userEntity = new UserEntity(
-                user.getFirstName(), user.getEmail(), user.getLastName(),
-                user.getVklink(), user.getCreatedDate(), user.getUpdateDate(),
-                user.getIsDeleted(), user.getPassword(), user.getRole());
+                user.getFirstName(), user.getEmail(), user.getLastName(), user.getVklink(), user.getCreatedDate(),
+                user.getUpdateDate(), user.getIsDeleted(), user.getPassword(), user.getRole(), user.getActivationCode(),
+                user.getActivationDate());
         return userEntity;
     }
 
     public void create(final User user) {
-        this.hibernateTemplate.save(toEntity(user));
+        UserEntity userEntity = toEntity(user);
+        this.hibernateTemplate.save(userEntity);
     }
 
     @Override
@@ -50,10 +51,10 @@ public class UserDaoHibernate implements UserDao {
 
     @Override
     public User findById(final Integer id) {
-        User user = new User();
-        //user.setId(id);
-        user.setFirstName("Dmitry " + id);
-        return user;
+        DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
+        criteria.add(Restrictions.like("id", id));
+        List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
+        return users.get(0);
     }
 
     @Override
@@ -83,10 +84,27 @@ public class UserDaoHibernate implements UserDao {
     }
 
 
-    public void update(final User user) {
+    @Override
+    public void updateActivationCode(User user) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
+        criteria.add(Restrictions.like("email", user.getEmail()));
+        List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
+        if (users.size() != 1) {
+            throw new UsernameNotFoundException(user.getEmail() + " not found.");
+        }
+        users.get(0).setActivationDate(0L);
+        users.get(0).setActivationCode(null);
+        this.hibernateTemplate.update(users.get(0));
     }
 
+    @Override
+    public void update(final User user) {
+        this.hibernateTemplate.update(toEntity(user));
+    }
+
+    @Override
     public void delete(final User user) {
+        this.hibernateTemplate.delete(toEntity(user));
     }
 
 }
