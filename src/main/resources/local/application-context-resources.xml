@@ -34,6 +34,7 @@
     </bean>
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="defaultEncoding" value="utf-8" />
         <property name="host" value="${mail.host}" />
         <property name="port" value="${mail.port}" />
         <property name="username" value="${mail.username}" />
