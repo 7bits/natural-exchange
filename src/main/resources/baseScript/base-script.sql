@@ -49,6 +49,8 @@ CREATE TABLE
   role varchar(255) NOT NULL,
   is_deleted bit(1) NOT NULL,
   email varchar(255) NOT NULL,
+  activation_code varchar(255),
+  activation_date bigint(20),
   vk_link varchar(255),
   PRIMARY KEY (id)
 );
