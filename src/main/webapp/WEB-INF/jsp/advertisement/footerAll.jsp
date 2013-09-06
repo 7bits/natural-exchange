@@ -10,11 +10,11 @@
         <div class="centerTop">
             <div class="social">
                 <p class="socialText"> Мы в социальных сетях: </p>
-                    <%-- <!-- Put this div tag to the place, where the Like block will be -->
+                    <!-- Put this div tag to the place, where the Like block will be -->
                     <div id="vk_like"></div>
                     <script type="text/javascript">
-                    VK.Widgets.Like("vk_like", {type: "full"});
-                    </script>       --%>
+                        VK.Widgets.Like("vk_like", {type: "full"});
+                    </script>
                 <img  src='<c:url value="/resources/images/social.png"/>' alt="Соц.сети"  />
             </div>
             <div class="footerLink1">

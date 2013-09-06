@@ -24,6 +24,11 @@
         <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'/>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'/>
         <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
+        <!-- Put this script tag to the <head> of your page -->
+        <script type="text/javascript" src="//vk.com/js/api/openapi.js?100"></script>
+        <script type="text/javascript">
+            VK.init({apiId: 3862800, onlyWidgets: true});
+        </script>
         <title>Натуральный обмен</title>
     </head>
     <body>
