@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * Time: 1:26 PM
  *
  */
-@Service
+@Service(value = "auth")
 public class MyUserDetailsService implements UserDetailsService {
 
     @Resource(name = "userDao")

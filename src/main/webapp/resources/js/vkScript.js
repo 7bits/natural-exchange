@@ -1,1 +1,1 @@
-VK.init({apiId: 3783611, onlyWidgets: true});
+VK.init({apiId: 3862800, onlyWidgets: true});

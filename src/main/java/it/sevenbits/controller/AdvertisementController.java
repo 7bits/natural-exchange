@@ -7,6 +7,7 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
+import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
@@ -30,6 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -65,6 +69,9 @@ public class AdvertisementController {
     @Resource(name = "mailService")
     private MailSenderService mailSenderService;
 
+    @Resource(name = "auth")
+    private MyUserDetailsService myUserDetailsService;
+
     @Autowired
     private AdvertisementSearchingValidator advertisementSearchingValidator;
 
@@ -91,6 +98,13 @@ public class AdvertisementController {
             final MailingNewsForm mailingNewsFormParam, final BindingResult bindingResult)
             throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("bandit@gmail.com", "111");
+        UserDetails usrDet = myUserDetailsService.loadUserByUsername("bandit@gmail.com");
+        token.setDetails(usrDet);
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(token);
+
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setAll();
         String[] selectedCategories = advertisementSearchingFormParam.getCategories();

@@ -4,9 +4,7 @@
         <div>
             <p> Понравился проект? Расскажи друзьям! </p>
             <div id="vk_like"></div>
-            <script type="text/javascript">
-                VK.Widgets.Like("vk_like", {type: "full"});
-            </script>
+            <script type="text/javascript" src='<c:url value="/resources/js/vkWigetScript.js"/>'  language="javascript"> </script>
         </div>
     </div>
     <footer>

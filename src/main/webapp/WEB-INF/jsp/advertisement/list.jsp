@@ -26,9 +26,7 @@
         <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
         <!-- Put this script tag to the <head> of your page -->
         <script type="text/javascript" src="//vk.com/js/api/openapi.js?100"></script>
-        <script type="text/javascript">
-            VK.init({apiId: 3862800, onlyWidgets: true});
-        </script>
+        <script type="text/javascript" src='<c:url value="/resources/js/vkScript.js"/>'  language="javascript"> </script>
         <title>Натуральный обмен</title>
     </head>
     <body>
@@ -37,6 +35,14 @@
         <!-- /Yandex.Metrika counter -->
         <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
+            <c:url value="https://oauth.vk.com/authorize" var="vkAuth">
+                <c:param name="client_id" value="3862800"/>
+                <c:param name="scope" value="notify"/>
+                <c:param name="redirect_uri" value="http://naturalexchange.ru/VK/auth.html"/>
+                <c:param name="response_type" value="code"/>
+            </c:url>
+            <a href="${vkAuth}">
+            </a>
             <section>
                 <table>
                     <thead>
@@ -45,6 +51,7 @@
                                 Автор
                             </th-->
                             <th class="date">
+
                                 <%--<c:set var="sortDate" value="${!sortDate}"/> --%>
                                 <c:url value="/advertisement/list.html" var="dateSortingUrl">
                                     <c:param name="sortedBy" value="${sortedByDate}"/>
