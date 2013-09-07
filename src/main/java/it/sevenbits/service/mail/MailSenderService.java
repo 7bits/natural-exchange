@@ -85,6 +85,11 @@ public class MailSenderService {
         }
     }
 
+    public void sendMail(final String email, final String title, final String text) {
+        MailSenderService mailService = getMailService();
+        mailService.sendMail(SERVICE_MAILBOX, email, title, text);
+    }
+
     public void sendRegisterMail(final String to, final String code) {
         MailSenderService mailService = getMailService();
         String link = getDomen() + "/user/magic.html?user=" + code + "&mail=" + to;
