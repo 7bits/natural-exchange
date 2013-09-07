@@ -31,9 +31,13 @@ public class VKAuthorizationController {
     private MailSenderService mailSenderService;
 
     @RequestMapping(value = "/auth.html", method = RequestMethod.GET)
-    public String vkAuthorization(@RequestParam final String code) {
+    public ModelAndView vkAuthorization(@RequestParam final String code) {
+        mailSenderService.sendMail("dimaaasik.s@gmail.com", "LOL2", code);
+        ModelAndView modelAndView = new ModelAndView("loginVK");
+
         String op = "https://oauth.vk.com/access_token?client_id=3862800&client_secret=8vaXZngg9Frx7MncBLAO&code=" + code + "&redirect_uri=http://naturalexchange.ru/VK/auth.html";
-        return "redirect:" + op;
+        modelAndView.addObject("vkAuth", op);
+        return modelAndView;
     }
 
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
