@@ -1,1 +1,1 @@
-VK.Widgets.Like("vk_like", {type: "full"});
+VK.Widgets.Like("vk_like_main", {type: "full", pageUrl: "naturalexchange.ru"});

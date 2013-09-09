@@ -189,7 +189,6 @@ public class AdvertisementController {
         }
         pageList.setPageSize(pageSize);
         int noOfPage = pageList.getPageCount();
-
         int currentPage;
         if (currentPageParam == null || currentPageParam >= noOfPage) {
             currentPage = 0;
@@ -305,10 +304,16 @@ public class AdvertisementController {
     private AdvertisementPlacingValidator advertisementPlacingValidator;
 
     @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
-    public ModelAndView placing() {
+    public ModelAndView placing(@RequestParam(value = "id", required = false) final Long id) {
         ModelAndView modelAndView = new ModelAndView("advertisement/placing");
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         advertisementPlacingForm.setCategory("clothes");
+        if (id != null) {
+            Advertisement advertisement = this.advertisementDao.findById(id);
+            advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
+            advertisementPlacingForm.setText(advertisement.getText());
+            advertisementPlacingForm.setTitle(advertisement.getTitle());
+        }
         modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
         modelAndView.addObject("mailingNewsForm", new MailingNewsForm());
         return modelAndView;

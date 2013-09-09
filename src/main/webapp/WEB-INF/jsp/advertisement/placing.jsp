@@ -11,6 +11,8 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
+        <script type="text/javascript" src="//vk.com/js/api/openapi.js?100"></script>
+        <script type="text/javascript" src='<c:url value="/resources/js/vkScript.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/yandexMetriс.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/badImage.js"/>'  language="javascript"> </script>
     </head>

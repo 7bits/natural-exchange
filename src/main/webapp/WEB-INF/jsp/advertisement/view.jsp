@@ -75,8 +75,17 @@
                     <c:out value="${advertisement.user.email}"/>
                     </p>
                 </div>
-                <div id="vk_like"></div>
-                <script type="text/javascript" src='<c:url value="/resources/js/vkWigetScript.js"/>'  language="javascript"> </script>
+                <div class="viewTitle">
+                    Создать такое же объявление
+                    <c:url value="/advertisement/placing.html" var="placingLike">
+                        <c:param name="id" value="${currentId}"/>
+                    </c:url>
+                    <a href='${placingLike}'> Тык! </a>
+                </div>
+                <div id="vk_like_1"></div>
+                <script type="text/javascript">
+                    VK.Widgets.Like("vk_like_1", {type: "full"});
+                </script>
             </section>
             <%@ include file="/WEB-INF/jsp/advertisement/aside.jsp" %>
         </div>

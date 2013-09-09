@@ -3,7 +3,7 @@
     <div class="plug">
         <div>
             <p> Понравился проект? Расскажи друзьям! </p>
-            <div id="vk_like"></div>
+            <div id="vk_like_main"></div>
             <script type="text/javascript" src='<c:url value="/resources/js/vkWigetScript.js"/>'  language="javascript"> </script>
         </div>
     </div>

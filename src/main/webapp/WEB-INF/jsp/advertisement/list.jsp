@@ -6,15 +6,16 @@
 <html lang="ru">
     <head>
         <!-- Put this script tag to the <head> of your page -->
-        <script type="text/javascript" src="//vk.com/js/api/openapi.js?98"></script>
-        <script type="text/javascript" src='<c:url value="/resources/js/vkScript.js"/>'  language="javascript"></script>
-
         <%@ include file="/WEB-INF/jsp/headInclude.jsp" %>
 
         <script type="text/javascript" src='<c:url value="/resources/js/saveSearch.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/checkbox.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/tableCut.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/yandexMetriс.js"/>'  language="javascript"> </script>
+
+        <script type="text/javascript" src='<c:url value="/resources/js/vkAuth.js"/>'  language="javascript"> </script>
+
+        <script type="text/javascript" src='<c:url value="/resources/js/jquery.json-2.2.js"/>'  language="javascript"> </script>
 
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/mainAsideStyle.css"/>" />
@@ -42,7 +43,8 @@
                 <c:param name="response_type" value="code"/>
             </c:url>
             <div>
-                <a href="${vkAuth}"> Вход через Вконтакте </a>
+
+                <div class="vkAuth"> Войти через контакт </div>
             </div>
             <section>
                 <table>
