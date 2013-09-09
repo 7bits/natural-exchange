@@ -10,7 +10,7 @@ function vkAuthButtonFunc(eventObject) {
     var url = "https://oauth.vk.com/authorize";
     var client_id = "client_id=3862800&";
     var scope = "scope=notify&";
-    var redirect_uri = "redirect_uri=http://naturalexchange.ru/advertisement/list&";
+    var redirect_uri = "redirect_uri=http://naturalexchange.ru/advertisement/list.html&";
     var display = "display=DISPLAY&";
     var response_type = "response_type=token";
     var data = client_id + scope + redirect_uri + display + response_type;
