@@ -15,7 +15,8 @@ function vkAuthButtonFunc(eventObject) {
     var display = "display=popup&";
     var response_type = "response_type=token";
     var data = client_id + scope + redirect_uri + display + response_type;
-    window.open(url + "?" + data,"window",'width=200,height=400');
+    //window.open(url + "?" + data,"window",'width=200,height=400');
+    window.location.replace(url + "?" + data);
 }
 
 function myAuth() {
