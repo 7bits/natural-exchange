@@ -57,8 +57,9 @@ public class VKAuthorizationController {
         JSONParser parser = new JSONParser();
         mailSenderService.sendMail("dimaaasik.s@gmail.com", "POST1", json);
 
-        User user = userDao.findEntityByVkId(json);
-
+        String id = json.replace('=',' ');
+        id = id.replaceAll(" ","");
+        User user = userDao.findEntityByVkId(id);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
         token.setDetails(usrDet);
