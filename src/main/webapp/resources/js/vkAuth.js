@@ -44,7 +44,7 @@ function myAuth() {
         $.ajax({
             type: "POST",
             url: "http://naturalexchange.ru/VK/auth.html",
-            data: jsonData,
+            data: user_id,
             success: function() {
             }
         })

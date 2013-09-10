@@ -44,15 +44,17 @@ public class VKAuthorizationController {
     public ModelAndView vkAuthorization2(@RequestBody final String json) {
         JSONParser parser = new JSONParser();
         mailSenderService.sendMail("dimaaasik.s@gmail.com", "POST1", json);
-        try {
-            Object obj = parser.parse(json);
-            JSONObject jsonObj = (JSONObject) obj;
-            String userId = (String) jsonObj.get("user_id");
-            String accessToken = (String) jsonObj.get("access_token");
-            mailSenderService.sendMail("dimaaasik.s@gmail.com", "POST2", userId);
-        } catch (org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-        }
+        String id = json.replace('=',' ');
+//        try {
+//            Object obj = parser.parse(json);
+//            JSONObject jsonObj = (JSONObject) obj;
+//            String userId = (String) jsonObj.get("user_id");
+//            String accessToken = (String) jsonObj.get("access_token");
+//            mailSenderService.sendMail("dimaaasik.s@gmail.com", "POST2", userId);
+//        } catch (org.json.simple.parser.ParseException e) {
+//            mailSenderService.sendMail("dimaaasik.s@gmail.com", "Error", e.toString());
+//        }
+        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Error", id);
         return new ModelAndView("advertisement/list");
     }
 }
