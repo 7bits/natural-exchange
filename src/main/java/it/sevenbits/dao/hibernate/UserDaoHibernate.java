@@ -60,7 +60,7 @@ public class UserDaoHibernate implements UserDao {
     @Override
     public UserEntity findEntityByEmail(final String name) {
         DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
-        criteria.add(Restrictions.like("vk_link", name));
+        criteria.add(Restrictions.like("email", name));
         List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
         return users.get(0);
     }
@@ -68,7 +68,7 @@ public class UserDaoHibernate implements UserDao {
     @Override
     public UserEntity findEntityByVkId(String id) {
         DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
-        criteria.add(Restrictions.like("email", id));
+        criteria.add(Restrictions.like("vk_link", id));
         List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
         return users.get(0);
     }
