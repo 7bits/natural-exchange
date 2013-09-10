@@ -46,9 +46,21 @@ function myAuth() {
             type: "POST",
             url: "http://naturalexchange.ru/VK/auth.html",
             data: user_id,
-            success: function() {
-                window.location.replace("http://naturalexchange.ru/advertisement/list.html");
+            success: function(result) {
+                if(result == 2) {
+                    window.location.replace("http://naturalexchange.ru/advertisement/list.html");
+                } else if (result == 1) {
+                    var script = document.createElement('SCRIPT');
+                    script.src = "https://api.vk.com/method/getProfiles?uid=" + user_id + "&v=5.0&access_token=" + access_token + "&callback=callbackFunc'";
+                    document.getElementsByTagName("head")[0].appendChild(script);
+                }
+
+
             }
         })
     }
+}
+
+function callbackFunc(result) {
+    alert(result);
 }

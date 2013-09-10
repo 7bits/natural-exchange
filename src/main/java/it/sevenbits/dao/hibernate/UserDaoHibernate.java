@@ -62,7 +62,11 @@ public class UserDaoHibernate implements UserDao {
         DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
         criteria.add(Restrictions.like("email", name));
         List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
-        return users.get(0);
+        UserEntity result = null;
+        if(!users.isEmpty()) {
+            result = users.get(0);
+        }
+        return result;
     }
 
     @Override

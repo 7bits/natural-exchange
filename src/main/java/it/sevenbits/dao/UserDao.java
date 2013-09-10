@@ -25,6 +25,12 @@ public interface UserDao {
 
     UserEntity findEntityByEmail(String name);
 
+    /**
+     *
+     * @param id
+     * @return  User - if user was found
+     *          null - if no users with id like that
+     */
     UserEntity findEntityByVkId(String id);
 
     /**

@@ -36,6 +36,12 @@ public class VKAuthorizationController {
     @Resource(name = "mailService")
     private MailSenderService mailSenderService;
 
+    @Resource(name = "auth")
+    private MyUserDetailsService myUserDetailsService;
+
+    @Resource(name = "userDao")
+    private UserDao userDao;
+
     @RequestMapping(value = "/auth.html", method = RequestMethod.GET)
     public ModelAndView vkAuthorization(@RequestParam final String code) {
         mailSenderService.sendMail("dimaaasik.s@gmail.com", "GET", code);
@@ -46,25 +52,24 @@ public class VKAuthorizationController {
         return modelAndView;
     }
 
-    @Resource(name = "auth")
-    private MyUserDetailsService myUserDetailsService;
-
-    @Resource(name = "userDao")
-    private UserDao userDao;
-
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
-    public ModelAndView vkAuthorization2(@RequestBody final String json) {
-        JSONParser parser = new JSONParser();
+    public int vkAuthorization2(@RequestBody final String json) {
+        //JSONParser parser = new JSONParser();
         String id = json.replaceAll("=","");
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
+        //mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
+        int result;
         User user = userDao.findEntityByVkId(id);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "User", user.getUsername());
-        UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
-        token.setDetails(usrDet);
-        SecurityContext context = SecurityContextHolder.getContext();
-        context.setAuthentication(token);
-
+        if (user != null) {
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+            //mailSenderService.sendMail("dimaaasik.s@gmail.com", "User", user.getUsername());
+            UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
+            token.setDetails(usrDet);
+            SecurityContext context = SecurityContextHolder.getContext();
+            context.setAuthentication(token);
+            result = 1;
+        } else {
+            result = 2;
+        }
 //        try {
 //            Object obj = parser.parse(json);
 //            JSONObject jsonObj = (JSONObject) obj;
@@ -74,7 +79,6 @@ public class VKAuthorizationController {
 //        } catch (org.json.simple.parser.ParseException e) {
 //            mailSenderService.sendMail("dimaaasik.s@gmail.com", "Error", e.toString());
 //        }
-
-        return new ModelAndView("advertisement/list");
+        return result;
     }
 }
