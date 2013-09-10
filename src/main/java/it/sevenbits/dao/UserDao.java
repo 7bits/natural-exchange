@@ -25,6 +25,8 @@ public interface UserDao {
 
     UserEntity findEntityByEmail(String name);
 
+    UserEntity findEntityByVkId(String id);
+
     /**
      * возвращает  список всех пользователей
      * @return
