@@ -64,10 +64,10 @@ public class VKAuthorizationController {
             token.setDetails(usrDet);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(token);
-            resultJson.put("success", true);
+            resultJson.put("success", "true");
             result = true;
         } else {
-            resultJson.put("success",false);
+            resultJson.put("success","false");
             result = false;
         }
 //        try {
