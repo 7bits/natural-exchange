@@ -53,7 +53,7 @@ public class VKAuthorizationController {
     }
 
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
-    public boolean vkAuthorization2(@RequestBody final String json) {
+    public void vkAuthorization2(@RequestBody final String json) {
         //JSONParser parser = new JSONParser();
         String id = json.replaceAll("=","");
         //mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
@@ -79,6 +79,6 @@ public class VKAuthorizationController {
 //        } catch (org.json.simple.parser.ParseException e) {
 //            mailSenderService.sendMail("dimaaasik.s@gmail.com", "Error", e.toString());
 //        }
-        return result;
+        //return result;
     }
 }
