@@ -55,12 +55,11 @@ public class VKAuthorizationController {
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
     public ModelAndView vkAuthorization2(@RequestBody final String json) {
         JSONParser parser = new JSONParser();
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "POST1", json);
-
-        String id = json.replace('=',' ');
-        id = id.replaceAll(" ","");
+        String id = json.replaceAll("=","");
+        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
         User user = userDao.findEntityByVkId(id);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+        mailSenderService.sendMail("dimaaasik.s@gmail.com", "User", user.getUsername());
         UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
         token.setDetails(usrDet);
         SecurityContext context = SecurityContextHolder.getContext();
