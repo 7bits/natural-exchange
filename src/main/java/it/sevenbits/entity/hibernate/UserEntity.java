@@ -105,8 +105,8 @@ public class UserEntity extends User {
 
     @Column(name = "vk_link", nullable = true)
     @Override
-    public String getVklink() {
-        return super.getVklink();
+    public String getVk_link() {
+        return super.getVk_link();
     }
 
     @Column(name = "activation_code", nullable = true)

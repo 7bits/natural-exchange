@@ -73,7 +73,7 @@ public class UsersRegistrationController {
         user.setPassword(userRegistrationFormParam.getPassword());
         user.setFirstName(userRegistrationFormParam.getFirstName());
         user.setLastName(userRegistrationFormParam.getLastName());
-        user.setVklink(userRegistrationFormParam.getVkLink());
+        user.setVk_link(userRegistrationFormParam.getVkLink());
         user.setIsDeleted(false);
         user.setUpdateDate(TimeManager.getTime());
         user.setCreatedDate(TimeManager.getTime());

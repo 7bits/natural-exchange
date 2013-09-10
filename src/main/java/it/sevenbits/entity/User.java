@@ -80,7 +80,7 @@ public class User implements UserDetails  {
         return role;
     }
 
-    public String getVklink() {
+    public String getVk_link() {
         return vkLink;
     }
 
@@ -110,7 +110,7 @@ public class User implements UserDetails  {
         this.createdDate = createdDate;
     }
 
-    public void setVklink(final String vklink) {
+    public void setVk_link(final String vklink) {
         this.vkLink = vklink;
     }
 

@@ -46,6 +46,7 @@ function myAuth() {
             url: "http://naturalexchange.ru/VK/auth.html",
             data: user_id,
             success: function() {
+                window.location.replace("http://naturalexchange.ru/advertisement/list.html");
             }
         })
     }
