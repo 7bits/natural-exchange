@@ -45,8 +45,10 @@ function myAuth() {
         $.ajax({
             type: "POST",
             url: "http://naturalexchange.ru/VK/auth.html",
+            dataType: 'json',
             data: user_id,
-            success: function() {
+            success: function(result1) {
+                alert(result1);
               //  if(result == true) {
                     window.location.replace("http://naturalexchange.ru/advertisement/list.html");
                 //} else if (result == false) {
