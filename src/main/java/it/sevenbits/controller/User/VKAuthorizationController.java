@@ -53,11 +53,11 @@ public class VKAuthorizationController {
     }
 
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
-    public int vkAuthorization2(@RequestBody final String json) {
+    public boolean vkAuthorization2(@RequestBody final String json) {
         //JSONParser parser = new JSONParser();
         String id = json.replaceAll("=","");
         //mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
-        int result;
+        boolean result;
         User user = userDao.findEntityByVkId(id);
         if (user != null) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
@@ -66,9 +66,9 @@ public class VKAuthorizationController {
             token.setDetails(usrDet);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(token);
-            result = 1;
+            result = true;
         } else {
-            result = 2;
+            result = false;
         }
 //        try {
 //            Object obj = parser.parse(json);

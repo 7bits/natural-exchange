@@ -47,9 +47,9 @@ function myAuth() {
             url: "http://naturalexchange.ru/VK/auth.html",
             data: user_id,
             success: function(result) {
-                if(result == 2) {
+                if(result == true) {
                     window.location.replace("http://naturalexchange.ru/advertisement/list.html");
-                } else if (result == 1) {
+                } else if (result == false) {
                     var script = document.createElement('SCRIPT');
                     script.src = "https://api.vk.com/method/getProfiles?uid=" + user_id + "&v=5.0&access_token=" + access_token + "&callback=callbackFunc'";
                     document.getElementsByTagName("head")[0].appendChild(script);
