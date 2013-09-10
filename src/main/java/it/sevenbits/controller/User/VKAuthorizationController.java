@@ -11,10 +11,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.json.simple.JSONObject;
 
@@ -53,7 +50,7 @@ public class VKAuthorizationController {
     }
 
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
-    public JSONObject vkAuthorization2(@RequestBody final String json) {
+    public @ResponseBody JSONObject vkAuthorization2(@RequestBody final String json) {
         //JSONParser parser = new JSONParser();
         String id = json.replaceAll("=","");
         //mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
@@ -67,7 +64,7 @@ public class VKAuthorizationController {
             token.setDetails(usrDet);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(token);
-            resultJson.put("success",true);
+            resultJson.put("success", true);
             result = true;
         } else {
             resultJson.put("success",false);
