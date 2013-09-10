@@ -64,6 +64,7 @@ public class VKAuthorizationController {
         token.setDetails(usrDet);
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(token);
+
 //        try {
 //            Object obj = parser.parse(json);
 //            JSONObject jsonObj = (JSONObject) obj;

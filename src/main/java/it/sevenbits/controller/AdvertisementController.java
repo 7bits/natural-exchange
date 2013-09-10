@@ -99,11 +99,11 @@ public class AdvertisementController {
             throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("bandit@gmail.com", "111");
-        UserDetails usrDet = myUserDetailsService.loadUserByUsername("bandit@gmail.com");
-        token.setDetails(usrDet);
-        SecurityContext context = SecurityContextHolder.getContext();
-        context.setAuthentication(token);
+//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("bandit@gmail.com", "111");
+//        UserDetails usrDet = myUserDetailsService.loadUserByUsername("bandit@gmail.com");
+//        token.setDetails(usrDet);
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        context.setAuthentication(token);
 
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setAll();
