@@ -5,6 +5,10 @@ import it.sevenbits.entity.User;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.TimeManager;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.simple.parser.JSONParser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.json.simple.JSONObject;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 
 /**
@@ -84,14 +89,46 @@ public class VKAuthorizationController {
         return resultJson;
         //return result;
     }
+    class UserDet{
+        public String id;
+        public String first_name;
+        public String last_name;
+
+        public String toString() {
+            return id + "!" + first_name + "!" + last_name;
+        }
+    }
 
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
-    public void vkRegistration(@RequestBody final JSONObject json) {
-        String email = json.get("email").toString();
+    public void vkRegistration(@RequestBody final String json) {
+        //String email = json.get("email").toString();
+
+        ObjectMapper mapper = new ObjectMapper();
+        UserDet user = null;
+        try {
+
+            // read from file, convert it to user class
+            user = mapper.readValue(json, UserDet.class);
+
+            // display to console
+            System.out.println(user);
+
+        } catch (JsonGenerationException e) {
+
+            e.printStackTrace();
+
+        } catch (JsonMappingException e) {
+
+            e.printStackTrace();
+
+        } catch (JsonParseException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
 
-
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+json+"!");
+        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+ user.toString()+"!");
         User user = new User();
 //        user.setEmail(userRegistrationFormParam.getEmail());
 //        user.setPassword(userRegistrationFormParam.getPassword());
