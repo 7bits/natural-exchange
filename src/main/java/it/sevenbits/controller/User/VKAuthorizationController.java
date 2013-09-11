@@ -129,7 +129,7 @@ public class VKAuthorizationController {
 
 
         mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+ user.toString()+"!");
-        User user = new User();
+        //User user = new User();
 //        user.setEmail(userRegistrationFormParam.getEmail());
 //        user.setPassword(userRegistrationFormParam.getPassword());
 //        user.setFirstName(userRegistrationFormParam.getFirstName());
