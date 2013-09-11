@@ -51,7 +51,7 @@ public class VKAuthorizationController {
     }
 
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
-    public @ResponseBody JSONObject vkAuthorization2(@RequestBody final String json) {
+    public String vkAuthorization2(@RequestBody final String json) {
         //JSONParser parser = new JSONParser();
         String id = json.replaceAll("=","");
         mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
@@ -65,7 +65,7 @@ public class VKAuthorizationController {
             token.setDetails(usrDet);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(token);
-            resultJson.put("success", "true");
+            resultJson.put("success","true");
             result = true;
         } else {
             resultJson.put("success","false");
@@ -80,7 +80,7 @@ public class VKAuthorizationController {
 //        } catch (org.json.simple.parser.ParseException e) {
 //            mailSenderService.sendMail("dimaaasik.s@gmail.com", "Error", e.toString());
 //        }
-        return resultJson;
+        return resultJson.toString();
         //return result;
     }
 
