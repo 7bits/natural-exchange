@@ -1,9 +1,12 @@
 function readyFn( jQuery ) {
     var vkAuthButton = $(".vkAuth");
     vkAuthButton.click(vkAuthButtonFunc);
+    var sendEmailConfirm = $(".sendEmailConfirm");
+    sendEmailConfirm.click(emailConfirm);
     myAuth();
 }
 
+var usrInfo;
 $( document ).ready( readyFn );
 
 function vkAuthButtonFunc(eventObject) {
@@ -47,22 +50,57 @@ function myAuth() {
             url: "http://naturalexchange.ru/VK/auth.html",
             dataType: 'json',
             data: user_id,
-            success: function(result1) {
-                alert(result1);
-              //  if(result == true) {
+            success: function(result) {
+                if(result.success == "true") {
                     window.location.replace("http://naturalexchange.ru/advertisement/list.html");
-                //} else if (result == false) {
-                  //  var script = document.createElement('SCRIPT');
-                   // script.src = "https://api.vk.com/method/getProfiles?uid=" + user_id + "&v=5.0&access_token=" + access_token + "&callback=callbackFunc'";
-                    //document.getElementsByTagName("head")[0].appendChild(script);
-                //}
-
-
+                } else if (result.success == "false") {
+                    var script = document.createElement('SCRIPT');
+                    script.src = "https://api.vk.com/method/getProfiles?uid=" + user_id + "&v=5.0&access_token=" + access_token + "&callback=callbackFunc'";
+                    document.getElementsByTagName("head")[0].appendChild(script);
+                }
             }
         })
     }
 }
 
 function callbackFunc(result) {
-    alert(result);
+    //alert(result.response[0].id);
+    usrInfo = result;
+    $(".vkEmailConfirm").css("display","block");
+}
+
+function emailConfirm() {
+    $(".vkEmailConfirm").css("display","block");
+    document.getElementById('messageEmailConfirm').innerHTML = "";
+    var email = $(".emailConfirm").val();
+    var mailvalid = validateEmail(email);
+    if(mailvalid === false) {
+        document.getElementById('messageEmailConfirm').innerHTML = "Введите корректный e-mail адрес.";
+    }
+    else if (mailvalid === true) {
+        $(".sendEmailConfirm").replaceWith("отправка...");
+        var jsonEmail = {
+            "email" : email,
+            "first_name" : usrInfo.response[0].first_name,
+            "last_name": usrInfo.response[0].last_name,
+            "id": usrInfo.response[0].id
+        };
+        jsonEmail = $.toJSON( jsonEmail );
+        $.ajax({
+            type: 'POST',
+            url: '/n-exchange/VK/registration.html',
+            data: jsonEmail,
+            success: function(data) {
+                //$("#contact").fadeOut("fast", function(){
+                //if (data === "auth") {
+                //   document.getElementById("auth").style.display="block";
+                // }
+                // if (data === "save") {
+                //    document.getElementById("saving").style.display="block";
+                //  }
+                //});
+            }
+        });
+        $(".vkEmailConfirm").css("display","none");
+    }
 }

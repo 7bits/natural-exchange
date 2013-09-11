@@ -4,6 +4,7 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.User;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.service.mail.MailSenderService;
+import it.sevenbits.util.TimeManager;
 import org.json.simple.parser.JSONParser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -81,5 +82,20 @@ public class VKAuthorizationController {
 //        }
         return resultJson;
         //return result;
+    }
+
+    @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
+    public void vkRegistration(@RequestBody final JSONObject json) {
+        String email = json.get("email").toString();
+        User user = new User();
+//        user.setEmail(userRegistrationFormParam.getEmail());
+//        user.setPassword(userRegistrationFormParam.getPassword());
+//        user.setFirstName(userRegistrationFormParam.getFirstName());
+//        user.setLastName(userRegistrationFormParam.getLastName());
+//        user.setVk_link(userRegistrationFormParam.getVkLink());
+        user.setIsDeleted(false);
+        user.setUpdateDate(TimeManager.getTime());
+        user.setCreatedDate(TimeManager.getTime());
+        user.setRole("ROLE_USER");
     }
 }

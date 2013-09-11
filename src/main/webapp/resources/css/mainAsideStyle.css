@@ -6,6 +6,10 @@
     padding-bottom: 24px;
 }
 
+.vkEmailConfirm {
+    display: none;
+}
+
 aside {
     width: 290px;
     float: right;

@@ -1,0 +1,8 @@
+.vkEmailConfrim {
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    width : 600px;
+    height : 460px;
+    z-index: 1000;
+}

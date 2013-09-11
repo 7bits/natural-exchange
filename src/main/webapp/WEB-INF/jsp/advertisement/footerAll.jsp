@@ -24,4 +24,5 @@
             </div>
             <p class="sign"> © 2013 Natural Exchange</p>
         </div>
+        <%@ include file="/WEB-INF/jsp/advertisement/vkEmailConfirm.jsp" %>
     </footer>
