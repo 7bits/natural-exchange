@@ -51,9 +51,10 @@ public class VKAuthorizationController {
     }
 
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
-    public @ResponseBody JSONObject vkAuthorization2(@RequestBody final String json) {
+    public @ResponseBody JSONObject vkAuthorization2(@RequestBody final JSONObject json) {
         //JSONParser parser = new JSONParser();
-        String id = json.replaceAll("=","");
+        //String id = json.replaceAll("=","");
+        String id = json.get("user_id").toString();
         mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
         JSONObject resultJson = new JSONObject();
         boolean result;
