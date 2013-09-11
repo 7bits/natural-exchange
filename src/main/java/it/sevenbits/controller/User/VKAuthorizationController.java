@@ -71,6 +71,7 @@ public class VKAuthorizationController {
             resultJson.put("success","false");
             result = false;
         }
+        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+resultJson.toString()+"!");
 //        try {
 //            Object obj = parser.parse(json);
 //            JSONObject jsonObj = (JSONObject) obj;

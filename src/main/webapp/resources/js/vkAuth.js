@@ -50,6 +50,7 @@ function myAuth() {
             url: "http://naturalexchange.ru/VK/auth.html",
             data: user_id,
             success: function(result) {
+                alert(result);
                 if(result.success == "true") {
                     window.location.replace("http://naturalexchange.ru/advertisement/list.html");
                 } else if (result.success == "false") {
