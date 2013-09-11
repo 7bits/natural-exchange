@@ -104,14 +104,14 @@ public class VKAuthorizationController {
         //String email = json.get("email").toString();
 
         ObjectMapper mapper = new ObjectMapper();
-        UserDet user = null;
+        UserDet user1 = null;
         try {
 
             // read from file, convert it to user class
-            user = mapper.readValue(json, UserDet.class);
+            user1 = mapper.readValue(json, UserDet.class);
 
             // display to console
-            System.out.println(user);
+            //System.out.println(user1);
 
         } catch (JsonGenerationException e) {
 
@@ -128,8 +128,8 @@ public class VKAuthorizationController {
         }
 
 
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+ user.toString()+"!");
-        //User user = new User();
+        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+ user1.toString()+"!");
+        User user = new User();
 //        user.setEmail(userRegistrationFormParam.getEmail());
 //        user.setPassword(userRegistrationFormParam.getPassword());
 //        user.setFirstName(userRegistrationFormParam.getFirstName());
