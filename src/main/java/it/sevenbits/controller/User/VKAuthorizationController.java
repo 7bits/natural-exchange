@@ -54,7 +54,7 @@ public class VKAuthorizationController {
     public @ResponseBody JSONObject vkAuthorization2(@RequestBody final String json) {
         //JSONParser parser = new JSONParser();
         String id = json.replaceAll("=","");
-        //mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
+        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
         JSONObject resultJson = new JSONObject();
         boolean result;
         User user = userDao.findEntityByVkId(id);
