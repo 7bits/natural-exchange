@@ -48,7 +48,6 @@ function myAuth() {
         $.ajax({
             type: "POST",
             url: "http://naturalexchange.ru/VK/auth.html",
-            dataType: 'json',
             data: user_id,
             success: function(result) {
                 if(result.success == "true") {
@@ -64,7 +63,7 @@ function myAuth() {
 }
 
 function callbackFunc(result) {
-    //alert(result.response[0].id);
+    alert(result.response[0].id);
     usrInfo = result;
     $(".vkEmailConfirm").css("display","block");
 }
