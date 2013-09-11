@@ -100,37 +100,17 @@ public class VKAuthorizationController {
     }
 
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
-    public void vkRegistration(@RequestBody final String json) {
+    public void vkRegistration(@RequestParam final String email,
+                               @RequestParam final String first_name,
+                               @RequestParam final String last_name,
+                               @RequestParam final String id) {
 
 
         //String email = json.get("email").toString();
 
-        ObjectMapper mapper = new ObjectMapper();
-        UserDet user1 = null;
-        try {
-
-            // read from file, convert it to user class
-            user1 = mapper.readValue(json, UserDet.class);
-
-            // display to console
-            //System.out.println(user1);
-
-        } catch (JsonGenerationException e) {
-
-            e.printStackTrace();
-
-        } catch (JsonMappingException e) {
-
-            e.printStackTrace();
-
-        } catch (JsonParseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
 
 
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+ user1.toString()+"!");
+        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+ id + last_name +"!");
         User user = new User();
 //        user.setEmail(userRegistrationFormParam.getEmail());
 //        user.setPassword(userRegistrationFormParam.getPassword());
