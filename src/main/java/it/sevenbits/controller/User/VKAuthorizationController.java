@@ -86,9 +86,9 @@ public class VKAuthorizationController {
     }
 
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
-    public void vkRegistration(@RequestBody final JSONObject json) {
-        String email = json.get("email").toString();
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+email+"!");
+    public void vkRegistration(@RequestBody final String json) {
+        //String email = json.get("email").toString();
+        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+json+"!");
         User user = new User();
 //        user.setEmail(userRegistrationFormParam.getEmail());
 //        user.setPassword(userRegistrationFormParam.getPassword());
