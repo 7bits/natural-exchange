@@ -104,13 +104,12 @@ function emailConfirm() {
 //        $(".vkEmailConfirm").css("display","none");
 //    }
     $(".sendEmailConfirm").replaceWith("отправка...");
-    var jsonEmail = {
-        "email" : email,
-        "first_name" : usrInfo.response[0].first_name,
-        "last_name": usrInfo.response[0].last_name,
-        "id": usrInfo.response[0].id
-    };
-    jsonEmail = $.toJSON( jsonEmail );
+    var jsonEmail =
+        "email=" + email +
+        "&first_name=" + usrInfo.response[0].first_name +
+        "&last_name=" + usrInfo.response[0].last_name +
+        "&id=" + usrInfo.response[0].id;
+    //jsonEmail = $.toJSON( jsonEmail );
     $.ajax({
         type: 'POST',
         url: '/n-exchange/VK/registration.html',

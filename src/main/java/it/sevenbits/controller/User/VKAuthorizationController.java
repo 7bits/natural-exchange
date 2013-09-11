@@ -101,6 +101,8 @@ public class VKAuthorizationController {
 
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
     public void vkRegistration(@RequestBody final String json) {
+
+
         //String email = json.get("email").toString();
 
         ObjectMapper mapper = new ObjectMapper();
