@@ -114,6 +114,7 @@ function emailConfirm() {
     $.ajax({
         type: 'POST',
         url: '/n-exchange/VK/registration.html',
+        dataType: "json",
         data: jsonEmail,
         success: function(data) {
             //$("#contact").fadeOut("fast", function(){
