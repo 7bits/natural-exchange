@@ -62,9 +62,9 @@ function myAuth() {
     }
 }
 
-function callbackFunc(result) {
-    alert(result.response[0].id);
-    usrInfo = result;
+function callbackFunc(result1) {
+    alert(result1.response[0].id);
+    usrInfo = result1;
     $(".vkEmailConfirm").css("display","block");
 }
 
