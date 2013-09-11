@@ -33,7 +33,7 @@
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
 
 	<!-- Define jsp-files directory -->
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <bean id="viewResolver1" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass">
             <value>org.springframework.web.servlet.view.JstlView</value>
         </property>
@@ -46,11 +46,33 @@
 
     </bean>
 
-    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" >
-        <property name="mediaTypes">
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="mediaTypes" >
             <map>
-                <entry key="json" value="application/json"/>
+                <entry key = "atom" value = "application/atom+xml" />
+                <entry key = "html" value = "text/html" />
+                <entry key = "json" value = "application/json" />
+                <entry key = "*"    value = "*/*" />
             </map>
+        </property>
+        <!--<property name="mediaTypes">-->
+        <!--<map>-->
+        <!--<entry key="html" value="text/html" />-->
+        <!--<entry key="json" value="application/json" />-->
+        <!--</map>-->
+        <!--</property>-->
+        <property name="ignoreAcceptHeader" value="true" />
+        <property name="useNotAcceptableStatusCode" value="true" />
+        <property name="defaultContentType">
+            <bean class="org.springframework.http.MediaType">
+                <constructor-arg index="0" value="text" />
+                <constructor-arg index="1" value="html" />
+            </bean>
+        </property>
+        <property name="viewResolvers">
+            <list>
+                <ref bean="viewResolver1"/>
+            </list>
         </property>
         <property name="defaultViews">
             <list>
@@ -58,4 +80,6 @@
             </list>
         </property>
     </bean>
+
+
 </beans>
