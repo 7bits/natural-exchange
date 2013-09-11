@@ -112,7 +112,7 @@ function emailConfirm() {
     //jsonEmail = $.toJSON( jsonEmail );
     $.ajax({
         type: 'POST',
-        url: '/n-exchange/VK/registration.html',
+        url: '/VK/registration.html',
         dataType: "json",
         data: jsonEmail,
         success: function(data) {

@@ -112,14 +112,15 @@ public class VKAuthorizationController {
 
         mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+ id + last_name +"!");
         User user = new User();
-//        user.setEmail(userRegistrationFormParam.getEmail());
-//        user.setPassword(userRegistrationFormParam.getPassword());
-//        user.setFirstName(userRegistrationFormParam.getFirstName());
-//        user.setLastName(userRegistrationFormParam.getLastName());
-//        user.setVk_link(userRegistrationFormParam.getVkLink());
-        user.setIsDeleted(false);
+        user.setEmail(email);
+        user.setPassword("111111");
+        user.setFirstName(first_name);
+        user.setLastName(last_name);
+        user.setVk_link(id);
+        user.setIsDeleted(true);
         user.setUpdateDate(TimeManager.getTime());
         user.setCreatedDate(TimeManager.getTime());
         user.setRole("ROLE_USER");
+        userDao.create(user);
     }
 }
