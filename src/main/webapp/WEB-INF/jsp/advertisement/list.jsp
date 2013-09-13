@@ -327,16 +327,6 @@
         <div id="block">
             <%@ include file="/WEB-INF/jsp/advertisement/savingSearch.jsp" %>
         </div>
-        <div class="vkEmailConfirmContainer">
-            <div class="vkEmailConfirm">
-                <div class="vkConfirmText"> Введите свой e-mail, и Ваша регистрация будет завершена.</div>
-                <input type="email" class="mail placeTitle vkEmailConfirmInput"/>
-                <div id="messageEmailConfirm">  </div>
-                <div class="buttonArea">
-                    <button class="closeEmailConfirm"> Отмена </button>
-                    <button class="sendEmailConfirm" >Готово</button>
-                </div>
-            </div>
-        </div>
+        <%@ include file="/WEB-INF/jsp/advertisement/vkEmailConfirm.jsp" %>
     </body>
 </html>

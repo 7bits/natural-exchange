@@ -1,11 +1,11 @@
-.vkEmailConfrim {
+.vkEmailConfirm {
     left: 40%;
     width : 600px;
     height : 460px;
     position: fixed;
 }
 
-.vkEmailConfrimContainer {
+.vkEmailConfirmContainer {
     display: none;
     background: #000;
     height: 100%;
