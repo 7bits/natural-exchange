@@ -4,6 +4,7 @@
     width : 600px;
     height : 460px;
     position: fixed;
+    background: whitesmoke;
 }
 
 .vkEmailConfirmContainer {
@@ -16,4 +17,61 @@
     z-index: 200;
     top: 0;
     left: 0;
+}
+
+.sendEmailConfirm{
+    float:right;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+    width:100px;
+    height:40px;
+    box-shadow:0 5px #5e8a00;
+    border-radius: 4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    background: #b1ed2f;
+    border: none;
+    cursor: pointer;
+}
+
+.sendEmailConfirm:active {
+    position:relative;
+    top:3px;
+    background: #bcfb33;
+    -moz-box-shadow: 0 2px #5e8a00;
+    -webkit-box-shadow: 0 2px #5e8a00;
+    box-shadow:0 2px #5e8a00;
+}
+
+.sendEmailConfirm:hover {
+    background: #bcfb33;
+}
+
+.closeEmailConfirm {
+    float: left;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+    width: 100px;
+    text-align: center;
+    padding: 8.5px 3px;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #d8d8d8;
+    border: none;
+    box-shadow: 0 5px #a49e9e;
+}
+
+.closeEmailConfirm:hover {
+    text-decoration:none;
+    background: #e0e0e0;
+}
+
+.closeEmailConfirm:active {
+    position:relative;
+    top:3px;
+    background: #e0e0e0;
+    -moz-box-shadow: 0 2px #a49e9e;
+    -webkit-box-shadow: 0 2px #a49e9e;
+    box-shadow:0 2px #a49e9e;
 }

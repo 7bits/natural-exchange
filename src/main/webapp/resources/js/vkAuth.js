@@ -70,58 +70,23 @@ function callbackFunc(result1) {
 function emailConfirm() {
     document.getElementById('messageEmailConfirm').innerHTML = "";
     var email = $(".vkEmailConfirmInput").val();
-    //var mailvalid = validateEmail(email);
-//    if(mailvalid === false) {
-//        document.getElementById('messageEmailConfirm').innerHTML = "Введите корректный e-mail адрес.";
-//    }
-//    else if (mailvalid === true) {
-//        $(".sendEmailConfirm").replaceWith("отправка...");
-//        var jsonEmail = {
-//            "email" : email,
-//            "first_name" : usrInfo.response[0].first_name,
-//            "last_name": usrInfo.response[0].last_name,
-//            "id": usrInfo.response[0].id
-//        };
-//        jsonEmail = $.toJSON( jsonEmail );
-//        $.ajax({
-//            type: 'POST',
-//            url: '/n-exchange/VK/registration.html',
-//            data: jsonEmail,
-//            success: function(data) {
-//                //$("#contact").fadeOut("fast", function(){
-//                //if (data === "auth") {
-//                //   document.getElementById("auth").style.display="block";
-//                // }
-//                // if (data === "save") {
-//                //    document.getElementById("saving").style.display="block";
-//                //  }
-//                //});
-//            }
-//        });
-//        $(".vkEmailConfirm").css("display","none");
-//    }
-    $(".sendEmailConfirm").replaceWith("отправка...");
-    var jsonEmail =
-        "email=" + email +
-        "&first_name=" + usrInfo.response[0].first_name +
-        "&last_name=" + usrInfo.response[0].last_name +
-        "&id=" + usrInfo.response[0].id;
-    //jsonEmail = $.toJSON( jsonEmail );
-    $.ajax({
-        type: 'POST',
-        url: '/VK/registration.html',
-        dataType: "json",
-        data: jsonEmail,
-        success: function(data) {
-            //$("#contact").fadeOut("fast", function(){
-            //if (data === "auth") {
-            //   document.getElementById("auth").style.display="block";
-            // }
-            // if (data === "save") {
-            //    document.getElementById("saving").style.display="block";
-            //  }
-            //});
-        }
-    });
-    $(".vkEmailConfirmContainer").hide();
+    var mailvalid = validateEmail(email);
+    if(mailvalid === false) {
+        document.getElementById('messageEmailConfirm').innerHTML = "Введите корректный e-mail адрес.";
+    }
+    else if (mailvalid === true) {
+        var jsonEmail =
+            "email=" + email +
+                "&first_name=" + usrInfo.response[0].first_name +
+                "&last_name=" + usrInfo.response[0].last_name +
+                "&id=" + usrInfo.response[0].id;
+        $.ajax({
+            type: 'POST',
+            url: '/VK/registration.html',
+            data: jsonEmail
+        });
+        $(".vkEmailConfirmContainer").hide();
+        location.reload();
+    }
+
 }

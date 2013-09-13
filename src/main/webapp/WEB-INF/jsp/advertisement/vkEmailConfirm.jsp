@@ -5,8 +5,8 @@
         <input type="email" class="mail placeTitle vkEmailConfirmInput"/>
         <div id="messageEmailConfirm">  </div>
         <div class="buttonArea">
-            <button class="closeEmailConfirm"> Отмена </button>
             <button class="sendEmailConfirm" >Готово</button>
+            <button class="closeEmailConfirm">Отмена</button>
         </div>
     </div>
 </div>
