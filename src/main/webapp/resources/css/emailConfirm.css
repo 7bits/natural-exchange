@@ -1,11 +1,10 @@
 .vkEmailConfirm {
-    top: 40%;
-    left: 40%;
-    width: 30%;
+    top: 50%;
+    width: 506px;
     height : 165px;
     position: fixed;
     background: whitesmoke;
-    margin: 0 35% 0 35%;
+    margin-left: -253px;
 }
 
 .vkEmailConfirmContainer {
@@ -19,8 +18,18 @@
 }
 
 .vkEmailConfirmInput {
-    margin: 0 5% 0 5%;
+    margin: 0 6% 0 4%;
     width: 90%;
+}
+
+.vkConfirmText {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.messageEmailConfirm {
+    margin: 0 auto;
+    width: 50%;
 }
 
 .vkEmailConfirmOpacity {
