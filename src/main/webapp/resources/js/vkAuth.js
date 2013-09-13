@@ -3,6 +3,9 @@ function readyFn( jQuery ) {
     vkAuthButton.click(vkAuthButtonFunc);
     var sendEmailConfirm = $(".sendEmailConfirm");
     sendEmailConfirm.click(emailConfirm);
+    $(".closeEmailConfirm").click(function() {
+        $(".vkEmailConfirmContainer").hide();
+    });
     myAuth();
 }
 

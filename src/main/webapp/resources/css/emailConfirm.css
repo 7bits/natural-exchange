@@ -1,22 +1,33 @@
 .vkEmailConfirm {
     top: 40%;
     left: 40%;
-    width : 600px;
-    height : 460px;
+    width: 30%;
+    height : 165px;
     position: fixed;
     background: whitesmoke;
+    margin: 0 35% 0 35%;
 }
 
 .vkEmailConfirmContainer {
     display: none;
-    background: #000;
     height: 100%;
-    opacity: 0.5;
     position: fixed;
     width: 100%;
     z-index: 200;
     top: 0;
     left: 0;
+}
+
+.vkEmailConfirmInput {
+    margin: 0 5% 0 5%;
+    width: 90%;
+}
+
+.vkEmailConfirmOpacity {
+    background: #000;
+    height: 100%;
+    opacity: 0.5;
+    width: 100%;
 }
 
 .sendEmailConfirm{
