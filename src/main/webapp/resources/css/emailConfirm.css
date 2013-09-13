@@ -4,10 +4,13 @@
     width: 560px;
     height : 165px;
     position: fixed;
-    background: whitesmoke;
+    background: white;
     margin-left: -230px;
     margin-top: -83px;
-    background: url(../images/background_left_bottom.jpg) left bottom no-repeat, url(../images/background_right_top.jpg) right top no-repeat;
+    background: url(../images/background_left_bottom.jpg), url(../images/background_right_top.jpg);
+    background-position: left bottom, right top;
+    background-repeat: no-repeat, no-repeat;
+
 }
 
 .vkEmailConfirmContainer {
