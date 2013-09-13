@@ -7,6 +7,7 @@
     background: whitesmoke;
     margin-left: -230px;
     margin-top: -83px;
+    background: url(../images/background_left_bottom.jpg) left bottom no-repeat, url(../images/background_right_top.jpg) right top no-repeat;
 }
 
 .vkEmailConfirmContainer {
@@ -17,7 +18,6 @@
     z-index: 200;
     top: 0;
     left: 0;
-    background: url(../images/background_left_bottom.jpg) left bottom no-repeat, url(../images/background_right_top.jpg) right top no-repeat;
 }
 
 .vkEmailConfirmInput {
