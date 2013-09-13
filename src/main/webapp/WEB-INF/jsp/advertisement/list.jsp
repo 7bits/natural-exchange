@@ -325,5 +325,6 @@
         <div id="block">
             <%@ include file="/WEB-INF/jsp/advertisement/savingSearch.jsp" %>
         </div>
+        <%@ include file="/WEB-INF/jsp/advertisement/vkEmailConfirm.jsp" %>
     </body>
 </html>

@@ -66,13 +66,12 @@ function myAuth() {
 function callbackFunc(result1) {
     alert(result1.response[0].id);
     usrInfo = result1;
-    $(".vkEmailConfirm").css("display","block");
+    $(".vkEmailConfirmContainer").show();
 }
 
 function emailConfirm() {
-    $(".vkEmailConfirm").css("display","block");
     document.getElementById('messageEmailConfirm').innerHTML = "";
-    var email = $(".emailConfirm").val();
+    var email = $(".vkEmailConfirmInput").val();
     //var mailvalid = validateEmail(email);
 //    if(mailvalid === false) {
 //        document.getElementById('messageEmailConfirm').innerHTML = "Введите корректный e-mail адрес.";
@@ -126,5 +125,5 @@ function emailConfirm() {
             //});
         }
     });
-    $(".vkEmailConfirm").css("display","none");
+    $(".vkEmailConfirmContainer").hide();
 }
