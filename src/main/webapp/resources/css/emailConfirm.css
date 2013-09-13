@@ -1,4 +1,5 @@
 .vkEmailConfirm {
+    top: 40%;
     left: 40%;
     width : 600px;
     height : 460px;
@@ -9,7 +10,7 @@
     display: none;
     background: #000;
     height: 100%;
-    opacity: 0.9;
+    opacity: 0.5;
     position: fixed;
     width: 100%;
     z-index: 200;

@@ -57,45 +57,27 @@ public class VKAuthorizationController {
 
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
     public @ResponseBody JSONObject vkAuthorization2(@RequestBody final String json) {
-        //JSONParser parser = new JSONParser();
         String id = json.replaceAll("=","");
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+id+"!");
         JSONObject resultJson = new JSONObject();
-        boolean result;
         User user = userDao.findEntityByVkId(id);
         if (user != null) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-            //mailSenderService.sendMail("dimaaasik.s@gmail.com", "User", user.getUsername());
             UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
             token.setDetails(usrDet);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(token);
             resultJson.put("success","true");
-            result = true;
         } else {
             resultJson.put("success","false");
-            result = false;
         }
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+resultJson.toString()+"!");
-//        try {
-//            Object obj = parser.parse(json);
-//            JSONObject jsonObj = (JSONObject) obj;
-//            String userId = (String) jsonObj.get("user_id");
-//            String accessToken = (String) jsonObj.get("access_token");
-//            mailSenderService.sendMail("dimaaasik.s@gmail.com", "POST2", userId);
-//        } catch (org.json.simple.parser.ParseException e) {
-//            mailSenderService.sendMail("dimaaasik.s@gmail.com", "Error", e.toString());
-//        }
         return resultJson;
-        //return result;
     }
 
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
-    public void vkRegistration(@RequestParam final String email,
+    public ModelAndView vkRegistration(@RequestParam final String email,
                                @RequestParam final String first_name,
                                @RequestParam final String last_name,
                                @RequestParam final String id) {
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "Id", "!"+ id + last_name +"!");
         User user = new User();
         user.setEmail(email);
         user.setPassword("111111");
@@ -107,5 +89,6 @@ public class VKAuthorizationController {
         user.setCreatedDate(TimeManager.getTime());
         user.setRole("ROLE_USER");
         userDao.create(user);
+        return new ModelAndView("advertisement/list");
     }
 }
