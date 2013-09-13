@@ -7,9 +7,9 @@
     background: white;
     margin-left: -230px;
     margin-top: -83px;
-    background: url(../images/background_left_bottom.jpg), url(../images/background_right_top.jpg);
-    background-position: left bottom, right top;
-    background-repeat: no-repeat, no-repeat;
+    background-image: url(../images/background_left_bottom.jpg);
+    background-position: left bottom;
+    background-repeat: no-repeat;
 
 }
 
