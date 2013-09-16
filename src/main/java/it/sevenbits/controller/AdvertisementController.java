@@ -11,6 +11,7 @@ import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
+import it.sevenbits.util.captcha.Captcha;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.MailingNewsForm;
@@ -35,16 +36,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Annotated spring controller class
  */
 @Controller
+@SessionAttributes({ "captchaString" })
 @RequestMapping(value = "advertisement")
 public class AdvertisementController {
     private static final Integer DEFAULT_PAGE_SIZE = 10;
@@ -369,11 +369,13 @@ public class AdvertisementController {
         return new ModelAndView("advertisement/placingRequest");
     }
 
-    @RequestMapping(value = "/makeCaptcha.html")
-    public ModelAndView makeCap() {
-        ModelAndView modelAndView = new ModelAndView("advertisement/makeCaptcha");
-        return modelAndView;
+    @RequestMapping(value = "/captcha.jpg", method = RequestMethod.GET)
+    public @ResponseBody byte[] captcha(HttpServletRequest request) {
+        Captcha captcha = Captcha.newCaptcha(120, 60);
+        request.getSession().setAttribute("captchaString", captcha.getCaptchaString());
+        return captcha.getCaptchaData();
     }
+
 
     @RequestMapping(value = "/post.html", method = RequestMethod.GET)
     public ModelAndView post() {

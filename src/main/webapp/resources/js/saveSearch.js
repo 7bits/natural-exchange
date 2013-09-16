@@ -18,7 +18,7 @@ $(document).ready(function() {
     });
     $.fancybox.resize();
     $("#refresh").click( function() {
-        document.getElementById('captcha-img').src = "makeCaptcha.html?id=" + Math.random();
+        document.getElementById('captcha-img').src = "captcha.jpg";
     });
     $("#contact").submit(function() { return false; });
     $("#close").click( function(){

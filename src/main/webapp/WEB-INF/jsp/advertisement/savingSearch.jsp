@@ -6,7 +6,7 @@
                     <input type="email" id="emailSave" name="emailSave" class="mail placeTitle" placeholder="E-mail"/>
                     <div class="say"> Введите, пожалуйста, знаки с картинки, чтобы убедиться, что Вы не робот</div>
                     <div class="capt">
-                        <img id="captcha-img" src='<c:url value="/advertisement/makeCaptcha.html"/>' />
+                        <img id="captcha-img" src='<c:url value="/advertisement/captcha.jpg"/>' />
                         <p><img id="refresh" class="refresh" src='<c:url value="/resources/images/refresh.png"/>' ></p>
                         <input type="text" class="captch-in" maxlength="6" id="captchaInput"/>
                     </div>
