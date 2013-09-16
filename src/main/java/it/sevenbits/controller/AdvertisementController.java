@@ -28,6 +28,7 @@ import javax.annotation.Resource;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import it.sevenbits.util.form.validator.NewsPostingValidator;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -372,6 +373,7 @@ public class AdvertisementController {
     @RequestMapping(value = "/captcha.jpg", method = RequestMethod.GET)
     public @ResponseBody byte[] captcha(HttpServletRequest request) {
         Captcha captcha = Captcha.newCaptcha(120, 60);
+        request.getSession().removeAttribute("captchaString");
         request.getSession().setAttribute("captchaString", captcha.getCaptchaString());
         return captcha.getCaptchaData();
     }
@@ -433,18 +435,24 @@ public class AdvertisementController {
      * @return 0 - if user with that email doesnt exists
      *         1 - if user with that email exists
      */
-    @RequestMapping(value = "/savingSearch.html", method = RequestMethod.GET)
-    @ResponseBody public
-    String getSavingSearchRequest(@RequestParam(value = "wordSearch", required = false) final String keyWordsParam,
-                      @RequestParam(value = "email", required = false) final String emailParam,
-                      @RequestParam(value = "categorySearch", required = false) final String categoriesParam) {
 
-        if (userDao.isExistUserWithEmail(emailParam)) {
-            return "auth";
+    @RequestMapping(value = "/savingSearch.html", method = RequestMethod.POST)
+    public @ResponseBody JSONObject getSavingSearchRequest(@RequestParam(value = "wordSearch", required = false) final String keyWordsParam,
+                      @RequestParam(value = "email", required = false) final String emailParam,
+                      @RequestParam(value = "categorySearch", required = false) final String categoriesParam,
+                      @RequestParam(value = "captcha", required = true) final String userCaptchaText,
+                      @ModelAttribute("captchaString") final String captchaString) {
+        JSONObject resultJson = new JSONObject();
+        if (!userDao.isExistUserWithEmail(emailParam)) {
+            resultJson.put("success","auth");
+        } else if (!userCaptchaText.equals(captchaString)) {
+            resultJson.put("success","captcha");
+        } else {
+            mailSenderService.sendSearchVariant(emailParam, keyWordsParam, categoriesParam);
+            SearchVariant searchVariant = new SearchVariant(emailParam, keyWordsParam, categoriesParam);
+            this.searchVariantDao.create(searchVariant);
+            resultJson.put("success","true");
         }
-        mailSenderService.sendSearchVariant(emailParam, keyWordsParam, categoriesParam);
-        SearchVariant searchVariant = new SearchVariant(emailParam, keyWordsParam, categoriesParam);
-        this.searchVariantDao.create(searchVariant);
-        return "save";
+        return resultJson;
     }
 }

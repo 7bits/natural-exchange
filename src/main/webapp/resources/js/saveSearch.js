@@ -30,14 +30,13 @@ $(document).ready(function() {
         var wordSearch =$(".wordSearch").val();
         var email = $("#emailSave").val();
         var captchaInput = $("#captchaInput").val();
-        var captchaValid = validateCaptcha(captchaInput);
         var mailvalid = validateEmail(email);
         if(mailvalid === false) {
             document.getElementById('message').innerHTML = "Введите корректный e-mail адрес.";
         }
-        else if (captchaInput==="") {
-             document.getElementById('message').innerHTML = "Символы с картинки не верны   ";
-        }
+//        else if (captchaInput==="") {
+//             document.getElementById('message').innerHTML = "Символы с картинки не верны   ";
+//        }
         else if (mailvalid === true) {
             $("#send").replaceWith("отправка...");
             var categorySearch="";
@@ -47,21 +46,20 @@ $(document).ready(function() {
                     var categorySearch=categorySearch+' '+ checkboxes[i].value;
                 }
             }
-            var dataSearch = 'wordSearch='+wordSearch+'&categorySearch='+categorySearch+'&email='+email;
+            var dataSearch = 'wordSearch='+wordSearch+'&categorySearch='+categorySearch+'&email='+email+"&captcha="+captchaInput;
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: '/n-exchange/advertisement/savingSearch.html',
                 data: dataSearch,
-                success: function(data) {
-                    $("#contact").fadeOut("fast", function(){
-                        if (data === "auth") {
-                            document.getElementById("auth").style.display="block";
-                        }
-                        if (data === "save") {
-                            document.getElementById("saving").style.display="block";
-                        }
-                        setTimeout("$.fancybox.close();", 2000);
-                    });
+                success: function(result) {
+                    if(result.success == "true") {
+                        document.getElementById("saving").style.display="block";
+                    } else if (result.success == "captcha") {
+                        document.getElementById('message').innerHTML = "Символы с картинки не верны   ";
+                    } else if (result.success == "auth") {
+                        document.getElementById("auth").style.display="block";
+                    }
+                    setTimeout("$.fancybox.close();", 2000);
                 }
             });
             $("#contact").fadeIn("fast");
