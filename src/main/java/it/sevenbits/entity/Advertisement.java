@@ -54,7 +54,7 @@ public class Advertisement {
         return updatedDate;
     }
 
-    public Boolean getIsDeleted() {
+    public Boolean getIs_deleted() {
         return isDeleted;
     }
 
@@ -86,7 +86,7 @@ public class Advertisement {
         this.updatedDate = updatedDate;
     }
 
-    public void setIsDeleted(final Boolean deleted) {
+    public void setIs_deleted(final Boolean deleted) {
         isDeleted = deleted;
     }
 

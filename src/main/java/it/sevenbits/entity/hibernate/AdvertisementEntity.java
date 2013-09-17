@@ -102,8 +102,8 @@ public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
 
     @Column(name = "is_deleted", nullable = false)
     @Override
-    public Boolean getIsDeleted() {
-        return super.getIsDeleted();
+    public Boolean getIs_deleted() {
+        return super.getIs_deleted();
     }
 
     public void setCategoryEntity(final CategoryEntity categoryEntity) {

@@ -8,6 +8,7 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.security.MyUserDetailsService;
+import it.sevenbits.security.Role;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
@@ -373,7 +374,8 @@ public class AdvertisementController {
     @RequestMapping(value = "/captcha.jpg", method = RequestMethod.GET)
     public @ResponseBody byte[] captcha(HttpServletRequest request) {
         Captcha captcha = Captcha.newCaptcha(120, 60);
-        request.getSession().removeAttribute("captchaString");
+//        request.getSession().setAttribute("captchaString",null);
+//        request.getSession().invalidate();
         request.getSession().setAttribute("captchaString", captcha.getCaptchaString());
         return captcha.getCaptchaData();
     }
@@ -441,7 +443,8 @@ public class AdvertisementController {
                       @RequestParam(value = "email", required = false) final String emailParam,
                       @RequestParam(value = "categorySearch", required = false) final String categoriesParam,
                       @RequestParam(value = "captcha", required = true) final String userCaptchaText,
-                      @ModelAttribute("captchaString") final String captchaString) {
+                      @ModelAttribute("captchaString") final String captchaString,
+                      HttpServletRequest request) {
         JSONObject resultJson = new JSONObject();
         if (!userDao.isExistUserWithEmail(emailParam)) {
             resultJson.put("success","auth");
@@ -454,5 +457,17 @@ public class AdvertisementController {
             resultJson.put("success","true");
         }
         return resultJson;
+    }
+
+    @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
+    public String posting(@RequestParam(value = "id", required = true) final Long advertisementId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails user = (UserDetails) principal;
+        //Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+        if(user.getAuthorities().contains(Role.createModeratorRole())) {
+            this.advertisementDao.setDeleted(advertisementId);
+        }
+        //if((email.equals(advertisement.getUser().getEmail())))
+        return "redirect:/advertisement/list.html";
     }
 }

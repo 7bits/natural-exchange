@@ -6,7 +6,7 @@
             <sec:authorize ifAnyGranted="ROLE_ADMIN">
                 <a href="<c:url value='/advertisement/post.html'/>" > Рассылка новостей.</a>
             </sec:authorize>
-            <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER" >
+            <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR" >
                 <a href="<c:url value="/user/logout.html"/>" > Выйти </a>
             </sec:authorize>
         </div>

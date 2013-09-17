@@ -74,4 +74,6 @@ public interface AdvertisementDao {
      * @param advertisement  to delete
      */
     void delete(Advertisement advertisement);
+
+    void setDeleted(Long id);
 }

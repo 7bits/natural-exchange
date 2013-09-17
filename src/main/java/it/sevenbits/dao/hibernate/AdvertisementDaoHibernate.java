@@ -52,7 +52,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         tmp.setCreatedDate(advertisement.getCreatedDate());
         tmp.setPhotoFile(advertisement.getPhotoFile());
         tmp.setText(advertisement.getText());
-        tmp.setIsDeleted(advertisement.getIsDeleted());
+        tmp.setIs_deleted(advertisement.getIs_deleted());
         tmp.setUpdatedDate(advertisement.getUpdatedDate());
         return tmp;
     }
@@ -102,7 +102,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 //
                 break;
         }
-
+        criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
@@ -209,6 +209,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 criteria.add(Restrictions.like("title", "%" + keyWords[i] + "%"));
             }
         }
+        criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
@@ -222,5 +223,12 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             }
         }
         return advertisementList;
+    }
+
+    @Override
+    public void setDeleted(Long id) {
+        AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
+        advertisementEntity.setIs_deleted(true);
+        hibernateTemplate.update(advertisementEntity);
     }
 }

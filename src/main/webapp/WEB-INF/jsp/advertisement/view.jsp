@@ -82,6 +82,14 @@
                     </c:url>
                     <a href='${placingLike}'> Тык! </a>
                 </div>
+                <div>
+                    <c:url value="/advertisement/delete.html" var="delete">
+                        <c:param name="id" value="${currentId}"/>
+                    </c:url>
+                    <sec:authorize ifAnyGranted="ROLE_MODERATOR">
+                        <a href='${delete}' > Удалить</a>
+                    </sec:authorize>
+                </div>
                 <div id="vk_like_1"></div>
                 <script type="text/javascript">
                     VK.Widgets.Like("vk_like_1", {type: "full"});
