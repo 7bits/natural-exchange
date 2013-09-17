@@ -22,6 +22,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -54,6 +55,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         tmp.setText(advertisement.getText());
         tmp.setIs_deleted(advertisement.getIs_deleted());
         tmp.setUpdatedDate(advertisement.getUpdatedDate());
+        tmp.setIs_new(advertisement.getIs_new());
         return tmp;
     }
 
@@ -103,6 +105,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 break;
         }
         criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
+        criteria.add(Restrictions.eq("is_new", Boolean.FALSE));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
@@ -129,7 +132,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         String sortByName = (sortPropertyName == null)
                 ? Advertisement.CREATED_DATE_COLUMN_CODE
                 : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
-                ;
+        ;
         List<AdvertisementEntity> lst = null;
         String sortTypeForNamedQueryName = null;
         String sortByTargetForNamedQueryName = null;
@@ -210,6 +213,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             }
         }
         criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
+        criteria.add(Restrictions.eq("is_new", Boolean.FALSE));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
@@ -230,5 +234,50 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
         advertisementEntity.setIs_deleted(true);
         hibernateTemplate.update(advertisementEntity);
+    }
+
+    @Override
+    public List<Advertisement> findAllAdvertisementsWithKeyWordsOrderBy(
+            String[] keyWords,
+            SortOrder sortOrder,
+            String sortPropertyName,
+            Boolean isDeleted,
+            Boolean isNew
+    ) {
+        String sortByName = (sortPropertyName == null)
+                ? Advertisement.CREATED_DATE_COLUMN_CODE
+                : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
+        ;
+        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
+        switch (sortOrder) {
+            case ASCENDING :
+                criteria.addOrder(Order.asc(sortByName));
+                break;
+            case DESCENDING :
+                criteria.addOrder(Order.desc(sortByName));
+                break;
+            default:
+                //
+                break;
+        }
+        if (keyWords != null) {
+            for (int i = 0; i < keyWords.length; i++) {
+                criteria.add(Restrictions.like("title", "%" + keyWords[i] + "%"));
+            }
+        }
+        if(!isDeleted && !isNew) {
+            return Collections.emptyList();
+        } else if(!isDeleted && isNew) {
+            criteria.add(Restrictions.eq("is_new", Boolean.TRUE));
+        } else if (isDeleted && !isNew) {
+            criteria.add(Restrictions.eq("is_new", Boolean.FALSE));
+            criteria.add(Restrictions.eq("is_deleted", Boolean.TRUE));
+        } else if (isDeleted && isNew) {
+            Disjunction disjunction = Restrictions.disjunction();
+            disjunction.add(Restrictions.eq("is_new", Boolean.TRUE));
+            disjunction.add(Restrictions.eq("is_deleted", Boolean.TRUE));
+            criteria.add(disjunction);
+        }
+        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 }

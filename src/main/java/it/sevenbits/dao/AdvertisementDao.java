@@ -63,6 +63,12 @@ public interface AdvertisementDao {
                                                                             final String[] keyWords,
                                                                             final SortOrder sortOrder,
                                                                             final String sortPropertyName);
+
+    List<Advertisement> findAllAdvertisementsWithKeyWordsOrderBy(final String[] keyWords,
+                                                                 final SortOrder sortOrder,
+                                                                 final String sortPropertyName,
+                                                                 final Boolean isDeleted,
+                                                                 final Boolean isNew);
     /**
      * Change advertisement
      * @param advertisement advertisement to update

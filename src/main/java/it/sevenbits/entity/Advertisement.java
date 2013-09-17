@@ -22,6 +22,7 @@ public class Advertisement {
     private Long createdDate;
     private Long updatedDate;
     private Boolean isDeleted;
+    private Boolean isNew;
     private User user;
     private Category category;
 
@@ -32,6 +33,7 @@ public class Advertisement {
         createdDate = TimeManager.getTime();
         updatedDate = 0L;
         isDeleted = false;
+        isNew = true;
     }
 
     public String getTitle() {
@@ -74,6 +76,14 @@ public class Advertisement {
         this.text = text;
     }
 
+    public Boolean getIs_new() {
+        return isNew;
+    }
+
+    public void setIs_new(Boolean isNew) {
+        isNew = isNew;
+    }
+
     public void setPhotoFile(final String photoFile) {
         this.photoFile = photoFile;
     }
@@ -107,38 +117,37 @@ public class Advertisement {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Advertisement that = (Advertisement) o;
 
-        if (!category.equals(that.category)) {
+        if (category != null ? !category.equals(that.category) : that.category != null) {
             return false;
         }
-        if (!createdDate.equals(that.createdDate)) {
+        if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) {
             return false;
         }
-        if (!isDeleted.equals(that.isDeleted)) {
+        if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) {
             return false;
         }
-        if (!photoFile.equals(that.photoFile)) {
+        if (isNew != null ? !isNew.equals(that.isNew) : that.isNew != null) {
             return false;
         }
-        if (!text.equals(that.text)) {
+        if (photoFile != null ? !photoFile.equals(that.photoFile) : that.photoFile != null) {
             return false;
         }
-        if (!title.equals(that.title)) {
+        if (text != null ? !text.equals(that.text) : that.text != null) {
             return false;
         }
-        if (!updatedDate.equals(that.updatedDate)) {
+        if (title != null ? !title.equals(that.title) : that.title != null) {
             return false;
         }
-        if (!user.equals(that.user)) {
+        if (updatedDate != null ? !updatedDate.equals(that.updatedDate) : that.updatedDate != null) {
+            return false;
+        }
+        if (user != null ? !user.equals(that.user) : that.user != null) {
             return false;
         }
 
@@ -147,14 +156,15 @@ public class Advertisement {
 
     @Override
     public int hashCode() {
-        int result = title.hashCode();
-        result = 31 * result + text.hashCode();
-        result = 31 * result + photoFile.hashCode();
-        result = 31 * result + createdDate.hashCode();
-        result = 31 * result + updatedDate.hashCode();
-        result = 31 * result + isDeleted.hashCode();
-        result = 31 * result + user.hashCode();
-        result = 31 * result + category.hashCode();
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + (photoFile != null ? photoFile.hashCode() : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + (updatedDate != null ? updatedDate.hashCode() : 0);
+        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isNew != null ? isNew.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;
     }
 }

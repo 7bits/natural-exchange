@@ -97,13 +97,6 @@ public class AdvertisementController {
             final MailingNewsForm mailingNewsFormParam, final BindingResult bindingResult)
             throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
-
-//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("bandit@gmail.com", "111");
-//        UserDetails usrDet = myUserDetailsService.loadUserByUsername("bandit@gmail.com");
-//        token.setDetails(usrDet);
-//        SecurityContext context = SecurityContextHolder.getContext();
-//        context.setAuthentication(token);
-
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setAll();
         String[] selectedCategories = advertisementSearchingFormParam.getCategories();
@@ -202,6 +195,7 @@ public class AdvertisementController {
         modelAndView.addObject("pageSize", pageSize);
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
+
         if (mailingNewsFormParam.getEmailNews() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
             if (!bindingResult.hasErrors()) {
@@ -269,6 +263,125 @@ public class AdvertisementController {
      *
      * @return jsp-page with advertisement information
      */
+
+    @RequestMapping(value = "/moderator/list.html", method = RequestMethod.GET)
+    public ModelAndView moderatorListGet() {
+        ModelAndView modelAndView = new ModelAndView("advertisement/listModerator");
+        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+        advertisementSearchingForm.setCategories(new String[]{"new","delete"});
+        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
+        List<Advertisement> advertisements;
+        advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(null, SortOrder.ASCENDING, null, true, true);
+        PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
+        pageList.setSource(advertisements);
+        int pageSize;
+        pageSize = defaultPageSize();
+        pageList.setPageSize(pageSize);
+        int noOfPage = pageList.getPageCount();
+        int currentPage = 0;
+        pageList.setPage(currentPage);
+        modelAndView.addObject("advertisements", pageList.getPageList());
+        modelAndView.addObject("defaultPageSize", defaultPageSize());
+        modelAndView.addObject("noOfPage", noOfPage);
+        modelAndView.addObject("currentPage", currentPage);
+        modelAndView.addObject("pageSize", pageSize);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/moderator/list.html", method = RequestMethod.POST)
+    public ModelAndView moderatorListPost(@RequestParam(value = "sortedBy", required = false)final String sortByNameParam,
+                                          @RequestParam(value = "sortOrder", required = false)final String sortOrderParam,
+                                          @RequestParam(value = "currentPage", required = false)final Integer currentPageParam,
+                                          @RequestParam(value = "pageSize", required = false)final Integer pageSizeParam,
+                                          final AdvertisementSearchingForm advertisementSearchingFormParam) {
+        ModelAndView modelAndView = new ModelAndView("advertisement/listModerator");
+        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+
+        String[] selectedCategories = advertisementSearchingFormParam.getCategories();
+
+        advertisementSearchingForm.setCategories(selectedCategories);
+        advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
+
+        String currentColumn;
+        SortOrder currentSortOrder;
+        if (sortByNameParam == null) {
+            currentColumn = Advertisement.CREATED_DATE_COLUMN_CODE;
+            currentSortOrder = SortOrder.DESCENDING;
+        } else  {
+            //TODO: check matching with columns
+            currentColumn = sortByNameParam;
+            if (sortOrderParam == null) {
+                currentSortOrder = SortOrder.ASCENDING;
+            } else {
+                try {
+                    currentSortOrder = SortOrder.valueOf(sortOrderParam);
+                } catch (IllegalArgumentException e) {
+                    currentSortOrder = SortOrder.NONE;
+                }
+            }
+        }
+        SortOrder newSortOrder = SortOrder.getViceVersa(currentSortOrder);
+        if (currentColumn.equals(Advertisement.TITLE_COLUMN_CODE)) {
+            modelAndView.addObject("sortedByTitle", Advertisement.TITLE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderTitle", newSortOrder.toString());
+            modelAndView.addObject("sortedByDate", Advertisement.CREATED_DATE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderDate", SortOrder.ASCENDING.toString());
+        } else {
+            modelAndView.addObject("sortedByTitle", Advertisement.TITLE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderTitle", SortOrder.ASCENDING.toString());
+            modelAndView.addObject("sortedByDate", Advertisement.CREATED_DATE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderDate", newSortOrder.toString());
+        }
+        List<Advertisement> advertisements;
+        if(selectedCategories.length == 2) {
+            advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
+                    stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
+                    currentSortOrder, currentColumn, true, true
+            );
+        } else if (selectedCategories.length == 1) {
+            if(selectedCategories[0].equals("new")) {
+                advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
+                        stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
+                        currentSortOrder, currentColumn, false, true
+                );
+            } else {
+                advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
+                        stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
+                        currentSortOrder, currentColumn, true, false
+                );
+            }
+        } else {
+            advertisements = Collections.EMPTY_LIST;
+        }
+        PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
+        pageList.setSource(advertisements);
+        int pageSize;
+        if (pageSizeParam == null) {
+            pageSize = defaultPageSize();
+        } else {
+            pageSize = pageSizeParam.intValue();
+        }
+        pageList.setPageSize(pageSize);
+        int noOfPage = pageList.getPageCount();
+        int currentPage;
+        if (currentPageParam == null || currentPageParam >= noOfPage) {
+            currentPage = 0;
+        } else {
+            currentPage = currentPageParam.intValue();
+        }
+        pageList.setPage(currentPage);
+        modelAndView.addObject("advertisements", pageList.getPageList());
+        modelAndView.addObject("defaultPageSize", defaultPageSize());
+        modelAndView.addObject("noOfPage", noOfPage);
+        modelAndView.addObject("currentPage", currentPage);
+        modelAndView.addObject("pageSize", pageSize);
+        modelAndView.addObject("currentColumn", currentColumn);
+        modelAndView.addObject("currentSortOrder", currentSortOrder);
+        modelAndView.addObject("currentCategory", stringArrayToString(selectedCategories));
+        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/view.html", method = RequestMethod.GET)
     public ModelAndView view(@RequestParam(value = "id", required = true) final Long id,
                              @RequestParam(value = "currentCategory", required = true) final String currentCategory,
