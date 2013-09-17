@@ -16,7 +16,7 @@
             </a>
         </div>
         <div id=lk>
-            <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER" >
+            <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR" >
                 <div class="entry">
                     <sec:authentication property="principal.username"/>
                 </div>
