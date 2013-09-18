@@ -4,7 +4,7 @@
     <c:url  value="/advertisement/moderator/list.html" var="listPage">
         <c:param name="currentCategory" value="${currentCategory}"/>
     </c:url>
-    <form:form method="POST" action="${listPage}" commandName="advertisementSearchingForm">
+    <form:form method="GET" action="${listPage}" commandName="advertisementSearchingForm">
             <input type="hidden" name="sortedBy" value="${currentColumn}"/>
             <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
             <input type="hidden" name="pageSize" value="${pageSize}"/>

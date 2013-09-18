@@ -264,44 +264,63 @@ public class AdvertisementController {
      * @return jsp-page with advertisement information
      */
 
-    @RequestMapping(value = "/moderator/list.html", method = RequestMethod.GET)
-    public ModelAndView moderatorListGet() {
-        ModelAndView modelAndView = new ModelAndView("advertisement/listModerator");
-        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
-        advertisementSearchingForm.setCategories(new String[]{"new","delete"});
-        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
-        List<Advertisement> advertisements;
-        advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(null, SortOrder.ASCENDING, null, true, true);
-        PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
-        pageList.setSource(advertisements);
-        int pageSize;
-        pageSize = defaultPageSize();
-        pageList.setPageSize(pageSize);
-        int noOfPage = pageList.getPageCount();
-        int currentPage = 0;
-        pageList.setPage(currentPage);
-        modelAndView.addObject("advertisements", pageList.getPageList());
-        modelAndView.addObject("defaultPageSize", defaultPageSize());
-        modelAndView.addObject("noOfPage", noOfPage);
-        modelAndView.addObject("currentPage", currentPage);
-        modelAndView.addObject("pageSize", pageSize);
-        return modelAndView;
-    }
+//    @RequestMapping(value = "/moderator/list.html", method = RequestMethod.GET)
+//    public ModelAndView moderatorListGet() {
+//        ModelAndView modelAndView = new ModelAndView("advertisement/listModerator");
+//        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+//        advertisementSearchingForm.setCategories(new String[]{"new","delete"});
+//        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
+//        List<Advertisement> advertisements;
+//        advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(null, SortOrder.ASCENDING, null, true, true);
+//        PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
+//        pageList.setSource(advertisements);
+//        int pageSize;
+//        pageSize = defaultPageSize();
+//        pageList.setPageSize(pageSize);
+//        int noOfPage = pageList.getPageCount();
+//        int currentPage = 0;
+//        pageList.setPage(currentPage);
+//        modelAndView.addObject("advertisements", pageList.getPageList());
+//        modelAndView.addObject("defaultPageSize", defaultPageSize());
+//        modelAndView.addObject("noOfPage", noOfPage);
+//        modelAndView.addObject("currentPage", currentPage);
+//        modelAndView.addObject("pageSize", pageSize);
+//        return modelAndView;
+//    }
 
-    @RequestMapping(value = "/moderator/list.html", method = RequestMethod.POST)
-    public ModelAndView moderatorListPost(@RequestParam(value = "sortedBy", required = false)final String sortByNameParam,
-                                          @RequestParam(value = "sortOrder", required = false)final String sortOrderParam,
-                                          @RequestParam(value = "currentPage", required = false)final Integer currentPageParam,
-                                          @RequestParam(value = "pageSize", required = false)final Integer pageSizeParam,
-                                          final AdvertisementSearchingForm advertisementSearchingFormParam) {
+
+
+    @RequestMapping(value = "/moderator/list.html", method = RequestMethod.GET)
+    public ModelAndView moderatorList(@RequestParam(value = "sortedBy", required = false)final String sortByNameParam,
+                                      @RequestParam(value = "sortOrder", required = false)final String sortOrderParam,
+                                      @RequestParam(value = "currentPage", required = false)final Integer currentPageParam,
+                                      @RequestParam(value = "pageSize", required = false)final Integer pageSizeParam,
+                                      @RequestParam(value = "currentCategory", required = false)final String currentCategoryParam,
+                                      @RequestParam(value = "currentKeyWords", required = false)final String keyWordsParam,
+                                      final AdvertisementSearchingForm advertisementSearchingFormParam) {
         ModelAndView modelAndView = new ModelAndView("advertisement/listModerator");
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
 
         String[] selectedCategories = advertisementSearchingFormParam.getCategories();
-
+        String[] currentCategories;
         advertisementSearchingForm.setCategories(selectedCategories);
         advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
 
+        if (currentCategoryParam == null) { //запуск пустой страницы
+            advertisementSearchingForm.setCategories(new String[]{"new","delete"});
+            currentCategories = advertisementSearchingForm.getCategories();
+        } else {
+            //Пришли параметры от формы выбора поиска
+            if (selectedCategories != null) {
+                currentCategories = selectedCategories;
+            } else { //От какогото другого элемента
+                currentCategories = stringToTokensArray(currentCategoryParam);
+            }
+            advertisementSearchingForm.setCategories(currentCategories);
+            advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
+        }
+        modelAndView.addObject("currentCategory", stringArrayToString(currentCategories));
+        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
         String currentColumn;
         SortOrder currentSortOrder;
         if (sortByNameParam == null) {
@@ -333,13 +352,13 @@ public class AdvertisementController {
             modelAndView.addObject("sortOrderDate", newSortOrder.toString());
         }
         List<Advertisement> advertisements;
-        if(selectedCategories.length == 2) {
+        if (currentCategories.length == 2) {
             advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
                     stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
                     currentSortOrder, currentColumn, true, true
             );
-        } else if (selectedCategories.length == 1) {
-            if(selectedCategories[0].equals("new")) {
+        } else if (currentCategories.length == 1) {
+            if (currentCategories[0].equals("new")) {
                 advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
                         stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
                         currentSortOrder, currentColumn, false, true
@@ -377,8 +396,6 @@ public class AdvertisementController {
         modelAndView.addObject("pageSize", pageSize);
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
-        modelAndView.addObject("currentCategory", stringArrayToString(selectedCategories));
-        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
         return modelAndView;
     }
 
@@ -387,6 +404,7 @@ public class AdvertisementController {
                              @RequestParam(value = "currentCategory", required = true) final String currentCategory,
                              final MailingNewsForm mailingNewsFormParam, final BindingResult bindingResult
     ) {
+        //TODO: need to control viewing of deleted and new advertisement
         ModelAndView modelAndView = new ModelAndView("advertisement/view");
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setCategories(stringToTokensArray(currentCategory));

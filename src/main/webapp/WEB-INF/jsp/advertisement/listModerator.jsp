@@ -49,7 +49,7 @@
                             <th class="date">
 
                                 <%--<c:set var="sortDate" value="${!sortDate}"/> --%>
-                                <c:url value="/advertisement/list.html" var="dateSortingUrl">
+                                <c:url value="/advertisement/moderator/list.html" var="dateSortingUrl">
                                     <c:param name="sortedBy" value="${sortedByDate}"/>
                                     <c:param name="sortOrder" value="${sortOrderDate}"/>
                                     <c:param name="pageSize" value="${pageSize}"/>
@@ -72,7 +72,7 @@
                             </th>
                             <th class="title">
                                 <%--<c:set var="sortTitle" value="${!sortTitle}"/> --%>
-                                <c:url value="/advertisement/list.html" var="titleSortingUrl">
+                                <c:url value="/advertisement/moderator/list.html" var="titleSortingUrl">
                                     <c:param name="sortedBy" value="${sortedByTitle}"/>
                                     <c:param name="sortOrder" value="${sortOrderTitle}"/>
                                     <c:param name="pageSize" value="${pageSize}"/>
@@ -173,7 +173,7 @@
                 <%--               текущая страница: <em><c:out value="${currentPage}"/></em> --%>
                     <div class="pagination2">
                         <c:if test="${currentPage!=0}">
-                            <c:url  value="/advertisement/list.html" var="prevPageUrl">
+                            <c:url  value="/advertisement/moderator/list.html" var="prevPageUrl">
                                 <c:param name="pageSize" value="${pageSize}"/>
                                 <c:param name="currentPage" value="${currentPage-1}"/>
                                 <c:param name="sortOrder" value="${currentSortOrder}"/>
@@ -187,7 +187,7 @@
                             <c:when test="${currentPage==0}">
                                 <span class="act"> 1 </span>
                                 <c:if test="${noOfPage>1}">
-                                    <c:url value="/advertisement/list.html" var="pageUrl" >
+                                    <c:url value="/advertisement/moderator/list.html" var="pageUrl" >
                                         <c:param name="pageSize" value="${pageSize}"/>
                                         <c:param name="sortOrder" value="${currentSortOrder}"/>
                                         <c:param name="sortedBy" value="${currentColumn}"/>
@@ -201,7 +201,7 @@
                                     <span class="number"> ... </span>
                                 </c:if>
                                 <c:if test="${noOfPage>2}">
-                                    <c:url value="/advertisement/list.html" var="pageUrl" >
+                                    <c:url value="/advertisement/moderator/list.html" var="pageUrl" >
                                         <c:param name="pageSize" value="${pageSize}"/>
                                         <c:param name="sortOrder" value="${currentSortOrder}"/>
                                         <c:param name="sortedBy" value="${currentColumn}"/>
@@ -213,7 +213,7 @@
                                 </c:if>
                             </c:when>
                             <c:otherwise>
-                                <c:url value="/advertisement/list.html" var="pageUrl" >
+                                <c:url value="/advertisement/moderator/list.html" var="pageUrl" >
                                     <c:param name="pageSize" value="${pageSize}"/>
                                     <c:param name="sortOrder" value="${currentSortOrder}"/>
                                     <c:param name="sortedBy" value="${currentColumn}"/>
@@ -229,7 +229,7 @@
                                             <span class="number"> ... </span>
                                         </c:if>
                                         <c:if test="${noOfPage>2}">
-                                            <c:url value="/advertisement/list.html" var="pageUrl" >
+                                            <c:url value="/advertisement/moderator/list.html" var="pageUrl" >
                                                 <c:param name="pageSize" value="${pageSize}"/>
                                                 <c:param name="sortOrder" value="${currentSortOrder}"/>
                                                 <c:param name="sortedBy" value="${currentColumn}"/>
@@ -250,7 +250,7 @@
                                                 <c:if test="${currentPage!=(noOfPage-2)}">
                                                     <span class="number"> ... </span>
                                                 </c:if>
-                                                <c:url value="/advertisement/list.html" var="pageUrl" >
+                                                <c:url value="/advertisement/moderator/list.html" var="pageUrl" >
                                                     <c:param name="pageSize" value="${pageSize}"/>
                                                     <c:param name="sortOrder" value="${currentSortOrder}"/>
                                                     <c:param name="sortedBy" value="${currentColumn}"/>
@@ -261,7 +261,7 @@
                                                 <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
                                             </c:when>
                                             <c:otherwise>
-                                                <c:url value="/advertisement/list.html" var="pageUrl" >
+                                                <c:url value="/advertisement/moderator/list.html" var="pageUrl" >
                                                     <c:param name="pageSize" value="${pageSize}"/>
                                                     <c:param name="sortOrder" value="${currentSortOrder}"/>
                                                     <c:param name="sortedBy" value="${currentColumn}"/>
@@ -278,7 +278,7 @@
                             </c:otherwise>
                         </c:choose>
                         <c:if test="${currentPage < (noOfPage-1)}">
-                            <c:url  value="/advertisement/list.html" var="nextPageUrl">
+                            <c:url  value="/advertisement/moderator/list.html" var="nextPageUrl">
                                 <c:param name="pageSize" value="${pageSize}"/>
                                 <c:param name="currentPage" value="${currentPage+1}"/>
                                 <c:param name="sortOrder" value="${currentSortOrder}"/>

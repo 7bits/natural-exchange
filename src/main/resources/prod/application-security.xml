@@ -19,7 +19,7 @@
         <security:intercept-url pattern="/advertisement/placing*.*" access="ROLE_USER, ROLE_ADMIN" />
         <security:intercept-url pattern='/advertisement/view*' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'  />
         <security:intercept-url pattern='/advertisement/list.*' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'  />
-        <security:intercept-url pattern='/advertisement/makeCaptcha.html' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'  />
+        <security:intercept-url pattern='/advertisement/moderator.*' access='ROLE_MODERATOR'  />
         <security:intercept-url pattern="/user/auth*" access="ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY" />
         <security:intercept-url pattern="/user/**" access="ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY" />
 

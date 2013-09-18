@@ -32,7 +32,7 @@ public class Advertisement {
     public Advertisement() {
         createdDate = TimeManager.getTime();
         updatedDate = 0L;
-        //isDeleted = false;
+        isDeleted = false;
         isNew = true;
     }
 
