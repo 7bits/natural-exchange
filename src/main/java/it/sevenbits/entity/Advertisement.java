@@ -32,7 +32,7 @@ public class Advertisement {
     public Advertisement() {
         createdDate = TimeManager.getTime();
         updatedDate = 0L;
-        isDeleted = false;
+        //isDeleted = false;
         isNew = true;
     }
 
@@ -80,8 +80,8 @@ public class Advertisement {
         return isNew;
     }
 
-    public void setIs_new(Boolean isNew) {
-        isNew = isNew;
+    public void setIs_new(final Boolean _isNew) {
+        isNew = _isNew;
     }
 
     public void setPhotoFile(final String photoFile) {
