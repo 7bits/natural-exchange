@@ -11,12 +11,10 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
     </head>
     <body>
-    <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
+        <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
-            <a href="<c:url value="/advertisement/list.html" />">
-                Главная
-            </a><br/>
-            <c:out value = "${message}" />
+            Либо Вашего профиля еще нет, либо он уже аннулирован (просрочена дата). Но это еще не конец света,
+            попробуйте зарегистрироваться у нас еще раз. Мы будем рады!
         </div>
         <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
     </body>

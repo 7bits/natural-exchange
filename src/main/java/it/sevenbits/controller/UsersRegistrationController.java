@@ -4,6 +4,7 @@ import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
+import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.UserRegistrationForm;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import it.sevenbits.util.TimeManager;
 import javax.annotation.Resource;
@@ -30,7 +33,9 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping(value = "user")
 public class UsersRegistrationController {
-
+    public static final String ERROR_NOT_REGISTERED = "Такой пользователь не зарегистрирован в системе";
+    public static final int REGISTRATION_PERIOD = 3;
+    public static final String REGISTRATION_SUCCESS = "Вы успешно завершили регистрацию на нашем сайте!";
     /**
      *
      */
@@ -61,9 +66,8 @@ public class UsersRegistrationController {
     }
 
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
-    public ModelAndView registrationRequestForm(
-            final UserRegistrationForm userRegistrationFormParam, final BindingResult result
-    ) {
+    public ModelAndView registrationRequestForm(final UserRegistrationForm userRegistrationFormParam,
+                                                final BindingResult result) {
         userRegistrationValidator.validate(userRegistrationFormParam, result);
         if (result.hasErrors()) {
             return new ModelAndView("user/registration");
@@ -84,14 +88,61 @@ public class UsersRegistrationController {
                 this.subscriberDao.create(subscriber);
             }
         }
+        user.setActivationDate(TimeManager.addDate(REGISTRATION_PERIOD));
+        Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
+        String code = md5encoder.encodePassword(user.getPassword(), user.getEmail() );
+        user.setActivationCode(code);
         this.userDao.create(user);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(),
-                user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        ModelAndView modelAndView = new ModelAndView("user/registrationRequest");
-        modelAndView.addObject("advertisementSearchingForm", new AdvertisementSearchingForm());
-        MailingNewsForm mailingNewsForm = new MailingNewsForm();
-        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+        MailSenderService mailSenderService = new MailSenderService();
+        mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
+        ModelAndView modelAndView = new ModelAndView("user/regUserLink");
         return  modelAndView;
     }
+
+    @RequestMapping(value = "/loginRes.html", method = RequestMethod.GET)
+    public ModelAndView loginRes() {
+        return new ModelAndView("user/loginRes");
+    }
+
+    @RequestMapping(value = "/regUserLink.html", method = RequestMethod.GET)
+    public ModelAndView regUserLink() {
+        return new ModelAndView("user/regUserLink");
+    }
+
+    boolean checkRegistrationLink(final User user, final  String code) {
+        if (user == null) {
+              return false;
+        }
+        if (TimeManager.getTime() >  user.getActivationDate()) {
+            return false;
+        }
+        if (!code.equals(user.getActivationCode())) {
+            logger.info("check not passed: code not equals");
+            return  false;
+        }
+        return true;
+    }
+    @RequestMapping(value = "/magic.html", method = RequestMethod.GET)
+    public ModelAndView magicPage(@RequestParam(value = "code", required = true) final String codeParam,
+                                  @RequestParam(value = "mail", required = true) final String mailParam) {
+        User user = this.userDao.findUserByEmail(mailParam);
+        if (checkRegistrationLink(user, codeParam)) {
+            this.userDao.updateActivationCode(user);
+            return  new ModelAndView("user/loginRes");
+        } else {
+            return new ModelAndView("user/conf_failed");
+        }
+    }
+
+    @RequestMapping(value = "/conf_failed.html", method = RequestMethod.GET)
+    public ModelAndView confirmProfileFailed() {
+        return new ModelAndView("user/conf_failed");
+    }
+
+    @RequestMapping(value = "/logout.html", method = RequestMethod.GET)
+    public ModelAndView logout() {
+        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+        return new ModelAndView("advertisement/list");
+    }
+
 }

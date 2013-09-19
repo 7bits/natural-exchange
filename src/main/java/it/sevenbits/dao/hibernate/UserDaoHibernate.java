@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,7 @@ public class UserDaoHibernate implements UserDao {
     private HibernateTemplate hibernateTemplate;
 
     @Autowired
-    public UserDaoHibernate(final SessionFactory sessionFactory) {
+    public UserDaoHibernate(@Qualifier("sessionFactory") final SessionFactory sessionFactory) {
         this.hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
 

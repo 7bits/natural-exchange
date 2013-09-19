@@ -11,10 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * controller makes page for logout
  */
+
+/*
 @Controller
 public class UserLogoutController {
 
-    @RequestMapping(value = "q/user/logout.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/logout.html", method = RequestMethod.GET)
     public ModelAndView helloWorld() {
 
         SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
@@ -22,3 +24,4 @@ public class UserLogoutController {
     }
 
 }
+  */

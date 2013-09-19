@@ -6,17 +6,12 @@
 <!doctype html>
 <html lang="ru">
     <head>
-        <title>Регистрация - 2</title>
+        <title>Активация профиля</title>
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
     </head>
     <body>
-        <header class="centerTop">
-            <div id=logotype>
-                <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
-            </div>
-            <div id=lk> </div>
-        </header>
+    <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
             <a href="<c:url value="/advertisement/list.html" />">
                 Главная

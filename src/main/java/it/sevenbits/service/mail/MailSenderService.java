@@ -92,7 +92,7 @@ public class MailSenderService {
 
     public void sendRegisterMail(final String to, final String code) {
         MailSenderService mailService = getMailService();
-        String link = getDomen() + "/user/magic.html?user=" + code + "&mail=" + to;
+        String link = getDomen() + "/user/magic.html?code=" + code + "&mail=" + to;
         String text = THANKS_FOR_REGISTRATION + link;
         String title = "регистрация на сайте";
         mailService.sendMail(SERVICE_MAILBOX, to, title, text);

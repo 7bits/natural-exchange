@@ -33,7 +33,7 @@
                 <section>
                     <p class="pSay"> Поля, отмеченные звездочкой обязательны для заполнения </p>
                     <div class="places">
-                        <div class="left"><label for="e1">E-mail:<span class="star">*</span></div>
+                        <div class="left"><label for="e1">E-mail:<span class="star">*</span></label> </div>
                         <div class="right"><form:input id="e1" type="text" path="email" class="placeTitle" /></div>
                         <span class="error2"><form:errors path="email" /> </span>
                     </div>
