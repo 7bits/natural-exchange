@@ -10,7 +10,7 @@
                         <p><img id="refresh" class="refresh" src='<c:url value="/resources/images/refresh.png"/>' ></p>
                         <input type="text" class="captch-in" maxlength="6" id="captchaInput"/>
                     </div>
-                    <div id="message">  </div>
+                    <div class="message">  </div>
                     <div class="buttonArea">
                         <button id="close" class="close"> Отмена </button>
                         <button id="send" class="sendOk">Готово</button>

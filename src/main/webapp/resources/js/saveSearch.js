@@ -22,28 +22,32 @@ $(document).ready(function() {
     });
     $("#contact").submit(function() { return false; });
     $("#close").click( function(){
+        $("#captchaInput").val("");
+        $("#emailSave").val("");
+        $('.message').empty();
+        document.getElementById("saving").style.display="none";
+        document.getElementById("auth").style.display="none";
         $.fancybox.close();
     });
     $("#send").click( function(e){
         e.preventDefault();
-        document.getElementById('message').innerHTML = "";
         var wordSearch =$(".wordSearch").val();
         var email = $("#emailSave").val();
         var captchaInput = $("#captchaInput").val();
         var mailvalid = validateEmail(email);
         if(mailvalid === false) {
-            document.getElementById('message').innerHTML = "Введите корректный e-mail адрес.";
+            $('.message').text("Введите корректный e-mail адрес.");
         }
 //        else if (captchaInput==="") {
 //             document.getElementById('message').innerHTML = "Символы с картинки не верны   ";
 //        }
         else if (mailvalid === true) {
-            $("#send").replaceWith("отправка...");
-            var categorySearch="";
+            $(".message").text("отправка... ");
+            var categorySearch = "";
             var checkboxes = document.getElementsByName('categories');
             for (var i = 0, length = checkboxes.length; i < length; i++) {
                 if (checkboxes[i].checked)  {
-                    var categorySearch=categorySearch+' '+ checkboxes[i].value;
+                    var categorySearch = categorySearch+' '+ checkboxes[i].value;
                 }
             }
             var dataSearch = 'wordSearch='+wordSearch+'&categorySearch='+categorySearch+'&email='+email+"&captcha="+captchaInput;
@@ -54,17 +58,24 @@ $(document).ready(function() {
                 success: function(result) {
                     if(result.success == "true") {
                         document.getElementById("saving").style.display="block";
+                        setTimeout("$.fancybox.close();", 500);
+                        setTimeout(function() {
+                            $("#captchaInput").val("");
+                            $("#emailSave").val("");
+                            $('.message').empty();
+                            document.getElementById("saving").style.display="none";
+                            document.getElementById("auth").style.display="none";
+                        },500);
                     } else if (result.success == "captcha") {
-                        document.getElementById('message').innerHTML = "Символы с картинки не верны   ";
+                        $('.message').empty();
+                        $(".message").text("Символы с картинки не верны   ");
                     } else if (result.success == "auth") {
-                        document.getElementById("auth").style.display="block";
+                        //document.getElementById("auth").style.display="block";
                     }
-                    setTimeout("$.fancybox.close();", 2000);
+                    $("#refresh").click();
                 }
             });
-            $("#contact").fadeIn("fast");
-            document.getElementById("saving").style.display="none";
-            document.getElementById("auth").style.display="none";
+
         }
     });
 });

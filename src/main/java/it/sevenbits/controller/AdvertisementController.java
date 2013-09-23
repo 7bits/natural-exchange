@@ -21,10 +21,7 @@ import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
+import java.util.*;
 import javax.annotation.Resource;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
@@ -42,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Annotated spring controller class
@@ -512,9 +510,9 @@ public class AdvertisementController {
     @RequestMapping(value = "/captcha.jpg", method = RequestMethod.GET)
     public @ResponseBody byte[] captcha(HttpServletRequest request) {
         Captcha captcha = Captcha.newCaptcha(120, 60);
-//        request.getSession().setAttribute("captchaString",null);
-//        request.getSession().invalidate();
-        request.getSession().setAttribute("captchaString", captcha.getCaptchaString());
+        HttpSession session = request.getSession();
+        session.removeAttribute("captchaStr");
+        session.setAttribute("captchaStr", captcha.getCaptchaString());
         return captcha.getCaptchaData();
     }
 
@@ -581,12 +579,11 @@ public class AdvertisementController {
                       @RequestParam(value = "email", required = false) final String emailParam,
                       @RequestParam(value = "categorySearch", required = false) final String categoriesParam,
                       @RequestParam(value = "captcha", required = true) final String userCaptchaText,
-                      @ModelAttribute("captchaString") final String captchaString,
                       HttpServletRequest request) {
         JSONObject resultJson = new JSONObject();
         if (!userDao.isExistUserWithEmail(emailParam)) {
             resultJson.put("success","auth");
-        } else if (!userCaptchaText.equals(captchaString)) {
+        } else if (!userCaptchaText.equals(request.getSession().getAttribute("captchaStr"))) {
             resultJson.put("success","captcha");
         } else {
             mailSenderService.sendSearchVariant(emailParam, keyWordsParam, categoriesParam);

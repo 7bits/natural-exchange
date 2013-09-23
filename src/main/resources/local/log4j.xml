@@ -5,7 +5,7 @@
 
     <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
         <!--param name="File" value="${catalina.home}/logs/n-exchange.log" /-->
-        <param name="File" value="/home/sdmitry/Downloads/n-exchange.log" />
+        <param name="File" value="/home/sevenbits/Projects/n-exchange.log" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d [%t] %c{1}.%M(%L) | %m%n"/>
         </layout>

@@ -39,7 +39,7 @@ class CaptchaBuilder {
 
     // captcha constants
     private static final Color textColor = Color.white;
-    private static final Color circleColor = new Color(160, 160, 160);
+    private static final Color circleColor = new Color(177,237,47);
     private static final Font textFont = new Font("Arial", Font.PLAIN, 24);
     private static final int charsToPrint = 4;
 
@@ -118,7 +118,7 @@ class CaptchaBuilder {
 
     private void drawNoise() {
         // Draw an oval
-        graphic.setColor(Color.DARK_GRAY);
+        graphic.setColor(Color.GRAY);
         graphic.fillRect(0, 0, width, height);
 
         // lets make some noisy circles
