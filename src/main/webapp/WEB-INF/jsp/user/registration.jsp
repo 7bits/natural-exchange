@@ -21,6 +21,7 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
         <script type="text/javascript" src='<c:url value="/resources/js/checkbox.js"/>'  language="javascript"> </script>
+        <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'/>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'/>
     </head>
     <body>

@@ -41,6 +41,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Annotated spring controller class
@@ -402,7 +403,8 @@ public class AdvertisementController {
     @RequestMapping(value = "/view.html", method = RequestMethod.GET)
     public ModelAndView view(@RequestParam(value = "id", required = true) final Long id,
                              @RequestParam(value = "currentCategory", required = true) final String currentCategory,
-                             final MailingNewsForm mailingNewsFormParam, final BindingResult bindingResult
+                             final MailingNewsForm mailingNewsFormParam, final BindingResult bindingResult,
+                             HttpServletResponse servletResponse
     ) {
         //TODO: need to control viewing of deleted and new advertisement
         ModelAndView modelAndView = new ModelAndView("advertisement/view");
@@ -412,6 +414,11 @@ public class AdvertisementController {
         modelAndView.addObject("currentCategory", currentCategory);
         modelAndView.addObject("currentId", id);
         Advertisement advertisement = this.advertisementDao.findById(id);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails user = (UserDetails) principal;
+        if((advertisement.getIs_new() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
+            return new ModelAndView();
+        }
         modelAndView.addObject("advertisement", advertisement);
         if (mailingNewsFormParam.getEmailNews() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
@@ -591,7 +598,7 @@ public class AdvertisementController {
     }
 
     @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
-    public String posting(@RequestParam(value = "id", required = true) final Long advertisementId) {
+    public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails user = (UserDetails) principal;
         //Advertisement advertisement = this.advertisementDao.findById(advertisementId);
@@ -600,5 +607,15 @@ public class AdvertisementController {
         }
         //if((email.equals(advertisement.getUser().getEmail())))
         return "redirect:/advertisement/list.html";
+    }
+
+    @RequestMapping(value = "/approve.html", method = RequestMethod.GET)
+    public String approve(@RequestParam(value = "id", required = true) final Long advertisementId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails user = (UserDetails) principal;
+        if(user.getAuthorities().contains(Role.createModeratorRole())) {
+            this.advertisementDao.setApproved(advertisementId);
+        }
+        return "redirect:/advertisement/moderator/list.html";
     }
 }

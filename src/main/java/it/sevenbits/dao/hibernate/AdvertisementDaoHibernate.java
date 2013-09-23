@@ -47,6 +47,9 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     @Resource(name = "userDao")
     private UserDao userDao;
 
+    @Resource(name = "mailService")
+    private MailSenderService mailSenderService;
+
     private AdvertisementEntity toEntity(final Advertisement advertisement) {
         AdvertisementEntity tmp = new AdvertisementEntity();
         tmp.setTitle(advertisement.getTitle());
@@ -66,7 +69,9 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         UserEntity userEntity = this.userDao.findEntityByEmail(userName);
         advertisementEntity.setCategoryEntity(categoryEntity);
         advertisementEntity.setUserEntity(userEntity);
-        return this.hibernateTemplate.merge(advertisementEntity);
+        advertisementEntity = this.hibernateTemplate.merge(advertisementEntity);
+        mailSenderService.sendNotifyToModerator(advertisementEntity.getId(),advertisementEntity.getCategory().getName());
+        return  advertisementEntity;
     }
 
     /**
@@ -175,8 +180,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
      * @param keyWords key words,which searching in title
      * @return
      */
-    @Resource(name = "mailService")
-    private MailSenderService mailSenderService;
 
     @Override
     public List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(final String[] categories,
@@ -233,6 +236,13 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     public void setDeleted(Long id) {
         AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
         advertisementEntity.setIs_deleted(true);
+        hibernateTemplate.update(advertisementEntity);
+    }
+
+    @Override
+    public void setApproved(Long id) {
+        AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
+        advertisementEntity.setIs_new(false);
         hibernateTemplate.update(advertisementEntity);
     }
 

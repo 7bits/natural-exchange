@@ -90,6 +90,16 @@
                         <a href='${delete}' > Удалить</a>
                     </sec:authorize>
                 </div>
+                <div>
+                    <c:url value="/advertisement/approve.html" var="approve">
+                        <c:param name="id" value="${currentId}"/>
+                    </c:url>
+                    <c:if test="${advertisement.is_new}">
+                        <sec:authorize ifAnyGranted="ROLE_MODERATOR">
+                            <a href='${approve}' > Одобрить</a>
+                        </sec:authorize>
+                    </c:if>
+                </div>
                 <div id="vk_like_1"></div>
                 <script type="text/javascript">
                     VK.Widgets.Like("vk_like_1", {type: "full"});

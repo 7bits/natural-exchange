@@ -3,11 +3,10 @@ INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (1,
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (1,'clothes','very good',460,1,461);
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (2,'notclothes','very good',460,1,461);
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (3,'games','very good',460,1,461);
-INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role) VALUES (1,'Dmitry','Silerd',460,1,461,'vk.com/322233','test@gmail.com', "123","ROLE_USER");
-INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role) VALUES (2,'Sergey','Konskih',460,1,461,'vk.com/325656','bandit@gmail.com', "111","ROLE_USER");
-INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role) VALUES (3,'Ivan','Vovan',460,1,461,'vk.com/322237','mostwanted@mail.ru', "100","ROLE_ADMIN");
-INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role) VALUES (4,'Dmitri','Konskih',460,1,461,'19460382','dimaaasik.s@gmail.com', "111","ROLE_USER");
-INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role) VALUES (5,'John','Dredd',460,1,461,'19460382','judge@gmail.com', "111","ROLE_MODERATOR");
+INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role,activation_date) VALUES (1,'Dmitry','Silerd',460,0,461,'vk.com/322233','test@gmail.com', "123","ROLE_USER",0);
+INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role,activation_date) VALUES (2,'Sergey','Konskih',460,0,461,'vk.com/325656','bandit@gmail.com', "111","ROLE_USER",0);
+INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role,activation_date) VALUES (3,'Ivan','Vovan',460,0,461,'vk.com/322237','mostwanted@mail.ru', "100","ROLE_ADMIN",0);
+INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,vk_link,email, password, role,activation_date) VALUES (5,'John','Dredd',460,0,461,'19460382','dimaaasik.s@gmail.com', "111","ROLE_MODERATOR",0);
 INSERT INTO advertisement (id,created_date,is_deleted,is_new,photo_file,text,title,updated_date,category_id,user_id) VALUES (1,1369229028460,1,0,'image1.jpg','this is coat','man coat',15000,1,1);
 INSERT INTO advertisement (id,created_date,is_deleted,is_new,photo_file,text,title,updated_date,category_id,user_id) VALUES (2,1369232628460,0,0,'image2.jpg','this is coat2','boots',25000,1,1);
 INSERT INTO advertisement (id,created_date,is_deleted,is_new,photo_file,text,title,updated_date,category_id,user_id) VALUES (3,1369239828460,1,0,'image3.jpg','this is coat3','bicycle',35000,2,1);

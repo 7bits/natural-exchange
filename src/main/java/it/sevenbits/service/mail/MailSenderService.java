@@ -2,8 +2,10 @@ package it.sevenbits.service.mail;
 
 import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
+import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
+import it.sevenbits.entity.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.mail.MailSender;
@@ -36,6 +38,9 @@ public class MailSenderService {
 
     @Resource(name = "subscriberDao")
     private SubscriberDao subscriberDao;
+
+    @Resource(name = "userDao")
+    private UserDao userDao;
 
     private MailSender mailSender;
 
@@ -96,6 +101,15 @@ public class MailSenderService {
         String text = THANKS_FOR_REGISTRATION + link;
         String title = "регистрация на сайте";
         mailService.sendMail(SERVICE_MAILBOX, to, title, text);
+    }
+
+    public void sendNotifyToModerator(final Long id, final String category) {
+        MailSenderService mailService = getMailService();
+        String link = getDomen() + "/advertisement/view.html?id=" + id + "&currentCategory=" + category;
+        List<User> moderators = this.userDao.findAllModerators();
+        for(User user:moderators) {
+            mailService.sendMail(SERVICE_MAILBOX, user.getEmail(), "Новое объявление", link);
+        }
     }
 
     private  String getDomen() {

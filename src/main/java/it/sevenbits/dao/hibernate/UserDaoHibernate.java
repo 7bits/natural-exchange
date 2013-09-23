@@ -124,4 +124,11 @@ public class UserDaoHibernate implements UserDao {
         this.hibernateTemplate.delete(toEntity(user));
     }
 
+    @Override
+    public List<User> findAllModerators() {
+        DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
+        criteria.add(Restrictions.like("role", "ROLE_MODERATOR"));
+        return this.hibernateTemplate.findByCriteria(criteria);
+    }
+
 }

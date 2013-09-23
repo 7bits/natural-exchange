@@ -62,4 +62,6 @@ public interface UserDao {
      * @param user
      */
     void delete(User user);
+
+    List<User> findAllModerators();
 }
