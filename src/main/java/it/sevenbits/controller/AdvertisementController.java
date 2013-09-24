@@ -413,9 +413,15 @@ public class AdvertisementController {
         modelAndView.addObject("currentId", id);
         Advertisement advertisement = this.advertisementDao.findById(id);
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails user = (UserDetails) principal;
-        if((advertisement.getIs_new() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
-            return new ModelAndView();
+        if (principal instanceof UserDetails) {
+            UserDetails user = (UserDetails) principal;
+            if((advertisement.getIs_new() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
+                return new ModelAndView();
+            }
+        } else {
+            if(advertisement.getIs_new() || advertisement.getIs_deleted()) {
+                return new ModelAndView();
+            }
         }
         modelAndView.addObject("advertisement", advertisement);
         if (mailingNewsFormParam.getEmailNews() != null) {
@@ -597,12 +603,17 @@ public class AdvertisementController {
     @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
     public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails user = (UserDetails) principal;
-        //Advertisement advertisement = this.advertisementDao.findById(advertisementId);
-        if(user.getAuthorities().contains(Role.createModeratorRole())) {
+        UserDetails userDetails;
+        if (principal instanceof UserDetails) {
+            userDetails = (UserDetails) principal;
+        } else {
+            return "redirect:/advertisement/list.html";
+        }
+        Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+        String userEmail = advertisement.getUser().getEmail();
+        if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
             this.advertisementDao.setDeleted(advertisementId);
         }
-        //if((email.equals(advertisement.getUser().getEmail())))
         return "redirect:/advertisement/list.html";
     }
 

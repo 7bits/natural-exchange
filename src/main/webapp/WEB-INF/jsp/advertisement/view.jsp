@@ -89,6 +89,12 @@
                     <sec:authorize ifAnyGranted="ROLE_MODERATOR">
                         <a href='${delete}' > Удалить</a>
                     </sec:authorize>
+                    <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR" >
+                        <sec:authentication property="principal.username" var="advertisementOwner"/>
+                        <c:if test="${advertisementOwner == advertisement.user.email}">
+                            <a href='${delete}' > Удалить</a>
+                        </c:if>
+                    </sec:authorize>
                 </div>
                 <div>
                     <c:url value="/advertisement/approve.html" var="approve">
