@@ -5,8 +5,6 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
 import it.sevenbits.service.mail.MailSenderService;
-import it.sevenbits.util.form.AdvertisementSearchingForm;
-import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.UserRegistrationForm;
 import it.sevenbits.util.form.validator.UserRegistrationValidator;
 import org.slf4j.Logger;
@@ -33,9 +31,8 @@ import javax.annotation.Resource;
 @Controller
 @RequestMapping(value = "user")
 public class UsersRegistrationController {
-    public static final String ERROR_NOT_REGISTERED = "Такой пользователь не зарегистрирован в системе";
     public static final int REGISTRATION_PERIOD = 3;
-    public static final String REGISTRATION_SUCCESS = "Вы успешно завершили регистрацию на нашем сайте!";
+
     /**
      *
      */
@@ -126,6 +123,9 @@ public class UsersRegistrationController {
     public ModelAndView magicPage(@RequestParam(value = "code", required = true) final String codeParam,
                                   @RequestParam(value = "mail", required = true) final String mailParam) {
         User user = this.userDao.findUserByEmail(mailParam);
+        if ( user != null && user.getActivationDate() == 0) {
+            return new ModelAndView("user/loginRes");
+        }
         if (checkRegistrationLink(user, codeParam)) {
             this.userDao.updateActivationCode(user);
             return  new ModelAndView("user/loginRes");

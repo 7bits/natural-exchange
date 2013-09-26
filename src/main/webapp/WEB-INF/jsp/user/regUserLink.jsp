@@ -15,9 +15,6 @@
     <body>
     <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
-            <a href="<c:url value="/advertisement/list.html" />">
-                Главная
-            </a><br/>
             Ваш профиль создан. Вам отправлено письмо с активационной ссылкой.
             Пройдите по ссылке, чтобы активировать свой аккаунт.
         </div>
