@@ -54,7 +54,7 @@ function myAuth() {
             data: user_id,
             success: function(result) {
                 if(result.success == "true") {
-                    window.location.replace("http://naturalexchange.ru/login.html");
+                    window.location.replace("http://naturalexchange.ru/advertisement/list.html");
                 } else if (result.success == "false") {
                     var script = document.createElement('SCRIPT');
                     script.src = "https://api.vk.com/method/getProfiles?uid=" + user_id + "&v=5.0&access_token=" + access_token + "&callback=callbackFunc";
