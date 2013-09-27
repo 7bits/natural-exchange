@@ -42,6 +42,10 @@
                         <input type="submit" value="Войти" class="sendOk" />
                     </div>
                 </form>
+                <div class="vkEntry">
+                    <div class="vkLogo"></div>
+                    <div class="vkEntryText">Войти через Вконтакте</div>
+                </div>
             </div>
         </div>
         <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
