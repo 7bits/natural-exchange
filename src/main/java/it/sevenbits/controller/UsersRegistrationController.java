@@ -4,6 +4,7 @@ import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
+import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.form.UserRegistrationForm;
 import it.sevenbits.util.form.validator.UserRegistrationValidator;
@@ -14,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -121,6 +124,10 @@ public class UsersRegistrationController {
         }
         return true;
     }
+
+    @Resource(name = "auth")
+    private MyUserDetailsService myUserDetailsService;
+
     @RequestMapping(value = "/magic.html", method = RequestMethod.GET)
     public ModelAndView magicPage(@RequestParam(value = "code", required = true) final String codeParam,
                                   @RequestParam(value = "mail", required = true) final String mailParam) {
@@ -130,6 +137,11 @@ public class UsersRegistrationController {
         }
         if (checkRegistrationLink(user, codeParam)) {
             this.userDao.updateActivationCode(user);
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+            UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
+            token.setDetails(usrDet);
+            SecurityContext context = SecurityContextHolder.getContext();
+            context.setAuthentication(token);
             return  new ModelAndView("user/loginRes");
         } else {
             return new ModelAndView("user/conf_failed");
