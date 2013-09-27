@@ -20,6 +20,8 @@
         <script type="text/javascript" src='<c:url value="/resources/js/jquery.json-2.2.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/vkAuth.js"/>'  language="javascript"> </script>
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/emailConfirm.css"/>" />
+        <script type="text/javascript" src="//vk.com/js/api/openapi.js?100"></script>
+        <script type="text/javascript" src='<c:url value="/resources/js/vkScript.js"/>'  language="javascript"> </script>
         <title>Вход в систему</title>
     </head>
     <body>

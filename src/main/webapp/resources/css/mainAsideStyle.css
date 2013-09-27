@@ -177,3 +177,9 @@ aside {
     left: 20px;
 
 }
+
+.vkLikeContainer {
+    float: right;
+    top: -35px;
+    position: relative;
+}

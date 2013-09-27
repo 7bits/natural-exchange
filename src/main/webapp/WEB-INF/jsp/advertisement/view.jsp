@@ -110,7 +110,9 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
-                <div id="vk_like_1"></div>
+                <div class = "vkLikeContainer">
+                    <div id="vk_like_1"></div>
+                </div>
                 <div class="viewTitle">
                     Объявление от
                     <p class="contact">
