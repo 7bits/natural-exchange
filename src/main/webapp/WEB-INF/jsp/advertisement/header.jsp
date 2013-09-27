@@ -25,9 +25,6 @@
                 <div class="entry">
                     <a class='login' href='<c:url value="/login.html"/>'>  Вход на сайт </a>
                 </div>
-                <div>
-                    <a href='<c:url value="/user/registration.html"/>'>  Регистрация </a>
-                </div>
             </sec:authorize>
             <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
                 Разместить объявление

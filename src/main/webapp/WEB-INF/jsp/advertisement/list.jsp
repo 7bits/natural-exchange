@@ -12,11 +12,7 @@
         <script type="text/javascript" src='<c:url value="/resources/js/checkbox.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/tableCut.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/yandexMetriс.js"/>'  language="javascript"> </script>
-
-        <script type="text/javascript" src='<c:url value="/resources/js/vkAuth.js"/>'  language="javascript"> </script>
-
         <script type="text/javascript" src='<c:url value="/resources/js/jquery.json-2.2.js"/>'  language="javascript"> </script>
-
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/mainAsideStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
@@ -38,16 +34,6 @@
         <!-- /Yandex.Metrika counter -->
         <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="center">
-            <c:url value="https://oauth.vk.com/authorize" var="vkAuth">
-                <c:param name="client_id" value="3862800"/>
-                <c:param name="scope" value="notify"/>
-                <c:param name="redirect_uri" value="http://naturalexchange.ru/VK/auth.html"/>
-                <c:param name="response_type" value="code"/>
-            </c:url>
-            <div>
-
-                <div class="vkAuth"> Войти через контакт </div>
-            </div>
             <section>
                 <table>
                     <thead>
@@ -327,6 +313,5 @@
         <div id="block">
             <%@ include file="/WEB-INF/jsp/advertisement/savingSearch.jsp" %>
         </div>
-        <%@ include file="/WEB-INF/jsp/advertisement/vkEmailConfirm.jsp" %>
     </body>
 </html>

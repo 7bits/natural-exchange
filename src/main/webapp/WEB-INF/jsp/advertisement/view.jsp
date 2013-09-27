@@ -110,6 +110,7 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
+                <div id="vk_like_1"></div>
                 <div class="viewTitle">
                     Объявление от
                     <p class="contact">
@@ -121,14 +122,6 @@
                         <c:param name="id" value="${currentId}"/>
                     </c:url>
                     <a href='${placingLike}'>Создать похожее объявление</a>
-                </div>
-                <div>
-
-                </div>
-                <div>
-
-                </div>
-                <div id="vk_like_1"></div>
                 <script type="text/javascript">
                     VK.Widgets.Like("vk_like_1", {type: "full"});
                 </script>

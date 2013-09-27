@@ -36,24 +36,27 @@
                     <div class="places">
                         <div class="left"><label for="e1">E-mail:<span class="star">*</span></label> </div>
                         <div class="right"><form:input id="e1" type="text" path="email" class="placeTitle" /></div>
-                        <span class="error2"><form:errors path="email" /> </span>
+
                     </div>
+                    <span class="error2"><form:errors path="email" /> </span>
                     <div class="places">
                         <div class="left"><p>Пароль:<span class="star">*</span></p></div>
                         <div class="right"><form:input type="password" path="password" class="placeTitle" />   </div>
-                        <span class="error2"><form:errors path="password" /> </span>
+
                     </div>
+                    <span class="error2"><form:errors path="password" /> </span>
                     <div class="places">
                         <div class="left1"> Имя: </div>
                         <div class="right"><form:input  type="text" path="firstName"  placeholder="Введите Ваше имя" class="placeTitle"  maxlength="30"/></div>
-                        <span class="error2"><form:errors path="firstName" /> </span>
                     </div>
+                    <span class="error2"><form:errors path="firstName" /> </span>
 
                     <div class="places">
                         <div class="left">Фамилия: </div>
                         <div class="right"><form:input type="text" placeholder="Введите Вашу фамилию" path="lastName" class="placeTitle" /></div>
-                        <span class="error2"><form:errors path="lastName" /> </span>
+
                     </div>
+                    <span class="error2"><form:errors path="lastName" /> </span>
                     <%--<div class="places">
                         <div class="left"><p>Ссылка на профиль в контакте: </p></div>
                         <div class="right"><form:input type="text" path="vkLink" placeholder="Введите id Вашего аккаунта" class="placeTitle" /></div>
@@ -68,8 +71,8 @@
                          <input type="submit" value="Зарегистрироваться" class="send-reg"/>
                     </div>
                 </section>
-                <aside>
-                    <div>
+                <aside class = "registrationAside">
+                    <div class = "regInfoTextContainer">
                     Регистрация на сайте позволяет Вам размещать свои объявления. <br>
                     Также зарегистрированным пользователям   <br>
                     в близжайшем будущем будет доступна возможность

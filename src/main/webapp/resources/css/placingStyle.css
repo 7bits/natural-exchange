@@ -68,6 +68,7 @@
 
 .right {
     float: right;
+    width: 70%;
 }
 
 .left1 {
@@ -78,6 +79,7 @@
 }
 
 .left {
+    width: 20%;
     font-size: 20px;
     padding: 7px 25px 7px 0;
     float: left;

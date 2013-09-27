@@ -1,0 +1,41 @@
+.vkEntry {
+    float:left;
+    font-size: 18px;
+    font-family: 'PT Sans', sans-serif;
+    width:263px;
+    height:40px;
+    box-shadow:0 5px #3e658f;
+    border-radius: 4px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    background: #5c80a7;
+    border: none;
+    cursor: pointer;
+}
+
+.vkEntry:active {
+    position:relative;
+    top:3px;
+    box-shadow:0 2px #3e658f;
+}
+
+.vkEntry:hover {
+    opacity: 0.9;
+}
+
+.vkLogo {
+    height: 40px;
+    width: 40px;
+    background-image: url(../images/vk_big.png);
+    float: left;
+}
+
+.vkEntryText {
+    color: white;
+    float:right;
+    text-align: center;
+    width: 84.5%;
+    margin-top: 7px;
+    -webkit-user-select: none;
+}
+

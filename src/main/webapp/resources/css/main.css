@@ -289,9 +289,10 @@ header a:visited {
 
 #lk {
     padding: 10px 9px;
-    position: absolute;
+    position: relative;
     top: 40px;
-    left: 860px;
+    float: right;
+    left: -150px;
     width: 240px;
     height: 90px;
     background: rgba(246,246,246,.4);
@@ -505,29 +506,20 @@ a:visited {
     color:#3e3e38;
 }
 
-.vkEntry {
-    float:right;
-    font-size: 18px;
-    font-family: 'PT Sans', sans-serif;
-    width:263px;
-    height:40px;
-    box-shadow:0 5px #3e658f;
-    border-radius: 4px;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
-    background: #6186ad;
-    border: none;
-    cursor: pointer;
+.vkEntryContainerLogin {
+    margin-top: 65px;
 }
 
-.vkLogo {
-    height: 40px;
-    width: 40px;
-    background-image: url(../images/vk_big.png);
-    float: left;
+.regInfoTextContainer {
+    position: relative;
 }
 
-.vkEntryText {
-    float:right;
+.registrationAside {
+    position: relative;
 }
 
+.commonRegistration {
+    line-height: 2em;
+    width: 273px;
+    text-align: center;
+}

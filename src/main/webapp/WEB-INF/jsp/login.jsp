@@ -14,7 +14,9 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/vkStyle.css"/>" />
         <%@ include file="/WEB-INF/jsp/headInclude.jsp" %>
+        <script type="text/javascript" src='<c:url value="/resources/js/vkAuth.js"/>'  language="javascript"> </script>
         <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
         <title>Вход в систему</title>
     </head>
@@ -42,12 +44,26 @@
                         <input type="submit" value="Войти" class="sendOk" />
                     </div>
                 </form>
-                <div class="vkEntry">
-                    <div class="vkLogo"></div>
-                    <div class="vkEntryText">Войти через Вконтакте</div>
+                <div class = "registrationButtonsContainer">
+                    <div class = "vkEntryContainerLogin">
+                        <c:url value="https://oauth.vk.com/authorize" var="vkAuth">
+                            <c:param name="client_id" value="3862800"/>
+                            <c:param name="scope" value="notify"/>
+                            <c:param name="redirect_uri" value="http://naturalexchange.ru/VK/auth.html"/>
+                            <c:param name="response_type" value="code"/>
+                        </c:url>
+                        <div class="vkEntry">
+                            <div class="vkLogo"></div>
+                            <div class="vkEntryText vkAuth">Войти через Вконтакте</div>
+                        </div>
+                    </div>
+                    <a href='<c:url value="/user/registration.html"/>'>
+                        <div class="sendOk commonRegistration">Регистрация </div>
+                    </a>
                 </div>
             </div>
         </div>
         <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
+        <%@ include file="/WEB-INF/jsp/advertisement/vkEmailConfirm.jsp" %>
     </body>
 </html>
