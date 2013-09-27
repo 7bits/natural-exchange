@@ -142,7 +142,7 @@ public class UsersRegistrationController {
             token.setDetails(usrDet);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(token);
-            return  new ModelAndView("user/loginRes");
+            return new ModelAndView("user/loginRes");
         } else {
             return new ModelAndView("user/conf_failed");
         }
