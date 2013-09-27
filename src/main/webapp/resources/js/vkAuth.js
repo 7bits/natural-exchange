@@ -89,7 +89,7 @@ function emailConfirm() {
             data: jsonEmail
         });
         $(".vkEmailConfirmContainer").hide();
-        location.reload();
+        window.location.replace("http://naturalexchange.ru/user/regUserLink.html");
     }
 
 }
