@@ -50,6 +50,9 @@ public class UsersRegistrationController {
     @Resource(name = "subscriberDao")
     private SubscriberDao subscriberDao;
 
+    @Resource(name = "mailService")
+    private MailSenderService mailSenderService;
+
     @Autowired
     private UserRegistrationValidator userRegistrationValidator;
 
@@ -90,7 +93,6 @@ public class UsersRegistrationController {
         String code = md5encoder.encodePassword(user.getPassword(), user.getEmail() );
         user.setActivationCode(code);
         this.userDao.create(user);
-        MailSenderService mailSenderService = new MailSenderService();
         mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
         ModelAndView modelAndView = new ModelAndView("user/regUserLink");
         return  modelAndView;
