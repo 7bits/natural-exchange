@@ -19,6 +19,7 @@
         <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
         <script type="text/javascript" src='<c:url value="/resources/js/jquery.json-2.2.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/vkAuth.js"/>'  language="javascript"> </script>
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/emailConfirm.css"/>" />
         <title>Вход в систему</title>
     </head>
     <body>
