@@ -5,6 +5,7 @@ CREATE TABLE
   id bigint(20) NOT NULL AUTO_INCREMENT,
   created_date bigint(20) NOT NULL,
   is_deleted bit(1) NOT NULL,
+  is_new bit(1) NOT NULL,
   photo_file varchar(255) NOT NULL,
   text text NOT NULL,
   title varchar(200) NOT NULL,

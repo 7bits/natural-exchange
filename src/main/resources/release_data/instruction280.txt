@@ -1,0 +1,1 @@
+1) В табличку advertisement добавить поле is_new используя migration.sql

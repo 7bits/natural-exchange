@@ -42,17 +42,58 @@
                         <c:out value="${advertisement.createdDateFormat}"/>
                     </div>
                 </div>
-                <div class="viewCategory">
-                    Категория:
-                    <c:if test="${advertisement.category.name eq 'games'}">
-                          <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+games+"/>' class="viewCate" > Игры </a>
-                    </c:if>
-                    <c:if test="${advertisement.category.name eq 'clothes'}">
-                        <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+clothes+"/>' class="viewCate" > Одежда </a>
-                    </c:if>
-                    <c:if test="${advertisement.category.name eq 'notclothes'}">
-                        <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+notclothes+"/>' class="viewCate" > Не одежда </a>
-                    </c:if>
+                <div class="categoryAndActions">
+                    <div class="viewCategory">
+                        Категория:
+                        <c:if test="${advertisement.category.name eq 'games'}">
+                              <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+games+"/>' class="viewCate" > Игры </a>
+                        </c:if>
+                        <c:if test="${advertisement.category.name eq 'clothes'}">
+                            <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+clothes+"/>' class="viewCate" > Одежда </a>
+                        </c:if>
+                        <c:if test="${advertisement.category.name eq 'notclothes'}">
+                            <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+notclothes+"/>' class="viewCate" > Не одежда </a>
+                        </c:if>
+                    </div>
+                    <div class = "controlsContainer">
+                        <c:url value="/advertisement/approve.html" var="approve">
+                            <c:param name="id" value="${currentId}"/>
+                        </c:url>
+                        <c:if test="${advertisement.is_new}">
+                            <sec:authorize ifAnyGranted="ROLE_MODERATOR">
+                                <div class="approveAdvertisementButton">
+                                    <a class="approveAdvertisementButtonImage" href='${approve}' ></a>
+                                </div>
+                            </sec:authorize>
+                        </c:if>
+                        <c:url value="/advertisement/delete.html" var="delete">
+                            <c:param name="id" value="${currentId}"/>
+                        </c:url>
+                        <sec:authorize ifAnyGranted="ROLE_MODERATOR">
+                            <div class="deleteAdvertisementButton">
+                                <a class="deleteAdvertisementButtonImage" href='${delete}' ></a>
+                            </div>
+                        </sec:authorize>
+                        <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER" >
+                            <sec:authentication property="principal.username" var="advertisementOwner"/>
+                            <c:if test="${advertisementOwner == advertisement.user.email}">
+                                <div class="deleteAdvertisementButton">
+                                    <a class="deleteAdvertisementButtonImage" href='${delete}' ></a>
+                                </div>
+                            </c:if>
+                        </sec:authorize>
+                        <c:url value="/advertisement/edit.html" var="edit">
+                            <c:param name="id" value="${currentId}"/>
+                        </c:url>
+                        <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER" >
+                            <sec:authentication property="principal.username" var="advertisementOwner"/>
+                            <c:if test="${advertisementOwner == advertisement.user.email}">
+                                <div class="editAdvertisementButton">
+                                    <a class="editAdvertisementButtonImage" href='${edit}' ></a>
+                                </div>
+                            </c:if>
+                        </sec:authorize>
+                    </div>
                 </div>
                 <div class="viewText">
                     <c:out value="${advertisement.text}"/>
@@ -76,35 +117,16 @@
                     </p>
                 </div>
                 <div class="viewTitle">
-                    Создать такое же объявление
                     <c:url value="/advertisement/placing.html" var="placingLike">
                         <c:param name="id" value="${currentId}"/>
                     </c:url>
-                    <a href='${placingLike}'> Тык! </a>
+                    <a href='${placingLike}'>Создать похожее объявление</a>
                 </div>
                 <div>
-                    <c:url value="/advertisement/delete.html" var="delete">
-                        <c:param name="id" value="${currentId}"/>
-                    </c:url>
-                    <sec:authorize ifAnyGranted="ROLE_MODERATOR">
-                        <a href='${delete}' > Удалить</a>
-                    </sec:authorize>
-                    <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR" >
-                        <sec:authentication property="principal.username" var="advertisementOwner"/>
-                        <c:if test="${advertisementOwner == advertisement.user.email}">
-                            <a href='${delete}' > Удалить</a>
-                        </c:if>
-                    </sec:authorize>
+
                 </div>
                 <div>
-                    <c:url value="/advertisement/approve.html" var="approve">
-                        <c:param name="id" value="${currentId}"/>
-                    </c:url>
-                    <c:if test="${advertisement.is_new}">
-                        <sec:authorize ifAnyGranted="ROLE_MODERATOR">
-                            <a href='${approve}' > Одобрить</a>
-                        </sec:authorize>
-                    </c:if>
+
                 </div>
                 <div id="vk_like_1"></div>
                 <script type="text/javascript">

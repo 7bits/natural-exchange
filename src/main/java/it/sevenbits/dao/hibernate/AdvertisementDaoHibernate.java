@@ -12,6 +12,7 @@ import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
+import it.sevenbits.util.TimeManager;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
@@ -243,6 +244,18 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     public void setApproved(Long id) {
         AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
         advertisementEntity.setIs_new(false);
+        hibernateTemplate.update(advertisementEntity);
+    }
+
+    @Override
+    public void update(Long id, Advertisement advertisement, String categoryName) {
+        AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
+        advertisementEntity.setTitle(advertisement.getTitle());
+        advertisementEntity.setPhotoFile(advertisement.getPhotoFile());
+        advertisementEntity.setText(advertisement.getText());
+        advertisementEntity.setIs_deleted(advertisement.getIs_deleted());
+        advertisementEntity.setUpdatedDate(TimeManager.getTime());
+        advertisementEntity.setCategoryEntity(this.categoryDao.findEntityByName(categoryName));
         hibernateTemplate.update(advertisementEntity);
     }
 

@@ -26,7 +26,7 @@
             <p class="pCenter">Разместить объявление на сайте  </p>
         </div>
         <div class="center">
-            <form:form method="post" commandName="advertisementPlacingForm" enctype="multipart/form-data" onSubmit="return Validate();">
+            <form:form method="post" action="placing.html" commandName="advertisementPlacingForm" enctype="multipart/form-data" onSubmit="return Validate();">
                 <section>
                     <p class="pSay"> Поля, отмеченные звездочкой обязательны для заполнения </p>
                     <div class="places">
@@ -57,7 +57,13 @@
                     </div>
                     <div class="think">
                          <input type="reset" value="Отмена" class="no" id="closeWindow" />
-                         <input type="submit" value="Разместить" class="sendAdv"/>
+                        <c:if test="${isEditing}">
+                            <input type="submit" value="Обновить" class="sendAdv"/>
+                            <input type="hidden" name="editingAdvertisementId" value="${advertisementId}"/>
+                        </c:if>
+                        <c:if test="${!isEditing}">
+                            <input type="submit" value="Разместить" class="sendAdv"/>
+                        </c:if>
                     </div>
                 </section>
                 <aside>

@@ -84,4 +84,6 @@ public interface AdvertisementDao {
     void setDeleted(Long id);
 
     void setApproved(Long id);
+
+    void update(Long id, Advertisement advertisement, String categoryName);
 }

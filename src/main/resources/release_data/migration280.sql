@@ -1,0 +1,1 @@
+ALTER TABLE advertisement ADD is_new BIT(1) NOT NULL;

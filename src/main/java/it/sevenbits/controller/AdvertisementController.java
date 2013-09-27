@@ -146,6 +146,7 @@ public class AdvertisementController {
             modelAndView.addObject("sortOrderDate", newSortOrder.toString());
         }
         List<Advertisement> advertisements;
+
         if (keyWordsParam != null) {
             advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
                     currentCategories, keyWordsParam, currentSortOrder, currentColumn
@@ -262,32 +263,6 @@ public class AdvertisementController {
      *
      * @return jsp-page with advertisement information
      */
-
-//    @RequestMapping(value = "/moderator/list.html", method = RequestMethod.GET)
-//    public ModelAndView moderatorListGet() {
-//        ModelAndView modelAndView = new ModelAndView("advertisement/listModerator");
-//        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
-//        advertisementSearchingForm.setCategories(new String[]{"new","delete"});
-//        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
-//        List<Advertisement> advertisements;
-//        advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(null, SortOrder.ASCENDING, null, true, true);
-//        PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
-//        pageList.setSource(advertisements);
-//        int pageSize;
-//        pageSize = defaultPageSize();
-//        pageList.setPageSize(pageSize);
-//        int noOfPage = pageList.getPageCount();
-//        int currentPage = 0;
-//        pageList.setPage(currentPage);
-//        modelAndView.addObject("advertisements", pageList.getPageList());
-//        modelAndView.addObject("defaultPageSize", defaultPageSize());
-//        modelAndView.addObject("noOfPage", noOfPage);
-//        modelAndView.addObject("currentPage", currentPage);
-//        modelAndView.addObject("pageSize", pageSize);
-//        return modelAndView;
-//    }
-
-
 
     @RequestMapping(value = "/moderator/list.html", method = RequestMethod.GET)
     public ModelAndView moderatorList(@RequestParam(value = "sortedBy", required = false)final String sortByNameParam,
@@ -457,6 +432,7 @@ public class AdvertisementController {
         }
         modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
         modelAndView.addObject("mailingNewsForm", new MailingNewsForm());
+        modelAndView.addObject("isEditing",false);
         return modelAndView;
     }
 
@@ -465,11 +441,12 @@ public class AdvertisementController {
             final AdvertisementPlacingForm advertisementPlacingFormParam,
             final BindingResult result,
             final MailingNewsForm mailingNewsFormParam,
-            final BindingResult mailRes
+            final BindingResult mailRes,
+            final Long editingAdvertisementId
     ) {
         if (mailingNewsFormParam.getEmailNews() != null) {
             mailingNewsValidator.validate(mailingNewsFormParam, mailRes);
-            ModelAndView mdv = new ModelAndView("advertisement/placing");
+            ModelAndView modelAndView = new ModelAndView("advertisement/placing");
             if (!mailRes.hasErrors()) {
                 Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
@@ -479,12 +456,13 @@ public class AdvertisementController {
                     this.subscribertDao.create(subscriber);
                     mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
                 }
-                mdv.addObject("mailingNewsForm", mailingNewsForm);
+                modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
             AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
             advertisementPlacingForm.setCategory("clothes");
-            mdv.addObject("advertisementPlacingForm", advertisementPlacingForm);
-            return mdv;
+            modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
+            modelAndView.addObject("isEditing",false);
+            return modelAndView;
         } else {
             advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
             if (result.hasErrors()) {
@@ -508,7 +486,11 @@ public class AdvertisementController {
             } else {
                 userName = principal.toString();
             }
-            this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName);
+            if (editingAdvertisementId != null) {
+                this.advertisementDao.update(editingAdvertisementId,advertisement, advertisementPlacingFormParam.getCategory());
+            } else {
+                this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName);
+            }
         }
         return new ModelAndView("advertisement/placingRequest");
     }
@@ -626,4 +608,19 @@ public class AdvertisementController {
         }
         return "redirect:/advertisement/moderator/list.html";
     }
+
+    @RequestMapping(value = "/edit.html", method = RequestMethod.GET)
+    public ModelAndView edit(@RequestParam(value = "id", required = true) final Long advertisementId) {
+        ModelAndView modelAndView =  new ModelAndView("advertisement/placing");
+        modelAndView.addObject("isEditing",true);
+        modelAndView.addObject("advertisementId",advertisementId);
+        AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
+        Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+        advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
+        advertisementPlacingForm.setText(advertisement.getText());
+        advertisementPlacingForm.setTitle(advertisement.getTitle());
+        modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
+        return modelAndView;
+    }
+
 }

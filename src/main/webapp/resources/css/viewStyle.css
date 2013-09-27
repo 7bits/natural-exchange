@@ -4,13 +4,87 @@
     height:55px;
     width:100%;
     background: #f3f3f3;
-    text-align:center;
+    text-align:left;
+    padding: 15px;
 }
 
 .viewCategory {
+    display: inline-block;
+    width: 80%;
     font-size: 16px;
     padding: 20px 0;
-    color: #d0d1cc;         /*!!!!!!!!!!!!!!!!!!!!!!*/
+    color: #d0d1cc;
+}
+
+.controlsContainer {
+    display: inline-block;
+    width: 18%;
+}
+
+.categoryAndActions {
+}
+
+.approveAdvertisementButton {
+    float: right;
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    text-align: right;
+    margin-left: 16px;
+}
+
+.approveAdvertisementButtonImage {
+    display: inline-block;
+    background-image: url("../images/yes.png");
+    background-repeat: no-repeat;
+    height: 25px;
+    width: 25px;
+
+}
+.deleteAdvertisementButton {
+    float: right;
+    display: inline-block;
+    text-align: right;
+    margin-left: 16px;
+    height: 25px;
+    width: 25px;
+}
+
+.deleteAdvertisementButtonImage {
+    background-image: url("../images/del.png");
+    background-repeat: no-repeat;
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+}
+
+.editAdvertisementButton{
+    float: right;
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    text-align: right;
+    margin-left: 16px;
+}
+
+.editAdvertisementButtonImage {
+    background-image: url("../images/edit.png");
+    background-repeat: no-repeat;
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+}
+
+.approveAdvertisementButtonImage:hover {
+    background-image: url("../images/yes_hover.png");
+}
+
+.deleteAdvertisementButtonImage:hover {
+    background-image: url("../images/del_hover.png");
+}
+
+.editAdvertisementButtonImage:hover {
+    background-image: url("../images/edit_hover.png");
 }
 
 .viewCate {
