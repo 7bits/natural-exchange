@@ -101,12 +101,3 @@
     -webkit-box-shadow: 0 2px #a49e9e;
     box-shadow:0 2px #a49e9e;
 }
-
-.vkAuth {
-    cursor: pointer;
-    border: solid 4px #5679B2;
-    -webkit-border-radius: 2px;
-    background-color: #5679B2;
-    color: white;
-    width: 165px;
-}

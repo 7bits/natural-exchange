@@ -56,7 +56,7 @@
                         </c:url>
                         <div class="vkEntry">
                             <div class="vkLogo"></div>
-                            <div class="vkEntryText vkAuth">Войти через Вконтакте</div>
+                            <div class="vkEntryText">Войти через Вконтакте</div>
                         </div>
                     </div>
                     <a href='<c:url value="/user/registration.html"/>'>

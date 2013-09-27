@@ -1,5 +1,5 @@
 function readyFn( jQuery ) {
-    var vkAuthButton = $(".vkAuth");
+    var vkAuthButton = $(".vkEntry");
     vkAuthButton.click(vkAuthButtonFunc);
     var sendEmailConfirm = $(".sendEmailConfirm");
     sendEmailConfirm.click(emailConfirm);
