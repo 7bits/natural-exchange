@@ -7,6 +7,7 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.CategoryDao;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.UserEntity;
@@ -19,6 +20,7 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
@@ -38,7 +40,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     private HibernateTemplate hibernateTemplate;
 
     @Autowired
-    public AdvertisementDaoHibernate(final SessionFactory sessionFactory) {
+    public AdvertisementDaoHibernate(@Qualifier("sessionFactory") final SessionFactory sessionFactory) {
         this.hibernateTemplate = new HibernateTemplate(sessionFactory);
     }
 
@@ -257,6 +259,14 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         advertisementEntity.setUpdatedDate(TimeManager.getTime());
         advertisementEntity.setCategoryEntity(this.categoryDao.findEntityByName(categoryName));
         hibernateTemplate.update(advertisementEntity);
+    }
+
+    @Override
+    public List<Advertisement> findAllByEmail(User user) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
+        UserEntity userEntity = this.userDao.findEntityByEmail(user.getEmail());
+        criteria.add(Restrictions.eq("userEntity", userEntity));
+        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
     @Override

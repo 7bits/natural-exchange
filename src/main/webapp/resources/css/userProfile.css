@@ -1,0 +1,122 @@
+@charset "utf-8";
+
+.all-tabs {
+    margin: auto;
+    width: 1000px;
+    height: 350px;
+
+}
+
+#tabs, #tabsText {
+    list-style: none;
+    position: inherit;
+    padding: 0;
+    margin: 0;
+}
+/*#tabs ul {
+    padding-left: 100px;
+} */
+#tabs li {
+    float: left;
+    cursor: pointer;
+}
+
+/*
+#tabs li.current {
+    background: #666;
+    color: #fff;
+}
+*/
+
+#tabsText{
+    clear: both;
+    overflow-x: auto;
+    overflow-y: auto;
+
+/*    min-height: 600px;*/
+}
+#tabsText .profile-tabs {
+    background: none repeat scroll 0 0 #FFFFFF;
+/*    border: 3px solid #E1E1E1;*/
+/*    border-radius: 7px 7px 7px 7px;*/
+    padding: 5px;
+    position: inherit;
+    height: 350px;
+    overflow: auto;
+    display: none;
+    right: 124px;
+}
+/*******************************************************************/
+
+#tabs a
+{
+    background: #e1e1e1;
+    float: left;
+    height: 35px;
+    padding: 0 30px;
+    text-decoration: none;
+    border-color: #a1a1a1;
+}
+#tabs a:focus{
+    background: #a1a1a1;
+    outline: 0;
+}
+#tabs a:hover
+{
+    background: #a1a1a1;
+}
+
+/*для фотки - аватары*/
+.avatar {
+    width: 90px;
+    height: 90px;
+    border: 1px solid #a1a1a1;
+    float: left;
+}
+.avatar img {
+    width: 88px;
+    height: 88px;
+    top: 2px;
+    left: 2px;
+}
+
+.controls{
+    margin-left: 150px;
+}
+
+.control-group:before, .control-group:after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.control-group{
+    margin-bottom: 10px;
+}
+
+.text-group{
+    display: block;
+    float: left;
+    margin-left: 20px;
+    padding-right: 0;
+    text-align: left;
+    width: 60px;
+}
+
+.search-vars {
+    clear:left;
+    padding-top: 20px;
+
+}
+
+.personal-data {
+    left: 150px;
+    width: 800px;
+    position: inherit;
+    padding-left: 30px;
+    float:left;
+}
+
+.footer-bottom {
+
+    bottom: 0;
+}

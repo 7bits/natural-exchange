@@ -38,4 +38,11 @@ public interface SearchVariantDao {
      * @param searchVariant
      */
     void delete(SearchVariant searchVariant);
+
+    /**
+     * Returns the list of all searching variant for user with e-mail
+     * @param email
+     * @return list of search..var.s
+     */
+    List<SearchVariant> findByEmail(final String email);
 }

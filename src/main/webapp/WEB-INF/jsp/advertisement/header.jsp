@@ -8,6 +8,7 @@
             </sec:authorize>
             <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR" >
                 <a href="<c:url value="/user/logout.html"/>" > Выйти </a>
+                <a href='<c:url value="/user/userProfile.html"/>'>Личный кабинет</a>
             </sec:authorize>
         </div>
         <div id=logotype>

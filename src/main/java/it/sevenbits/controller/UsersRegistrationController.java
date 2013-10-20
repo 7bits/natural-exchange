@@ -1,7 +1,11 @@
 package it.sevenbits.controller;
 
+import it.sevenbits.dao.AdvertisementDao;
+import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
+import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
 import it.sevenbits.security.MyUserDetailsService;
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import it.sevenbits.util.TimeManager;
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * The controller servicing the page of the registration form of the user.
@@ -47,11 +52,16 @@ public class UsersRegistrationController {
     @Resource(name = "userDao")
     private UserDao userDao;
 
+    @Resource(name = "advertisementDao")
+    private AdvertisementDao advertisementDao;
     /**
      *
      */
     @Resource(name = "subscriberDao")
     private SubscriberDao subscriberDao;
+
+    @Resource(name = "searchVariantDao")
+    private SearchVariantDao searchVariantDao;
 
     @Resource(name = "mailService")
     private MailSenderService mailSenderService;
@@ -159,4 +169,34 @@ public class UsersRegistrationController {
         return new ModelAndView("advertisement/list");
     }
 
+
+    @RequestMapping(value = "/userProfile.html", method = RequestMethod.GET)
+    public ModelAndView seeProfile() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = this.userDao.findUserByEmail(email);
+        ModelAndView modelAndView = new ModelAndView("user/userProfile");
+        modelAndView.addObject("username", user.getFirstName()+ " " + user.getLastName());
+        List<SearchVariant> variants = this.searchVariantDao.findByEmail(email);
+        modelAndView.addObject("searchVars", variants);
+        List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
+        modelAndView.addObject("adverts", advertisements);
+        return modelAndView;
+    }
+
+    /*@RequestMapping(value = "/myAdvertisements.html", method = RequestMethod.GET)
+    public ModelAndView manageMyAdverts() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = this.userDao.findUserByEmail(email);
+        ModelAndView modelAndView = new ModelAndView("user/myAdvertisements");
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/myMailings.html", method = RequestMethod.GET)
+    public ModelAndView manageMyMailings(){
+        return new ModelAndView("user/myMailings");
+    }
+      */
 }

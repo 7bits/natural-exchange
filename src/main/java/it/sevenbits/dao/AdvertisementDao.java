@@ -4,6 +4,7 @@
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.User;
 import it.sevenbits.util.SortOrder;
 
 import java.util.List;
@@ -85,5 +86,7 @@ public interface AdvertisementDao {
 
     void setApproved(Long id);
 
-    void update(Long id, Advertisement advertisement, String categoryName);
+    void update(final Long id, final Advertisement advertisement, final String categoryName);
+
+    List<Advertisement> findAllByEmail(final User user);
 }

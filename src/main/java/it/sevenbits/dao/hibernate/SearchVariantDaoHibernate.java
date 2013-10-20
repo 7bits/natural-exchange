@@ -5,6 +5,7 @@ import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -52,6 +53,13 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
         this.hibernateTemplate.delete(tmp);
     }
 
+    @Override
+    public List<SearchVariant> findByEmail(final String email) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
+        criteria.add(Restrictions.eq("email", email));
+        return convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
+    }
+
     private List<SearchVariant> convertEntityList(final List entities) {
         List<SearchVariant> sList = new ArrayList<SearchVariant>();
         if (entities != null) {
@@ -62,4 +70,6 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
         }
         return sList;
     }
+
+
 }
