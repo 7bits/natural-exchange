@@ -1,44 +1,30 @@
 @charset "utf-8";
 
 .all-tabs {
-    margin: auto;
-    width: 1000px;
-    height: 350px;
-
+    margin: 10px auto auto;
+    padding-top: 10px;
+    width: 1040px;
 }
 
-#tabs, #tabsText {
+#tabsText {
     list-style: none;
     position: inherit;
     padding: 0;
     margin: 0;
 }
-/*#tabs ul {
-    padding-left: 100px;
-} */
-#tabs li {
-    float: left;
-    cursor: pointer;
-}
-
-/*
-#tabs li.current {
-    background: #666;
-    color: #fff;
-}
-*/
 
 #tabsText{
+    border:2px solid #e1e1e1;
     clear: both;
     overflow-x: auto;
     overflow-y: auto;
+    border-radius: 5px;
 
 /*    min-height: 600px;*/
 }
 #tabsText .profile-tabs {
     background: none repeat scroll 0 0 #FFFFFF;
-/*    border: 3px solid #E1E1E1;*/
-/*    border-radius: 7px 7px 7px 7px;*/
+
     padding: 5px;
     position: inherit;
     height: 350px;
@@ -47,24 +33,6 @@
     right: 124px;
 }
 /*******************************************************************/
-
-#tabs a
-{
-    background: #e1e1e1;
-    float: left;
-    height: 35px;
-    padding: 0 30px;
-    text-decoration: none;
-    border-color: #a1a1a1;
-}
-#tabs a:focus{
-    background: #a1a1a1;
-    outline: 0;
-}
-#tabs a:hover
-{
-    background: #a1a1a1;
-}
 
 /*для фотки - аватары*/
 .avatar {
@@ -120,3 +88,111 @@
 
     bottom: 0;
 }
+
+.userLk {
+
+    vertical-align: middle;
+    font-size: 23px;
+    background: #f3f3f3;
+    margin-top: 5px;
+    height: 33px;
+    width: 1025px;
+    margin:auto;
+    border-top-width: 0;
+    padding-bottom: 9px;
+    padding-left: 15px;
+    padding-top: 9px;
+
+}
+
+/********************************************************/
+            #tabs{
+              overflow: hidden;
+              width: 100%;
+              margin: 0;
+              padding: 0;
+              list-style: none;
+            }
+
+            #tabs ul{
+
+                margin-left: 2px;
+            }
+            #tabs li{
+              float: left;
+              margin: 0 9px;
+            }
+            #tabs a{
+                 background: none repeat scroll 0 0 #F3F3F3;
+                 border-left: 2px solid #E1E1E1;
+                 border-radius: 5px 5px 0 0;
+                 border-right: 2px solid #E1E1E1;
+                 border-top: 2px solid #E1E1E1;
+
+                 float: left;
+                 height: 24px;
+                 padding: 0.7em 20px;
+                 position: relative;
+                 text-decoration: none;
+            }
+
+
+
+            #tabs a:hover,
+            #tabs a:hover::after,
+            #tabs a:hover::before,
+            #tabs a:focus,
+            #tabs a:focus::before,
+            #tabs a:focus::after{
+              background: #e1e1e1;
+            }
+            #tabs a:focus{
+              outline: 0;
+            }
+            #tabs a::after{
+                background: none repeat scroll 0 0 #F3F3F3;
+                border-radius: 0 5px 0 0;
+                border-right: 2px solid #E1E1E1;
+
+                bottom: 0;
+
+                content: "";
+                height: 48px;
+                position: absolute;
+                right: -6px;
+
+                transform: skew(10deg);
+                width: 12px;
+                z-index: 1;
+            }
+
+            #tabs a::before{
+                background: none repeat scroll 0 0 #F3F3F3;
+                border-radius: 5px 0 0 0;
+                border-left: 2px solid #E1E1E1;
+                bottom: 0;
+                content: "";
+                height: 48px;
+                position: absolute;
+                left: -6px;
+                transform: skew(-10deg);
+                width: 12px;
+                z-index: 1;
+            }
+
+            #tabs #current a,
+            #tabs #current a::before,
+            #tabs #current a::after{
+              background: #fff;
+              z-index: 3;
+            }
+            #content
+            {
+                background: #fff;
+                padding: 2em;
+                height: 220px;
+                position: relative;
+                z-index: 2;
+                border-radius: 0 5px 5px 5px;
+                box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
+            }

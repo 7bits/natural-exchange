@@ -27,9 +27,7 @@
     </head>
     <body>
         <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
-        <div class="centerR">
-            <p class="pCenter">Личный кабинет </p>
-        </div>
+        <div class="userLk">Личный кабинет</div>
         <div class="all-tabs">
             <ul id="tabs">
                 <li><a href="#">Профиль</a></li>
@@ -39,7 +37,6 @@
 
             <div id="tabsText">
                 <div class="profile-tabs">
-
                     <div class="avatar">
                         <img src='<c:url value="/resources/images/user_images/image1.jpg"/>'
                              alt="Нет фото" />
