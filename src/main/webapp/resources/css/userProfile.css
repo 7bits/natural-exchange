@@ -14,7 +14,7 @@
 }
 
 #tabsText{
-    border:2px solid #e1e1e1;
+    border:3px solid #e1e1e1;
     clear: both;
     overflow-x: auto;
     overflow-y: auto;
@@ -36,8 +36,8 @@
 
 /*для фотки - аватары*/
 .avatar {
-    width: 90px;
-    height: 90px;
+    width: 92px;
+    height: 92px;
     border: 1px solid #a1a1a1;
     float: left;
 }
@@ -46,6 +46,7 @@
     height: 88px;
     top: 2px;
     left: 2px;
+    position: relative;
 }
 
 .controls{
@@ -124,11 +125,10 @@
             }
             #tabs a{
                  background: none repeat scroll 0 0 #F3F3F3;
-                 border-left: 2px solid #E1E1E1;
+                 border-left: 3px solid #E1E1E1;
                  border-radius: 5px 5px 0 0;
-                 border-right: 2px solid #E1E1E1;
-                 border-top: 2px solid #E1E1E1;
-
+                 border-right: 3px solid #E1E1E1;
+                 border-top: 3px solid #E1E1E1;
                  float: left;
                  height: 24px;
                  padding: 0.7em 20px;
@@ -152,15 +152,12 @@
             #tabs a::after{
                 background: none repeat scroll 0 0 #F3F3F3;
                 border-radius: 0 5px 0 0;
-                border-right: 2px solid #E1E1E1;
-
+                border-right: 3px solid #E1E1E1;
                 bottom: 0;
-
                 content: "";
                 height: 48px;
                 position: absolute;
                 right: -6px;
-
                 transform: skew(10deg);
                 width: 12px;
                 z-index: 1;
@@ -169,7 +166,7 @@
             #tabs a::before{
                 background: none repeat scroll 0 0 #F3F3F3;
                 border-radius: 5px 0 0 0;
-                border-left: 2px solid #E1E1E1;
+                border-left: 3px solid #E1E1E1;
                 bottom: 0;
                 content: "";
                 height: 48px;

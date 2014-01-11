@@ -64,7 +64,7 @@
                         <p>Сохраненные параметры поиска</p>
                         <table>
                             <tbody>
-                                <c:forEach items="${searchVars}" var="seachings" varStatus="status">
+                                <c:forEach items="${searchVars}" var="searchings" varStatus="status">
                                     <c:choose>
                                         <c:when test="${status.index%2==0}">
                                             <tr>
@@ -72,9 +72,9 @@
                                         <c:otherwise>
                                            <tr class="tr1">
                                         </c:otherwise>
-                                        </c:choose>
-                                    <td>
-                                        <c:out value="${searchings.keyWords}" />  <c:out value="${searchings.categories}" />
+                                    </c:choose>
+                                    <td><c:out value="${searchings.keyWords}" /></td>
+                                    <td><c:out value="${searchings.categories}" /></td>
                                     </td>
                                     </tr>
                                 </c:forEach>
