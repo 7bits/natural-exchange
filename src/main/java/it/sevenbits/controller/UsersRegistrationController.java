@@ -4,10 +4,7 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
-import it.sevenbits.entity.Advertisement;
-import it.sevenbits.entity.SearchVariant;
-import it.sevenbits.entity.Subscriber;
-import it.sevenbits.entity.User;
+import it.sevenbits.entity.*;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.form.UserRegistrationForm;
@@ -31,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import it.sevenbits.util.TimeManager;
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -107,8 +105,7 @@ public class UsersRegistrationController {
         user.setActivationCode(code);
         this.userDao.create(user);
         mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
-        ModelAndView modelAndView = new ModelAndView("user/regUserLink");
-        return  modelAndView;
+        return new ModelAndView("user/regUserLink");
     }
 
     @RequestMapping(value = "/loginRes.html", method = RequestMethod.GET)
@@ -176,27 +173,24 @@ public class UsersRegistrationController {
         String email = auth.getName();
         User user = this.userDao.findUserByEmail(email);
         ModelAndView modelAndView = new ModelAndView("user/userProfile");
+
         modelAndView.addObject("username", user.getFirstName()+ " " + user.getLastName());
-        List<SearchVariant> variants = this.searchVariantDao.findByEmail(email);
-        modelAndView.addObject("searchVars", variants);
         List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
         modelAndView.addObject("adverts", advertisements);
+
+        List<SearchVariant> variants = this.searchVariantDao.findByEmail(email);
+        //modelAndView.addObject("searchVarsList", variants);
+        ArrayList<Searching> searchings = new ArrayList<>();
+        for (SearchVariant variantsToAdd:variants) {
+            Searching toAdd = new Searching();
+            toAdd.setCategories(variantsToAdd.getCategories().split(" "));
+            toAdd.setKeyWords(variantsToAdd.getKeyWords());
+            toAdd.setAllCategory(variantsToAdd.getCategories());
+            logger.info("toAdd = " + toAdd.toString());
+            searchings.add(toAdd);
+        }
+        modelAndView.addObject("searchVarsList", searchings);
         return modelAndView;
     }
 
-    /*@RequestMapping(value = "/myAdvertisements.html", method = RequestMethod.GET)
-    public ModelAndView manageMyAdverts() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User user = this.userDao.findUserByEmail(email);
-        ModelAndView modelAndView = new ModelAndView("user/myAdvertisements");
-
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/myMailings.html", method = RequestMethod.GET)
-    public ModelAndView manageMyMailings(){
-        return new ModelAndView("user/myMailings");
-    }
-      */
 }

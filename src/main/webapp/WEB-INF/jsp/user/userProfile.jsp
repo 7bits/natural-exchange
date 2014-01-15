@@ -64,18 +64,24 @@
                         <p>Сохраненные параметры поиска</p>
                         <table>
                             <tbody>
-                                <c:forEach items="${searchVars}" var="searchings" varStatus="status">
-                                    <c:choose>
-                                        <c:when test="${status.index%2==0}">
-                                            <tr>
-                                        </c:when>
-                                        <c:otherwise>
-                                           <tr class="tr1">
-                                        </c:otherwise>
-                                    </c:choose>
-                                    <td><c:out value="${searchings.keyWords}" /></td>
-                                    <td><c:out value="${searchings.categories}" /></td>
-                                    </td>
+                                <c:forEach items="${searchVarsList}" var="searchings" varStatus="status">
+                                    <tr>
+                                        <td>
+                                            <c:url value="/advertisement/list.html" var="searchResult">
+                                                <c:param name="currentKeyWords" value="${searchings.keyWords}"/>
+                                                <c:param name="currentCategory" value="${searchings.allCategory}" />
+                                            </c:url>
+                                            <a href="${searchResult}"> <c:out value="${searchings.keyWords}" /> </a>
+                                         </td>
+                                        <td>
+                                            <c:forEach items="${searchings.categories}" var="cat">
+                                                 <div class="circle"></div>
+                                                 <div class="nose"></div>
+                                                 <div class="category">
+                                                     <c:out value="${cat}" />
+                                                 </div>
+                                             </c:forEach>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -102,17 +108,23 @@
                                 </c:url>
                                 <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
                             </td>
-                            <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
-                            <td class="category">
-                                <c:if test="${advertisement.category.name eq 'games'}">
-                                    Игры
-                                </c:if>
-                                <c:if test="${advertisement.category.name eq 'clothes'}">
-                                    Одежда
-                                </c:if>
-                                <c:if test="${advertisement.category.name eq 'notclothes'}">
-                                    Не одежда
-                                </c:if>
+                            <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>'
+                                                   alt="Нет фото"/>
+                            </td>
+                            <td>
+                                <div class="circle"></div>
+                                <div class="nose"></div>
+                                <div class="category">
+                                    <c:if test="${advertisement.category.name eq 'games'}">
+                                        Игры
+                                    </c:if>
+                                    <c:if test="${advertisement.category.name eq 'clothes'}">
+                                        Одежда
+                                    </c:if>
+                                    <c:if test="${advertisement.category.name eq 'notclothes'}">
+                                        Не одежда
+                                    </c:if>
+                                </div>
                             </td>
 
                             </tr>
