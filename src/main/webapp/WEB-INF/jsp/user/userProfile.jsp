@@ -22,6 +22,7 @@
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
 
+        <link href='http://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic' rel='stylesheet' type='text/css'/>
         <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin,cyrillic'/>
         <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/images/favicon.ico'/>" >
     </head>
@@ -63,25 +64,50 @@
                     <div class="search-vars">
                         <p>Сохраненные параметры поиска</p>
                         <table>
-                            <tbody>
+                            <tbody class="userProfile-tbody">
                                 <c:forEach items="${searchVarsList}" var="searchings" varStatus="status">
-                                    <tr>
-                                        <td>
+                                    <c:choose>
+                                        <c:when test="${status.index%2==0}">
+                                            <tr class="row">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <tr >
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <td>
+                                        <div class="userLk-tab-title">
                                             <c:url value="/advertisement/list.html" var="searchResult">
                                                 <c:param name="currentKeyWords" value="${searchings.keyWords}"/>
                                                 <c:param name="currentCategory" value="${searchings.allCategory}" />
                                             </c:url>
-                                            <a href="${searchResult}"> <c:out value="${searchings.keyWords}" /> </a>
-                                         </td>
-                                        <td>
-                                            <c:forEach items="${searchings.categories}" var="cat">
-                                                 <div class="circle"></div>
-                                                 <div class="nose"></div>
-                                                 <div class="category">
-                                                     <c:out value="${cat}" />
-                                                 </div>
-                                             </c:forEach>
-                                        </td>
+                                            <a href="${searchResult}" class="userLk-href">
+                                                <c:out value="${searchings.keyWords}" />
+                                            </a>
+                                            </div>
+                                        <c:forEach items="${searchings.categories}" var="cat">
+                                            <c:choose>
+                                                <c:when test="${status.index%2==0}">
+                                                    <div class="circle-row"></div>
+                                                    <div class="nose-row"></div>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <div class="circle"></div>
+                                                    <div class="nose"></div>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <div class="category">
+                                                <c:if test="${cat eq 'games'}">
+                                                    Игры
+                                                </c:if>
+                                                <c:if test="${cat eq 'clothes'}">
+                                                    Одежда
+                                                </c:if>
+                                                <c:if test="${cat eq 'notclothes'}">
+                                                    Не одежда
+                                                </c:if>
+                                            </div>
+                                        </c:forEach>
+                                    </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -104,7 +130,7 @@
                             <td class="title">
                                 <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
                                     <c:param name="id" value="${advertisement.id}"/>
-                                    <c:param name="currentCategory" value="${currentCategory}"/>
+                                    <c:param name="currentCategory" value="${advertisement.category}"/>
                                 </c:url>
                                 <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
                             </td>

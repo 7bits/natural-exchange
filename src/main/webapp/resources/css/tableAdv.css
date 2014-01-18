@@ -21,14 +21,13 @@ table {
 }
 
 tbody {
-    border: 2.5px solid #d8d8d8; /* Рамка вокруг таблицы */
+    border: 2px solid #d8d8d8; /* Рамка вокруг таблицы */
 }
 
 thead {
     background:#d8d8d8;
     border-radius: 6px;
-    border-color:#d8d8d8;
-    border: 2.5px solid #d8d8d8;
+    border: 2px solid #d8d8d8;
 }
 
 table th {

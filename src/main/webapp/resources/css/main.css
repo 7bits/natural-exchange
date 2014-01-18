@@ -1,8 +1,8 @@
 @charset "utf-8";
 
 *{
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -17,7 +17,7 @@ body {
     height: 100%;
     font-family: 'PT Sans', sans-serif;
     font-size: 18px;
-    margin: 0px;
+    margin: 0;
     color:#3e3e38;
 }
 
@@ -37,8 +37,7 @@ body {
 }
 
 .placeTitle.error {
-    border-color: #973d3d;
-    border-style: solid;
+    border: solid #973d3d;
     background: #f0bebe;
     color: #a35959;
 }
@@ -51,7 +50,7 @@ body {
 .titleSave {
     font-size:23px;
     color: #52ba01;
-    padding: 35px 0px;
+    padding: 35px 0;
 
 }
 
@@ -141,7 +140,7 @@ body {
     font-family: 'PT Sans', sans-serif;
     width: 100px;
     text-align: center;
-    padding: 8.5px 3px;
+    padding: 9px 3px;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -166,7 +165,7 @@ body {
 
 div.thanks {
     color: #52ba01;
-    margin: 0px auto 120px;
+    margin: 0 auto 120px;
     padding-top:80px;
     font-size: 23px;
 }
