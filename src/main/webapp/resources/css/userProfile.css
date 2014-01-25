@@ -27,7 +27,7 @@
 
     /*padding: 5px;*/
     position: inherit;
-    height: 350px;
+    height: 510px;
     overflow: auto;
     display: none;
     right: 124px;
@@ -39,14 +39,14 @@
 
 /*для фотки - аватары*/
 .avatar {
-    width: 92px;
-    height: 92px;
-    border: 1px solid #a1a1a1;
+    width: 130px;
+    height: 130px;
+    border: 1px solid #d8d8d8;
     float: left;
 }
 .avatar img {
-    width: 88px;
-    height: 88px;
+    width: 126px;
+    height: 126px;
     top: 2px;
     left: 2px;
     position: relative;
@@ -68,7 +68,7 @@
 .text-group{
     display: block;
     float: left;
-    margin-left: 20px;
+   /* margin-left: 20px;*/
     padding-right: 0;
     text-align: left;
     width: 60px;
@@ -81,11 +81,10 @@
 }
 
 .personal-data {
-    left: 150px;
-    width: 800px;
-    position: inherit;
-    padding-left: 30px;
+    height: 130px;
+    padding-left: 50px;
     float:left;
+    color: #3e3e38;
 }
 
 .footer-bottom {
@@ -94,50 +93,50 @@
 }
 
 .userLk {
-
     vertical-align: middle;
     font-size: 23px;
-    background: #f3f3f3;
+    background: #f6f6f6;
     margin: auto;
     height: 33px;
     width: 1025px;
-    /*margin:auto;*/
-    border-top-width: 0;
     padding-bottom: 9px;
     padding-left: 15px;
     padding-top: 9px;
-
 }
-.userProfile-tbody {
-    border: none;
+.search-vars.userLk-href a{
+    color: #52ba00;
 }
 .userLk-href {
-    color: #52ba01;
+    color: #52ba00;
+    text-decoration: underline;
     font-size: 14pt;
-    padding: 1px 1px 1px 50px;
-    position: relative;
-    top: 6px;
+    padding: 7px 30px;
+    position: inherit;
+    top: 10px;
+    float: left;
 
 }
+
+/*
 .userLk-tab-title {
     float: left;
-    color: #52ba01;
+    padding-right: 10px;
 }
-
-.userLk-tab-title a:link{
-    color: #52ba01;
-    text-decoration: underline;
-}
-
+*/
+/*
 .userLk-tab-title a:hover{
     color: #207300;
 }
-.search-vars table {
+*/
+.search-vars table{
     font-size: 16pt;
     border: none;
 }
+.search-vars tbody{
+    border: none;
+}
 .row {
-    background: #f3f3f3;
+    background: #f6f6f6;
     border:none;
 }
 /********************************************************/
@@ -158,11 +157,11 @@
               margin: 0 9px;
             }
             #tabs a{
-                 background: none repeat scroll 0 0 #F3F3F3;
-                 border-left: 3px solid #E1E1E1;
+                 background: none repeat scroll 0 0 #f6f6f6;
+                 border-left: 3px solid #d8d8d8;
                  border-radius: 5px 5px 0 0;
-                 border-right: 3px solid #E1E1E1;
-                 border-top: 3px solid #E1E1E1;
+                 border-right: 3px solid #d8d8d8;
+                 border-top: 3px solid #d8d8d8;
                  float: left;
                  height: 24px;
                  padding: 0.7em 20px;
@@ -178,34 +177,42 @@
             #tabs a:focus,
             #tabs a:focus::before,
             #tabs a:focus::after{
-              background: #e1e1e1;
+              background: #d8d8d8;
             }
             #tabs a:focus{
               outline: 0;
             }
             #tabs a::after{
-                background: none repeat scroll 0 0 #F3F3F3;
+                background: none repeat scroll 0 0 #f6f6f6;
                 border-radius: 0 5px 0 0;
-                border-right: 3px solid #E1E1E1;
+                border-right: 3px solid #d8d8d8;
                 bottom: 0;
                 content: "";
                 height: 48px;
                 position: absolute;
                 right: -6px;
+                -moz-transform: skew(10deg); /* Для Firefox */
+                -ms-transform: skew(10deg); /* Для IE */
+                -webkit-transform: skew(10deg); /* Для Safari, Chrome, iOS */
+                -o-transform: skew(10deg); /* Для Opera */
                 transform: skew(10deg);
                 width: 12px;
                 z-index: 1;
             }
 
             #tabs a::before{
-                background: none repeat scroll 0 0 #F3F3F3;
+                background: none repeat scroll 0 0 #f6f6f6;
                 border-radius: 5px 0 0 0;
-                border-left: 3px solid #E1E1E1;
+                border-left: 3px solid #d8d8d8;
                 bottom: 0;
                 content: "";
                 height: 48px;
                 position: absolute;
                 left: -6px;
+                -moz-transform: skew(-10deg); /* Для Firefox */
+                -ms-transform: skew(-10deg); /* Для IE */
+                -webkit-transform: skew(-10deg); /* Для Safari, Chrome, iOS */
+                -o-transform: skew(-10deg); /* Для Opera */
                 transform: skew(-10deg);
                 width: 12px;
                 z-index: 1;
@@ -275,24 +282,21 @@
 
 
 .circle-row{
-    background: #fff;
-    height:9px;
-    width:9px;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.88) inset;
+    float: left;
+    height: 9px;
     position: relative;
-    float:left;
-    top: 16px;
-    right: -35px;
-    z-index:3;
-    /* border-radius
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;*/
-    border-radius: 6px;
-    box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.88);
+    right: -45px;
+    top: 17px;
+    width: 9px;
+    z-index: 3;
 }
 .nose-row {
-    border-color: #f3f3f3 #D8D8D8 #f3f3f3 #f3f3f3;
+    border-color: #F3F3F3 #D8D8D8 #F3F3F3 #F3F3F3;
     border-style: solid;
-    border-width: 22px 22px 22px 11px;
+    border-width: 22px 20px 20px;
     float: left;
     height: 0;
     position: relative;
@@ -301,3 +305,51 @@
     z-index: 2;
 }
 
+.flower-row {
+    float: left;
+    left: 10px;
+    position: relative;
+    top: 12px;
+    width: 18px;
+}
+
+#Lk-table {
+    border: none;
+}
+/*
+#Lk-tbody {
+    border: none;
+}
+*/
+.username {
+    color: #5ebf11;
+    font-size: 16pt;
+}
+
+.mediumSizeFont {
+    font-size: 16pt;
+    color: #3e3e38;
+    padding-bottom: 15px;
+    padding-top: 20px;
+}
+
+.userLk-Lk {
+    float: left;
+    width: 80%;
+}
+.userLk-out {
+    color: #9C9C9C;
+    font-size: 12pt;
+    padding-right: 10px;
+    text-align: right;
+}
+#Lk-table td {
+    padding: 8px;
+    /*vertical-align: middle;*/
+}
+
+.userEmail {
+    color: #5ebf11;
+    font-size: 14pt;
+    text-decoration: underline;
+}

@@ -28,7 +28,10 @@
     </head>
     <body>
         <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
-        <div class="userLk">Личный кабинет</div>
+        <div class="userLk">
+            <div class="userLk-Lk">Личный кабинет</div>
+            <div class="userLk-out">Выход</div>
+        </div>
         <div class="all-tabs">
             <ul id="tabs">
                 <li><a href="#">Профиль</a></li>
@@ -43,13 +46,15 @@
                              alt="Нет фото" />
                     </div>
                     <div class="personal-data">
-                        <p><c:out value="${username}" /></p>
+                        <p class="username"><c:out value="${username}" /></p>
                         <div class="control-group">
                             <label class="text-group" for="email">
                                 E-mail:
                             </label>
                             <div class="controls">
-                                <p id="email"><sec:authentication property="principal.username"/></p>
+                                <p id="email" class="userEmail">
+                                    <sec:authentication property="principal.username"/>
+                                </p>
                             </div>
                         </div>
                         <div class="control-group">
@@ -62,28 +67,33 @@
                         </div>
                     </div>
                     <div class="search-vars">
-                        <p>Сохраненные параметры поиска</p>
+                        <p class="mediumSizeFont">Сохраненные параметры поиска</p>
                         <table>
-                            <tbody class="userProfile-tbody">
+                            <tbody>
                                 <c:forEach items="${searchVarsList}" var="searchings" varStatus="status">
                                     <c:choose>
                                         <c:when test="${status.index%2==0}">
                                             <tr class="row">
                                         </c:when>
                                         <c:otherwise>
-                                            <tr >
+                                            <tr>
                                         </c:otherwise>
                                     </c:choose>
                                     <td>
-                                        <div class="userLk-tab-title">
+                                        <div>
+                                        <img class="flower-row"
+                                             src='<c:url value="/resources/images/flower.png"/>'
+                                             alt=""/>
+                                        </div>
+
                                             <c:url value="/advertisement/list.html" var="searchResult">
                                                 <c:param name="currentKeyWords" value="${searchings.keyWords}"/>
                                                 <c:param name="currentCategory" value="${searchings.allCategory}" />
                                             </c:url>
-                                            <a href="${searchResult}" class="userLk-href">
+                                            <a class="userLk-href" href="${searchResult}" >
                                                 <c:out value="${searchings.keyWords}" />
                                             </a>
-                                            </div>
+
                                         <c:forEach items="${searchings.categories}" var="cat">
                                             <c:choose>
                                                 <c:when test="${status.index%2==0}">
@@ -118,43 +128,39 @@
                     <p>Мои объявления</p>
                     <table>
                         <tbody>
-                        <c:forEach items="${adverts}" var="advertisement" varStatus="status">
-                            <c:choose>
-                                <c:when test="${status.index%2==0}">
-                                    <tr>
-                                </c:when>
-                                <c:otherwise>
-                                    <tr class="tr1">
-                                </c:otherwise>
-                            </c:choose>
-                            <td class="title">
-                                <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
-                                    <c:param name="id" value="${advertisement.id}"/>
-                                    <c:param name="currentCategory" value="${advertisement.category}"/>
-                                </c:url>
-                                <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
-                            </td>
-                            <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>'
-                                                   alt="Нет фото"/>
-                            </td>
-                            <td>
-                                <div class="circle"></div>
-                                <div class="nose"></div>
-                                <div class="category">
-                                    <c:if test="${advertisement.category.name eq 'games'}">
-                                        Игры
-                                    </c:if>
-                                    <c:if test="${advertisement.category.name eq 'clothes'}">
-                                        Одежда
-                                    </c:if>
-                                    <c:if test="${advertisement.category.name eq 'notclothes'}">
-                                        Не одежда
-                                    </c:if>
-                                </div>
-                            </td>
-
-                            </tr>
-                        </c:forEach>
+                            <c:forEach items="${adverts}" var="advertisement" varStatus="status">
+                                <c:choose>
+                                    <c:when test="${status.index%2==0}">
+                                        <tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <tr class="tr1">
+                                    </c:otherwise>
+                                </c:choose>
+                                    <td class="title">
+                                        <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
+                                            <c:param name="id" value="${advertisement.id}"/>
+                                            <c:param name="currentCategory" value="${advertisement.category}"/>
+                                        </c:url>
+                                        <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
+                                    </td>
+                                    <td class="photo">
+                                        <img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>'
+                                                           alt="Нет фото"/>
+                                    </td>
+                                    <td>
+                                        <c:if test="${advertisement.category.name eq 'games'}">
+                                            Игры
+                                        </c:if>
+                                        <c:if test="${advertisement.category.name eq 'clothes'}">
+                                            Одежда
+                                        </c:if>
+                                        <c:if test="${advertisement.category.name eq 'notclothes'}">
+                                            Не одежда
+                                        </c:if>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>
