@@ -340,9 +340,10 @@
 
 .userLk-out {
     color: #9C9C9C;
-    font-size: 12px;
     padding-right: 10px;
     text-align: right;
+    font-size: 15px;
+    float: right;
 }
 #Lk-table td {
     padding: 8px;
@@ -361,7 +362,7 @@
     width: inherit;
     float: right;
 }
-}
+
 
 .profile {
     text-decoration: underline;
@@ -403,16 +404,39 @@
     color: #52ba00;
     text-decoration: underline;
 }
-.del-keyWords {
-    height: 20px;
-    width: 20px;
-}
 
-.del-keyWords:hover {
-    /*background: url("/resources/images/del_hover.png");*/
- }
 
 .td-del-kWrds {
     text-align: right;
     vertical-align: middle;
+    width: 60px;
+}
+
+
+.controlButtons {
+    display: inline-block;
+    float: left;
+}
+
+.deleteButtonImage, .editButtonImage {
+    width: 25px;
+    height: 25px;
+    display: inherit;
+    float: left;
+    padding-left: 5px;
+}
+.deleteButtonImage {
+    background: url("../images/del.png") no-repeat;
+}
+
+.editButtonImage {
+    background: url("../images/edit.png") no-repeat;
+}
+
+.deleteButtonImage:hover {
+    background: url("../images/del_hover.png") no-repeat;
+}
+
+.editButtonImage:hover {
+    background: url("../images/edit_hover.png") no-repeat;
 }

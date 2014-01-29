@@ -126,14 +126,17 @@
                                         </c:forEach>
                                     </td>
                                     <td class="td-del-kWrds">
-                                        <c:url value="/user/delKeyWords.html" var="delKW">
+                                        <c:url value="/user/delKeyWords.html" var="delete">
                                             <c:param name="currentKeyWords" value="${searchings.keyWords}"/>
                                             <c:param name="currentCategory" value="${searchings.allCategory}" />
                                         </c:url>
-                                        <div class="deleteAdvertisementButton">
-                                            <a class="deleteAdvertisementButtonImage" href='${delKW}' >
-                                                <img src='<c:url value="/resources/images/del.png"/>' alt=""/>
-                                            </a>
+                                        <c:url value="/user/editKeyWords.html" var="edit">
+                                            <c:param name="currentKeyWords" value="${searchings.keyWords}"/>
+                                            <c:param name="currentCategory" value="${searchings.allCategory}" />
+                                        </c:url>
+                                        <div class="controlButtons">
+                                            <a class="deleteButtonImage" href='${delete}' ></a>
+                                            <a class="editButtonImage" href='${edit}' ></a>
                                         </div>
                                     </td>
                                     </tr>

@@ -197,17 +197,26 @@ public class UsersRegistrationController {
     }
 
     @RequestMapping(value = "/delKeyWords.html", method = RequestMethod.GET)
-    public ModelAndView delKeyWords(@RequestParam(value = "currentKeyWords", required = true) final String keyWordsParam,
+    public String delKeyWords(@RequestParam(value = "currentKeyWords", required = true) final String keyWordsParam,
                                     @RequestParam(value = "currentCategory", required = true) final String categoryParam
     )
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
-        //User user = this.userDao.findUserByEmail(email);
-        //ModelAndView modelAndView = new ModelAndView("user/userProfile");
-        //modelAndView.addObject("username",  user.getFirstName()+ " " + user.getLastName());
         SearchVariant tmp = new SearchVariant(email, keyWordsParam, categoryParam);
         this.searchVariantDao.delete(tmp);
-        return seeProfile();
+        return "redirect:/user/userProfile.html";
+    }
+
+    @RequestMapping(value = "/editKeyWords.html", method = RequestMethod.GET)
+    public ModelAndView editSearchVars(@RequestParam(value = "currentKeyWords", required = true) final String keyWordsParam,
+                                    @RequestParam(value = "currentCategory", required = true) final String categoryParam
+    )
+    {/*
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        SearchVariant tmp = new SearchVariant(email, keyWordsParam, categoryParam);
+        this.searchVariantDao.delete(tmp);*/
+        return new ModelAndView("user/userProfile");
     }
 }
