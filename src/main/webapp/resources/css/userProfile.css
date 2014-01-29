@@ -109,7 +109,7 @@
 .userLk-href {
     color: #52ba00;
     text-decoration: underline;
-    font-size: 14pt;
+    font-size: 19px;
     padding: 7px 30px;
     position: inherit;
     top: 10px;
@@ -129,7 +129,7 @@
 }
 */
 .search-vars table{
-    font-size: 16pt;
+    font-size: 16px;
     border: none;
 }
 .search-vars tbody{
@@ -273,7 +273,7 @@
     box-shadow: 1px 1px 1px #000000;
     color: #000000;
     float: left;
-    font-size: 12pt;
+    font-size: 17px;
     height: 22px;
     margin: auto;
     padding: 10px 15px;
@@ -321,13 +321,13 @@
     border: none;
 }
 */
-.username {
+.username, #profile {
     color: #5ebf11;
-    font-size: 16pt;
+    font-size: 20px;
 }
 
 .mediumSizeFont {
-    font-size: 16pt;
+    font-size: 21px;
     color: #3e3e38;
     padding-bottom: 15px;
     padding-top: 20px;
@@ -337,9 +337,10 @@
     float: left;
     width: 80%;
 }
+
 .userLk-out {
     color: #9C9C9C;
-    font-size: 12pt;
+    font-size: 12px;
     padding-right: 10px;
     text-align: right;
 }
@@ -350,6 +351,68 @@
 
 .userEmail {
     color: #5ebf11;
-    font-size: 14pt;
+    font-size: 18px;
     text-decoration: underline;
+}
+
+.profile, #username-profile {
+    padding: 9px 11px;
+    text-align: right;
+    width: inherit;
+    float: right;
+}
+}
+
+.profile {
+    text-decoration: underline;
+    font-size: 18px;
+}
+#username-profile {
+    font-size: 18px;
+    text-align: right;
+}
+
+.tab-panel {
+    color: #52ba00;
+    text-decoration: underline;
+    text-align: right;
+    font-size: 16px;
+    position: inherit;
+    float: right;
+    width: 40%;
+}
+
+.lk-profile {
+    background: none repeat scroll 0 0 rgba(246, 246, 246, 0.4);
+    float: right;
+    height: 90px;
+    padding: 10px 9px;
+    position: absolute;
+    right: 111px;
+    top: 30px;
+    width: 240px;
+}
+.lk-profile img {
+    float: left;
+    width: 60px;
+    height: 60px;
+    padding-top: inherit;
+    padding-left: inherit;
+}
+.lk-profile .profile {
+    color: #52ba00;
+    text-decoration: underline;
+}
+.del-keyWords {
+    height: 20px;
+    width: 20px;
+}
+
+.del-keyWords:hover {
+    /*background: url("/resources/images/del_hover.png");*/
+ }
+
+.td-del-kWrds {
+    text-align: right;
+    vertical-align: middle;
 }

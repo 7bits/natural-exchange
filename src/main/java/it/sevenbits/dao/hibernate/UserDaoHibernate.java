@@ -33,7 +33,7 @@ public class UserDaoHibernate implements UserDao {
         UserEntity userEntity = new UserEntity(
                 user.getFirstName(), user.getEmail(), user.getLastName(), user.getVk_link(), user.getCreatedDate(),
                 user.getUpdateDate(), user.getIsDeleted(), user.getPassword(), user.getRole(), user.getActivationCode(),
-                user.getActivationDate());
+                user.getActivationDate(), user.getAvatar());
         return userEntity;
     }
 

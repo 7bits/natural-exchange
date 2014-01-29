@@ -27,10 +27,18 @@
         <link rel="shortcut icon" type="image/x-icon" href="<c:url value='/resources/images/favicon.ico'/>" >
     </head>
     <body>
-        <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
+        <%@ include file="/WEB-INF/jsp/user/headerProfile.jsp" %>
+        <div class="lk-profile">
+            <img src='<c:url value="/resources/images/avatars/${userAvatar}"/>' alt="Нет фото" />
+            <div>
+                <p id="username-profile"><c:out value="${username}" /></p>
+                <p class="profile">Личный кабинет</p>
+            </div>
+
+        </div>
         <div class="userLk">
-            <div class="userLk-Lk">Личный кабинет</div>
-            <div class="userLk-out">Выход</div>
+            <div class="profile">Личный кабинет</div>
+            <a class="userLk-out" href="<c:url value="/user/logout.html"/>" > Выйти </a>
         </div>
         <div class="all-tabs">
             <ul id="tabs">
@@ -42,8 +50,7 @@
             <div id="tabsText">
                 <div class="profile-tabs">
                     <div class="avatar">
-                        <img src='<c:url value="/resources/images/user_images/image1.jpg"/>'
-                             alt="Нет фото" />
+                        <img src='<c:url value="/resources/images/avatars/${userAvatar}"/>' alt="Нет фото" />
                     </div>
                     <div class="personal-data">
                         <p class="username"><c:out value="${username}" /></p>
@@ -118,6 +125,17 @@
                                             </div>
                                         </c:forEach>
                                     </td>
+                                    <td class="td-del-kWrds">
+                                        <c:url value="/user/delKeyWords.html" var="delKW">
+                                            <c:param name="currentKeyWords" value="${searchings.keyWords}"/>
+                                            <c:param name="currentCategory" value="${searchings.allCategory}" />
+                                        </c:url>
+                                        <div class="deleteAdvertisementButton">
+                                            <a class="deleteAdvertisementButtonImage" href='${delKW}' >
+                                                <img src='<c:url value="/resources/images/del.png"/>' alt=""/>
+                                            </a>
+                                        </div>
+                                    </td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -125,7 +143,11 @@
                     </div>
                 </div>
                 <div class="profile-tabs">
-                    <p>Мои объявления</p>
+                    <div>Мои объявления</div>
+                    <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="tab-panel">
+                            Разместить объявление
+                    </a>
+
                     <table>
                         <tbody>
                             <c:forEach items="${adverts}" var="advertisement" varStatus="status">
@@ -140,7 +162,7 @@
                                     <td class="title">
                                         <c:url value="/advertisement/view.html" var="advertisementViewingUrl">
                                             <c:param name="id" value="${advertisement.id}"/>
-                                            <c:param name="currentCategory" value="${advertisement.category}"/>
+                                            <c:param name="currentCategory" value="${advertisement.category.name}"/>
                                         </c:url>
                                         <a href="${advertisementViewingUrl}"><c:out value="${advertisement.title}"/>  </a>
                                     </td>

@@ -21,6 +21,7 @@ public class User implements UserDetails  {
     private String role;
     private String activationCode;
     private Long activationDate;
+    private String avatar;
 
 
 
@@ -46,7 +47,7 @@ public class User implements UserDetails  {
     public User(
             final String firstName, final String email, final String lastName, final String vkLink,
             final Long createdDate, final Long updatedDate, final Boolean deleted, final String password,
-            final String role, final String activationCode, final Long activationDate
+            final String role, final String activationCode, final Long activationDate, final String avatar
     ) {
         this.firstName = firstName;
         this.email = email;
@@ -59,6 +60,15 @@ public class User implements UserDetails  {
         this.role = role;
         this.activationCode = activationCode;
         this.activationDate = activationDate;
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Long getCreatedDate() {
@@ -189,7 +199,7 @@ public class User implements UserDetails  {
         if (role != null ? ! role.equals(that.role) : that.role!= null) return false;
         if (activationCode!= null ? !activationCode.equals(that.activationCode) : that.activationCode!= null) return false;
         if (activationDate != null ? ! activationDate.equals(that.activationDate) : that.activationDate!= null) return false;
-
+        if (avatar != null ? ! avatar.equals(that.avatar) : that.avatar!= null) return false;
         return true;
     }
 
@@ -206,6 +216,7 @@ public class User implements UserDetails  {
         result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
         result = 31 * result + (role!= null ? role.hashCode() : 0);
         result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (avatar!= null ? avatar.hashCode() : 0);
         return result;
     }
 }

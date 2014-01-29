@@ -33,10 +33,10 @@ public class UserEntity extends User {
     public UserEntity(
             final String firstName, final String email, final String lastName, final String vkLink,
             final Long createdDate, final Long updatedDate, final Boolean deleted, final String password,
-            final String role, final String activationCode, final Long activationDate
+            final String role, final String activationCode, final Long activationDate, final String avatar
     ) {
         super(firstName, email, lastName, vkLink, createdDate, updatedDate, deleted, password, role, activationCode,
-                activationDate);
+                activationDate, avatar);
     }
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
@@ -119,6 +119,12 @@ public class UserEntity extends User {
     @Override
     public Long getActivationDate() {
         return super.getActivationDate();
+    }
+
+    @Column(name = "avatar", nullable = true)
+    @Override
+    public String getAvatar() {
+        return super.getAvatar();
     }
 
     public void setId(final Long id) {

@@ -53,5 +53,6 @@ CREATE TABLE
   activation_code varchar(255),
   activation_date bigint(20),
   vk_link varchar(255),
+  avatar varchar(255),
   PRIMARY KEY (id)
 );

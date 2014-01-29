@@ -173,8 +173,11 @@ public class UsersRegistrationController {
         String email = auth.getName();
         User user = this.userDao.findUserByEmail(email);
         ModelAndView modelAndView = new ModelAndView("user/userProfile");
-
         modelAndView.addObject("username", user.getFirstName()+ " " + user.getLastName());
+        if (user.getAvatar() == null)
+            modelAndView.addObject("userAvatar", "emptyface.png");
+        else
+            modelAndView.addObject("userAvatar", user.getAvatar());
         List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
         modelAndView.addObject("adverts", advertisements);
 
@@ -193,4 +196,18 @@ public class UsersRegistrationController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/delKeyWords.html", method = RequestMethod.GET)
+    public ModelAndView delKeyWords(@RequestParam(value = "currentKeyWords", required = true) final String keyWordsParam,
+                                    @RequestParam(value = "currentCategory", required = true) final String categoryParam
+    )
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        //User user = this.userDao.findUserByEmail(email);
+        //ModelAndView modelAndView = new ModelAndView("user/userProfile");
+        //modelAndView.addObject("username",  user.getFirstName()+ " " + user.getLastName());
+        SearchVariant tmp = new SearchVariant(email, keyWordsParam, categoryParam);
+        this.searchVariantDao.delete(tmp);
+        return seeProfile();
+    }
 }
