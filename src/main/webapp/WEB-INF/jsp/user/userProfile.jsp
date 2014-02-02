@@ -30,15 +30,12 @@
         <%@ include file="/WEB-INF/jsp/user/headerProfile.jsp" %>
         <div class="lk-profile">
             <img src='<c:url value="/resources/images/avatars/${userAvatar}"/>' alt="Нет фото" />
-            <div>
-                <p id="username-profile"><c:out value="${username}" /></p>
-                <p class="profile">Личный кабинет</p>
-            </div>
-
+            <p><c:out value="${username}" /></p>
+            <p id="username-profile">Личный кабинет</p>
         </div>
         <div class="userLk">
             <div class="profile">Личный кабинет</div>
-            <a class="userLk-out" href="<c:url value="/user/logout.html"/>" > Выйти </a>
+            <a class="userLk-out" href="<c:url value="/user/logout.html"/>" > Выход </a>
         </div>
         <div class="all-tabs">
             <ul id="tabs">

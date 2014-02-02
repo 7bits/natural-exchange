@@ -39,17 +39,11 @@
 
 /*для фотки - аватары*/
 .avatar {
-    width: 130px;
-    height: 130px;
-    border: 1px solid #d8d8d8;
     float: left;
 }
 .avatar img {
-    width: 126px;
-    height: 126px;
-    top: 2px;
-    left: 2px;
-    position: relative;
+    width: 112px;
+    height: 112px;
 }
 
 .controls{
@@ -95,13 +89,14 @@
 .userLk {
     vertical-align: middle;
     font-size: 23px;
-    background: #f6f6f6;
+    background: none repeat scroll 0% 0% rgb(246, 246, 246);
     margin: auto;
-    height: 33px;
-    width: 1025px;
-    padding-bottom: 9px;
-    padding-left: 15px;
+    height: 37px;
+    width: 1040px;
     padding-top: 9px;
+    padding-bottom: 9px;
+    margin-top: 32px;
+    margin-bottom: 42px;
 }
 .search-vars.userLk-href a{
     color: #52ba00;
@@ -268,49 +263,53 @@
 
 
 .category {
-    background: none repeat scroll 0 0 #D8D8D8;
-    border-radius: 5px 5px 5px 5px;
-    box-shadow: 1px 1px 1px #000000;
-    color: #000000;
+    background: none repeat scroll 0  0  rgb(216, 216, 216);
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
     float: left;
     font-size: 17px;
-    height: 22px;
-    margin: auto;
-    padding: 10px 15px;
-    vertical-align: middle;
+    height: 19px;
+    margin: 3px auto;
+    text-align: center;
+    padding: 5px 15px 12px;
 }
 
 
 .circle-row{
-    background: none repeat scroll 0 0 #FFFFFF;
-    border-radius: 6px 6px 6px 6px;
+    background: none repeat scroll 0 0 rgb(255, 255, 255);
+    border-radius: 6px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.88) inset;
     float: left;
     height: 9px;
     position: relative;
-    right: -45px;
-    top: 17px;
+    right: -43px;
+    top: 16px;
     width: 9px;
     z-index: 3;
 }
 .nose-row {
-    border-color: #F3F3F3 #D8D8D8 #F3F3F3 #F3F3F3;
+    border-color: rgb(243, 243, 243) rgb(216, 216, 216) rgb(243, 243, 243) rgb(243, 243, 243);
     border-style: solid;
-    border-width: 22px 20px 20px;
+    border-width: 17px;
     float: left;
-    height: 0;
-    position: relative;
-    right: -2px;
-    width: 0;
+    height: 0px;
+    right: -1px;
+    width: 0px;
     z-index: 2;
+    margin-top: 4px;
+    position: relative;
+    top: 1px;
 }
 
 .flower-row {
     float: left;
     left: 10px;
-    position: relative;
+    position: static;
     top: 12px;
     width: 18px;
+    padding-left: 15px;
+    padding-top: 12px;
 }
 
 #Lk-table {
@@ -339,11 +338,11 @@
 }
 
 .userLk-out {
-    color: #9C9C9C;
-    padding-right: 10px;
-    text-align: right;
-    font-size: 15px;
+    color: rgba(61, 61, 61, 0.7);
+    font-size: 16px;
     float: right;
+    padding-right: 12px;
+    padding-top: 8px;
 }
 #Lk-table td {
     padding: 8px;
@@ -356,21 +355,17 @@
     text-decoration: underline;
 }
 
-.profile, #username-profile {
-    padding: 9px 11px;
-    text-align: right;
-    width: inherit;
-    float: right;
-}
-
-
 .profile {
+    width: 50%;
+    float: left;
     text-decoration: underline;
-    font-size: 18px;
+    padding-left: 22px;
+    font-size: 22px;
 }
+
 #username-profile {
-    font-size: 18px;
-    text-align: right;
+    color: #52ba00;
+    text-decoration: underline;
 }
 
 .tab-panel {
@@ -384,22 +379,30 @@
 }
 
 .lk-profile {
-    background: none repeat scroll 0 0 rgba(246, 246, 246, 0.4);
+    background: none repeat scroll 0 0  rgba(87, 87, 87, 0.08);
     float: right;
     height: 90px;
-    padding: 10px 9px;
     position: absolute;
     right: 111px;
     top: 30px;
-    width: 240px;
+    width: 326px;
 }
 .lk-profile img {
     float: left;
     width: 60px;
     height: 60px;
-    padding-top: inherit;
-    padding-left: inherit;
+    margin-top: 14px;
+    margin-left: 17px;
 }
+.lk-profile p {
+    font-size: 20px;
+    text-align: right;
+    float: right;
+    width: 190px;
+    padding-top: 11px;
+    padding-right: 15px;
+}
+
 .lk-profile .profile {
     color: #52ba00;
     text-decoration: underline;
