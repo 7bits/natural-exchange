@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="false"%>
 
@@ -31,11 +32,11 @@
         <div class="lk-profile">
             <img src='<c:url value="/resources/images/avatars/${userAvatar}"/>' alt="Нет фото" />
             <p><c:out value="${username}" /></p>
-            <p id="username-profile">Личный кабинет</p>
+            <p class="username-profile">Личный кабинет</p>
         </div>
         <div class="userLk">
             <div class="profile">Личный кабинет</div>
-            <a class="userLk-out" href="<c:url value="/user/logout.html"/>" > Выход </a>
+            <a class="userLk-out" href="<c:url value='/user/logout.html'/>" > Выход </a>
         </div>
         <div class="all-tabs">
             <ul id="tabs">
@@ -70,6 +71,9 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <a class="username-profile" href="<c:url value='/user/editProfile.html'/>" >Редактировать профиль</a>
+                    </div>
                     <div class="search-vars">
                         <p class="mediumSizeFont">Сохраненные параметры поиска</p>
                         <table>
@@ -92,7 +96,7 @@
 
                                             <c:url value="/advertisement/list.html" var="searchResult">
                                                 <c:param name="currentKeyWords" value="${searchings.keyWords}"/>
-                                                <c:param name="currentCategory" value="${searchings.allCategory}" />
+                                                <c:param name="currentCategory" value="${searchings.allCategories}" />
                                             </c:url>
                                             <a class="userLk-href" href="${searchResult}" >
                                                 <c:out value="${searchings.keyWords}" />
@@ -125,15 +129,15 @@
                                     <td class="td-del-kWrds">
                                         <c:url value="/user/delKeyWords.html" var="delete">
                                             <c:param name="currentKeyWords" value="${searchings.keyWords}"/>
-                                            <c:param name="currentCategory" value="${searchings.allCategory}" />
+                                            <c:param name="currentCategory" value="${searchings.allCategories}" />
                                         </c:url>
-                                        <c:url value="/user/editKeyWords.html" var="edit">
-                                            <c:param name="currentKeyWords" value="${searchings.keyWords}"/>
-                                            <c:param name="currentCategory" value="${searchings.allCategory}" />
+                                        <c:url value="/user/editSearchVariant.html" var="edit">
+                                            <c:param name="oldKeys" value="${searchings.keyWords}"/>
+                                            <c:param name="oldCategories" value="${searchings.allCategories}"/>
                                         </c:url>
                                         <div class="controlButtons">
                                             <a class="deleteButtonImage" href='${delete}' ></a>
-                                            <a class="editButtonImage" href='${edit}' ></a>
+                                            <a class="editSearchButtonImage" href='${edit}' ></a>
                                         </div>
                                     </td>
                                     </tr>

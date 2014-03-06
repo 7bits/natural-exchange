@@ -64,4 +64,6 @@ public interface UserDao {
     void delete(User user);
 
     List<User> findAllModerators();
+
+    void updateData(User user);
 }

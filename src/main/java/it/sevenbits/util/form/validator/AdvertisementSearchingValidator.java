@@ -3,6 +3,7 @@ package it.sevenbits.util.form.validator;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
@@ -19,5 +20,9 @@ public class AdvertisementSearchingValidator implements Validator {
     @Override
     public void validate(final Object target, final Errors errors) {
         AdvertisementSearchingForm advertisementSearchingForm = (AdvertisementSearchingForm) target;
+        String[] categories  = advertisementSearchingForm.getCategories();
+        if (categories == null) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "categories", "category.empty", "Выберите категорию.");
+        }
     }
 }

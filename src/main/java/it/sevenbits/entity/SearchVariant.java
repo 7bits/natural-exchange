@@ -1,5 +1,7 @@
 package it.sevenbits.entity;
 
+import it.sevenbits.util.TimeManager;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,9 +21,7 @@ public class SearchVariant {
      * Constructor by default
      */
     public SearchVariant() {
-        TimeZone timeZone = TimeZone.getDefault();
-        Calendar calendar = new GregorianCalendar(timeZone);
-        createdDate = calendar.getTimeInMillis();
+        createdDate = TimeManager.getTime();
     }
 
     public SearchVariant(final String email, final String keyWords, final String categories) {

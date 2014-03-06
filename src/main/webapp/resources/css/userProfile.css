@@ -235,30 +235,33 @@
 /* category in first tab  */
 
 .circle{
-    background: #fff;
     height:9px;
     width:9px;
     position: relative;
     float:left;
     top: 16px;
-    right: -35px;
-    z-index:3;
-    /* border-radius
+    right: -43px;
     -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;*/
+    -moz-border-radius: 5px;
     border-radius: 6px;
-    box-shadow: inset 0 1px 1px 0 rgba(0, 0, 0, 0.88);
+    box-shadow:  0 1px 1px 0 rgba(0, 0, 0, 0.88) inset;
+    background: none repeat scroll 0 0 rgb(255, 255, 255);
+    z-index: 3;
 }
+
 .nose {
     border-color: #FFFFFF #D8D8D8 #FFFFFF #FFFFFF;
     border-style: solid;
-    border-width: 22px 22px 22px 11px;
+    border-width: 17px;
     float: left;
     height: 0;
-    position: relative;
-    right: -2px;
+    right: -1px;
     width: 0;
     z-index: 2;
+    margin-top: 4px;
+    position: relative;
+    top: 1px;
+
 }
 
 
@@ -293,9 +296,9 @@
     border-style: solid;
     border-width: 17px;
     float: left;
-    height: 0px;
+    height: 0;
     right: -1px;
-    width: 0px;
+    width: 0;
     z-index: 2;
     margin-top: 4px;
     position: relative;
@@ -358,9 +361,8 @@
 .profile {
     width: 50%;
     float: left;
-    text-decoration: underline;
     padding-left: 22px;
-    font-size: 22px;
+    font-size: 24px;
 }
 
 #username-profile {
@@ -421,25 +423,29 @@
     float: left;
 }
 
-.deleteButtonImage, .editButtonImage {
-    width: 25px;
-    height: 25px;
+.deleteButtonImage, .editSearchButtonImage {
     display: inherit;
     float: left;
-    padding-left: 5px;
+    margin: 6px 4px 0 5px;
+    width: 17px;
+    height: 18px;
 }
 .deleteButtonImage {
     background: url("../images/del.png") no-repeat;
+    background-size: contain;
 }
 
-.editButtonImage {
+.editSearchButtonImage {
     background: url("../images/edit.png") no-repeat;
+    background-size: contain;
 }
 
 .deleteButtonImage:hover {
     background: url("../images/del_hover.png") no-repeat;
+    background-size: contain;
 }
 
-.editButtonImage:hover {
+.editSearchButtonImage:hover {
     background: url("../images/edit_hover.png") no-repeat;
+    background-size: contain;
 }

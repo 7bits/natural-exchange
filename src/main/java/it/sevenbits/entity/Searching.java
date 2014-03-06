@@ -2,6 +2,7 @@ package it.sevenbits.entity;
 
 import java.util.Arrays;
 
+
 /**
  * Helping class
  */
@@ -9,36 +10,42 @@ public class Searching{
 
     private String keyWords;
     private String[] categories;
-    private String allCategory;
+    private String allCategories;
+
+    public Searching(final SearchVariant searchVariant){
+        this.keyWords = searchVariant.getKeyWords();
+        this.allCategories = searchVariant.getCategories();
+        this.categories = (searchVariant.getCategories()).split(" ");
+    }
 
     public Searching() {
         this.keyWords = null;
         this.categories = null;
-        this.allCategory = null;
+        this.allCategories = null;
     }
 
     public String getKeyWords() {
         return keyWords;
     }
 
-    public void setKeyWords(String keyWords) {
-        this.keyWords = keyWords;
-    }
-
     public String[] getCategories() {
         return categories;
+    }
+
+    public String getAllCategories() {
+        return allCategories;
+    }
+
+    public void setKeyWords(String keyWords) {
+        this.keyWords = keyWords;
     }
 
     public void setCategories(String[] categories) {
         this.categories  = categories.clone();
     }
 
-    public String getAllCategory() {
-        return allCategory;
-    }
-
-    public void setAllCategory(String allCategory) {
-        this.allCategory = allCategory;
+    public void setAllCategories(String allCategories) {
+        this.allCategories = allCategories;
     }
 
     @Override
@@ -48,11 +55,24 @@ public class Searching{
 
         Searching searching = (Searching) o;
 
-        if (allCategory != null ? !allCategory.equals(searching.allCategory) : searching.allCategory != null)
+        if (allCategories != null ? !allCategories.equals(searching.allCategories) : searching.allCategories != null)
             return false;
-        if (!Arrays.equals(categories, searching.categories)) return false;
         if (keyWords != null ? !keyWords.equals(searching.keyWords) : searching.keyWords != null) return false;
-
+        int length = this.categories.length;
+        if (((Searching) o).categories.length != length)
+            return false;
+        int i,j;
+        // if (!Arrays.equals(categories, searching.categories)) return false;
+        for (i = 0; i < length; i++) {
+            for (j = 0; j< length; j++) {
+                if (categories[i].equals(((Searching) o).categories[j])) {
+                    break;
+                }
+            }
+            if (j == length) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -60,7 +80,7 @@ public class Searching{
     public int hashCode() {
         int result = keyWords != null ? keyWords.hashCode() : 0;
         result = 31 * result + (categories != null ? Arrays.hashCode(categories) : 0);
-        result = 31 * result + (allCategory != null ? allCategory.hashCode() : 0);
+        result = 31 * result + (allCategories != null ? allCategories.hashCode() : 0);
         return result;
     }
 }

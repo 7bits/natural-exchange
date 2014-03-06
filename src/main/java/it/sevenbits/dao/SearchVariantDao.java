@@ -16,6 +16,14 @@ public interface SearchVariantDao {
     void create(SearchVariant searchVariant);
 
     /**
+     *
+     * @param searchVariant
+     * @param keyWordsParam
+     * @param categoriesParam
+     */
+    void update(final SearchVariant searchVariant, final String keyWordsParam, final String categoriesParam);
+
+    /**
      *  id
      * @param id -
      * @return
@@ -31,10 +39,11 @@ public interface SearchVariantDao {
     /**
      * изменить подписчиков
      * @param searchVariant
-    void update(Subscriber subscriber);
+    void update(?Subscriber ?subscriber);
+    */
 
     /**
-     * удалить подписчиков
+     * удалить вариант поиска
      * @param searchVariant
      */
     void delete(SearchVariant searchVariant);
@@ -45,4 +54,9 @@ public interface SearchVariantDao {
      * @return list of search..var.s
      */
     List<SearchVariant> findByEmail(final String email);
+
+
+    void updateAdvertSearch(String email, String oldKeyWordsParam, String oldCategoriesParam, String keyWords, String categories);
+
+    public boolean isExist(final SearchVariant searchVariant);
 }

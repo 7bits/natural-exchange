@@ -184,3 +184,10 @@ aside {
     right: -152px;
     position: relative;
 }
+
+.editSearchVars {
+    margin:0 auto;
+    width:60%;
+    padding: 30px 0;
+}
+

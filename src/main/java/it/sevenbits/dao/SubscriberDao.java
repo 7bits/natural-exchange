@@ -15,6 +15,11 @@ public interface SubscriberDao {
     void create(Subscriber subscriber);
 
     /**
+     *
+     */
+    void update(final String oldEmail, final String newEmail);
+
+    /**
      *  найти подписчика по id
      * @param id  identif. number of subscriber in DB
      * @return    subscriber

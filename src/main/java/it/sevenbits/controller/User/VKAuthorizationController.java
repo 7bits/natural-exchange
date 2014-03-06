@@ -1,20 +1,13 @@
 package it.sevenbits.controller.User;
 
-import it.sevenbits.controller.UsersRegistrationController;
+import it.sevenbits.controller.UsersController;
 import it.sevenbits.dao.UserDao;
-import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.TimeManager;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.json.simple.parser.JSONParser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.json.simple.JSONObject;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 
 
 /**
@@ -91,7 +83,7 @@ public class VKAuthorizationController {
         user.setUpdateDate(TimeManager.getTime());
         user.setCreatedDate(TimeManager.getTime());
         user.setRole("ROLE_USER");
-        user.setActivationDate(TimeManager.addDate(UsersRegistrationController.REGISTRATION_PERIOD));
+        user.setActivationDate(TimeManager.addDate(UsersController.REGISTRATION_PERIOD));
         Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
         String code = md5encoder.encodePassword(user.getPassword(), user.getEmail() );
         user.setActivationCode(code);

@@ -15,7 +15,7 @@ public class UserRegistrationForm {
     private String password;
     private String firstName;
     private String lastName;
-    private String isReceiveNews;
+    private boolean isReceiveNews;
     private String vkLink;
 
     public String getVkLink() {
@@ -58,11 +58,11 @@ public class UserRegistrationForm {
         this.password = password;
     }
 
-    public String getIsReceiveNews() {
+    public boolean getIsReceiveNews() {
         return isReceiveNews;
     }
 
-    public void setIsReceiveNews(final String receiveNews) {
+    public void setIsReceiveNews(final boolean receiveNews) {
         isReceiveNews = receiveNews;
     }
 }

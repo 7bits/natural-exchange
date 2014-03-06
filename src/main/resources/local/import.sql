@@ -1,9 +1,9 @@
 SET NAMES  'utf8';
-INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (1,'dimaaasik.s@gmail.com',1369229028460,'man coat','clothes games');
-INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (2,'test@gmail.com',1369229024460,'coat','clothes games');
-INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (3,'test@gmail.com',1369229028660,'boots','clothes games');
-INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (4,'bandit@gmail.com',1369229022460,'skate','clothes games');
-INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (5,'ashaeva73@mail.ru',1369229027460,'bicycle','clothes games notclothes');
+INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (1,'dimaaasik.s@gmail.com',1369229028460,'man coat','games clothes');
+INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (2,'test@gmail.com',1369229024460,'coat','games clothes');
+INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (3,'test@gmail.com',1369229028660,'boots','games clothes');
+INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (4,'bandit@gmail.com',1369229022460,'skate','games clothes');
+INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (5,'ashaeva73@mail.ru',1369229027460,'bicycle','games clothes notclothes');
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (1,'clothes','very good',460,1,461);
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (2,'notclothes','very good',460,1,461);
 INSERT INTO Category (id,name,description,created_date,is_deleted,updated_date) VALUES (3,'games','very good',460,1,461);

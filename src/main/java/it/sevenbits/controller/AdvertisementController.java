@@ -171,13 +171,13 @@ public class AdvertisementController {
                 ;
             }
         }
-        PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
+        PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
         int pageSize;
         if (pageSizeParam == null) {
             pageSize = defaultPageSize();
         } else {
-            pageSize = pageSizeParam.intValue();
+            pageSize = pageSizeParam;
         }
         pageList.setPageSize(pageSize);
         int noOfPage = pageList.getPageCount();
@@ -185,7 +185,7 @@ public class AdvertisementController {
         if (currentPageParam == null || currentPageParam >= noOfPage) {
             currentPage = 0;
         } else {
-            currentPage = currentPageParam.intValue();
+            currentPage = currentPageParam;
         }
         pageList.setPage(currentPage);
         modelAndView.addObject("advertisements", pageList.getPageList());
@@ -241,8 +241,8 @@ public class AdvertisementController {
             return null;
         }
         String dest = " ";
-        for (int i = 0 ; i < src.length ; i++) {
-            dest += src[i] + " ";
+        for (String aSrc : src) {
+            dest += aSrc + " ";
         }
         return dest;
     }
@@ -360,7 +360,7 @@ public class AdvertisementController {
         if (currentPageParam == null || currentPageParam >= noOfPage) {
             currentPage = 0;
         } else {
-            currentPage = currentPageParam.intValue();
+            currentPage = currentPageParam;
         }
         pageList.setPage(currentPage);
         modelAndView.addObject("advertisements", pageList.getPageList());

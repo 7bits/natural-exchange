@@ -3,12 +3,15 @@ package it.sevenbits.dao.hibernate;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
+import it.sevenbits.util.TimeManager;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -131,4 +134,20 @@ public class UserDaoHibernate implements UserDao {
         return this.hibernateTemplate.findByCriteria(criteria);
     }
 
+    @Override
+    public void updateData(User userNewParam) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String oldEmail = auth.getName();
+        DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
+        criteria.add(Restrictions.like("email", oldEmail));
+        List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
+        User userToUpdate = users.get(0);
+        userToUpdate.setEmail(userNewParam.getEmail());
+        userToUpdate.setPassword(userNewParam.getPassword());
+        userToUpdate.setFirstName(userNewParam.getFirstName());
+        userToUpdate.setLastName(userNewParam.getLastName());
+        userToUpdate.setVk_link(userNewParam.getVk_link());
+        userToUpdate.setUpdateDate(TimeManager.getTime());
+        this.hibernateTemplate.update(userToUpdate);
+    }
 }

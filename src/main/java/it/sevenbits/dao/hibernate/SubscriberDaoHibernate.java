@@ -33,7 +33,10 @@ public class SubscriberDaoHibernate implements SubscriberDao {
 
     @Override
     public Subscriber findById(final Integer id) {
-        return new Subscriber();
+        DetachedCriteria criteria = DetachedCriteria.forClass(Subscriber.class);
+        criteria.add(Restrictions.like("id", id));
+        List<Subscriber> users = this.hibernateTemplate.findByCriteria(criteria);
+        return users.get(0);
     }
 
     @Override
@@ -53,17 +56,25 @@ public class SubscriberDaoHibernate implements SubscriberDao {
         return convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
-    public void update(final Subscriber subscriber) {
+    @Override
+    public void update(final String oldEmail, final String newEmail) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(Subscriber.class);
+        criteria.add(Restrictions.like("email", oldEmail));
+        List<Subscriber> subscribers = this.hibernateTemplate.findByCriteria(criteria);
+        Subscriber subscriber =  subscribers.get(0);
+        subscriber.setEmail(newEmail);
+        this.hibernateTemplate.update(subscriber);
     }
 
     public void delete(final Subscriber subscriber) {
+        this.hibernateTemplate.delete(subscriber);
     }
 
     private List<Subscriber> convertEntityList(final List entities) {
         List<Subscriber> subscribers = new ArrayList<Subscriber>();
         if (entities != null) {
-            List<SubscriberEntity> advertisementEntityList = (List<SubscriberEntity>) entities;
-            for (SubscriberEntity entity : advertisementEntityList) {
+            List<SubscriberEntity> subscriberEntityList = (List<SubscriberEntity>) entities;
+            for (SubscriberEntity entity : subscriberEntityList) {
                 subscribers.add(entity);
             }
         }

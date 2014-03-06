@@ -250,6 +250,7 @@ aside {
 
 header a {
     color: #52ba01;
+    padding-left:10px;
 }
 
 header a:visited {
