@@ -10,6 +10,7 @@ import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.service.mail.MailSenderService;
 //import it.sevenbits.util.UtilsManager;
+import it.sevenbits.util.UtilsManager;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.UserRegistrationForm;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
@@ -248,43 +249,28 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/editSearchVariant.html", method = RequestMethod.POST)
-    public String editSearchVarsPost(@RequestParam(value = "oldKeys", required = false) final String keyWordsParam,
+    public ModelAndView editSearchVarsPost(@RequestParam(value = "oldKeys", required = false) final String keyWordsParam,
                                      @RequestParam(value = "oldCategories", required = true) final String categoriesParam,
                                      final AdvertisementSearchingForm advertSearchingFormParam,
                                      final BindingResult result
     ){
-        logger.debug("old values {} keys {}", categoriesParam, keyWordsParam);
-        logger.debug("new params {} key {}", advertSearchingFormParam.getCategories(), advertSearchingFormParam.getKeyWords());
+        logger.error("old values {} keys {}", categoriesParam, keyWordsParam);
+        logger.info("new params {} key {}", advertSearchingFormParam.getCategories(), advertSearchingFormParam.getKeyWords());
 
-        if (advertSearchingFormParam != null) {
-            this.advertSearchingValidator.validate(advertSearchingFormParam, result);
-            if (result.hasErrors()) {
-                return "user/editSearchVariant.html";
-            }
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String email = auth.getName();
-            //String[] categoriesArray = advertSearchingFormParam.getCategories().clone();
-            String allCategories = stringArrayToString(advertSearchingFormParam.getCategories());
-
-
-            //TODO
-            //проверку на существующий вариант можно сдвинуть в валидатор. Отсюда тогда убрать
-            List<SearchVariant> findByEmailElem = this.searchVariantDao.findByEmail(email);
-            if(!this.searchVariantDao.isExist(new SearchVariant(email, advertSearchingFormParam.getKeyWords(),allCategories))) {
-                logger.debug("searchVar don't found: add new");
-                this.searchVariantDao.update(new SearchVariant(email, keyWordsParam, categoriesParam),
-                        advertSearchingFormParam.getKeyWords(),allCategories);
-            } else {
-                logger.debug("searchVar was found, do nothing.");
-            }
-
-
-
-            // if (!this.searchVariantDao.isExist(new SearchVariant(email, keyWordsParam, categoriesParam))) {
-            //this.searchVariantDao.updateAdvertSearch(email, keyWordsParam, categoriesParam, advertSearchingFormParam.getKeyWords(), allCategories);
-           // }
+        this.advertSearchingValidator.validate(advertSearchingFormParam, result);
+       // if (result.hasErrors() || null == UtilsManager.stringArrayToString(advertSearchingFormParam.getCategories())) {
+        if (result.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("user/editSearchVariant");
+            modelAndView.addObject("advertisementSearchingForm", advertSearchingFormParam);
+            return modelAndView;
         }
-        return "redirect:/user/userProfile.html";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        String allCategories = UtilsManager.stringArrayToString(advertSearchingFormParam.getCategories());
+        this.searchVariantDao.update(new SearchVariant(email, keyWordsParam, categoriesParam),
+                advertSearchingFormParam.getKeyWords(),allCategories);
+
+        return  new ModelAndView("user/userProfile");
     }
 
     @RequestMapping(value = "/editProfile.html", method = RequestMethod.GET)
