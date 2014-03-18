@@ -270,7 +270,7 @@ public class UsersController {
         this.searchVariantDao.update(new SearchVariant(email, keyWordsParam, categoriesParam),
                 advertSearchingFormParam.getKeyWords(),allCategories);
 
-        return  new ModelAndView("user/userProfile");
+        return  new ModelAndView("redirect:/user/userProfile.html");
     }
 
     @RequestMapping(value = "/editProfile.html", method = RequestMethod.GET)
