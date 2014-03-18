@@ -33,11 +33,10 @@ public class UserDaoHibernate implements UserDao {
     }
 
     private UserEntity toEntity(final User user) {
-        UserEntity userEntity = new UserEntity(
+        return new UserEntity(
                 user.getFirstName(), user.getEmail(), user.getLastName(), user.getVk_link(), user.getCreatedDate(),
                 user.getUpdateDate(), user.getIsDeleted(), user.getPassword(), user.getRole(), user.getActivationCode(),
                 user.getActivationDate(), user.getAvatar());
-        return userEntity;
     }
 
     public void create(final User user) {
@@ -87,8 +86,7 @@ public class UserDaoHibernate implements UserDao {
 
     @Override
     public List<User> find() {
-        List<User> userList = new ArrayList<User>();
-        return userList;
+        return new ArrayList<User>();
     }
 
 

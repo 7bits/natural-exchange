@@ -44,10 +44,7 @@ public class SubscriberDaoHibernate implements SubscriberDao {
         DetachedCriteria criteria = DetachedCriteria.forClass(SubscriberEntity.class);
         criteria.add(Restrictions.eq("email", subscriber.getEmail()));
         List<SubscriberEntity> subscribers = this.hibernateTemplate.findByCriteria(criteria);
-        if (subscribers.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !subscribers.isEmpty();
     }
 
     @Override

@@ -17,40 +17,34 @@ public interface SearchVariantDao {
 
     /**
      *
-     * @param searchVariant
-     * @param keyWordsParam
-     * @param categoriesParam
+     * @param searchVariant old searchVar to change
+     * @param keyWordsParam new value for field keyWords
+     * @param categoriesParam  new value for field categories
      */
     void update(final SearchVariant searchVariant, final String keyWordsParam, final String categoriesParam);
 
     /**
      *  id
-     * @param id -
-     * @return
+     * @param id - id of entity
+     * @return SearchVar of SearchVarEntity(id)
      */
     SearchVariant findById(Long id);
 
     /**
      * возвращает  список всех подписчиков
-     * @return
+     * @return list
      */
     List<SearchVariant> find();
 
     /**
-     * изменить подписчиков
-     * @param searchVariant
-    void update(?Subscriber ?subscriber);
-    */
-
-    /**
      * удалить вариант поиска
-     * @param searchVariant
+     * @param searchVariant to delete
      */
     void delete(SearchVariant searchVariant);
 
     /**
      * Returns the list of all searching variant for user with e-mail
-     * @param email
+     * @param email  user's e-mail
      * @return list of search..var.s
      */
     List<SearchVariant> findByEmail(final String email);

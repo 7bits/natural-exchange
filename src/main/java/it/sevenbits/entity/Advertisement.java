@@ -116,6 +116,7 @@ public class Advertisement {
         return TimeManager.getDateString(createdDate);
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -147,11 +148,8 @@ public class Advertisement {
         if (updatedDate != null ? !updatedDate.equals(that.updatedDate) : that.updatedDate != null) {
             return false;
         }
-        if (user != null ? !user.equals(that.user) : that.user != null) {
-            return false;
-        }
+        return !(user != null ? !user.equals(that.user) : that.user != null);
 
-        return true;
     }
 
     @Override

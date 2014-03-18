@@ -89,7 +89,6 @@ public class VKAuthorizationController {
         user.setActivationCode(code);
         this.userDao.create(user);
         mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
-        ModelAndView modelAndView = new ModelAndView("user/regUserLink");
-        return modelAndView;
+        return new ModelAndView("user/regUserLink");
     }
 }

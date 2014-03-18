@@ -78,6 +78,7 @@ public class SearchVariant {
         return dateFormat.format(calendar.getTime());
     }
 
+    @SuppressWarnings("RedundantIfStatement")
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

@@ -182,6 +182,7 @@ public class User implements UserDetails  {
         return !isDeleted;
     }
 
+    @SuppressWarnings("RedundantIfStatement")
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;

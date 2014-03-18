@@ -82,8 +82,8 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     */
     @Override
     public Advertisement findById(final Long id) {
-        AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
-        return  advertisementEntity;
+        return this.hibernateTemplate.get(AdvertisementEntity.class, id);
+
     }
 
     @Override
@@ -120,13 +120,11 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     @Override
     public void update(final Advertisement advertisement) {
         //To change body of implemented methods use File | Settings | File Templates.
-        return;
     }
 
     @Override
     public void delete(final Advertisement advertisement) {
         //To change body of implemented methods use File | Settings | File Templates.
-        return;
     }
 
     @Override
@@ -181,7 +179,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
      * Search advertisements from DB, which match category and key words
      * @param categories if null, it isn't use in selection from DB
      * @param keyWords key words,which searching in title
-     * @return
+     * @return list
      */
 
     @Override

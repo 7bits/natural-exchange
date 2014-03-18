@@ -70,8 +70,10 @@ public class AdvertisementController {
     @Resource(name = "auth")
     private MyUserDetailsService myUserDetailsService;
 
-    @Autowired
-    private AdvertisementSearchingValidator advertisementSearchingValidator;
+// --Commented out by Inspection START (18.03.14 11:42):
+//    @Autowired
+//    private AdvertisementSearchingValidator advertisementSearchingValidator;
+// --Commented out by Inspection STOP (18.03.14 11:42)
 
     @Autowired
     private MailingNewsValidator mailingNewsValidator;
@@ -81,7 +83,7 @@ public class AdvertisementController {
      *
      * @return jsp-page with advertisements information
      * @throws FileNotFoundException
-     *             sortDateOrder = true if ascending, false othewise
+     *             sortDateOrder = true if ascending, false otherwise
      *             sortTitleOrder = so on
      */
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
@@ -549,8 +551,7 @@ public class AdvertisementController {
 
     @RequestMapping(value = "/user/auth_failed.html", method = RequestMethod.GET)
     public ModelAndView auth() {
-        ModelAndView modelAndView = new ModelAndView("user/auth_failed");
-        return modelAndView;
+       return new ModelAndView("user/auth_failed");
     }
 
     /**

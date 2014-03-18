@@ -38,7 +38,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.sevenbits.util.UtilsManager.*;
+//import static it.sevenbits.util.UtilsManager.*;
 
 /**
  * The controller servicing the page of the registration form of the user.
@@ -255,7 +255,7 @@ public class UsersController {
                                      final BindingResult result
     ){
         logger.error("old values {} keys {}", categoriesParam, keyWordsParam);
-        logger.info("new params {} key {}", advertSearchingFormParam.getCategories(), advertSearchingFormParam.getKeyWords());
+        logger.error("new params {} key {}", advertSearchingFormParam.getCategories(), advertSearchingFormParam.getKeyWords());
 
         this.advertSearchingValidator.validate(advertSearchingFormParam, result);
        // if (result.hasErrors() || null == UtilsManager.stringArrayToString(advertSearchingFormParam.getCategories())) {

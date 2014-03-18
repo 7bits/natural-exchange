@@ -12,14 +12,14 @@ public interface UserDao {
 
     /**
      * добавить пользователя
-     * @param user
+     * @param user to create entity
      */
     void create(User user);
 
     /**
      *  найти пользователя по id
-     * @param id
-     * @return
+     * @param id  of entity
+     * @return userEntity
      */
     User findById(Integer id);
 
@@ -27,7 +27,7 @@ public interface UserDao {
 
     /**
      *
-     * @param id
+     * @param id  of UserEntity
      * @return  User - if user was found
      *          null - if no users with id like that
      */
@@ -35,14 +35,14 @@ public interface UserDao {
 
     /**
      * возвращает  список всех пользователей
-     * @return
+     * @return   list of all
      */
     List<User> find();
 
     Boolean isExistUserWithEmail(String email);
     /**
      * изменить пользователя
-     * @param user
+     * @param user   to change
      */
     void update(User user);
     /**
@@ -50,6 +50,7 @@ public interface UserDao {
      * @param  user - the user with the confirmed registration
      */
     void updateActivationCode(User user) ;
+
     /**
      *
      * @param email e-mail
@@ -59,7 +60,7 @@ public interface UserDao {
 
     /**
      * удалить пользователя
-     * @param user
+     * @param user to delete
      */
     void delete(User user);
 

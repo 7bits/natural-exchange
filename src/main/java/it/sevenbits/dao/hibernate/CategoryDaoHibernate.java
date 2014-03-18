@@ -26,11 +26,10 @@ public class CategoryDaoHibernate implements CategoryDao {
     }
 
     private CategoryEntity toEntity(final Category category) {
-        CategoryEntity categoryEntity = new CategoryEntity(
+        return  new CategoryEntity(
                 category.getName(), category.getDescription(), category.getUpdatedDate(),
                 category.getCreatedDate(), category.getIsDeleted()
         );
-        return categoryEntity;
     }
 
     @Override
@@ -40,12 +39,12 @@ public class CategoryDaoHibernate implements CategoryDao {
 
     @Override
     public Category findById(final Long id) {
-        return  (Category) this.hibernateTemplate.get(CategoryEntity.class, id);
+        return this.hibernateTemplate.get(CategoryEntity.class, id);
     }
 
     @Override
     public Category findByName(final String name) {
-        return (Category) findEntityByName(name);
+        return findEntityByName(name);
     }
 
     @Override
@@ -59,8 +58,7 @@ public class CategoryDaoHibernate implements CategoryDao {
     @Override
     public List<Category> findAll() {
         DetachedCriteria criteria = DetachedCriteria.forClass(CategoryEntity.class);
-        List<Category> categories = this.hibernateTemplate.findByCriteria(criteria);
-        return categories;
+        return this.hibernateTemplate.findByCriteria(criteria);
     }
 
     @Override

@@ -34,15 +34,9 @@ public interface SubscriberDao {
      */
     List<Subscriber> find();
 
-
     /**
-     * изменить подписчиков
-     * @param subscriber subscriber to change
-    void update(Subscriber subscriber);
-
-    /**
-     * удалить подписчиков
-     * @param subscriber subscriber to delete
+     * удалить подписчика
+     * @param subscriber to delete
      */
     void delete(Subscriber subscriber);
 }

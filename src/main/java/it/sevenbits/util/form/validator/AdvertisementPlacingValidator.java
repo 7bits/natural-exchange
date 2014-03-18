@@ -11,7 +11,7 @@ import it.sevenbits.util.form.AdvertisementPlacingForm;
  */
 @Component
 public class AdvertisementPlacingValidator implements Validator {
-    private final int maxTitleLength = 16;
+    private final static int maxTitleLength = 16;
 
     @Override
     public boolean supports(final Class<?> clazz) {

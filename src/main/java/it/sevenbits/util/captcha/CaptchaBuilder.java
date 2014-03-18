@@ -193,12 +193,14 @@ class CaptchaBuilder {
                 try {
                     imageOutputStream.close();
                 } catch (IOException e) {
+                    //
                 }
             }
 
             try {
                 resultStream.close();
             } catch (IOException e) {
+                //
             }
         }
 

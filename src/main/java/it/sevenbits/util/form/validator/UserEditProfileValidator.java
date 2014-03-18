@@ -31,8 +31,8 @@ public class UserEditProfileValidator implements Validator {
     @Override
     public void validate(final Object target, final Errors errors) {
         UserRegistrationForm userRegistrationForm = (UserRegistrationForm) target;
-        String password = userRegistrationForm.getPassword();
-        String email = userRegistrationForm.getEmail();
+        //String password = userRegistrationForm.getPassword();
+        //String email = userRegistrationForm.getEmail();
         if (!EmailValidator.getInstance().isValid(((UserRegistrationForm) target).getEmail())) {
             errors.rejectValue("email", "email.not.correct", "Введите корректный e-mail адрес.");
         }

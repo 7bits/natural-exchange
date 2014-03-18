@@ -19,7 +19,7 @@ public interface CategoryDao {
     /**
      *  id
      * @param id -
-     * @return
+     * @return Category
      */
     Category findById(Long id);
 
@@ -29,19 +29,19 @@ public interface CategoryDao {
 
     /**
      * Return list of categories
-     * @return
+     * @return  list
      */
     List<Category> findAll();
 
     /**
      * Change category
-     * @param category
+     * @param category to change
      */
     void update(Category category);
 
     /**
      * Delete category
-     * @param category
+     * @param category to delete
      */
     void delete(Category category);
 }

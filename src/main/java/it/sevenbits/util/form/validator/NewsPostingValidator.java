@@ -24,7 +24,7 @@ public class NewsPostingValidator implements Validator {
 
     @Override
     public void validate(final Object target, final Errors errors) {
-        NewsPostingForm newsPostingForm = (it.sevenbits.util.form.NewsPostingForm) target;
+        //NewsPostingForm newsPostingForm = (it.sevenbits.util.form.NewsPostingForm) target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newsText", "newsText.empty", "Введите текст письма.");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "newsTitle", "newsTitle.empty", "Введите заголовок.");
     }
