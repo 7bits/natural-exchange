@@ -23,13 +23,11 @@
     <body>
         <%@ include file="/WEB-INF/jsp/advertisement/header.jsp" %>
         <div class="editSearchVars">
-        <c:url value="/user/editSearchVariant.html" var="listPage">
-            <c:param name="oldKeys" value="${oldKeys}" />
-            <c:param name="oldCategories" value="${oldCategories}"/>
-        </c:url>
-        <form:form method="post" action="${listPage}" commandName="advertisementSearchingForm">
-            <%--    <input type="hidden" name="oldKeys" value="${oldKeys}" />
-            <input type="hidden" name="oldCategories" value="${oldCategories}"/>--%>
+            <c:url value="/user/editSearchVariant.html" var="listPage">
+                <c:param name="oldKeys" value="${oldKeys}" />
+                <c:param name="oldCategories" value="${oldCategories}"/>
+            </c:url>
+            <form:form method="post" action="${listPage}" commandName="advertisementSearchingForm">
                 <div>
                     <form:input  path="keyWords" class="wordSearch" placeholder="поиск" name="wordSearch"/>
                 </div>
@@ -37,11 +35,10 @@
                     <p class="pcate"><form:checkbox id="one1" path="categories" value="games"/><label for="one1"> <span name="cate"></span>Игры</label></p>
                     <p class="pcate"><form:checkbox id="two2" path="categories" value="clothes"/> <label for="two2"> <span name="cate"></span>Одежда</label></p>
                     <p class="pcate"><form:checkbox id="three3" path="categories" value="notclothes"/> <label for="three3"><span name="cate"></span>Не одежда</label></p>
-
                 </div>
                 <p><form:errors path="*" class="error"/> </p>
                 <input type="submit" value="Сохранить" class="sendAdv" />
-        </form:form>
+            </form:form>
         </div>
         <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
     </body>
