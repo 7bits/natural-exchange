@@ -7,7 +7,7 @@
         <!--param name="File" value="${catalina.home}/logs/n-exchange.log" /-->
         <param name="File" value="e:/julia/n-exchange/logs/n-exchange.log" />
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d [%t] %c{1}.%M(%L) | %m%n"/>
+            <param name="ConversionPattern" value="%d %c{1}.%M(%L) | %m%n"/>
         </layout>
     </appender>
 

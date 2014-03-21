@@ -249,25 +249,25 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/editSearchVariant.html", method = RequestMethod.POST)
-    public ModelAndView editSearchVarsPost(@RequestParam(value = "oldKeys", required = false) final String keyWordsParam,
-                                     @RequestParam(value = "oldCategories", required = true) final String categoriesParam,
+    public ModelAndView editSearchVarsPost(@RequestParam(value = "oldKeys", required = false) final String oldKeyWordsParam,
+                                     @RequestParam(value = "oldCategories", required = true) final String oldCategoriesParam,
                                      final AdvertisementSearchingForm advertSearchingFormParam,
                                      final BindingResult result
     ){
-        logger.error("old values {} keys {}", categoriesParam, keyWordsParam);
-        logger.error("new params {} key {}", advertSearchingFormParam.getCategories(), advertSearchingFormParam.getKeyWords());
-
         this.advertSearchingValidator.validate(advertSearchingFormParam, result);
-       // if (result.hasErrors() || null == UtilsManager.stringArrayToString(advertSearchingFormParam.getCategories())) {
         if (result.hasErrors()) {
+            advertSearchingFormParam.setKeyWords(oldKeyWordsParam);
+            advertSearchingFormParam.setCategories(oldCategoriesParam.split(" "));
             ModelAndView modelAndView = new ModelAndView("user/editSearchVariant");
             modelAndView.addObject("advertisementSearchingForm", advertSearchingFormParam);
+            modelAndView.addObject("oldCategories", oldCategoriesParam);
+            modelAndView.addObject("oldKeys", oldKeyWordsParam);
             return modelAndView;
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         String allCategories = UtilsManager.stringArrayToString(advertSearchingFormParam.getCategories());
-        this.searchVariantDao.update(new SearchVariant(email, keyWordsParam, categoriesParam),
+        this.searchVariantDao.update(new SearchVariant(email, oldKeyWordsParam, oldCategoriesParam),
                 advertSearchingFormParam.getKeyWords(),allCategories);
 
         return  new ModelAndView("redirect:/user/userProfile.html");
