@@ -7,8 +7,8 @@
                 <a href="<c:url value='/advertisement/post.html'/>" > Рассылка новостей.</a>
             </sec:authorize>
             <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR" >
-                <a href="<c:url value="/user/logout.html"/>" > Выйти </a>
-                <a href='<c:url value="/user/userProfile.html"/>'>Личный кабинет</a>
+                <a href="<c:url value="/user/logout.html"/>" > выйти </a>
+                <a href='<c:url value="/user/userProfile.html"/>'>личный кабинет</a>
             </sec:authorize>
         </div>
         <div id=logotype>
@@ -24,7 +24,7 @@
             </sec:authorize>
             <sec:authorize ifAnyGranted="IS_AUTHENTICATED_ANONYMOUSLY">
                 <div class="entry">
-                    <a class='login' href='<c:url value="/login.html"/>'>  Вход на сайт </a>
+                    <a class='login' href='<c:url value="/login.html"/>'>  вход на сайт </a>
                 </div>
             </sec:authorize>
             <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">

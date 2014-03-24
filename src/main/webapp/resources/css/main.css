@@ -290,9 +290,9 @@ header a:visited {
 #lk {
     padding: 10px 9px;
     position: relative;
-    top: 40px;
+    top: 34px;
     float: right;
-    left: -150px;
+    right: 171px;
     width: 240px;
     height: 90px;
     background: rgba(246,246,246,.4);

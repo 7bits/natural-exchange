@@ -30,9 +30,9 @@
     <body>
         <%@ include file="/WEB-INF/jsp/user/headerProfile.jsp" %>
         <div class="lk-profile">
-            <img src='<c:url value="/resources/images/avatars/${userAvatar}"/>' alt="Нет фото" />
-            <p><c:out value="${username}" /></p>
-            <p class="username-profile">Личный кабинет</p>
+            <img src='<c:url value="/resources/images/avatars/${userAvatar}"/>' alt="Нет фото"/>
+            <p><c:out value="${username}"/></p>
+            <p>Личный кабинет</p>
         </div>
         <div class="userLk">
             <div class="profile">Личный кабинет</div>
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                     <div>
-                        <a class="username-profile" href="<c:url value='/user/editProfile.html'/>" >Редактировать профиль</a>
+                        <a class="userLk-out" href="<c:url value='/user/editProfile.html'/>" >Редактировать профиль</a>
                     </div>
                     <div class="search-vars">
                         <p class="mediumSizeFont">Сохраненные параметры поиска</p>

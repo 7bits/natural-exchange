@@ -6,6 +6,9 @@
     width: 1040px;
 }
 
+a.current {
+    backgroung-color: #e1e1e1;
+}
 #tabsText {
     list-style: none;
     position: inherit;
@@ -87,16 +90,14 @@
 }
 
 .userLk {
-    vertical-align: middle;
-    font-size: 23px;
-    background: none repeat scroll 0% 0% rgb(246, 246, 246);
-    margin: auto;
-    height: 37px;
-    width: 1040px;
-    padding-top: 9px;
-    padding-bottom: 9px;
-    margin-top: 32px;
-    margin-bottom: 42px;
+   vertical-align: middle;
+   font-size: 23px;
+   background: none repeat scroll 0% 0% #F6F6F6;
+   margin: 32px auto 15px;
+   height: 37px;
+   width: 1040px;
+   padding-top: 9px;
+   padding-bottom: 9px;
 }
 .search-vars.userLk-href a{
     color: #52ba00;
@@ -323,7 +324,7 @@
     border: none;
 }
 */
-.username, #profile {
+.username {
     color: #5ebf11;
     font-size: 20px;
 }
@@ -389,14 +390,14 @@
     top: 30px;
     width: 326px;
 }
-.lk-profile img {
+.lk-profile   img {
     float: left;
     width: 60px;
     height: 60px;
     margin-top: 14px;
     margin-left: 17px;
 }
-.lk-profile p {
+.lk-profile   p {
     font-size: 20px;
     text-align: right;
     float: right;
@@ -405,12 +406,9 @@
     padding-right: 15px;
 }
 
-.lk-profile .profile {
+.lk-profile p + p {
     color: #52ba00;
-    text-decoration: underline;
 }
-
-
 .td-del-kWrds {
     text-align: right;
     vertical-align: middle;
@@ -426,9 +424,9 @@
 .deleteButtonImage, .editSearchButtonImage {
     display: inherit;
     float: left;
-    margin: 6px 4px 0 5px;
-    width: 17px;
-    height: 18px;
+    margin: 7px 0px 0px 7px;
+    width: 16px;
+    height: 19px;
 }
 .deleteButtonImage {
     background: url("../images/del.png") no-repeat;
