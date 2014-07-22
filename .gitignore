@@ -1,0 +1,19 @@
+# Java files #
+*.class
+*.jar
+*.war
+*.ear
+*.log
+n-exchange.iml
+
+
+# IDE files #
+.idea/
+*.iml
+*.sublime-*
+
+# Other files and folders #
+target/
+out/
+bin/
+logs/
