@@ -6,6 +6,7 @@
         <script type="text/javascript" src='<c:url value="/resources/js/vkWigetScript.js"/>'  language="javascript"> </script>
     </div>
 </div>
+<%--TODO доделать переходы по соц-сетям. Сделать ссылки, у ссылок background image--%>
 <footer>
     <div class="centerTop">
         <div class="social">
@@ -21,6 +22,6 @@
         <div class="footerLink">
              <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
         </div>
-        <p class="sign"> © 2013 Natural Exchange</p>
+        <p class="sign"> © 2014 Natural Exchange</p>
     </div>
 </footer>
