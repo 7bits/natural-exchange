@@ -21,9 +21,11 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.MailException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
+import javax.mail.AuthenticationFailedException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,7 +75,11 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         advertisementEntity.setCategoryEntity(categoryEntity);
         advertisementEntity.setUserEntity(userEntity);
         advertisementEntity = this.hibernateTemplate.merge(advertisementEntity);
-        mailSenderService.sendNotifyToModerator(advertisementEntity.getId(),advertisementEntity.getCategory().getName());
+        try {
+            mailSenderService.sendNotifyToModerator(advertisementEntity.getId(), advertisementEntity.getCategory().getName());
+        } catch (MailException ex) {
+//            TODO нужно обработать это исключение и залогировать (добавить варнинг в лог)
+        }
         return  advertisementEntity;
     }
 
