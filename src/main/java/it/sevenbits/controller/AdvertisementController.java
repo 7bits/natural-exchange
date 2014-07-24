@@ -446,12 +446,19 @@ public class AdvertisementController {
             final BindingResult mailRes,
             final Long editingAdvertisementId
     ) {
+        //Alex: если был введен e-mail
         if (mailingNewsFormParam.getEmailNews() != null) {
+            //Alex: проверка валидности e-mail-а
             mailingNewsValidator.validate(mailingNewsFormParam, mailRes);
+            //Alex: сослались на jsp
             ModelAndView modelAndView = new ModelAndView("advertisement/placing");
+            //Alex: если e-mail введен правильно
             if (!mailRes.hasErrors()) {
+                //Alex: сущность в БД
                 Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+                //Alex: выводит сообщение для входного e-mail-а
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
+                //Alex: если есть подписчик с таким email-ом в базе
                 if (this.subscribertDao.isExists(subscriber)) {
                     mailingNewsForm.setEmailNews("Вы уже подписаны.");
                 } else {
@@ -460,34 +467,42 @@ public class AdvertisementController {
                 }
                 modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
+            //Alex: создание формы
             AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
             advertisementPlacingForm.setCategory("clothes");
             modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
+            //Alex: создаем, а не редактируем
             modelAndView.addObject("isEditing",false);
             return modelAndView;
         } else {
+            //Alex: проверяем форму на валидность
             advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
             if (result.hasErrors()) {
                 return new ModelAndView("advertisement/placing");
             }
+            //Alex: загрузка фото началась
             FileManager fileManager = new FileManager();
             String photo;
             if (advertisementPlacingFormParam.getImage().isEmpty()) {
                 photo = "no_photo.png";
             } else {
+                //Alex: вот тут getImage() странный какой-то
                 photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
             }
+            //Alex: начинаем писать объявление
             Advertisement advertisement = new Advertisement();
             advertisement.setText(advertisementPlacingFormParam.getText());
             advertisement.setPhotoFile(photo);
             advertisement.setTitle(advertisementPlacingFormParam.getTitle());
+            //Alex: какая-то аутентификация или авторизация или хз
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String userName;
-            if (principal instanceof UserDetails) {
+            if (principal instanceof UserDetails) {//Alex: что это черт возьми???
                 userName = ((UserDetails) principal).getUsername();
             } else {
                 userName = principal.toString();
             }
+            //Alex: само добавление и редактирование
             if (editingAdvertisementId != null) {
                 this.advertisementDao.update(editingAdvertisementId,advertisement, advertisementPlacingFormParam.getCategory());
             } else {
@@ -620,6 +635,7 @@ public class AdvertisementController {
         advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
         advertisementPlacingForm.setText(advertisement.getText());
         advertisementPlacingForm.setTitle(advertisement.getTitle());
+
         modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
         return modelAndView;
     }

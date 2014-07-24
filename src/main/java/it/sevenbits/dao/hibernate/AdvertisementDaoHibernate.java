@@ -120,6 +120,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     @Override
     public void update(final Advertisement advertisement) {
         //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     @Override
