@@ -446,6 +446,7 @@ public class AdvertisementController {
             final BindingResult mailRes,
             final Long editingAdvertisementId
     ) {
+        String defaultPhoto = "no_photo.png";
         //Alex: если был введен e-mail
         if (mailingNewsFormParam.getEmailNews() != null) {
             //Alex: проверка валидности e-mail-а
@@ -482,18 +483,29 @@ public class AdvertisementController {
             }
             //Alex: загрузка фото началась
             FileManager fileManager = new FileManager();
-            String photo;
-            if (advertisementPlacingFormParam.getImage().isEmpty()) {
-                photo = "no_photo.png";
-            } else {
-                //Alex: вот тут getImage() странный какой-то
+            String photo = null;
+            if (advertisementPlacingFormParam.getImage().isEmpty() && editingAdvertisementId == null) {
+                photo = defaultPhoto;
+            } else if (!advertisementPlacingFormParam.getImage().isEmpty()) {
                 photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
             }
             //Alex: начинаем писать объявление
-            Advertisement advertisement = new Advertisement();
+
+            Advertisement advertisement = null;
+            //Alex: если идет создание
+            if (editingAdvertisementId == null) {
+                advertisement = new Advertisement();
+                advertisement.setPhotoFile(photo);
+            } else {
+                advertisement = advertisementDao.findById(editingAdvertisementId);
+                if (photo != null) {
+                    advertisement.setPhotoFile(photo);
+                }
+            }
             advertisement.setText(advertisementPlacingFormParam.getText());
-            advertisement.setPhotoFile(photo);
             advertisement.setTitle(advertisementPlacingFormParam.getTitle());
+
+
             //Alex: какая-то аутентификация или авторизация или хз
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String userName;
