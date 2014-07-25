@@ -39,7 +39,7 @@
     </bean:bean>
     <authentication-manager>
         <authentication-provider user-service-ref='myUserDetailsService'>
-
+            <password-encoder hash="md5" />
         </authentication-provider>
     </authentication-manager>
 
