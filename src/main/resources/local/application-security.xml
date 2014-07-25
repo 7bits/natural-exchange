@@ -18,6 +18,7 @@
         <security:intercept-url pattern="/advertisement/placing*.*" access="ROLE_USER, ROLE_ADMIN" />
         <security:intercept-url pattern='/advertisement/view*' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'  />
         <security:intercept-url pattern='/advertisement/list.*' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'  />
+        <security:intercept-url pattern='/advertisement/moderator/list.*' access='ROLE_MODERATOR, ROLE_ADMIN'  />
         <security:intercept-url pattern='/advertisement/makeCaptcha.html' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'  />
         <security:intercept-url pattern="/user/auth*" access="ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY" />
         <security:intercept-url pattern="/user/**" access="ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY" />
@@ -33,11 +34,12 @@
         </session-management>
     </security:http>
 
-    <!--<bean:bean id="myUserDetailsService" class="it.sevenbits.security.MyUserDetailsService">
+    <!--<bean:bean id="myUserDetailsService" class="it.sevenbits.security.MyUserDetailsService">-->
 
-    </bean:bean-->
+    <!--</bean:bean>-->
     <authentication-manager>
         <authentication-provider user-service-ref='auth'>
+            <password-encoder hash="md5" />
         </authentication-provider>
     </authentication-manager>
 
