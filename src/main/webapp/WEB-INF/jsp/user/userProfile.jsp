@@ -148,9 +148,11 @@
                 </div>
                 <div class="profile-tabs">
                     <div>Мои объявления</div>
-                    <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="tab-panel">
+                    <sec:authorize ifAnyGranted= "ROLE_USER,IS_AUTHENTICATED_ANONYMOUSLY">
+                      <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="tab-panel">
                             Разместить объявление
-                    </a>
+                      </a>
+                    </sec:authorize>
 
                     <table>
                         <tbody>
