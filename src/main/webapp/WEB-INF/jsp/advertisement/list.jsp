@@ -145,7 +145,7 @@
     <div>
         <form action="${listUrl}" method="get" class="pagination">
             <div class="pageSize">
-                <select id="pageSelect" name="pageSize">
+                <select name="pageSize">
                     <option <c:if test="${pageSize == 3}">selected</c:if> value="3">3</option>
                     <option <c:if test="${pageSize == 5}">selected</c:if> value="5">5</option>
                     <option <c:if test="${pageSize == 7}">selected</c:if> value="7">7</option>
