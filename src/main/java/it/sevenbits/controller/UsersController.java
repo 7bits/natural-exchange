@@ -102,10 +102,9 @@ public class UsersController {
         }
         Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
         User user = new User();
-//        String password = md5encoder.encodePassword(userRegistrationFormParam.getPassword(), "");
         user.setEmail(userRegistrationFormParam.getEmail());
-        user.setPassword(userRegistrationFormParam.getPassword());
-//        user.setPassword(password);
+        String password = md5encoder.encodePassword(userRegistrationFormParam.getPassword(), "");
+        user.setPassword(password);
         user.setFirstName(userRegistrationFormParam.getFirstName());
         user.setLastName(userRegistrationFormParam.getLastName());
         user.setVk_link(userRegistrationFormParam.getVkLink());
