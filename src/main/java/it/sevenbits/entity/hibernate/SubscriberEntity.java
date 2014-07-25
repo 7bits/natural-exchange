@@ -15,11 +15,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "subscriber")
 public class SubscriberEntity extends Subscriber {
+    //Alex: не помечено аннотациями
     private Long id;
 
     public SubscriberEntity() {
     }
 
+    //Alex: конструктор по ящику, без id
     public SubscriberEntity(final String email) {
         super(email);
     }
