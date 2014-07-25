@@ -145,20 +145,11 @@
                     <div>
                         <form action="${listUrl}" method="get" class="pagination">
                             <div class="pageSize">
-                                <select name="pageSize" >
-                                    <option value="${pageSize}"> <c:out value="${pageSize}"> </c:out> </option>
-                                    <c:if test="${pageSize!=2}">
-                                        <option value="${defaultPageSize}"><c:out value="${defaultPageSize}"></c:out></option>
-                                    </c:if>
-                                    <c:if test="${pageSize!=5}">
-                                        <option value="5">5</option>
-                                    </c:if>
-                                    <c:if test="${pageSize!=15}">
-                                        <option value="15">15</option>
-                                    </c:if>
-                                    <c:if test="${pageSize!=3}">
-                                        <option value="3">3</option>
-                                    </c:if>
+                                <select name="pageSize">
+                                    <option <c:if test="${pageSize == 3}">selected</c:if> value="3">3</option>
+                                    <option <c:if test="${pageSize == 5}">selected</c:if> value="5">5</option>
+                                    <option <c:if test="${pageSize == 7}">selected</c:if> value="7">7</option>
+                                    <option <c:if test="${pageSize == 15}">selected</c:if> value="15">15</option>
                                 </select>
                             </div>
                             <input type="hidden" name="sortedBy" value="${currentColumn}"/>
