@@ -27,3 +27,4 @@ INSERT INTO advertisement (id,created_date,is_deleted,is_new,photo_file,text,tit
 INSERT INTO advertisement (id,created_date,is_deleted,is_new,photo_file,text,title,updated_date,category_id,user_id) VALUES (11,1369259828466,0,0,'no_photo.png','настольная игра','Каркассон',95000,3,1);
 INSERT INTO advertisement (id,created_date,is_deleted,is_new,photo_file,text,title,updated_date,category_id,user_id) VALUES (13,1369235828460,0,0,'image3.jpg','this is coat3','bicycle',35000,2,1);
 INSERT INTO advertisement (id,created_date,is_deleted,is_new,photo_file,text,title,updated_date,category_id,user_id) VALUES (14,1369237828460,0,0,'image3.jpg','very the best improved BMX','bicycle',35000,2,2);
+update user set password = md5(password) where 1=1;
