@@ -34,9 +34,9 @@
         </session-management>
     </security:http>
 
-    <!--<bean:bean id="myUserDetailsService" class="it.sevenbits.security.MyUserDetailsService">
+    <!--<bean:bean id="myUserDetailsService" class="it.sevenbits.security.MyUserDetailsService">-->
 
-    </bean:bean-->
+    <!--</bean:bean>-->
     <authentication-manager>
         <authentication-provider user-service-ref='auth'>
             <password-encoder hash="md5" />

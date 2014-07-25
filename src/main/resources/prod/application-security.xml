@@ -42,6 +42,7 @@
             <password-encoder hash="md5" />
         </authentication-provider>
     </authentication-manager>
-    
+
+
 </beans:beans>
                 
