@@ -5,6 +5,7 @@
 *.ear
 *.log
 n-exchange.iml
+src/main/resources/local/common.properties
 
 
 # IDE files #
