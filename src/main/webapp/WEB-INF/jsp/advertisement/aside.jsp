@@ -31,13 +31,15 @@
             <input type="submit" class="search" value="Найти"/>
         </div>
     </form:form>
-    <c:if test="${isNotSubscriber}">
+    <c:if test="${isNotUser}">
         <form:form method="get" commandName="mailingNewsForm" class="lk">
             <p><span class="errorLk"><form:errors path="emailNews"/> </span></p>
 
             <p class="proLk">Узнавайте новости проекта первыми! </p>
 
-            <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
+            <c:if test="${isNotSubscriber}">
+                <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
+            </c:if>
             <input type="hidden" name="id" value="${currentId}"/>
             <input type="hidden" name="currentCategory" value="${currentCategory}"/>
 
