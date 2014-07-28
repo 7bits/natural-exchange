@@ -198,59 +198,45 @@ public class AdvertisementController {
         modelAndView.addObject("currentSortOrder", currentSortOrder);
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails;
         if (principal instanceof UserDetails) {
-            userDetails = (UserDetails) principal;
-            Subscriber subscriber = new Subscriber(userDetails.getUsername());
+            UserDetails user = (UserDetails) principal;
+            Subscriber subscriber = new Subscriber(user.getUsername());
             if (!this.subscribertDao.isExists(subscriber)) {
                 modelAndView.addObject("isNotSubscriber", true);
+                if (mailingNewsFormParam.getEmailNews() != null) {
+                    Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+                    mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
+                    if (!bindingResult.hasErrors()) {
+                        MailingNewsForm mailingNewsForm = new MailingNewsForm();
+                        if (this.subscribertDao.isExists(newSubscriber)) {
+                            mailingNewsForm.setEmailNews("Вы уже подписаны.");
+                        } else {
+                            modelAndView.addObject("isNotSubscriber", "true");
+                            this.subscribertDao.create(newSubscriber);
+                            mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
+                        }
+                        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+                    }
+                }
             }
         } else {
             modelAndView.addObject("isNotSubscriber", true);
             if (mailingNewsFormParam.getEmailNews() != null) {
-                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+                Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
                 mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
                 if (!bindingResult.hasErrors()) {
                     MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                    if (this.subscribertDao.isExists(subscriber)) {
+                    if (this.subscribertDao.isExists(newSubscriber)) {
                         mailingNewsForm.setEmailNews("Вы уже подписаны.");
                     } else {
                         modelAndView.addObject("isNotSubscriber", "true");
-                        this.subscribertDao.create(subscriber);
+                        this.subscribertDao.create(newSubscriber);
                         mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
                     }
                     modelAndView.addObject("mailingNewsForm", mailingNewsForm);
                 }
             }
         }
-//        UserDetails user = (UserDetails) principal;
-
-//        if (principal "guest") {
-//            modelAndView.addObject("isNotSubscriber", true);
-//            if (mailingNewsFormParam.getEmailNews() != null) {
-//                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
-//                mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
-//                if (!bindingResult.hasErrors()) {
-//                    MailingNewsForm mailingNewsForm = new MailingNewsForm();
-//                    if (this.subscribertDao.isExists(subscriber)) {
-//                        mailingNewsForm.setEmailNews("Вы уже подписаны.");
-//                    } else {
-//                        modelAndView.addObject("isNotSubscriber", "true");
-//                        this.subscribertDao.create(subscriber);
-//                        mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
-//                    }
-//                    modelAndView.addObject("mailingNewsForm", mailingNewsForm);
-//                }
-//            }
-//        }
-//        UserDetails user = (UserDetails) principal;
-
-//        Subscriber checkSubscriber = new Subscriber(user.getUsername());
-//        Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
-//        Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
-//        if (!this.subscribertDao.isExists(checkSubscriber)) {
-//
-//        }
         return modelAndView;
     }
 
