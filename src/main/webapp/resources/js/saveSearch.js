@@ -11,6 +11,29 @@ $(document).ready(function() {
         'overlayColor' : '#000000',
         'scrolling' : 'no'
     });
+    $('.js-save').click(function() {
+        var wordSearch =$(".wordSearch").val();
+        var categorySearch = "";
+        var checkboxes = document.getElementsByName('categories');
+        for (var i = 0, length = checkboxes.length; i < length; i++) {
+            if (checkboxes[i].checked)  {
+                categorySearch = categorySearch+' '+ checkboxes[i].value;
+            }
+        }
+        var d = $('.js-save').data("email");
+        var dataSearch = 'wordSearch=' + wordSearch + '&categorySearch=' + categorySearch + '&email=' + d + "&isNeedCapcha=" + false;
+        $.ajax({
+            type: 'POST',
+            url: '/n-exchange/advertisement/savingSearch.html',
+            data: dataSearch,
+            success: function(data, textStatus, jqXHR) {
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+
+            }
+        })
+    })
     $("#contact").keypress(function(e){
         if(e.keyCode===13) {
         e.preventDefault();
@@ -47,10 +70,11 @@ $(document).ready(function() {
             var checkboxes = document.getElementsByName('categories');
             for (var i = 0, length = checkboxes.length; i < length; i++) {
                 if (checkboxes[i].checked)  {
-                    var categorySearch = categorySearch+' '+ checkboxes[i].value;
+                    categorySearch = categorySearch+' '+ checkboxes[i].value;
                 }
             }
-            var dataSearch = 'wordSearch='+wordSearch+'&categorySearch='+categorySearch+'&email='+email+"&captcha="+captchaInput;
+            var dataSearch = 'wordSearch='+wordSearch+'&categorySearch='+categorySearch+'&email='+email+"&captcha="+captchaInput +
+                "&isNeedCapcha="+true;
             $.ajax({
                 type: 'POST',
                 url: '/n-exchange/advertisement/savingSearch.html',
@@ -79,7 +103,6 @@ $(document).ready(function() {
         }
     });
 });
-
 function validateEmail(email) {
     "use strict";
     var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

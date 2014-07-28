@@ -7,6 +7,7 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
+import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.security.Role;
 import it.sevenbits.service.mail.MailSenderService;
@@ -31,6 +32,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -212,6 +215,16 @@ public class AdvertisementController {
                 modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
         }
+        String mail = null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetails =
+                    (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            userDetails.getUsername();
+            UserEntity usr = (UserEntity) userDetails;
+            mail = usr.getEmail();
+        }
+        modelAndView.addObject("UserEmail", mail);
         return modelAndView;
     }
 
@@ -594,13 +607,16 @@ public class AdvertisementController {
     public @ResponseBody JSONObject getSavingSearchRequest(@RequestParam(value = "wordSearch", required = false) final String keyWordsParam,
                       @RequestParam(value = "email", required = false) final String emailParam,
                       @RequestParam(value = "categorySearch", required = false) final String categoriesParam,
-                      @RequestParam(value = "captcha", required = true) final String userCaptchaText,
+                      @RequestParam(value = "isNeedCapcha", required = true) final boolean isAnonimus,
+                      @RequestParam(value = "captcha", required = false) final String userCaptchaText,
                       HttpServletRequest request) {
         JSONObject resultJson = new JSONObject();
         if (!userDao.isExistUserWithEmail(emailParam)) {
             resultJson.put("success","auth");
-        } else if (!userCaptchaText.equals(request.getSession().getAttribute("captchaStr"))) {
-            resultJson.put("success","captcha");
+        } else if(isAnonimus) {
+            if (!userCaptchaText.equals(request.getSession().getAttribute("captchaStr")) && isAnonimus) {
+                resultJson.put("success","captcha");
+            }
         } else {
             mailSenderService.sendSearchVariant(emailParam, keyWordsParam, categoriesParam);
             SearchVariant searchVariant = new SearchVariant(emailParam, keyWordsParam, categoriesParam);

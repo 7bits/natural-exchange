@@ -20,7 +20,12 @@
                         <p><form:errors path="categories"/></p>
                     </div>
                     <div>
-                        <a class="save" href="#main" >Сохранить поиск</a>
+                        <sec:authorize ifAnyGranted="IS_AUTHENTICATED_ANONYMOUSLY">
+                            <a class="save" href="#main" >Сохранить поиск</a>
+                        </sec:authorize>
+                        <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_MODERATOR,ROLE_USER">
+                            <a class="save js-save" data-email="${UserEmail}" href="#">Сохранить поиск</a>
+                        </sec:authorize>
                         <input type="submit" class="search" value="Найти"/>
                     </div>
                 </form:form>
