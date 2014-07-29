@@ -215,16 +215,6 @@ public class AdvertisementController {
                 modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
         }
-        String mail = null;
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            UserDetails userDetails =
-                    (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            userDetails.getUsername();
-            UserEntity usr = (UserEntity) userDetails;
-            mail = usr.getEmail();
-        }
-        modelAndView.addObject("UserEmail", mail);
         return modelAndView;
     }
 
@@ -451,6 +441,16 @@ public class AdvertisementController {
         return modelAndView;
     }
 
+    /**
+     * Placing or editing the advertisement.
+     * @param advertisementPlacingFormParam parameters from advertisement form
+     * @param result
+     * @param mailingNewsFormParam
+     * @param mailRes
+     * @param editingAdvertisementId id of advertisement which will
+     *                               be editing
+     * @return ModelAndView object
+     */
     @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
     public ModelAndView processPlacing(
             final AdvertisementPlacingForm advertisementPlacingFormParam,
@@ -460,19 +460,12 @@ public class AdvertisementController {
             final Long editingAdvertisementId
     ) {
         String defaultPhoto = "no_photo.png";
-        //Alex: если был введен e-mail
         if (mailingNewsFormParam.getEmailNews() != null) {
-            //Alex: проверка валидности e-mail-а
             mailingNewsValidator.validate(mailingNewsFormParam, mailRes);
-            //Alex: сослались на jsp
             ModelAndView modelAndView = new ModelAndView("advertisement/placing");
-            //Alex: если e-mail введен правильно
             if (!mailRes.hasErrors()) {
-                //Alex: сущность в БД
                 Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
-                //Alex: выводит сообщение для входного e-mail-а
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                //Alex: если есть подписчик с таким email-ом в базе
                 if (this.subscribertDao.isExists(subscriber)) {
                     mailingNewsForm.setEmailNews("Вы уже подписаны.");
                 } else {
@@ -481,20 +474,16 @@ public class AdvertisementController {
                 }
                 modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
-            //Alex: создание формы
             AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
             advertisementPlacingForm.setCategory("clothes");
             modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
-            //Alex: создаем, а не редактируем
             modelAndView.addObject("isEditing",false);
             return modelAndView;
         } else {
-            //Alex: проверяем форму на валидность
             advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
             if (result.hasErrors()) {
                 return new ModelAndView("advertisement/placing");
             }
-            //Alex: загрузка фото началась
             FileManager fileManager = new FileManager();
             String photo = null;
             if (advertisementPlacingFormParam.getImage().isEmpty() && editingAdvertisementId == null) {
@@ -502,10 +491,8 @@ public class AdvertisementController {
             } else if (!advertisementPlacingFormParam.getImage().isEmpty()) {
                 photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
             }
-            //Alex: начинаем писать объявление
 
             Advertisement advertisement = null;
-            //Alex: если идет создание
             if (editingAdvertisementId == null) {
                 advertisement = new Advertisement();
                 advertisement.setPhotoFile(photo);
@@ -518,8 +505,6 @@ public class AdvertisementController {
             advertisement.setText(advertisementPlacingFormParam.getText());
             advertisement.setTitle(advertisementPlacingFormParam.getTitle());
 
-
-            //Alex: какая-то аутентификация или авторизация или хз
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String userName;
             if (principal instanceof UserDetails) {//Alex: что это черт возьми???
@@ -527,7 +512,6 @@ public class AdvertisementController {
             } else {
                 userName = principal.toString();
             }
-            //Alex: само добавление и редактирование
             if (editingAdvertisementId != null) {
                 this.advertisementDao.update(editingAdvertisementId,advertisement, advertisementPlacingFormParam.getCategory());
             } else {
@@ -595,11 +579,11 @@ public class AdvertisementController {
     }
 
     /**
-     *
+     * Saving searching parameters.
      * @param keyWordsParam Key words
      * @param emailParam Email
      * @param categoriesParam Categories
-     * @return 0 - if user with that email doesnt exists
+     * @return 0 - if user with that email doesn't exists
      *         1 - if user with that email exists
      */
 
@@ -618,10 +602,23 @@ public class AdvertisementController {
                 resultJson.put("success","captcha");
             }
         } else {
+            boolean isDoubleSearch = false;
             mailSenderService.sendSearchVariant(emailParam, keyWordsParam, categoriesParam);
             SearchVariant searchVariant = new SearchVariant(emailParam, keyWordsParam, categoriesParam);
-            this.searchVariantDao.create(searchVariant);
-            resultJson.put("success","true");
+
+            List<SearchVariant> allSearchesOfUser = this.searchVariantDao.findByEmail(emailParam);
+            for (SearchVariant searches : allSearchesOfUser) {
+                if (searches.equals(searchVariant)) {
+                    resultJson.put("success", "doubleSearch");
+                    isDoubleSearch = true;
+                    break;
+                }
+            }
+
+            if (!isDoubleSearch) {
+                this.searchVariantDao.create(searchVariant);
+                resultJson.put("success","true");
+            }
         }
         return resultJson;
     }

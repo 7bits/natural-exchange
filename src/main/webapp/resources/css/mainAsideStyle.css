@@ -76,7 +76,7 @@ aside {
     background: #bcfb33;
 }
 
-.save {
+.save, .save-user {
     font-size: 18px;
     text-align: center;
     padding: 9px 7px;
@@ -88,12 +88,12 @@ aside {
     box-shadow: 0 4px #a49e9e;
 }
 
-.save:hover {
+.save:hover, .save-user:hover {
     text-decoration:none;
     background: #e0e0e0;
 }
 
-.save:active {
+.save:active, .save-user:active {
     position:relative;
     top:2px;
     background: #e0e0e0;

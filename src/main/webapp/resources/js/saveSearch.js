@@ -13,24 +13,27 @@ $(document).ready(function() {
     });
     $('.js-save').click(function() {
         var wordSearch =$(".wordSearch").val();
-        var categorySearch = "";
         var checkboxes = document.getElementsByName('categories');
+        var categorySearch = "";
         for (var i = 0, length = checkboxes.length; i < length; i++) {
             if (checkboxes[i].checked)  {
-                categorySearch = categorySearch+' '+ checkboxes[i].value;
+                categorySearch += checkboxes[i].value ;
+            }
+            if (i != length - 1) {
+                categorySearch += ' ';
             }
         }
-        var d = $('.js-save').data("email");
-        var dataSearch = 'wordSearch=' + wordSearch + '&categorySearch=' + categorySearch + '&email=' + d + "&isNeedCapcha=" + false;
+        var mail = $('.js-save').data("email");
+        var dataSearch = 'wordSearch=' + wordSearch + '&categorySearch=' + categorySearch + '&email=' + mail + "&isNeedCapcha=" + false;
         $.ajax({
             type: 'POST',
             url: '/n-exchange/advertisement/savingSearch.html',
             data: dataSearch,
             success: function(data, textStatus, jqXHR) {
-
+                alert("Новый поиск доступен в вашем личном кабинете");
             },
             error: function(jqXHR, textStatus, errorThrown) {
-
+                alert("Простите, что-то пошло не так и поиск не был сохранен");
             }
         })
     })
@@ -70,7 +73,10 @@ $(document).ready(function() {
             var checkboxes = document.getElementsByName('categories');
             for (var i = 0, length = checkboxes.length; i < length; i++) {
                 if (checkboxes[i].checked)  {
-                    categorySearch = categorySearch+' '+ checkboxes[i].value;
+                    categorySearch += checkboxes[i].value;
+                }
+                if (i != length - 1) {
+                    categorySearch += ' ';
                 }
             }
             var dataSearch = 'wordSearch='+wordSearch+'&categorySearch='+categorySearch+'&email='+email+"&captcha="+captchaInput +

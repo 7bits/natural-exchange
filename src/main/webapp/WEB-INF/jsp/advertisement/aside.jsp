@@ -24,7 +24,7 @@
                             <a class="save" href="#main" >Сохранить поиск</a>
                         </sec:authorize>
                         <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_MODERATOR,ROLE_USER">
-                            <a class="save js-save" data-email="${UserEmail}" href="#">Сохранить поиск</a>
+                            <a class="save-user js-save" data-email=<sec:authentication property="principal.email"/> href="#">Сохранить поиск</a>
                         </sec:authorize>
                         <input type="submit" class="search" value="Найти"/>
                     </div>
