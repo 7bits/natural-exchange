@@ -197,29 +197,27 @@ public class AdvertisementController {
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
 
+        // checking user for subscriber
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // if user != anonym
         if (principal instanceof UserDetails) {
             UserDetails user = (UserDetails) principal;
             Subscriber subscriber = new Subscriber(user.getUsername());
             if (!this.subscribertDao.isExists(subscriber)) {
-                modelAndView.addObject("isNotSubscriber", true);
+                // check aside.jsp for flags isNotUser, userEmail and isNotSubscriber
+                modelAndView.addObject("isNotUser", true);
+                modelAndView.addObject("userEmail", user.getUsername());
                 if (mailingNewsFormParam.getEmailNews() != null) {
                     Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
                     mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
                     if (!bindingResult.hasErrors()) {
-                        MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                        if (this.subscribertDao.isExists(newSubscriber)) {
-                            mailingNewsForm.setEmailNews("Вы уже подписаны.");
-                        } else {
-                            modelAndView.addObject("isNotSubscriber", "true");
-                            this.subscribertDao.create(newSubscriber);
-                            mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
-                        }
-                        modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+                        modelAndView.addObject("isNotUser", false);
+                        this.subscribertDao.create(newSubscriber);
                     }
                 }
             }
         } else {
+            modelAndView.addObject("isNotUser", true);
             modelAndView.addObject("isNotSubscriber", true);
             if (mailingNewsFormParam.getEmailNews() != null) {
                 Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
@@ -429,7 +427,7 @@ public class AdvertisementController {
 
         Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
         if (!this.subscribertDao.isExists(subscriber)) {
-            modelAndView.addObject("isNotSubscriber", true);
+            modelAndView.addObject("isNotUser", true);
             if (mailingNewsFormParam.getEmailNews() != null) {
                 mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
                 if (!bindingResult.hasErrors()) {
