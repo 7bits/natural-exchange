@@ -7,7 +7,6 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
-import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.security.Role;
 import it.sevenbits.service.mail.MailSenderService;
@@ -31,8 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -309,7 +306,7 @@ public class AdvertisementController {
         advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
 
         if (currentCategoryParam == null) { //запуск пустой страницы
-            advertisementSearchingForm.setCategories(new String[]{"new","delete"});
+            advertisementSearchingForm.setCategories(new String[]{"visible","delete"});
             currentCategories = advertisementSearchingForm.getCategories();
         } else {
             //Пришли параметры от формы выбора поиска
@@ -360,7 +357,7 @@ public class AdvertisementController {
                     currentSortOrder, currentColumn, true, true
             );
         } else if (currentCategories.length == 1) {
-            if (currentCategories[0].equals("new")) {
+            if (currentCategories[0].equals("visible")) {
                 advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
                         stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
                         currentSortOrder, currentColumn, false, true
@@ -372,7 +369,11 @@ public class AdvertisementController {
                 );
             }
         } else {
-            advertisements = Collections.EMPTY_LIST;
+            advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
+                    stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
+                    currentSortOrder, currentColumn, false, false
+            );
+//            advertisements = Collections.EMPTY_LIST;
         }
         PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
         pageList.setSource(advertisements);
@@ -418,11 +419,11 @@ public class AdvertisementController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             UserDetails user = (UserDetails) principal;
-            if((advertisement.getIs_new() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
+            if((advertisement.getIs_visible() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
                 return new ModelAndView();
             }
         } else {
-            if(advertisement.getIs_new() || advertisement.getIs_deleted()) {
+            if(advertisement.getIs_visible() || advertisement.getIs_deleted()) {
                 return new ModelAndView();
             }
         }
@@ -670,6 +671,7 @@ public class AdvertisementController {
 
     @RequestMapping(value = "/approve.html", method = RequestMethod.GET)
     public String approve(@RequestParam(value = "id", required = true) final Long advertisementId) {
+        //It will be change the flag
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails user = (UserDetails) principal;
         if(user.getAuthorities().contains(Role.createModeratorRole())) {

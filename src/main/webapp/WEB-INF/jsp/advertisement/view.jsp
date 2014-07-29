@@ -59,7 +59,7 @@
                         <c:url value="/advertisement/approve.html" var="approve">
                             <c:param name="id" value="${currentId}"/>
                         </c:url>
-                        <c:if test="${advertisement.is_new}">
+                        <c:if test="${!advertisement.is_deleted}">
                             <sec:authorize ifAnyGranted="ROLE_MODERATOR">
                                 <div class="approveAdvertisementButton">
                                     <a class="approveAdvertisementButtonImage" href='${approve}' ></a>
@@ -69,11 +69,13 @@
                         <c:url value="/advertisement/delete.html" var="delete">
                             <c:param name="id" value="${currentId}"/>
                         </c:url>
-                        <sec:authorize ifAnyGranted="ROLE_MODERATOR">
+                        <c:if test="${!advertisement.is_deleted}">
+                          <sec:authorize ifAnyGranted="ROLE_MODERATOR">
                             <div class="deleteAdvertisementButton">
                                 <a class="deleteAdvertisementButtonImage" href='${delete}' ></a>
                             </div>
-                        </sec:authorize>
+                          </sec:authorize>
+                        </c:if>
                         <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER" >
                             <sec:authentication property="principal.username" var="advertisementOwner"/>
                             <c:if test="${advertisementOwner == advertisement.user.email}">

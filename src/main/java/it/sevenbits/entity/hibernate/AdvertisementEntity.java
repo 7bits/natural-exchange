@@ -106,10 +106,10 @@ public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
         return super.getIs_deleted();
     }
 
-    @Column(name = "is_new", nullable = false)
+    @Column(name = "is_visible", nullable = false)
     @Override
-    public Boolean getIs_new() {
-        return super.getIs_new();
+    public Boolean getIs_visible() {
+        return super.getIs_visible();
     }
 
     public void setCategoryEntity(final CategoryEntity categoryEntity) {

@@ -32,6 +32,11 @@
                     Разместить объявление
                 </a>
             </sec:authorize>
+            <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_MODERATOR">
+                <a href='<c:url value="/advertisement/moderator/list.html"/>' rel="nofollow" class="manage-panel">
+                    Все объявления
+                </a>
+            </sec:authorize>
 
         </div>
     </header>

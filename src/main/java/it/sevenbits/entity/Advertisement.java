@@ -22,7 +22,7 @@ public class Advertisement {
     private Long createdDate;
     private Long updatedDate;
     private Boolean isDeleted;
-    private Boolean isNew;
+    private Boolean isVisible;
     private User user;
     private Category category;
 
@@ -33,7 +33,7 @@ public class Advertisement {
         createdDate = TimeManager.getTime();
         updatedDate = 0L;
         isDeleted = false;
-        isNew = true;
+        isVisible = true;
     }
 
     public String getTitle() {
@@ -76,12 +76,12 @@ public class Advertisement {
         this.text = text;
     }
 
-    public Boolean getIs_new() {
-        return isNew;
+    public Boolean getIs_visible() {
+        return isVisible;
     }
 
-    public void setIs_new(final Boolean _isNew) {
-        isNew = _isNew;
+    public void setIs_visible(final Boolean _isVisible) {
+        isVisible = _isVisible;
     }
 
     public void setPhotoFile(final String photoFile) {
@@ -133,7 +133,7 @@ public class Advertisement {
         if (isDeleted != null ? !isDeleted.equals(that.isDeleted) : that.isDeleted != null) {
             return false;
         }
-        if (isNew != null ? !isNew.equals(that.isNew) : that.isNew != null) {
+        if (isVisible != null ? !isVisible.equals(that.isVisible) : that.isVisible != null) {
             return false;
         }
         if (photoFile != null ? !photoFile.equals(that.photoFile) : that.photoFile != null) {
@@ -160,7 +160,7 @@ public class Advertisement {
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (updatedDate != null ? updatedDate.hashCode() : 0);
         result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
-        result = 31 * result + (isNew != null ? isNew.hashCode() : 0);
+        result = 31 * result + (isVisible != null ? isVisible.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;
