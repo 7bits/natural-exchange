@@ -125,8 +125,8 @@
                                         <td class="text" name="text" ><c:out value="${advertisement.text}"/></td>
                                         <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
                                         <td class="category">
-                                            <c:if test="${advertisement.category.name eq 'new'}">
-                                                  Новые
+                                            <c:if test="${advertisement.category.name eq 'visible'}">
+                                                  Видимые
                                             </c:if>
                                             <c:if test="${advertisement.category.name eq 'delete'}">
                                                   Удаленные
