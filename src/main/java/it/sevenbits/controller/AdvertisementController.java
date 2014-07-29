@@ -197,19 +197,22 @@ public class AdvertisementController {
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
 
-        //TODO сделать list с POST запросом и проверять на subscriber'a
-
+        // checking user for subscriber
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // if user != anonym
         if (principal instanceof UserDetails) {
             UserDetails user = (UserDetails) principal;
             Subscriber subscriber = new Subscriber(user.getUsername());
             if (!this.subscribertDao.isExists(subscriber)) {
+                // check aside.jsp for flags isNotUser, userEmail and isNotSubscriber
                 modelAndView.addObject("isNotUser", true);
-
+                modelAndView.addObject("userEmail", user.getUsername());
                 if (mailingNewsFormParam.getEmailNews() != null) {
-                    Subscriber newSubscriber = new Subscriber(user.getUsername());
+                    Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+                    mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
                     if (!bindingResult.hasErrors()) {
-                            this.subscribertDao.create(newSubscriber);
+                        modelAndView.addObject("isNotUser", false);
+                        this.subscribertDao.create(newSubscriber);
                     }
                 }
             }
