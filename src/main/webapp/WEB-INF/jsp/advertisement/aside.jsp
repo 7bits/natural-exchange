@@ -29,12 +29,25 @@
                         <input type="submit" class="search" value="Найти"/>
                     </div>
                 </form:form>
-                <form:form method="get"  commandName="mailingNewsForm" class="lk">
-                    <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
-                    <p class="proLk">Узнавайте новости проекта первыми! </p>
-                    <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                    <input type="hidden" name="id" value="${currentId}"/>
-                    <input type="hidden" name="currentCategory" value="${currentCategory}"/>
-                    <p><input type="submit" value="Подписаться" class="send" /></p>
-                </form:form>
+                <c:if test="${isNotUser}">
+                    <form:form method="get" commandName="mailingNewsForm" class="lk">
+                        <p><span class="errorLk"><form:errors path="emailNews"/> </span></p>
+
+                        <p class="proLk">Узнавайте новости проекта первыми! </p>
+
+                        <c:choose>
+                            <c:when test="${isNotSubscriber}">
+                                <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
+                            </c:when>
+                            <c:otherwise>
+                                <p><form:input type="hidden" path="emailNews" value="${userEmail}"/></p>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <input type="hidden" name="id" value="${currentId}"/>
+                        <input type="hidden" name="currentCategory" value="${currentCategory}"/>
+
+                        <p><input type="submit" value="Подписаться" class="send"/></p>
+                    </form:form>
+                </c:if>
             </aside>

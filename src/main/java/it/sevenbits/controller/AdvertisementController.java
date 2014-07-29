@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import javax.annotation.Resource;
-import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import it.sevenbits.util.form.validator.NewsPostingValidator;
 import org.json.simple.JSONObject;
@@ -201,18 +200,42 @@ public class AdvertisementController {
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
 
-        if (mailingNewsFormParam.getEmailNews() != null) {
-            mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
-            if (!bindingResult.hasErrors()) {
-                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
-                MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                if (this.subscribertDao.isExists(subscriber)) {
-                    mailingNewsForm.setEmailNews("Вы уже подписаны.");
-                } else {
-                    this.subscribertDao.create(subscriber);
-                    mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
+        // checking user for subscriber
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // if user != anonym
+        if (principal instanceof UserDetails) {
+            UserDetails user = (UserDetails) principal;
+            Subscriber subscriber = new Subscriber(user.getUsername());
+            if (!this.subscribertDao.isExists(subscriber)) {
+                // check aside.jsp for flags isNotUser, userEmail and isNotSubscriber
+                modelAndView.addObject("isNotUser", true);
+                modelAndView.addObject("userEmail", user.getUsername());
+                if (mailingNewsFormParam.getEmailNews() != null) {
+                    Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+                    mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
+                    if (!bindingResult.hasErrors()) {
+                        modelAndView.addObject("isNotUser", false);
+                        this.subscribertDao.create(newSubscriber);
+                    }
                 }
-                modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+            }
+        } else {
+            modelAndView.addObject("isNotUser", true);
+            modelAndView.addObject("isNotSubscriber", true);
+            if (mailingNewsFormParam.getEmailNews() != null) {
+                Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+                mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
+                if (!bindingResult.hasErrors()) {
+                    MailingNewsForm mailingNewsForm = new MailingNewsForm();
+                    if (this.subscribertDao.isExists(newSubscriber)) {
+                        mailingNewsForm.setEmailNews("Вы уже подписаны.");
+                    } else {
+                        modelAndView.addObject("isNotSubscriber", "true");
+                        this.subscribertDao.create(newSubscriber);
+                        mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
+                    }
+                    modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+                }
             }
         }
         return modelAndView;
@@ -404,18 +427,23 @@ public class AdvertisementController {
             }
         }
         modelAndView.addObject("advertisement", advertisement);
-        if (mailingNewsFormParam.getEmailNews() != null) {
-            mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
-            if (!bindingResult.hasErrors()) {
-                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
-                MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                if (this.subscribertDao.isExists(subscriber)) {
-                    mailingNewsForm.setEmailNews("Вы уже подписаны.");
-                } else {
-                    this.subscribertDao.create(subscriber);
-                    mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
+
+        Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+        if (!this.subscribertDao.isExists(subscriber)) {
+            modelAndView.addObject("isNotUser", true);
+            if (mailingNewsFormParam.getEmailNews() != null) {
+                mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
+                if (!bindingResult.hasErrors()) {
+                    MailingNewsForm mailingNewsForm = new MailingNewsForm();
+                    if (this.subscribertDao.isExists(subscriber)) {
+                        mailingNewsForm.setEmailNews("Вы уже подписаны.");
+                    } else {
+                        modelAndView.addObject("isNotSubscriber", "true");
+                        this.subscribertDao.create(subscriber);
+                        mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
+                    }
+                    modelAndView.addObject("mailingNewsForm", mailingNewsForm);
                 }
-                modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
         }
         return modelAndView;
