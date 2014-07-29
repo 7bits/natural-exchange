@@ -27,7 +27,7 @@ $(document).ready(function() {
         var dataSearch = 'wordSearch=' + wordSearch + '&categorySearch=' + categorySearch + '&email=' + mail + "&isNeedCapcha=" + false;
         $.ajax({
             type: 'POST',
-            url: '/n-exchange/advertisement/savingSearch.html',
+            url: '/advertisement/savingSearch.html',
             data: dataSearch,
             success: function(data, textStatus, jqXHR) {
                 alert("Новый поиск доступен в вашем личном кабинете");
@@ -83,7 +83,7 @@ $(document).ready(function() {
                 "&isNeedCapcha="+true;
             $.ajax({
                 type: 'POST',
-                url: '/n-exchange/advertisement/savingSearch.html',
+                url: '/advertisement/savingSearch.html',
                 data: dataSearch,
                 success: function(result) {
                     if(result.success == "true") {
