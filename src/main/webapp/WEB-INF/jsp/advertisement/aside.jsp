@@ -37,9 +37,15 @@
 
             <p class="proLk">Узнавайте новости проекта первыми! </p>
 
-            <c:if test="${isNotSubscriber}">
-                <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-            </c:if>
+            <c:choose>
+                <c:when test="${isNotSubscriber}">
+                    <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
+                </c:when>
+                <c:otherwise>
+                    <p><form:input type="hidden" path="emailNews" value="${userEmail}"/></p>
+                </c:otherwise>
+            </c:choose>
+
             <input type="hidden" name="id" value="${currentId}"/>
             <input type="hidden" name="currentCategory" value="${currentCategory}"/>
 
