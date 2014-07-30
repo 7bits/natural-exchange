@@ -7,23 +7,20 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
+import it.sevenbits.entity.User;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.security.Role;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.captcha.Captcha;
-import it.sevenbits.util.form.AdvertisementPlacingForm;
-import it.sevenbits.util.form.AdvertisementSearchingForm;
-import it.sevenbits.util.form.MailingNewsForm;
-import it.sevenbits.util.form.NewsPostingForm;
+import it.sevenbits.util.form.*;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import javax.annotation.Resource;
-import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import it.sevenbits.util.form.validator.NewsPostingValidator;
 import org.json.simple.JSONObject;
@@ -31,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -56,7 +54,7 @@ public class AdvertisementController {
     private AdvertisementDao advertisementDao;
 
     @Resource(name = "subscriberDao")
-    private SubscriberDao subscribertDao;
+    private SubscriberDao subscriberDao;
 
     @Resource(name = "userDao")
     private UserDao userDao;
@@ -169,8 +167,7 @@ public class AdvertisementController {
                         currentCategories,
                         advertisementSearchingFormParam.getKeyWords(),
                         currentSortOrder,
-                        currentColumn)
-                ;
+                        currentColumn);
             }
         }
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
@@ -198,18 +195,46 @@ public class AdvertisementController {
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
 
-        if (mailingNewsFormParam.getEmailNews() != null) {
-            mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
-            if (!bindingResult.hasErrors()) {
-                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
-                MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                if (this.subscribertDao.isExists(subscriber)) {
-                    mailingNewsForm.setEmailNews("Вы уже подписаны.");
-                } else {
-                    this.subscribertDao.create(subscriber);
-                    mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
+        // checking user for subscriber
+        // if user != anonym
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails user = (UserDetails) principal;
+            modelAndView.addObject("currentUser", user);
+            // used list.jsp in exchange column
+            modelAndView.addObject("isNotAnonym", true);
+            // used in list.jsp when обмен tracked
+            Subscriber subscriber = new Subscriber(user.getUsername());
+            if (!this.subscriberDao.isExists(subscriber)) {
+                // check aside.jsp for flags isNotUser, userEmail and isNotSubscriber
+                modelAndView.addObject("isNotUser", true);
+                modelAndView.addObject("userEmail", user.getUsername());
+                if (mailingNewsFormParam.getEmailNews() != null) {
+                    Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+                    mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
+                    if (!bindingResult.hasErrors()) {
+                        modelAndView.addObject("isNotUser", false);
+                        this.subscriberDao.create(newSubscriber);
+                    }
                 }
-                modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+            }
+        } else {
+            modelAndView.addObject("isNotUser", true);
+            modelAndView.addObject("isNotSubscriber", true);
+            if (mailingNewsFormParam.getEmailNews() != null) {
+                Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+                mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
+                if (!bindingResult.hasErrors()) {
+                    MailingNewsForm mailingNewsForm = new MailingNewsForm();
+                    if (this.subscriberDao.isExists(newSubscriber)) {
+                        mailingNewsForm.setEmailNews("Вы уже подписаны.");
+                    } else {
+                        modelAndView.addObject("isNotSubscriber", "true");
+                        this.subscriberDao.create(newSubscriber);
+                        mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
+                    }
+                    modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+                }
             }
         }
         return modelAndView;
@@ -391,29 +416,93 @@ public class AdvertisementController {
         Advertisement advertisement = this.advertisementDao.findById(id);
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
+            // used list.jsp in exchange column
+            modelAndView.addObject("isNotAnonym", true);
             UserDetails user = (UserDetails) principal;
             if((advertisement.getIs_new() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
                 return new ModelAndView();
+            }
+            Subscriber subscriber = new Subscriber(user.getUsername());
+            if (!this.subscriberDao.isExists(subscriber)) {
+                // check aside.jsp for flags isNotUser, userEmail and isNotSubscriber
+                modelAndView.addObject("isNotUser", true);
+                modelAndView.addObject("userEmail", user.getUsername());
+                if (mailingNewsFormParam.getEmailNews() != null) {
+                    Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+                    mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
+                    if (!bindingResult.hasErrors()) {
+                        modelAndView.addObject("isNotUser", false);
+                        this.subscriberDao.create(newSubscriber);
+                    }
+                }
             }
         } else {
             if(advertisement.getIs_new() || advertisement.getIs_deleted()) {
                 return new ModelAndView();
             }
+            modelAndView.addObject("isNotUser", true);
+            modelAndView.addObject("isNotSubscriber", true);
+            if (mailingNewsFormParam.getEmailNews() != null) {
+                Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
+                mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
+                if (!bindingResult.hasErrors()) {
+                    MailingNewsForm mailingNewsForm = new MailingNewsForm();
+                    if (this.subscriberDao.isExists(newSubscriber)) {
+                        mailingNewsForm.setEmailNews("Вы уже подписаны.");
+                    } else {
+                        modelAndView.addObject("isNotSubscriber", "true");
+                        this.subscriberDao.create(newSubscriber);
+                        mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
+                    }
+                    modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+                }
+            }
         }
         modelAndView.addObject("advertisement", advertisement);
-        if (mailingNewsFormParam.getEmailNews() != null) {
-            mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
-            if (!bindingResult.hasErrors()) {
-                Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
-                MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                if (this.subscribertDao.isExists(subscriber)) {
-                    mailingNewsForm.setEmailNews("Вы уже подписаны.");
-                } else {
-                    this.subscribertDao.create(subscriber);
-                    mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
-                }
-                modelAndView.addObject("mailingNewsForm", mailingNewsForm);
-            }
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/exchange.html", method = RequestMethod.GET)
+    public ModelAndView exchange(@RequestParam(value = "id", required = true) final Long id
+    ) {
+        //TODO: need to control viewing of deleted and new advertisement
+        ModelAndView modelAndView = new ModelAndView("advertisement/exchange");
+        Advertisement advertisement = this.advertisementDao.findById(id);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        User user = this.userDao.findUserByEmail(email);
+        List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
+        modelAndView.addObject("adverts", advertisements);
+
+        if ((advertisement.getIs_new() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
+            return new ModelAndView();
+        }
+        modelAndView.addObject("advertisement", advertisement);
+        ExchangeForm exchangeForm = new ExchangeForm();
+
+        exchangeForm.setIdExchangeOwnerAdvertisement(id);
+        modelAndView.addObject("exchangeForm", exchangeForm);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/exchange.html", method = RequestMethod.POST)
+    public ModelAndView submitExchange(final ExchangeForm exchangeFormParam, final BindingResult bindingResult
+    ) {
+        ModelAndView modelAndView = new ModelAndView("advertisement/exchange");
+        if (!bindingResult.hasErrors()) {
+            Advertisement ownerAdvertisement = this.advertisementDao.findById(exchangeFormParam.getIdExchangeOwnerAdvertisement());
+            User offer = ownerAdvertisement.getUser();
+            User owner = this.advertisementDao.findById(exchangeFormParam.getIdExchangeOwnerAdvertisement()).getUser();
+            String advertisementUrl = "http://n-exchange.local/n-exchange/advertisement/view.html?id=";
+            String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
+            String titleExchangeMessage = "С вами хотят обменяться!";
+            String message = "Пользователь с email'ом : " + offer.getUsername() +  "\nХочет обменяться с вами на вашу вещь : \n"
+                + advertisementUrl + exchangeFormParam.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue
+                + "И предлагает вам взамен\n" + advertisementUrl + exchangeFormParam.getIdExchangeOfferAdvertisement()
+                + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeFormParam.getExchangePropose();
+            mailSenderService.sendMail(owner.getEmail(), titleExchangeMessage, message);
         }
         return modelAndView;
     }
@@ -438,6 +527,16 @@ public class AdvertisementController {
         return modelAndView;
     }
 
+    /**
+     * Placing or editing the advertisement.
+     * @param advertisementPlacingFormParam parameters from advertisement form
+     * @param result
+     * @param mailingNewsFormParam
+     * @param mailRes
+     * @param editingAdvertisementId id of advertisement which will
+     *                               be editing
+     * @return ModelAndView object
+     */
     @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
     public ModelAndView processPlacing(
             final AdvertisementPlacingForm advertisementPlacingFormParam,
@@ -447,41 +546,30 @@ public class AdvertisementController {
             final Long editingAdvertisementId
     ) {
         String defaultPhoto = "no_photo.png";
-        //Alex: если был введен e-mail
         if (mailingNewsFormParam.getEmailNews() != null) {
-            //Alex: проверка валидности e-mail-а
             mailingNewsValidator.validate(mailingNewsFormParam, mailRes);
-            //Alex: сослались на jsp
             ModelAndView modelAndView = new ModelAndView("advertisement/placing");
-            //Alex: если e-mail введен правильно
             if (!mailRes.hasErrors()) {
-                //Alex: сущность в БД
                 Subscriber subscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
-                //Alex: выводит сообщение для входного e-mail-а
                 MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                //Alex: если есть подписчик с таким email-ом в базе
-                if (this.subscribertDao.isExists(subscriber)) {
+                if (this.subscriberDao.isExists(subscriber)) {
                     mailingNewsForm.setEmailNews("Вы уже подписаны.");
                 } else {
-                    this.subscribertDao.create(subscriber);
+                    this.subscriberDao.create(subscriber);
                     mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
                 }
                 modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
-            //Alex: создание формы
             AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
             advertisementPlacingForm.setCategory("clothes");
             modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
-            //Alex: создаем, а не редактируем
             modelAndView.addObject("isEditing",false);
             return modelAndView;
         } else {
-            //Alex: проверяем форму на валидность
             advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
             if (result.hasErrors()) {
                 return new ModelAndView("advertisement/placing");
             }
-            //Alex: загрузка фото началась
             FileManager fileManager = new FileManager();
             String photo = null;
             if (advertisementPlacingFormParam.getImage().isEmpty() && editingAdvertisementId == null) {
@@ -489,10 +577,8 @@ public class AdvertisementController {
             } else if (!advertisementPlacingFormParam.getImage().isEmpty()) {
                 photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
             }
-            //Alex: начинаем писать объявление
 
             Advertisement advertisement = null;
-            //Alex: если идет создание
             if (editingAdvertisementId == null) {
                 advertisement = new Advertisement();
                 advertisement.setPhotoFile(photo);
@@ -505,8 +591,6 @@ public class AdvertisementController {
             advertisement.setText(advertisementPlacingFormParam.getText());
             advertisement.setTitle(advertisementPlacingFormParam.getTitle());
 
-
-            //Alex: какая-то аутентификация или авторизация или хз
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String userName;
             if (principal instanceof UserDetails) {//Alex: что это черт возьми???
@@ -514,7 +598,6 @@ public class AdvertisementController {
             } else {
                 userName = principal.toString();
             }
-            //Alex: само добавление и редактирование
             if (editingAdvertisementId != null) {
                 this.advertisementDao.update(editingAdvertisementId,advertisement, advertisementPlacingFormParam.getCategory());
             } else {
@@ -582,11 +665,11 @@ public class AdvertisementController {
     }
 
     /**
-     *
+     * Saving searching parameters.
      * @param keyWordsParam Key words
      * @param emailParam Email
      * @param categoriesParam Categories
-     * @return 0 - if user with that email doesnt exists
+     * @return 0 - if user with that email doesn't exists
      *         1 - if user with that email exists
      */
 
@@ -594,18 +677,34 @@ public class AdvertisementController {
     public @ResponseBody JSONObject getSavingSearchRequest(@RequestParam(value = "wordSearch", required = false) final String keyWordsParam,
                       @RequestParam(value = "email", required = false) final String emailParam,
                       @RequestParam(value = "categorySearch", required = false) final String categoriesParam,
-                      @RequestParam(value = "captcha", required = true) final String userCaptchaText,
+                      @RequestParam(value = "isNeedCapcha", required = true) final boolean isAnonimus,
+                      @RequestParam(value = "captcha", required = false) final String userCaptchaText,
                       HttpServletRequest request) {
         JSONObject resultJson = new JSONObject();
         if (!userDao.isExistUserWithEmail(emailParam)) {
             resultJson.put("success","auth");
-        } else if (!userCaptchaText.equals(request.getSession().getAttribute("captchaStr"))) {
-            resultJson.put("success","captcha");
+        } else if(isAnonimus) {
+            if (!userCaptchaText.equals(request.getSession().getAttribute("captchaStr")) && isAnonimus) {
+                resultJson.put("success","captcha");
+            }
         } else {
+            boolean isDoubleSearch = false;
             mailSenderService.sendSearchVariant(emailParam, keyWordsParam, categoriesParam);
             SearchVariant searchVariant = new SearchVariant(emailParam, keyWordsParam, categoriesParam);
-            this.searchVariantDao.create(searchVariant);
-            resultJson.put("success","true");
+
+            List<SearchVariant> allSearchesOfUser = this.searchVariantDao.findByEmail(emailParam);
+            for (SearchVariant searches : allSearchesOfUser) {
+                if (searches.equals(searchVariant)) {
+                    resultJson.put("success", "doubleSearch");
+                    isDoubleSearch = true;
+                    break;
+                }
+            }
+
+            if (!isDoubleSearch) {
+                this.searchVariantDao.create(searchVariant);
+                resultJson.put("success","true");
+            }
         }
         return resultJson;
     }
