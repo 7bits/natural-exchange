@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import javax.annotation.Resource;
+
+import it.sevenbits.util.form.validator.ExchangeFormValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import it.sevenbits.util.form.validator.NewsPostingValidator;
 import org.json.simple.JSONObject;
@@ -201,8 +203,12 @@ public class AdvertisementController {
         if (principal instanceof UserDetails) {
             UserDetails user = (UserDetails) principal;
             modelAndView.addObject("currentUser", user);
-            // used list.jsp in exchange column
+            // used in list.jsp in exchange column
             modelAndView.addObject("isNotAnonym", true);
+            // used in list.jsp in exchangePopup, if adverts is empty then we popup window, else goto exchange
+            if (this.advertisementDao.findAllByEmail(this.userDao.findEntityByEmail(user.getUsername())).size() == 0) {
+                modelAndView.addObject("advertisementIsEmpty", true);
+            }
             // used in list.jsp when обмен tracked
             Subscriber subscriber = new Subscriber(user.getUsername());
             if (!this.subscriberDao.isExists(subscriber)) {
@@ -423,18 +429,9 @@ public class AdvertisementController {
             // used list.jsp in exchange column
             modelAndView.addObject("isNotAnonym", true);
             UserDetails user = (UserDetails) principal;
-            if((advertisement.getIs_visible() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
+            if((!advertisement.getIs_visible() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
                 return new ModelAndView();
             }
-        } else {
-            if(advertisement.getIs_new() || advertisement.getIs_deleted()) {
-                return new ModelAndView();
-            }
-        }
-        modelAndView.addObject("advertisement", advertisement);
-
-        if (principal instanceof UserDetails) {
-            UserDetails user = (UserDetails) principal;
             Subscriber subscriber = new Subscriber(user.getUsername());
             if (!this.subscriberDao.isExists(subscriber)) {
                 // check aside.jsp for flags isNotUser, userEmail and isNotSubscriber
@@ -450,7 +447,7 @@ public class AdvertisementController {
                 }
             }
         } else {
-            if(advertisement.getIs_new() || advertisement.getIs_deleted()) {
+            if(!advertisement.getIs_visible() || advertisement.getIs_deleted()) {
                 return new ModelAndView();
             }
             modelAndView.addObject("isNotUser", true);
@@ -473,7 +470,6 @@ public class AdvertisementController {
             }
         }
         modelAndView.addObject("advertisement", advertisement);
-
         return modelAndView;
     }
 
@@ -483,14 +479,13 @@ public class AdvertisementController {
         //TODO: need to control viewing of deleted and new advertisement
         ModelAndView modelAndView = new ModelAndView("advertisement/exchange");
         Advertisement advertisement = this.advertisementDao.findById(id);
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         User user = this.userDao.findUserByEmail(email);
         List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
         modelAndView.addObject("adverts", advertisements);
 
-        if ((advertisement.getIs_new() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
+        if ((!advertisement.getIs_visible() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
             return new ModelAndView();
         }
         modelAndView.addObject("advertisement", advertisement);
@@ -501,21 +496,33 @@ public class AdvertisementController {
         return modelAndView;
     }
 
+    @Autowired
+    private ExchangeFormValidator exchangeFormValidator;
+
     @RequestMapping(value = "/exchange.html", method = RequestMethod.POST)
-    public ModelAndView submitExchange(final ExchangeForm exchangeFormParam, final BindingResult bindingResult
+    public ModelAndView submitExchange(final ExchangeForm exchangeFormParam, final BindingResult exchangeResult
     ) {
         ModelAndView modelAndView = new ModelAndView("advertisement/exchange");
-        if (!bindingResult.hasErrors()) {
-            Advertisement ownerAdvertisement = this.advertisementDao.findById(exchangeFormParam.getIdExchangeOwnerAdvertisement());
-            User offer = ownerAdvertisement.getUser();
+        exchangeFormValidator.validate(exchangeFormParam, exchangeResult);
+        if (!exchangeResult.hasErrors()) {
+            Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeFormParam.getIdExchangeOfferAdvertisement());
+            User offer = offerAdvertisement.getUser();
             User owner = this.advertisementDao.findById(exchangeFormParam.getIdExchangeOwnerAdvertisement()).getUser();
             String advertisementUrl = "http://n-exchange.local/n-exchange/advertisement/view.html?id=";
             String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
             String titleExchangeMessage = "С вами хотят обменяться!";
+            String userName;
+            if (owner.getLastName() != null) {
+                userName = owner.getLastName();
+            } else {
+                userName = "владелец вещи";
+            }
             String message = "Пользователь с email'ом : " + offer.getUsername() +  "\nХочет обменяться с вами на вашу вещь : \n"
                 + advertisementUrl + exchangeFormParam.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue
                 + "И предлагает вам взамен\n" + advertisementUrl + exchangeFormParam.getIdExchangeOfferAdvertisement()
-                + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeFormParam.getExchangePropose();
+                + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeFormParam.getExchangePropose()
+                + "\n Уважаемый " + userName + "\n Пока что наш сервис находится в разработке, так что мы оставляем за вами" +
+                "право связаться с заинтересованным пользователем на вашу вещь.\n" + offer.getUsername();
             mailSenderService.sendMail(owner.getEmail(), titleExchangeMessage, message);
         }
         return modelAndView;

@@ -125,6 +125,7 @@
             <form:textarea path="exchangePropose" rows="10" cols="45" placeholder="Ваше сообщение владельцу вещи"></form:textarea>
             <p><input path="" type="submit" value="отправить"></p>
         </form:form>
+        <form:errors path="idExchangeOfferAdvertisement" />
     </section>
 </div>
 <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
