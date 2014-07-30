@@ -8,6 +8,7 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
+import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.security.Role;
 import it.sevenbits.service.mail.MailSenderService;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import javax.annotation.Resource;
+import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import it.sevenbits.util.form.validator.NewsPostingValidator;
 import org.json.simple.JSONObject;
@@ -445,8 +447,8 @@ public class AdvertisementController {
             if (mailingNewsFormParam.getEmailNews() != null) {
                 Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
                 mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
+                MailingNewsForm mailingNewsForm = new MailingNewsForm();
                 if (!bindingResult.hasErrors()) {
-                    MailingNewsForm mailingNewsForm = new MailingNewsForm();
                     if (this.subscriberDao.isExists(newSubscriber)) {
                         mailingNewsForm.setEmailNews("Вы уже подписаны.");
                     } else {
@@ -456,6 +458,7 @@ public class AdvertisementController {
                     }
                     modelAndView.addObject("mailingNewsForm", mailingNewsForm);
                 }
+                modelAndView.addObject("mailingNewsForm", mailingNewsForm);
             }
         }
         modelAndView.addObject("advertisement", advertisement);

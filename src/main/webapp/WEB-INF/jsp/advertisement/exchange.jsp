@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/radio.css"/>" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/mainAsideStyle.css"/>" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tableAdv.css"/>" />
@@ -92,7 +93,7 @@
                         </c:choose>
 
                         <td>
-                            <form:radiobutton path="idExchangeOfferAdvertisement" value="${advertisement.id}"></form:radiobutton>
+                            <form:radiobutton path="idExchangeOfferAdvertisement" value="${advertisement.id}" class="radiobutton"></form:radiobutton>
                         </td>
 
                         <td>
