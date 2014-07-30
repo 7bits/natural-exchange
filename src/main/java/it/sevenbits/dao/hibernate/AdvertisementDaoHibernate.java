@@ -25,7 +25,6 @@ import org.springframework.mail.MailException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
-import javax.mail.AuthenticationFailedException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,7 +62,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         tmp.setText(advertisement.getText());
         tmp.setIs_deleted(advertisement.getIs_deleted());
         tmp.setUpdatedDate(advertisement.getUpdatedDate());
-        tmp.setIs_new(advertisement.getIs_new());
+        tmp.setIs_visible(advertisement.getIs_visible());
         return tmp;
     }
 
@@ -119,7 +118,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 break;
         }
         criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
-        criteria.add(Restrictions.eq("is_new", Boolean.FALSE));
+        criteria.add(Restrictions.eq("is_visible", Boolean.FALSE));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
@@ -224,7 +223,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             }
         }
         criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
-        criteria.add(Restrictions.eq("is_new", Boolean.FALSE));
+        criteria.add(Restrictions.eq("is_visible", Boolean.TRUE));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
@@ -244,13 +243,15 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     public void setDeleted(Long id) {
         AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
         advertisementEntity.setIs_deleted(true);
+        advertisementEntity.setIs_visible(false);
         hibernateTemplate.update(advertisementEntity);
     }
 
     @Override
     public void setApproved(Long id) {
         AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
-        advertisementEntity.setIs_new(false);
+        boolean visibleState =  advertisementEntity.getIs_visible();
+        advertisementEntity.setIs_visible(!visibleState);
         hibernateTemplate.update(advertisementEntity);
     }
 
@@ -280,7 +281,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             SortOrder sortOrder,
             String sortPropertyName,
             Boolean isDeleted,
-            Boolean isNew
+            Boolean isVisible
     ) {
         String sortByName = (sortPropertyName == null)
                 ? Advertisement.CREATED_DATE_COLUMN_CODE
@@ -303,16 +304,18 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 criteria.add(Restrictions.like("title", "%" + keyWords[i] + "%"));
             }
         }
-        if(!isDeleted && !isNew) {
-            return Collections.emptyList();
-        } else if(!isDeleted && isNew) {
-            criteria.add(Restrictions.eq("is_new", Boolean.TRUE));
-        } else if (isDeleted && !isNew) {
-            criteria.add(Restrictions.eq("is_new", Boolean.FALSE));
+        if(!isDeleted && !isVisible) {
+            criteria.add(Restrictions.eq("is_visible", Boolean.FALSE));
+            criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
+//            return Collections.emptyList();
+        } else if(!isDeleted && isVisible) {
+            criteria.add(Restrictions.eq("is_visible", Boolean.TRUE));
+        } else if (isDeleted && !isVisible) {
+            criteria.add(Restrictions.eq("is_visible", Boolean.FALSE));
             criteria.add(Restrictions.eq("is_deleted", Boolean.TRUE));
-        } else if (isDeleted && isNew) {
+        } else if (isDeleted && isVisible) {
             Disjunction disjunction = Restrictions.disjunction();
-            disjunction.add(Restrictions.eq("is_new", Boolean.TRUE));
+            disjunction.add(Restrictions.eq("is_visible", Boolean.TRUE));
             disjunction.add(Restrictions.eq("is_deleted", Boolean.TRUE));
             criteria.add(disjunction);
         }

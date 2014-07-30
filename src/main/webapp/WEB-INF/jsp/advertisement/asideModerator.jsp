@@ -14,7 +14,7 @@
             <form:errors path="keyWords" />
         </div>
         <div class="cate" id="cate">
-            <p class="pcate"><form:checkbox id="one1" path="categories" value="new"/> <label for="one1"> <span class="moderator" name="cate"></span>Новые</label></p>
+            <p class="pcate"><form:checkbox id="one1" path="categories" value="visible"/> <label for="one1"> <span class="moderator" name="cate"></span>Видимые</label></p>
             <p class="pcate"><form:checkbox id="two2" path="categories" value="delete"/> <label for="two2"> <span class="moderator" name="cate"></span>Удаленные</label></p>
             <p><form:errors path="categories"/></p>
         </div>
