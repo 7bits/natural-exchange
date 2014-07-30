@@ -100,9 +100,11 @@ public class UsersController {
         if (result.hasErrors()) {
             return new ModelAndView("user/registration");
         }
+        Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
         User user = new User();
         user.setEmail(userRegistrationFormParam.getEmail());
-        user.setPassword(userRegistrationFormParam.getPassword());
+        String password = md5encoder.encodePassword(userRegistrationFormParam.getPassword(), "");
+        user.setPassword(password);
         user.setFirstName(userRegistrationFormParam.getFirstName());
         user.setLastName(userRegistrationFormParam.getLastName());
         user.setVk_link(userRegistrationFormParam.getVkLink());
@@ -117,7 +119,6 @@ public class UsersController {
             }
         }
         user.setActivationDate(TimeManager.addDate(REGISTRATION_PERIOD));
-        Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
         String code = md5encoder.encodePassword(user.getPassword(), user.getEmail() );
         user.setActivationCode(code);
         this.userDao.create(user);
