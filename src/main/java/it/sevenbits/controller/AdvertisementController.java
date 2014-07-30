@@ -429,6 +429,10 @@ public class AdvertisementController {
             // used list.jsp in exchange column
             modelAndView.addObject("isNotAnonym", true);
             UserDetails user = (UserDetails) principal;
+            // used in list.jsp in exchangePopup, if adverts is empty then we popup window, else goto exchange
+            if (this.advertisementDao.findAllByEmail(this.userDao.findEntityByEmail(user.getUsername())).size() == 0) {
+                modelAndView.addObject("advertisementIsEmpty", true);
+            }
             if((!advertisement.getIs_visible() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
                 return new ModelAndView();
             }
