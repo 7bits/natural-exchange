@@ -13,6 +13,7 @@
         <link type="text/css" rel="stylesheet" href="<c:url value="/fancybox/jquery.fancybox-1.3.4.css"/>"  media="screen" />
 
         <script type="text/javascript" src='<c:url value="/resources/js/saveSearch.js"/>'  language="javascript"> </script>
+        <script type="text/javascript" src='<c:url value="/resources/js/exchangePopup.js"/>' language="javascript"></script>
         <script type="text/javascript" src='<c:url value="/resources/js/listScript.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/checkbox.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/yandexMetriс.js"/>'  language="javascript"> </script>
@@ -59,7 +60,14 @@
                                 <c:param name="id" value="${advertisement.id}"/>
                                 <c:param name="currentCategory" value="${currentCategory}"/>
                             </c:url>
-                            <a href="${exchangeViewingUrl}">обмен</a>
+                            <c:choose>
+                                <c:when test="${advertisementIsEmpty}">
+                                    <a class="js-exchange" href="#exchange">обмен</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${exchangeViewingUrl}">обмен</a>
+                                </c:otherwise>
+                            </c:choose>
                         </c:if>
                     </div>
                     <div class = "controlsContainer">
@@ -143,6 +151,7 @@
         <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
         <div id="block">
             <%@ include file="/WEB-INF/jsp/advertisement/savingSearch.jsp" %>
+            <%@ include file="/WEB-INF/jsp/advertisement/exchangePopup.jsp" %>
         </div>
     </body>
 </html>
