@@ -23,11 +23,13 @@ $(document).ready(function() {
                 categorySearch += ' ';
             }
         }
-        var mail = $('.js-save').data("email");
+        var buttonSave = $('.js-save');
+        var mail = buttonSave.data("email");
         var dataSearch = 'wordSearch=' + wordSearch + '&categorySearch=' + categorySearch + '&email=' + mail + "&isNeedCapcha=" + false;
+        var urlForSave = buttonSave.data("url");
         $.ajax({
             type: 'POST',
-            url: '/advertisement/savingSearch.html',
+            url: urlForSave,
             data: dataSearch,
             success: function(data, textStatus, jqXHR) {
                 alert("Новый поиск доступен в вашем личном кабинете");
@@ -81,9 +83,10 @@ $(document).ready(function() {
             }
             var dataSearch = 'wordSearch='+wordSearch+'&categorySearch='+categorySearch+'&email='+email+"&captcha="+captchaInput +
                 "&isNeedCapcha="+true;
+            var urlForSave = $('.save').data("url");
             $.ajax({
                 type: 'POST',
-                url: '/advertisement/savingSearch.html',
+                url: urlForSave,
                 data: dataSearch,
                 success: function(result) {
                     if(result.success == "true") {
