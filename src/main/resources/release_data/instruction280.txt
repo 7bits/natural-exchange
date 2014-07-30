@@ -1,1 +1,4 @@
 1) В табличку advertisement добавить поле is_new используя migration.sql
+2) Меняем тип поля is_deleted на TINYINT(1)
+3) Прицепляем поле is_visible и удаляем is_new
+4) Меняем значения поля is_visible
