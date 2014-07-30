@@ -9,6 +9,7 @@
     <%@ include file="/WEB-INF/jsp/headInclude.jsp" %>
 
     <script type="text/javascript" src='<c:url value="/resources/js/saveSearch.js"/>' language="javascript"></script>
+    <script type="text/javascript" src='<c:url value="/resources/js/exchangePopup.js"/>' language="javascript"></script>
     <script type="text/javascript" src='<c:url value="/resources/js/checkbox.js"/>' language="javascript"></script>
     <script type="text/javascript" src='<c:url value="/resources/js/tableCut.js"/>' language="javascript"></script>
     <script type="text/javascript" src='<c:url value="/resources/js/yandexMetriс.js"/>' language="javascript"></script>
@@ -98,6 +99,11 @@
         <th class="category">
             Категория
         </th>
+        <c:if test="${isNotAnonym}">
+            <th class="photo">
+                Обмен
+            </th>
+        </c:if>
     </tr>
     </thead>
     <tbody>
@@ -132,6 +138,24 @@
                 Не одежда
             </c:if>
         </td>
+        <c:if test="${isNotAnonym}">
+                <td>
+                <c:if test="${advertisement.user.id != currentUser.id}">
+                    <c:url value="/advertisement/exchange.html" var="exchangeViewingUrl">
+                        <c:param name="id" value="${advertisement.id}"/>
+                        <c:param name="currentCategory" value="${currentCategory}"/>
+                    </c:url>
+                    <c:choose>
+                        <c:when test="${advertisementIsEmpty}">
+                            <a class="js-exchange" href="#exchange">обмен</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${exchangeViewingUrl}">обмен</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+                </td>
+        </c:if>
         </tr>
     </c:forEach>
     </tbody>
@@ -305,6 +329,7 @@
 <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
 <div id="block">
     <%@ include file="/WEB-INF/jsp/advertisement/savingSearch.jsp" %>
+    <%@ include file="/WEB-INF/jsp/advertisement/exchangePopup.jsp" %>
 </div>
 </body>
 </html>

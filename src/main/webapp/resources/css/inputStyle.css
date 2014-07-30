@@ -1,9 +1,5 @@
 @charset "utf-8";
 
-input[type="radio"] {
-   display:none;
-}
-
 input[type="radio"]  + label::before{
     content:"";
     display:inline-block;
@@ -20,7 +16,7 @@ input[type="radio"]:checked + label::before {
 
 input[type="radio"]:checked:disabled + label::before {
     background:url(../images/radio.png);
-}​
+}
 
 input[type="radio"]:disabled + label::before {
     background:url(../images/radio_selected.png) ;

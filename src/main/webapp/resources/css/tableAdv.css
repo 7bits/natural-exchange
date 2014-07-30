@@ -10,6 +10,11 @@ img.sort {
     border: 2px dotted #cdcdcd;
 }
 
+.user-advertisement-table {
+    height: 263px;
+    overflow-y: scroll;
+}
+
 table {
     table-layout: fixed;
      /* width: 300px;  Ширина таблицы
@@ -104,4 +109,5 @@ th.title {
     color: #3e3e38;
     padding-left: 10px;
 }
+
 

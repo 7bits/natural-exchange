@@ -9,8 +9,9 @@
         <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
         <title>Размещение объявления</title>
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
-        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />
+        <%--<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/inputStyle.css"/>" />--%>
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>" />
+        <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/radio.css"/>" />
 
         <script type="text/javascript" src="//vk.com/js/api/openapi.js?100"></script>
         <script type="text/javascript" src='<c:url value="/resources/js/vkScript.js"/>'  language="javascript"> </script>
@@ -71,9 +72,9 @@
                         Выберите категорию: <span class="star">* </span>
                     </div>
                     <div class="cate1">
-                        <p class="pcate1"><form:radiobutton id="one" path="category" value="games" /><label for="one">Игры</label></p>
-                        <p class="pcate1"><form:radiobutton id="two" path="category" value="clothes" /><label for="two">Одежда</label></p>
-                        <p class="pcate1"> <form:radiobutton id="three" path="category" value="notclothes"  /><label for="three">Не одежда</label></p>
+                        <p class="pcate1"><form:radiobutton id="one" path="category" value="games" class="radiobutton"/>Игры</p>
+                        <p class="pcate1"><form:radiobutton id="two" path="category" value="clothes" class="radiobutton"/>Одежда</p>
+                        <p class="pcate1"> <form:radiobutton id="three" path="category" value="notclothes" class="radiobutton"/>Не одежда</p>
                         <p> <span class="error"><form:errors path="category"/></span></p>
                     </div>
                 </aside>
