@@ -20,16 +20,34 @@
                         <p><form:errors path="categories"/></p>
                     </div>
                     <div>
-                        <a class="save" href="#main" >Сохранить поиск</a>
+                        <sec:authorize ifAnyGranted="IS_AUTHENTICATED_ANONYMOUSLY">
+                            <a class="save" href="#main" >Сохранить поиск</a>
+                        </sec:authorize>
+                        <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_MODERATOR,ROLE_USER">
+                            <a class="save-user js-save" data-email=<sec:authentication property="principal.email"/> href="#">Сохранить поиск</a>
+                        </sec:authorize>
                         <input type="submit" class="search" value="Найти"/>
                     </div>
                 </form:form>
-                <form:form method="get"  commandName="mailingNewsForm" class="lk">
-                    <p><span class="errorLk"><form:errors path="emailNews"  /> </span></p>
-                    <p class="proLk">Узнавайте новости проекта первыми! </p>
-                    <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
-                    <input type="hidden" name="id" value="${currentId}"/>
-                    <input type="hidden" name="currentCategory" value="${currentCategory}"/>
-                    <p><input type="submit" value="Подписаться" class="send" /></p>
-                </form:form>
+                <c:if test="${isNotUser}">
+                    <form:form method="get" commandName="mailingNewsForm" class="lk">
+                        <p><span class="errorLk"><form:errors path="emailNews"/> </span></p>
+
+                        <p class="proLk">Узнавайте новости проекта первыми! </p>
+
+                        <c:choose>
+                            <c:when test="${isNotSubscriber}">
+                                <p><form:input path="emailNews" size="30" class="lkMail" placeholder="Ваш e-mail"/></p>
+                            </c:when>
+                            <c:otherwise>
+                                <p><form:input type="hidden" path="emailNews" value="${userEmail}"/></p>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <input type="hidden" name="id" value="${currentId}"/>
+                        <input type="hidden" name="currentCategory" value="${currentCategory}"/>
+
+                        <p><input type="submit" value="Подписаться" class="send"/></p>
+                    </form:form>
+                </c:if>
             </aside>

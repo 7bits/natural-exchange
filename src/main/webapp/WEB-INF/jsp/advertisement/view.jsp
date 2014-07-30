@@ -54,6 +54,13 @@
                         <c:if test="${advertisement.category.name eq 'notclothes'}">
                             <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+notclothes+"/>' class="viewCate" > Не одежда </a>
                         </c:if>
+                        <c:if test="${isNotAnonym}">
+                            <c:url value="/advertisement/exchange.html" var="exchangeViewingUrl">
+                                <c:param name="id" value="${advertisement.id}"/>
+                                <c:param name="currentCategory" value="${currentCategory}"/>
+                            </c:url>
+                            <a href="${exchangeViewingUrl}">обмен</a>
+                        </c:if>
                     </div>
                     <div class = "controlsContainer">
                         <c:url value="/advertisement/approve.html" var="approve">
@@ -124,9 +131,10 @@
                         <c:param name="id" value="${currentId}"/>
                     </c:url>
                     <a href='${placingLike}'>Создать похожее объявление</a>
-                <script type="text/javascript">
-                    VK.Widgets.Like("vk_like_1", {type: "full"});
-                </script>
+                    <script type="text/javascript">
+                        VK.Widgets.Like("vk_like_1", {type: "full"});
+                    </script>
+                </div>
             </section>
             <%@ include file="/WEB-INF/jsp/advertisement/aside.jsp" %>
         </div>

@@ -21,7 +21,7 @@ public interface UserDao {
      * @param id  of entity
      * @return userEntity
      */
-    User findById(Integer id);
+    User findById(Long id);
 
     UserEntity findEntityByEmail(String name);
 

@@ -53,7 +53,7 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
-    public User findById(final Integer id) {
+    public User findById(final Long id) {
         DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
         criteria.add(Restrictions.like("id", id));
         List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);

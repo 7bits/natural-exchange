@@ -17,7 +17,7 @@
             </a>
         </div>
         <div id=lk>
-            <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR" >
+            <sec:authorize ifAnyGranted="ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR" >
                 <div class="entry">
                     <sec:authentication property="principal.username"/>
                 </div>
@@ -27,8 +27,11 @@
                     <a class='login' href='<c:url value="/login.html"/>'>  вход на сайт </a>
                 </div>
             </sec:authorize>
-            <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
-                Разместить объявление
-            </a>
+            <sec:authorize ifAnyGranted= "ROLE_USER,IS_AUTHENTICATED_ANONYMOUSLY">
+                <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
+                    Разместить объявление
+                </a>
+            </sec:authorize>
+
         </div>
     </header>
