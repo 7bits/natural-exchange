@@ -48,10 +48,12 @@
                             <form:textarea path="text" class="placeText" />
                         </div>
                     </div>
-                    <div class="placeы">
-                        <div class="right">
+                    <div class="places">
+                        <div class="left">
                             <p>Введите теги:</p>
-                            <span class="error2"><form:errors path="text" /> </span>
+
+                        </div>
+                        <div class="right">
                             <form:input path="tags" class="placeTags" />
                         </div>
                     </div>

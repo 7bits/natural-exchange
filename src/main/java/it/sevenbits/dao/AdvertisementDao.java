@@ -91,7 +91,7 @@ public interface AdvertisementDao {
 
     void setApproved(Long id);
 
-    void update(final Long id, final Advertisement advertisement, final String categoryName);
+    void update(final Long id, final Advertisement advertisement, final String categoryName, Set<Tag> tags);
 
     List<Advertisement> findAllByEmail(final User user);
 }

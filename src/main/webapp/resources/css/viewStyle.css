@@ -1,5 +1,9 @@
 @charset "utf-8";
 
+.tag-words {
+    color: black;
+}
+
 .viewTitle {
     height:55px;
     width:100%;

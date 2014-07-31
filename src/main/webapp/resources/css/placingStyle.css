@@ -51,7 +51,7 @@
      border: 2px solid #b1ed2f;
 }
 
-.placeTitle {
+.placeTitle, .placeTags {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;

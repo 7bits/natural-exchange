@@ -16,6 +16,7 @@ import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.TimeManager;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
@@ -73,16 +74,19 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         UserEntity userEntity = this.userDao.findEntityByEmail(userName);
         advertisementEntity.setCategoryEntity(categoryEntity);
         advertisementEntity.setUserEntity(userEntity);
-        if(!tags.isEmpty()) {
-            Set<TagEntity> newTags = new HashSet<TagEntity>();
-            for (Tag currentTag: tags) {
-                TagEntity addingTag = new TagEntity();
-                addingTag.setName(currentTag.getName());
-                addingTag.setAdvertisement(advertisementEntity);
-                newTags.add(addingTag);
-            }
-            advertisementEntity.setTags(newTags);
-        }
+        this.translateToTagEntityAndAddIntoDB(tags, advertisementEntity);
+//        if (tags != null) {
+//            if (!tags.isEmpty()) {
+//                Set<TagEntity> newTags = new HashSet<TagEntity>();
+//                for (Tag currentTag : tags) {
+//                    TagEntity addingTag = new TagEntity();
+//                    addingTag.setName(currentTag.getName());
+//                    addingTag.setAdvertisement(advertisementEntity);
+//                    newTags.add(addingTag);
+//                }
+//                advertisementEntity.setTags(newTags);
+//            }
+//        }
         this.hibernateTemplate.save(advertisementEntity);
 //        advertisementEntity = this.hibernateTemplate.merge(advertisementEntity);
         try {
@@ -91,6 +95,27 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 //            TODO нужно обработать это исключение и залогировать (добавить варнинг в лог)
         }
         return  advertisementEntity;
+    }
+
+    private void translateToTagEntityAndAddIntoDB(Set<Tag> tags, AdvertisementEntity advertisementEntity) {
+        if (tags != null) {
+            if (!tags.isEmpty()) {
+                Set<TagEntity> newTags = new HashSet<TagEntity>();
+                for (Tag currentTag : tags) {
+                    TagEntity addingTag = new TagEntity();
+                    addingTag.setName(currentTag.getName());
+                    addingTag.setAdvertisement(advertisementEntity);
+                    newTags.add(addingTag);
+                }
+                Set<TagEntity> oldTags = advertisementEntity.getTags();
+                if (oldTags != null) {
+                    for (TagEntity tagToDel : oldTags) {
+                        hibernateTemplate.delete(tagToDel);
+                    }
+                }
+                advertisementEntity.setTags(newTags);
+            }
+        }
     }
 
     /**
@@ -234,6 +259,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         }
         criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
         criteria.add(Restrictions.eq("is_visible", Boolean.TRUE));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
@@ -278,7 +304,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     }
 
     @Override
-    public void update(Long id, Advertisement advertisement, String categoryName) {
+    public void update(Long id, Advertisement advertisement, String categoryName, Set<Tag> tags) {
         AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
         advertisementEntity.setTitle(advertisement.getTitle());
         advertisementEntity.setPhotoFile(advertisement.getPhotoFile());
@@ -286,6 +312,8 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         advertisementEntity.setIs_deleted(advertisement.getIs_deleted());
         advertisementEntity.setUpdatedDate(TimeManager.getTime());
         advertisementEntity.setCategoryEntity(this.categoryDao.findEntityByName(categoryName));
+
+        this.translateToTagEntityAndAddIntoDB(tags, advertisementEntity);
         hibernateTemplate.update(advertisementEntity);
     }
 

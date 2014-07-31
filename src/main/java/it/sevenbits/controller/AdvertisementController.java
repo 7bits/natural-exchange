@@ -162,6 +162,7 @@ public class AdvertisementController {
                 }
             } else {
                 modelAndView.addObject("currentKeyWords", advertisementSearchingFormParam.getKeyWords());
+                //here start to change search
                 advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
                         currentCategories,
                         advertisementSearchingFormParam.getKeyWords(),
@@ -625,22 +626,25 @@ public class AdvertisementController {
             } else {
                 userName = principal.toString();
             }
-            if (editingAdvertisementId != null) {
-                this.advertisementDao.update(editingAdvertisementId,advertisement, advertisementPlacingFormParam.getCategory());
-            } else {
-                List<String> tagList = selectTags(advertisementPlacingFormParam.getTags());
-                Set<Tag> tags = null;
-                if (tagList != null) {
-                    tags = new HashSet<Tag>();
-                    for(String newTag: tagList) {
-                        if (!newTag.equals("")) {
-                            Tag addingTag = new Tag();
-                            addingTag.setName(newTag);
-                            tags.add(addingTag);
-                        }
+            List<String> tagList = selectTags(advertisementPlacingFormParam.getTags());
+            Set<Tag> newTags = null;
+            if (tagList != null) {
+                newTags = new HashSet<Tag>();
+                for(String newTag: tagList) {
+                    if (!newTag.equals("")) {
+                        Tag addingTag = new Tag();
+                        addingTag.setName(newTag);
+                        newTags.add(addingTag);
                     }
                 }
-                this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName, tags);
+            }
+            if (editingAdvertisementId != null) {
+                //change tags
+//                Set<TagEntity> existingTags = this.getTagsFromAdvertisementById(editingAdvertisementId);
+
+                this.advertisementDao.update(editingAdvertisementId,advertisement, advertisementPlacingFormParam.getCategory(), newTags);
+            } else {
+                this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName, newTags);
             }
         }
         return new ModelAndView("advertisement/placingRequest");
@@ -796,10 +800,16 @@ public class AdvertisementController {
         modelAndView.addObject("isEditing",true);
         modelAndView.addObject("advertisementId",advertisementId);
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
-        Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+        AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
         advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
         advertisementPlacingForm.setText(advertisement.getText());
         advertisementPlacingForm.setTitle(advertisement.getTitle());
+        Set<TagEntity> tags = advertisement.getTags();
+        String forTags = "";
+        for(TagEntity tag: tags) {
+            forTags += tag.getName() + " ";
+        }
+        advertisementPlacingForm.setTags(forTags);
 
         modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
         return modelAndView;

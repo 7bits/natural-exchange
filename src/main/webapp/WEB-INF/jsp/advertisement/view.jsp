@@ -108,7 +108,7 @@
                     <div class = "viewTags">
                         Теги:
                         <c:forEach items="${tags}" var="tag">
-                            ${tag.name}
+                                <div class="tag-words"><c:out value="${tag.name}"/></div>
                         </c:forEach>
 
                     </div>
