@@ -94,6 +94,7 @@
 
                         <td>
                             <form:radiobutton path="idExchangeOfferAdvertisement" value="${advertisement.id}" class="radiobutton"></form:radiobutton>
+                            <p><span class="errorLk error-exchange-message"><form:errors path="idExchangeOfferAdvertisement"/></span></p>
                         </td>
 
                         <td>
@@ -122,11 +123,13 @@
                     </tbody>
                 </table>
             </div>
-            <form:textarea path="exchangePropose" rows="10" cols="45" placeholder="Ваше сообщение владельцу вещи"></form:textarea>
+            <form:textarea class="exchange-propose" path="exchangePropose" rows="10" cols="45" placeholder="Ваше сообщение владельцу вещи"></form:textarea>
             <p><input path="" type="submit" value="отправить"></p>
         </form:form>
-        <form:errors path="idExchangeOfferAdvertisement" />
     </section>
+    <div id="block">
+        <%--<%@ include file="/WEB-INF/jsp/advertisement/exchangeOkPopup.jsp" %>--%>
+    </div>
 </div>
 <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
 </body>

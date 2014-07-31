@@ -151,7 +151,7 @@
         <%@ include file="/WEB-INF/jsp/advertisement/footerAll.jsp" %>
         <div id="block">
             <%@ include file="/WEB-INF/jsp/advertisement/savingSearch.jsp" %>
-            <%@ include file="/WEB-INF/jsp/advertisement/exchangePopup.jsp" %>
+            <%@ include file="/WEB-INF/jsp/advertisement/exchangeEmptyAdvertsPopup.jsp" %>
         </div>
     </body>
 </html>
