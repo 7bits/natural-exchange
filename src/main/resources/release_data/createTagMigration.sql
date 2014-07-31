@@ -1,4 +1,4 @@
-tag CREATE TABLE `tag` (
+CREATE TABLE `tag` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `advertisement_id` bigint(20) NOT NULL,
