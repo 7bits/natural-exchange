@@ -31,9 +31,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -95,6 +99,7 @@ public class AdvertisementController {
             final MailingNewsForm mailingNewsFormParam, final BindingResult bindingResult)
             throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
+<<<<<<< HEAD
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setAll();
         String[] selectedCategories = advertisementSearchingFormParam.getCategories();
@@ -195,6 +200,13 @@ public class AdvertisementController {
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
 
+=======
+//        if (!redirectAttributes.getFlashAttributes().isEmpty()) {
+//            modelAndView.addObject("flashSuccessMsg", redirectAttributes.getFlashAttributes().get("flashSuccessMsg"));
+//        }
+        advertisementListView(modelAndView, advertisementSearchingFormParam, sortByNameParam, sortOrderParam, keyWordsParam,
+            currentCategoryParam, pageSizeParam, currentPageParam);
+>>>>>>> develop
         // checking user for subscriber
         // if user != anonym
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -483,58 +495,61 @@ public class AdvertisementController {
     }
 
     @RequestMapping(value = "/exchange.html", method = RequestMethod.GET)
-    public ModelAndView exchange(@RequestParam(value = "id", required = true) final Long id
+    public ModelAndView exchange(@RequestParam(value = "id", required = true) final Long id, final Model model
     ) {
         //TODO: need to control viewing of deleted and new advertisement
         ModelAndView modelAndView = new ModelAndView("advertisement/exchange");
-        Advertisement advertisement = this.advertisementDao.findById(id);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        User user = this.userDao.findUserByEmail(email);
-        List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
-        modelAndView.addObject("adverts", advertisements);
-
-        if ((!advertisement.getIs_visible() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
-            return new ModelAndView();
-        }
-        modelAndView.addObject("advertisement", advertisement);
         ExchangeForm exchangeForm = new ExchangeForm();
-
-        exchangeForm.setIdExchangeOwnerAdvertisement(id);
-        modelAndView.addObject("exchangeForm", exchangeForm);
+        exchangeFormView(model, id, auth, exchangeForm);
         return modelAndView;
     }
 
     @Autowired
     private ExchangeFormValidator exchangeFormValidator;
 
+//    We must return object cause in one way we must return string, otherwise ModelAndView
     @RequestMapping(value = "/exchange.html", method = RequestMethod.POST)
-    public ModelAndView submitExchange(final ExchangeForm exchangeFormParam, final BindingResult exchangeResult
-    ) {
-        ModelAndView modelAndView = new ModelAndView("advertisement/exchange");
-        exchangeFormValidator.validate(exchangeFormParam, exchangeResult);
+    public String submitExchange(final ExchangeForm exchangeForm, final BindingResult exchangeResult,
+        final RedirectAttributes redirectAttributes, final Model model){
+        exchangeFormValidator.validate(exchangeForm, exchangeResult);
         if (!exchangeResult.hasErrors()) {
-            Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeFormParam.getIdExchangeOfferAdvertisement());
+            Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOfferAdvertisement());
             User offer = offerAdvertisement.getUser();
-            User owner = this.advertisementDao.findById(exchangeFormParam.getIdExchangeOwnerAdvertisement()).getUser();
+            User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
             String advertisementUrl = "http://n-exchange.local/n-exchange/advertisement/view.html?id=";
             String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
             String titleExchangeMessage = "С вами хотят обменяться!";
             String userName;
-            if (owner.getLastName() != null) {
+            if (owner.getLastName().equals("")) {
                 userName = owner.getLastName();
             } else {
                 userName = "владелец вещи";
             }
             String message = "Пользователь с email'ом : " + offer.getUsername() +  "\nХочет обменяться с вами на вашу вещь : \n"
-                + advertisementUrl + exchangeFormParam.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue
-                + "И предлагает вам взамен\n" + advertisementUrl + exchangeFormParam.getIdExchangeOfferAdvertisement()
-                + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeFormParam.getExchangePropose()
-                + "\n Уважаемый " + userName + "\n Пока что наш сервис находится в разработке, так что мы оставляем за вами" +
-                "право связаться с заинтересованным пользователем на вашу вещь.\n" + offer.getUsername();
+                + advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue
+                + "И предлагает вам взамен\n" + advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement()
+                + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeForm.getExchangePropose()
+                + "\n Уважаемый " + userName + "\nПока что наш сервис находится в разработке, так что мы оставляем за вами " +
+                "право связаться с заинтересованным пользователем на вашу вещь.\n"
+                + "\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши объявления с нашего сервиса.\n" + "Спасибо!";
             mailSenderService.sendMail(owner.getEmail(), titleExchangeMessage, message);
+            redirectAttributes.addFlashAttribute("flashSuccessMsg", "Обмен совершен успешно!");
+            return "redirect:/advertisement/list.html";
+        } else {
+            model.addAttribute("exchangeForm", exchangeForm);
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            Advertisement advertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement());
+//            String email = auth.getName();
+//            User user = this.userDao.findUserByEmail(email);
+//            List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
+//            model.addAttribute("adverts", advertisements);
+//            model.addAttribute("advertisement", advertisement);
+//            exchangeForm.setIdExchangeOwnerAdvertisement(exchangeForm.getIdExchangeOwnerAdvertisement());
+//            model.addAttribute("exchangeForm", exchangeForm);
+            exchangeFormView(model, exchangeForm.getIdExchangeOwnerAdvertisement(), auth, exchangeForm);
+            return "advertisement/exchange";
         }
-        return modelAndView;
     }
 
     @Autowired
@@ -819,4 +834,127 @@ public class AdvertisementController {
         return modelAndView;
     }
 
+    private void exchangeFormView(final Model model, final Long idExchangeOwnerAdvertisement, Authentication auth,
+        final ExchangeForm exchangeForm) {
+//        Advertisement advertisement = this.advertisementDao.findById(idExchangeOwnerAdvertisement);
+//        String email = auth.getName();
+//        User user = this.userDao.findUserByEmail(email);
+//        List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
+//        modelAndView.addObject("adverts", advertisements);
+//        modelAndView.addObject("advertisement", advertisement);
+//        exchangeForm.setIdExchangeOwnerAdvertisement(idExchangeOwnerAdvertisement);
+//        modelAndView.addObject("exchangeForm", exchangeForm);
+
+        Advertisement advertisement = this.advertisementDao.findById(idExchangeOwnerAdvertisement);
+        String email = auth.getName();
+        User user = this.userDao.findUserByEmail(email);
+        List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
+        model.addAttribute("adverts", advertisements);
+        model.addAttribute("advertisement", advertisement);
+        exchangeForm.setIdExchangeOwnerAdvertisement(idExchangeOwnerAdvertisement);
+        model.addAttribute("exchangeForm", exchangeForm);
+    }
+
+    private void advertisementListView(final ModelAndView modelAndView, final AdvertisementSearchingForm advertisementSearchingFormParam,
+        final String sortByNameParam, final String sortOrderParam, final String keyWordsParam, final String currentCategoryParam,
+        final Integer pageSizeParam, final Integer currentPageParam) {
+        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+        advertisementSearchingForm.setAll();
+        String[] selectedCategories = advertisementSearchingFormParam.getCategories();
+        String[] currentCategories;
+        if (currentCategoryParam == null) { //запуск пустой страницы
+            advertisementSearchingForm.setAll();
+            currentCategories = advertisementSearchingForm.getCategories();
+        } else {
+            //Пришли параметры от формы выбора поиска
+            if (selectedCategories != null) {
+                currentCategories = selectedCategories;
+            } else { //От какогото другого элемента
+                currentCategories = stringToTokensArray(currentCategoryParam);
+            }
+            advertisementSearchingForm.setCategories(currentCategories);
+            advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
+        }
+        modelAndView.addObject("currentCategory", stringArrayToString(currentCategories));
+        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
+        String currentColumn;
+        SortOrder currentSortOrder;
+        if (sortByNameParam == null) {
+            currentColumn = Advertisement.CREATED_DATE_COLUMN_CODE;
+            currentSortOrder = SortOrder.DESCENDING;
+        } else  {
+            //TODO: check matching with columns
+            currentColumn = sortByNameParam;
+            if (sortOrderParam == null) {
+                currentSortOrder = SortOrder.ASCENDING;
+            } else {
+                try {
+                    currentSortOrder = SortOrder.valueOf(sortOrderParam);
+                } catch (IllegalArgumentException e) {
+                    currentSortOrder = SortOrder.NONE;
+                }
+            }
+        }
+        SortOrder newSortOrder = SortOrder.getViceVersa(currentSortOrder);
+        if (currentColumn.equals(Advertisement.TITLE_COLUMN_CODE)) {
+            modelAndView.addObject("sortedByTitle", Advertisement.TITLE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderTitle", newSortOrder.toString());
+            modelAndView.addObject("sortedByDate", Advertisement.CREATED_DATE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderDate", SortOrder.ASCENDING.toString());
+        } else {
+            modelAndView.addObject("sortedByTitle", Advertisement.TITLE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderTitle", SortOrder.ASCENDING.toString());
+            modelAndView.addObject("sortedByDate", Advertisement.CREATED_DATE_COLUMN_CODE);
+            modelAndView.addObject("sortOrderDate", newSortOrder.toString());
+        }
+        List<Advertisement> advertisements;
+
+        if (keyWordsParam != null) {
+            advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
+                    currentCategories, keyWordsParam, currentSortOrder, currentColumn
+            );
+            advertisementSearchingForm.setKeyWords(keyWordsParam);
+            modelAndView.addObject("currentKeyWords", keyWordsParam);
+        } else {
+            if (advertisementSearchingFormParam.getKeyWords() == null || advertisementSearchingFormParam.getKeyWords().equals(""))
+            {
+                if (advertisementSearchingForm.getCategories() == null) {
+                    advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
+                } else {
+                    advertisements = findAllAdvertisementsWithCategoryOrderBy(currentCategories, currentSortOrder, currentColumn);
+                }
+            } else {
+                modelAndView.addObject("currentKeyWords", advertisementSearchingFormParam.getKeyWords());
+                advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
+                        currentCategories,
+                        advertisementSearchingFormParam.getKeyWords(),
+                        currentSortOrder,
+                        currentColumn);
+            }
+        }
+        PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
+        pageList.setSource(advertisements);
+        int pageSize;
+        if (pageSizeParam == null) {
+            pageSize = defaultPageSize();
+        } else {
+            pageSize = pageSizeParam;
+        }
+        pageList.setPageSize(pageSize);
+        int noOfPage = pageList.getPageCount();
+        int currentPage;
+        if (currentPageParam == null || currentPageParam >= noOfPage) {
+            currentPage = 0;
+        } else {
+            currentPage = currentPageParam;
+        }
+        pageList.setPage(currentPage);
+        modelAndView.addObject("advertisements", pageList.getPageList());
+        modelAndView.addObject("defaultPageSize", defaultPageSize());
+        modelAndView.addObject("noOfPage", noOfPage);
+        modelAndView.addObject("currentPage", currentPage);
+        modelAndView.addObject("pageSize", pageSize);
+        modelAndView.addObject("currentColumn", currentColumn);
+        modelAndView.addObject("currentSortOrder", currentSortOrder);
+    }
 }
