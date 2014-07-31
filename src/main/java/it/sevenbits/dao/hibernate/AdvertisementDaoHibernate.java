@@ -7,9 +7,11 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.CategoryDao;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.Tag;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
+import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
@@ -25,9 +27,7 @@ import org.springframework.mail.MailException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 import static it.sevenbits.util.SortOrder.ASCENDING;
@@ -67,13 +67,24 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     }
 
     @Override
-    public Advertisement create(final Advertisement advertisement, final String categoryName, final String userName) {
+    public Advertisement create(final Advertisement advertisement, final String categoryName, final String userName, final Set<Tag> tags) {
         AdvertisementEntity advertisementEntity = toEntity(advertisement);
         CategoryEntity categoryEntity = this.categoryDao.findEntityByName(categoryName);
         UserEntity userEntity = this.userDao.findEntityByEmail(userName);
         advertisementEntity.setCategoryEntity(categoryEntity);
         advertisementEntity.setUserEntity(userEntity);
-        advertisementEntity = this.hibernateTemplate.merge(advertisementEntity);
+        if(!tags.isEmpty()) {
+            Set<TagEntity> newTags = new HashSet<TagEntity>();
+            for (Tag currentTag: tags) {
+                TagEntity addingTag = new TagEntity();
+                addingTag.setName(currentTag.getName());
+                addingTag.setAdvertisement(advertisementEntity);
+                newTags.add(addingTag);
+            }
+            advertisementEntity.setTags(newTags);
+        }
+        this.hibernateTemplate.save(advertisementEntity);
+//        advertisementEntity = this.hibernateTemplate.merge(advertisementEntity);
         try {
             mailSenderService.sendNotifyToModerator(advertisementEntity.getId(), advertisementEntity.getCategory().getName());
         } catch (MailException ex) {
@@ -88,7 +99,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     @Override
     public Advertisement findById(final Long id) {
         return this.hibernateTemplate.get(AdvertisementEntity.class, id);
-
     }
 
     @Override
@@ -245,6 +255,18 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         advertisementEntity.setIs_deleted(true);
         advertisementEntity.setIs_visible(false);
         hibernateTemplate.update(advertisementEntity);
+    }
+
+    @Override
+    public void setTags(List<Tag> tags, int adv_id) {
+        Advertisement advertisement = this.findById((long) adv_id);
+        AdvertisementEntity advertisementEntity = this.toEntity(advertisement);
+        Set<TagEntity> tagsEntity = new HashSet<TagEntity>();
+        for (Tag tag: tags) {
+            TagEntity newTag = new TagEntity();
+            newTag.setName(tag.getName());
+        }
+        advertisementEntity.setTags(tagsEntity);
     }
 
     @Override

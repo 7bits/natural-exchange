@@ -13,3 +13,4 @@ ALTER TABLE advertisement DROP is_new;
 UPDATE advertisement SET is_visible=1 WHERE is_deleted=0;
 UPDATE advertisement SET is_visible=0 WHERE is_deleted=1;
 
+

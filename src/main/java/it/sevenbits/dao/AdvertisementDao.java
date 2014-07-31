@@ -4,10 +4,13 @@
 package it.sevenbits.dao;
 
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.Tag;
 import it.sevenbits.entity.User;
+import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.util.SortOrder;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Interface which provide methods for working with object Advertisement
@@ -18,7 +21,7 @@ public interface AdvertisementDao {
      * Create new advertisement
      * @param advertisement - advertisement to add in DB
      */
-    Advertisement create(Advertisement advertisement, String categoryName, String userName);
+    Advertisement create(Advertisement advertisement, String categoryName, String userName, Set<Tag> tags);
 
     /**
      * Find advertisement by id
@@ -69,7 +72,7 @@ public interface AdvertisementDao {
                                                                  final SortOrder sortOrder,
                                                                  final String sortPropertyName,
                                                                  final Boolean isDeleted,
-                                                                 final Boolean isNew);
+                                                                 final Boolean isVisible);
     /**
      * Change advertisement
      * @param advertisement advertisement to update
@@ -83,6 +86,8 @@ public interface AdvertisementDao {
     void delete(Advertisement advertisement);
 
     void setDeleted(Long id);
+
+    void setTags(List<Tag> tags, int adv_id);
 
     void setApproved(Long id);
 

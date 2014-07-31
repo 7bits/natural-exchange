@@ -104,6 +104,15 @@
                         </sec:authorize>
                     </div>
                 </div>
+                <div>
+                    <div class = "viewTags">
+                        Теги:
+                        <c:forEach items="${tags}" var="tag">
+                            ${tag.name}
+                        </c:forEach>
+
+                    </div>
+                </div>
                 <div class="viewText">
                     <c:out value="${advertisement.text}"/>
                 </div>

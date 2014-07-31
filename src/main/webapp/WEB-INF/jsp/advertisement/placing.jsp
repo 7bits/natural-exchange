@@ -48,6 +48,13 @@
                             <form:textarea path="text" class="placeText" />
                         </div>
                     </div>
+                    <div class="placeы">
+                        <div class="right">
+                            <p>Введите теги:</p>
+                            <span class="error2"><form:errors path="text" /> </span>
+                            <form:input path="tags" class="placeTags" />
+                        </div>
+                    </div>
                     <div class="places">
                         <div class="left">
                             <p>Фотография:</p>

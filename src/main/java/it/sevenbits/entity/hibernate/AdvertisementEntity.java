@@ -1,15 +1,15 @@
 package it.sevenbits.entity.hibernate;
 
-import javax.persistence.Column;
+
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import java.util.Set;
 
 /**
  *Class, which presents Advertisement entity for Hibernate
@@ -46,6 +46,9 @@ public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
     private Long id;
     private CategoryEntity categoryEntity;
     private UserEntity userEntity;
+
+
+    private Set<TagEntity> tags;
 
     public AdvertisementEntity() {
         super();
@@ -124,5 +127,16 @@ public class AdvertisementEntity extends it.sevenbits.entity.Advertisement {
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    @OneToMany(mappedBy = "advertisement")
+    @Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
+    @Fetch(FetchMode.JOIN)
+    public Set<TagEntity> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<TagEntity> tags) {
+        this.tags = tags;
     }
 }

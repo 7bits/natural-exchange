@@ -1,13 +1,9 @@
 package it.sevenbits.controller;
 
-import it.sevenbits.dao.AdvertisementDao;
-import it.sevenbits.dao.SearchVariantDao;
-import it.sevenbits.dao.SubscriberDao;
-import it.sevenbits.dao.UserDao;
-import it.sevenbits.entity.Advertisement;
-import it.sevenbits.entity.SearchVariant;
-import it.sevenbits.entity.Subscriber;
-import it.sevenbits.entity.User;
+import it.sevenbits.dao.*;
+import it.sevenbits.entity.*;
+import it.sevenbits.entity.hibernate.AdvertisementEntity;
+import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.security.Role;
 import it.sevenbits.service.mail.MailSenderService;
@@ -29,6 +25,7 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -470,7 +467,14 @@ public class AdvertisementController {
             }
         }
         modelAndView.addObject("advertisement", advertisement);
+        Set<TagEntity> tags = this.getTagsFromAdvertisementById(id);
+        modelAndView.addObject("tags", tags);
         return modelAndView;
+    }
+
+    private Set<TagEntity> getTagsFromAdvertisementById(long id) {
+        AdvertisementEntity advertisementEntity = (AdvertisementEntity) this.advertisementDao.findById(id);
+        return advertisementEntity.getTags();
     }
 
     @RequestMapping(value = "/exchange.html", method = RequestMethod.GET)
@@ -612,6 +616,8 @@ public class AdvertisementController {
             advertisement.setText(advertisementPlacingFormParam.getText());
             advertisement.setTitle(advertisementPlacingFormParam.getTitle());
 
+
+
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String userName;
             if (principal instanceof UserDetails) {//Alex: что это черт возьми???
@@ -622,10 +628,36 @@ public class AdvertisementController {
             if (editingAdvertisementId != null) {
                 this.advertisementDao.update(editingAdvertisementId,advertisement, advertisementPlacingFormParam.getCategory());
             } else {
-                this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName);
+                List<String> tagList = selectTags(advertisementPlacingFormParam.getTags());
+                Set<Tag> tags = null;
+                if (tagList != null) {
+                    tags = new HashSet<Tag>();
+                    for(String newTag: tagList) {
+                        if (!newTag.equals("")) {
+                            Tag addingTag = new Tag();
+                            addingTag.setName(newTag);
+                            tags.add(addingTag);
+                        }
+                    }
+                }
+                this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName, tags);
             }
         }
         return new ModelAndView("advertisement/placingRequest");
+    }
+
+    private List<String> selectTags(String tags) {
+        if (tags == null) {
+            return null;
+        }
+
+        StringTokenizer token = new StringTokenizer(tags);
+        List<String> saparateTags = new ArrayList<String>();
+        int length = token.countTokens();
+        for (int i = 0; i < length; i++) {
+            saparateTags.add(token.nextToken());
+        }
+        return saparateTags;
     }
 
     @RequestMapping(value = "/captcha.jpg", method = RequestMethod.GET)

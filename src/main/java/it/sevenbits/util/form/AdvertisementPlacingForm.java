@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AdvertisementPlacingForm {
     private String title;
     private String text;
+    private String tags;
     private String category;
     private MultipartFile image;
 
@@ -26,6 +27,10 @@ public class AdvertisementPlacingForm {
     public void setText(final String text) {
         this.text = text;
     }
+
+    public String getTags() { return tags; }
+
+    public void setTags(String tags) { this.tags = tags; }
 
     public String getTitle() {
         return title;
