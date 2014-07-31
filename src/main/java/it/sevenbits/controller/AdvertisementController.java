@@ -99,7 +99,6 @@ public class AdvertisementController {
             final MailingNewsForm mailingNewsFormParam, final BindingResult bindingResult)
             throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
-<<<<<<< HEAD
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
         advertisementSearchingForm.setAll();
         String[] selectedCategories = advertisementSearchingFormParam.getCategories();
@@ -200,13 +199,11 @@ public class AdvertisementController {
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
 
-=======
 //        if (!redirectAttributes.getFlashAttributes().isEmpty()) {
 //            modelAndView.addObject("flashSuccessMsg", redirectAttributes.getFlashAttributes().get("flashSuccessMsg"));
 //        }
         advertisementListView(modelAndView, advertisementSearchingFormParam, sortByNameParam, sortOrderParam, keyWordsParam,
             currentCategoryParam, pageSizeParam, currentPageParam);
->>>>>>> develop
         // checking user for subscriber
         // if user != anonym
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
