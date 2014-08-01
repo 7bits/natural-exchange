@@ -242,9 +242,9 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 //                        .add(Projections.property("text"), "text")
 //                        .add(Projections.property("title"), "title")
 //                        .add(Projections.property("updatedDate"), "updated_date")
-//                        .add(Projections.property("categoryEntity"), "category_id")
-//                        .add(Projections.property("userEntity"), "user_id"));
-//        criteria.createAlias("tags", "tag", Criteria.LEFT_JOIN);
+//                        .add(Projections.property("categoryEntity.id"), "category_id")
+//                        .add(Projections.property("userEntity.id"), "user_id"));
+        criteria.createAlias("tags", "tag", Criteria.LEFT_JOIN);
 //        criteria.createAlias("advertisementEntity", "advertisement");
 //        criteria.createAlias("tagEntity", "tag");
 
@@ -272,17 +272,17 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             Disjunction disjunction = Restrictions.disjunction();
             for (int i = 0; i < keyWords.length; i++) {
                 disjunction.add(Restrictions.like("advertisement.title", "%" + keyWords[i] + "%") );
-//                disjunction.add(Restrictions.like("tag.name","%" + keyWords[i] + "%"));
-//                criteria.add(disjunction);
-//                disjunction = Restrictions.disjunction();
+                disjunction.add(Restrictions.like("tag.name","%" + keyWords[i] + "%"));
+                criteria.add(disjunction);
+                disjunction = Restrictions.disjunction();
             }
             criteria.add(disjunction);
         }
 
         criteria.add(Restrictions.eq("advertisement.is_deleted", Boolean.FALSE));
         criteria.add(Restrictions.eq("advertisement.is_visible", Boolean.TRUE));
-//        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-//        List<Advertisement> simpleSearch = this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        List<Advertisement> simpleSearch = this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
