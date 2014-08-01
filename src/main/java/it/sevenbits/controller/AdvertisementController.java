@@ -99,109 +99,6 @@ public class AdvertisementController {
             final MailingNewsForm mailingNewsFormParam, final BindingResult bindingResult)
             throws FileNotFoundException {
         ModelAndView modelAndView = new ModelAndView("advertisement/list");
-        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
-        advertisementSearchingForm.setAll();
-        String[] selectedCategories = advertisementSearchingFormParam.getCategories();
-        String[] currentCategories;
-        if (currentCategoryParam == null) { //запуск пустой страницы
-            advertisementSearchingForm.setAll();
-            currentCategories = advertisementSearchingForm.getCategories();
-        } else {
-            //Пришли параметры от формы выбора поиска
-            if (selectedCategories != null) {
-                currentCategories = selectedCategories;
-            } else { //От какогото другого элемента
-                currentCategories = stringToTokensArray(currentCategoryParam);
-            }
-            advertisementSearchingForm.setCategories(currentCategories);
-            advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
-        }
-        modelAndView.addObject("currentCategory", stringArrayToString(currentCategories));
-        modelAndView.addObject("advertisementSearchingForm", advertisementSearchingForm);
-        String currentColumn;
-        SortOrder currentSortOrder;
-        if (sortByNameParam == null) {
-            currentColumn = Advertisement.CREATED_DATE_COLUMN_CODE;
-            currentSortOrder = SortOrder.DESCENDING;
-        } else  {
-            //TODO: check matching with columns
-            currentColumn = sortByNameParam;
-            if (sortOrderParam == null) {
-                currentSortOrder = SortOrder.ASCENDING;
-            } else {
-                try {
-                    currentSortOrder = SortOrder.valueOf(sortOrderParam);
-                } catch (IllegalArgumentException e) {
-                    currentSortOrder = SortOrder.NONE;
-                }
-            }
-        }
-        SortOrder newSortOrder = SortOrder.getViceVersa(currentSortOrder);
-        if (currentColumn.equals(Advertisement.TITLE_COLUMN_CODE)) {
-            modelAndView.addObject("sortedByTitle", Advertisement.TITLE_COLUMN_CODE);
-            modelAndView.addObject("sortOrderTitle", newSortOrder.toString());
-            modelAndView.addObject("sortedByDate", Advertisement.CREATED_DATE_COLUMN_CODE);
-            modelAndView.addObject("sortOrderDate", SortOrder.ASCENDING.toString());
-        } else {
-            modelAndView.addObject("sortedByTitle", Advertisement.TITLE_COLUMN_CODE);
-            modelAndView.addObject("sortOrderTitle", SortOrder.ASCENDING.toString());
-            modelAndView.addObject("sortedByDate", Advertisement.CREATED_DATE_COLUMN_CODE);
-            modelAndView.addObject("sortOrderDate", newSortOrder.toString());
-        }
-        List<Advertisement> advertisements;
-
-        if (keyWordsParam != null) {
-            advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
-                    currentCategories, keyWordsParam, currentSortOrder, currentColumn
-            );
-            advertisementSearchingForm.setKeyWords(keyWordsParam);
-            modelAndView.addObject("currentKeyWords", keyWordsParam);
-        } else {
-            if (advertisementSearchingFormParam.getKeyWords() == null || advertisementSearchingFormParam.getKeyWords().equals(""))
-            {
-                if (advertisementSearchingForm.getCategories() == null) {
-                    advertisements = this.advertisementDao.findAll(currentSortOrder, currentColumn);
-                } else {
-                    advertisements = findAllAdvertisementsWithCategoryOrderBy(currentCategories, currentSortOrder, currentColumn);
-                }
-            } else {
-                modelAndView.addObject("currentKeyWords", advertisementSearchingFormParam.getKeyWords());
-                //here start to change search
-                advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
-                        currentCategories,
-                        advertisementSearchingFormParam.getKeyWords(),
-                        currentSortOrder,
-                        currentColumn);
-            }
-        }
-        PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
-        pageList.setSource(advertisements);
-        int pageSize;
-        if (pageSizeParam == null) {
-            pageSize = defaultPageSize();
-        } else {
-            pageSize = pageSizeParam;
-        }
-        pageList.setPageSize(pageSize);
-        int noOfPage = pageList.getPageCount();
-        int currentPage;
-        if (currentPageParam == null || currentPageParam >= noOfPage) {
-            currentPage = 0;
-        } else {
-            currentPage = currentPageParam;
-        }
-        pageList.setPage(currentPage);
-        modelAndView.addObject("advertisements", pageList.getPageList());
-        modelAndView.addObject("defaultPageSize", defaultPageSize());
-        modelAndView.addObject("noOfPage", noOfPage);
-        modelAndView.addObject("currentPage", currentPage);
-        modelAndView.addObject("pageSize", pageSize);
-        modelAndView.addObject("currentColumn", currentColumn);
-        modelAndView.addObject("currentSortOrder", currentSortOrder);
-
-//        if (!redirectAttributes.getFlashAttributes().isEmpty()) {
-//            modelAndView.addObject("flashSuccessMsg", redirectAttributes.getFlashAttributes().get("flashSuccessMsg"));
-//        }
         advertisementListView(modelAndView, advertisementSearchingFormParam, sortByNameParam, sortOrderParam, keyWordsParam,
             currentCategoryParam, pageSizeParam, currentPageParam);
         // checking user for subscriber
@@ -525,9 +422,9 @@ public class AdvertisementController {
             }
             String message = "Пользователь с email'ом : " + offer.getUsername() +  "\nХочет обменяться с вами на вашу вещь : \n"
                 + advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue
-                + "И предлагает вам взамен\n" + advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement()
+                + "\nИ предлагает вам взамен\n" + advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement()
                 + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeForm.getExchangePropose()
-                + "\n Уважаемый " + userName + "\nПока что наш сервис находится в разработке, так что мы оставляем за вами " +
+                + "\n\n Уважаемый " + userName + "\nПока что наш сервис находится в разработке, так что мы оставляем за вами " +
                 "право связаться с заинтересованным пользователем на вашу вещь.\n"
                 + "\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши объявления с нашего сервиса.\n" + "Спасибо!";
             mailSenderService.sendMail(owner.getEmail(), titleExchangeMessage, message);
@@ -536,14 +433,6 @@ public class AdvertisementController {
         } else {
             model.addAttribute("exchangeForm", exchangeForm);
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            Advertisement advertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement());
-//            String email = auth.getName();
-//            User user = this.userDao.findUserByEmail(email);
-//            List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
-//            model.addAttribute("adverts", advertisements);
-//            model.addAttribute("advertisement", advertisement);
-//            exchangeForm.setIdExchangeOwnerAdvertisement(exchangeForm.getIdExchangeOwnerAdvertisement());
-//            model.addAttribute("exchangeForm", exchangeForm);
             exchangeFormView(model, exchangeForm.getIdExchangeOwnerAdvertisement(), auth, exchangeForm);
             return "advertisement/exchange";
         }
@@ -632,8 +521,6 @@ public class AdvertisementController {
             }
             advertisement.setText(advertisementPlacingFormParam.getText());
             advertisement.setTitle(advertisementPlacingFormParam.getTitle());
-
-
 
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String userName;
@@ -833,15 +720,6 @@ public class AdvertisementController {
 
     private void exchangeFormView(final Model model, final Long idExchangeOwnerAdvertisement, Authentication auth,
         final ExchangeForm exchangeForm) {
-//        Advertisement advertisement = this.advertisementDao.findById(idExchangeOwnerAdvertisement);
-//        String email = auth.getName();
-//        User user = this.userDao.findUserByEmail(email);
-//        List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
-//        modelAndView.addObject("adverts", advertisements);
-//        modelAndView.addObject("advertisement", advertisement);
-//        exchangeForm.setIdExchangeOwnerAdvertisement(idExchangeOwnerAdvertisement);
-//        modelAndView.addObject("exchangeForm", exchangeForm);
-
         Advertisement advertisement = this.advertisementDao.findById(idExchangeOwnerAdvertisement);
         String email = auth.getName();
         User user = this.userDao.findUserByEmail(email);
