@@ -416,15 +416,15 @@ public class AdvertisementController {
             String titleExchangeMessage = "С вами хотят обменяться!";
             String userName;
             if (owner.getLastName().equals("")) {
-                userName = owner.getLastName();
-            } else {
                 userName = "владелец вещи";
+            } else {
+                userName = owner.getLastName();
             }
             String message = "Пользователь с email'ом : " + offer.getUsername() +  "\nХочет обменяться с вами на вашу вещь : \n"
                 + advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue
                 + "\nИ предлагает вам взамен\n" + advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement()
                 + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeForm.getExchangePropose()
-                + "\n\n Уважаемый " + userName + "\nПока что наш сервис находится в разработке, так что мы оставляем за вами " +
+                + "\n Уважаемый " + userName + "\nПока что наш сервис находится в разработке, так что мы оставляем за вами " +
                 "право связаться с заинтересованным пользователем на вашу вещь.\n"
                 + "\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши объявления с нашего сервиса.\n" + "Спасибо!";
             mailSenderService.sendMail(owner.getEmail(), titleExchangeMessage, message);
