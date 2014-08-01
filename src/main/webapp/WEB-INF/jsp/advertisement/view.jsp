@@ -56,18 +56,20 @@
                             <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+notclothes+"/>' class="viewCate" > Не одежда </a>
                         </c:if>
                         <c:if test="${isNotAnonym}">
-                            <c:url value="/advertisement/exchange.html" var="exchangeViewingUrl">
-                                <c:param name="id" value="${advertisement.id}"/>
-                                <c:param name="currentCategory" value="${currentCategory}"/>
-                            </c:url>
-                            <c:choose>
-                                <c:when test="${advertisementIsEmpty}">
-                                    <a class="js-exchange" href="#exchange">обмен</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a href="${exchangeViewingUrl}">обмен</a>
-                                </c:otherwise>
-                            </c:choose>
+                            <c:if test="${advertisement.user.id != currentUser.id}">
+                                <c:url value="/advertisement/exchange.html" var="exchangeViewingUrl">
+                                    <c:param name="id" value="${advertisement.id}"/>
+                                    <c:param name="currentCategory" value="${currentCategory}"/>
+                                </c:url>
+                                <c:choose>
+                                    <c:when test="${advertisementIsEmpty}">
+                                        <a class="js-exchange" href="#exchange">обмен</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="${exchangeViewingUrl}">обмен</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
                         </c:if>
                     </div>
                     <div class = "controlsContainer">
