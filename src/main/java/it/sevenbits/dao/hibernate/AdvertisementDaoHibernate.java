@@ -17,11 +17,10 @@ import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.TimeManager;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.MailException;
@@ -232,7 +231,24 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 ? Advertisement.CREATED_DATE_COLUMN_CODE
                 : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
         ;
-        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
+        DetachedCriteria criteria = DetachedCriteria
+                .forClass(AdvertisementEntity.class, "advertisement");
+//                .setProjection(Projections.projectionList()
+//                        .add(Projections.property("id"), "id")
+//                        .add(Projections.property("createdDate"), "created_date")
+//                        .add(Projections.property("is_deleted"), "is_deleted")
+//                        .add(Projections.property("is_visible"), "is_visible")
+//                        .add(Projections.property("photoFile"), "photo_file")
+//                        .add(Projections.property("text"), "text")
+//                        .add(Projections.property("title"), "title")
+//                        .add(Projections.property("updatedDate"), "updated_date")
+//                        .add(Projections.property("categoryEntity.id"), "category_id")
+//                        .add(Projections.property("userEntity.id"), "user_id"));
+        criteria.createAlias("tags", "tag", Criteria.LEFT_JOIN);
+//        criteria.createAlias("advertisementEntity", "advertisement");
+//        criteria.createAlias("tagEntity", "tag");
+
+//        DetachedCriteria tagCriteria = DetachedCriteria.forClass(TagEntity.class);
         switch (sortOrder) {
             case ASCENDING :
                 criteria.addOrder(Order.asc(sortByName));
@@ -253,13 +269,20 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             criteria.add(disjunction);
         }
         if (keyWords != null) {
+            Disjunction disjunction = Restrictions.disjunction();
             for (int i = 0; i < keyWords.length; i++) {
-                criteria.add(Restrictions.like("title", "%" + keyWords[i] + "%"));
+                disjunction.add(Restrictions.like("advertisement.title", "%" + keyWords[i] + "%") );
+                disjunction.add(Restrictions.like("tag.name","%" + keyWords[i] + "%"));
+                criteria.add(disjunction);
+                disjunction = Restrictions.disjunction();
             }
+            criteria.add(disjunction);
         }
-        criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
-        criteria.add(Restrictions.eq("is_visible", Boolean.TRUE));
+
+        criteria.add(Restrictions.eq("advertisement.is_deleted", Boolean.FALSE));
+        criteria.add(Restrictions.eq("advertisement.is_visible", Boolean.TRUE));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        List<Advertisement> simpleSearch = this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
