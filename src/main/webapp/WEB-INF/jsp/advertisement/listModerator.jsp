@@ -36,9 +36,6 @@
                 <c:param name="redirect_uri" value="http://naturalexchange.ru/VK/auth.html"/>
                 <c:param name="response_type" value="code"/>
             </c:url>
-            <div>
-                <div class="vkAuth"> Войти через контакт </div>
-            </div>
             <section>
                 <table>
                     <thead>

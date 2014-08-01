@@ -37,6 +37,6 @@
                     Все объявления
                 </a>
             </sec:authorize>
-
         </div>
+        <%--<%@ include file="/WEB-INF/jsp/advertisement/loginPopup.jsp" %>--%>
     </header>

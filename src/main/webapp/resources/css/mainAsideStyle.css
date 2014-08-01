@@ -178,6 +178,11 @@ aside {
 
 }
 
+.error-exchange-message {
+    padding-bottom: 40px;
+    padding-left: 156px;
+}
+
 .vkLikeContainer {
     float: right;
     top: -23px;
