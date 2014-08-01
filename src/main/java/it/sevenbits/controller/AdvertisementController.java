@@ -412,7 +412,8 @@ public class AdvertisementController {
             Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOfferAdvertisement());
             User offer = offerAdvertisement.getUser();
             User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
-            String advertisementUrl = "http://n-exchange.local/n-exchange/advertisement/view.html?id=";
+//            String advertisementUrl_LOCAL = "http://n-exchange.local/n-exchange/advertisement/view.html?id=";
+            String advertisementUrl = "http://naturalexchange.ru/advertisement/view.html?id=";
             String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
             String titleExchangeMessage = "С вами хотят обменяться!";
             String userName;
