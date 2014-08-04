@@ -734,19 +734,6 @@ public class AdvertisementController {
         String email = auth.getName();
         User user = this.userDao.findUserByEmail(email);
         List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
-        for(int i = 0; i < advertisements.size(); i++) {
-            if (!advertisements.get(i).getIs_visible()) {
-                advertisements.remove(i);
-            }
-        }
-        for (int i = 0; i < advertisements.size(); i++) {
-            for (int j = i; j < advertisements.size(); j++) {
-                Advertisement advert = advertisements.get(i);
-                if (advertisements.get(j).equals(advert)) {
-                    advertisements.remove(j);
-                }
-            }
-        }
         model.addAttribute("adverts", advertisements);
         model.addAttribute("advertisement", advertisement);
         exchangeForm.setIdExchangeOwnerAdvertisement(idExchangeOwnerAdvertisement);
