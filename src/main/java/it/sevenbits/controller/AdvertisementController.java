@@ -217,7 +217,7 @@ public class AdvertisementController {
         advertisementSearchingForm.setKeyWords(advertisementSearchingFormParam.getKeyWords());
 
         if (currentCategoryParam == null) { //запуск пустой страницы
-            advertisementSearchingForm.setCategories(new String[]{"visible","delete"});
+            advertisementSearchingForm.setCategories(new String[]{"delete"});
             currentCategories = advertisementSearchingForm.getCategories();
         } else {
             //Пришли параметры от формы выбора поиска
@@ -262,27 +262,15 @@ public class AdvertisementController {
             modelAndView.addObject("sortOrderDate", newSortOrder.toString());
         }
         List<Advertisement> advertisements;
-        if (currentCategories.length == 2) {
+        if (currentCategories.length == 1) {
             advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
                     stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
-                    currentSortOrder, currentColumn, true, true
+                    currentSortOrder, currentColumn, true
             );
-        } else if (currentCategories.length == 1) {
-            if (currentCategories[0].equals("visible")) {
-                advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
-                        stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
-                        currentSortOrder, currentColumn, false, true
-                );
-            } else {
-                advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
-                        stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
-                        currentSortOrder, currentColumn, true, false
-                );
-            }
         } else {
             advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
                     stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
-                    currentSortOrder, currentColumn, false, false
+                    currentSortOrder, currentColumn, false
             );
 //            advertisements = Collections.EMPTY_LIST;
         }
@@ -335,7 +323,7 @@ public class AdvertisementController {
             if (this.advertisementDao.findAllByEmail(this.userDao.findEntityByEmail(user.getUsername())).size() == 0) {
                 modelAndView.addObject("advertisementIsEmpty", true);
             }
-            if((!advertisement.getIs_visible() || advertisement.getIs_deleted()) && !user.getAuthorities().contains(Role.createModeratorRole())) {
+            if(advertisement.getIs_deleted() && !user.getAuthorities().contains(Role.createModeratorRole())) {
                 return new ModelAndView();
             }
             Subscriber subscriber = new Subscriber(user.getUsername());
@@ -354,7 +342,7 @@ public class AdvertisementController {
             }
         } else {
             modelAndView.addObject("isAnonym", true);
-            if(!advertisement.getIs_visible() || advertisement.getIs_deleted()) {
+            if(advertisement.getIs_deleted()) {
                 return new ModelAndView();
             }
             modelAndView.addObject("isNotUser", true);
@@ -673,17 +661,18 @@ public class AdvertisementController {
     public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails;
+        String rederectAddress = "redirect:/advertisement/moderator/list.html" + "?currentCategory=";
         if (principal instanceof UserDetails) {
             userDetails = (UserDetails) principal;
         } else {
-            return "redirect:/advertisement/list.html";
+            return rederectAddress;
         }
         Advertisement advertisement = this.advertisementDao.findById(advertisementId);
         String userEmail = advertisement.getUser().getEmail();
         if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
             this.advertisementDao.setDeleted(advertisementId);
         }
-        return "redirect:/advertisement/list.html";
+        return rederectAddress;
     }
 
     @RequestMapping(value = "/approve.html", method = RequestMethod.GET)
@@ -725,7 +714,7 @@ public class AdvertisementController {
         User user = this.userDao.findUserByEmail(email);
         List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
         for(int i = 0; i < advertisements.size(); i++) {
-            if (!advertisements.get(i).getIs_visible()) {
+            if (advertisements.get(i).getIs_deleted()) {
                 advertisements.remove(i);
             }
         }

@@ -71,8 +71,7 @@ public interface AdvertisementDao {
     List<Advertisement> findAllAdvertisementsWithKeyWordsOrderBy(final String[] keyWords,
                                                                  final SortOrder sortOrder,
                                                                  final String sortPropertyName,
-                                                                 final Boolean isDeleted,
-                                                                 final Boolean isVisible);
+                                                                 final Boolean isDeleted);
     /**
      * Change advertisement
      * @param advertisement advertisement to update

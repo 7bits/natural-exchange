@@ -76,8 +76,8 @@
                         <c:url value="/advertisement/approve.html" var="approve">
                             <c:param name="id" value="${currentId}"/>
                         </c:url>
-                        <c:if test="${!advertisement.is_deleted}">
-                            <sec:authorize ifAnyGranted="ROLE_MODERATOR">
+                        <c:if test="${advertisement.is_deleted}">
+                            <sec:authorize ifAnyGranted="ROLE_MODERATOR,ROLE_ADMIN">
                                 <div class="approveAdvertisementButton">
                                     <a class="approveAdvertisementButtonImage" href='${approve}' ></a>
                                 </div>
@@ -87,7 +87,7 @@
                             <c:param name="id" value="${currentId}"/>
                         </c:url>
                         <c:if test="${!advertisement.is_deleted}">
-                          <sec:authorize ifAnyGranted="ROLE_MODERATOR">
+                          <sec:authorize ifAnyGranted="ROLE_MODERATOR,ROLE_ADMIN">
                             <div class="deleteAdvertisementButton">
                                 <a class="deleteAdvertisementButtonImage" href='${delete}' ></a>
                             </div>

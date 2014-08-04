@@ -200,7 +200,7 @@ public class UsersController {
             modelAndView.addObject("userAvatar", user.getAvatar());
         List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
         for(int i = 0; i < advertisements.size(); i++) {
-            if (!advertisements.get(i).getIs_visible()) {
+            if (advertisements.get(i).getIs_deleted()) {
                 advertisements.remove(i);
             }
         }
