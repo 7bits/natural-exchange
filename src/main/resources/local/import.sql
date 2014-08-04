@@ -16,7 +16,6 @@ INSERT INTO user (id,first_name,last_name,created_date,is_deleted,updated_date,v
 INSERT INTO advertisement (id,created_date,is_deleted,is_visible,photo_file,text,title,updated_date,category_id,user_id) VALUES (1,1369229028460,1,0,'image1.jpg','this is coat','man coat',15000,1,1);
 INSERT INTO advertisement (id,created_date,is_deleted,is_visible,photo_file,text,title,updated_date,category_id,user_id) VALUES (2,1369232628460,0,1,'image2.jpg','this is coat2','boots',25000,1,2);
 INSERT INTO advertisement (id,created_date,is_deleted,is_visible,photo_file,text,title,updated_date,category_id,user_id) VALUES (3,1369239828460,1,0,'image3.jpg','this is coat3','bicycle',35000,2,1);
-INSERT INTO advertisement (id,created_date,is_deleted,is_visible,photo_file,text,title,updated_date,category_id,user_id) VALUES (12,1369239828460,0,0,'image3.jpg','very the best improved BMX','bicycle',35000,2,2);
 INSERT INTO advertisement (id,created_date,is_deleted,is_visible,photo_file,text,title,updated_date,category_id,user_id) VALUES (4,1369249028460,0,1,'image1.jpg','this is another coat','blue coat',45000,1,1);
 INSERT INTO advertisement (id,created_date,is_deleted,is_visible,photo_file,text,title,updated_date,category_id,user_id) VALUES (5,1369242628460,0,1,'image2.jpg','this is shoes','white coat',55000,1,1);
 INSERT INTO advertisement (id,created_date,is_deleted,is_visible,photo_file,text,title,updated_date,category_id,user_id) VALUES (6,1369249828460,0,1,'image3.jpg','this is cat','skate',65000,2,1);
