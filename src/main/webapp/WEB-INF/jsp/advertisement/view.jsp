@@ -141,12 +141,6 @@
                 <div class = "vkLikeContainer">
                     <div id="vk_like_1"></div>
                 </div>
-                <%--<div class="viewTitle">--%>
-                    <%--Объявление от--%>
-                    <%--<p class="contact">--%>
-                    <%--<c:out value="${advertisement.user.email}"/>--%>
-                    <%--</p>--%>
-                <%--</div>--%>
                 <div class="viewTitle">
                     <c:url value="/advertisement/placing.html" var="placingLike">
                         <c:param name="id" value="${currentId}"/>

@@ -680,8 +680,18 @@ public class AdvertisementController {
         }
         Advertisement advertisement = this.advertisementDao.findById(advertisementId);
         String userEmail = advertisement.getUser().getEmail();
+        String title = "Ваше объявление удалено модератором";
+        String userName;
+        if (advertisement.getUser().getLastName().equals("")) {
+            userName = "Уважаемый пользователь";
+        } else {
+            userName = "Уважаемый, " + advertisement.getUser().getLastName();
+        }
+        String message = userName + "\nВаше объявление с заголовком : " + advertisement.getTitle()
+            + "\nС описанием : " + advertisement.getText() + "\nБыло удалено модератором";
         if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
             this.advertisementDao.setDeleted(advertisementId);
+            mailSenderService.sendMail(userEmail, title, message);
         }
         return "redirect:/advertisement/list.html";
     }
@@ -724,11 +734,6 @@ public class AdvertisementController {
         String email = auth.getName();
         User user = this.userDao.findUserByEmail(email);
         List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
-        for(int i = 0; i < advertisements.size(); i++) {
-            if (!advertisements.get(i).getIs_visible()) {
-                advertisements.remove(i);
-            }
-        }
         model.addAttribute("adverts", advertisements);
         model.addAttribute("advertisement", advertisement);
         exchangeForm.setIdExchangeOwnerAdvertisement(idExchangeOwnerAdvertisement);
