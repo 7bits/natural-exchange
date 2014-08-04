@@ -107,8 +107,6 @@ public class AdvertisementController {
         if (principal instanceof UserDetails) {
             UserDetails user = (UserDetails) principal;
             modelAndView.addObject("currentUser", user);
-            // used in list.jsp in exchange column
-            modelAndView.addObject("isNotAnonym", true);
             // used in list.jsp in exchangePopup, if adverts is empty then we popup window, else goto exchange
             if (this.advertisementDao.findAllByEmail(this.userDao.findEntityByEmail(user.getUsername())).size() == 0) {
                 modelAndView.addObject("advertisementIsEmpty", true);
@@ -129,6 +127,7 @@ public class AdvertisementController {
                 }
             }
         } else {
+            modelAndView.addObject("isAnonym", true);
             modelAndView.addObject("isNotUser", true);
             modelAndView.addObject("isNotSubscriber", true);
             if (mailingNewsFormParam.getEmailNews() != null) {
@@ -330,8 +329,6 @@ public class AdvertisementController {
         Advertisement advertisement = this.advertisementDao.findById(id);
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            // used list.jsp in exchange column
-            modelAndView.addObject("isNotAnonym", true);
             UserDetails user = (UserDetails) principal;
             modelAndView.addObject("currentUser", user);
             // used in list.jsp in exchangePopup, if adverts is empty then we popup window, else goto exchange
@@ -356,6 +353,7 @@ public class AdvertisementController {
                 }
             }
         } else {
+            modelAndView.addObject("isAnonym", true);
             if(!advertisement.getIs_visible() || advertisement.getIs_deleted()) {
                 return new ModelAndView();
             }

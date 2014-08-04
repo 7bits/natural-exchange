@@ -17,6 +17,7 @@
         <script type="text/javascript" src='<c:url value="/resources/js/listScript.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/checkbox.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/yandexMetriс.js"/>'  language="javascript"> </script>
+        <script type="text/javascript" src='<c:url value="/resources/js/anonymExchange.js"/>' language="javascript"></script>
 
         <script type="text/javascript" src="//vk.com/js/api/openapi.js?100"></script>
         <script type="text/javascript" src='<c:url value="/resources/js/vkScript.js"/>'  language="javascript"> </script>
@@ -55,22 +56,21 @@
                         <c:if test="${advertisement.category.name eq 'notclothes'}">
                             <a href='<c:url value="/advertisement/list.html?keyWords=&currentCategory=+notclothes+"/>' class="viewCate" > Не одежда </a>
                         </c:if>
-                        <c:if test="${isNotAnonym}">
-                            <c:if test="${advertisement.user.id != currentUser.id}">
-                                <c:url value="/advertisement/exchange.html" var="exchangeViewingUrl">
-                                    <c:param name="id" value="${advertisement.id}"/>
-                                    <c:param name="currentCategory" value="${currentCategory}"/>
-                                </c:url>
-                                <c:choose>
-                                    <c:when test="${advertisementIsEmpty}">
-                                        <a class="js-exchange" href="#exchange">обмен</a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a href="${exchangeViewingUrl}">обмен</a>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:if>
-                        </c:if>
+                        <c:url value="/advertisement/exchange.html" var="exchangeViewingUrl">
+                            <c:param name="id" value="${advertisement.id}"/>
+                            <c:param name="currentCategory" value="${currentCategory}"/>
+                        </c:url>
+                        <c:choose>
+                            <c:when test="${advertisementIsEmpty}">
+                                <a class="js-exchange" href="#exchange">обмен</a>
+                            </c:when>
+                            <c:when test="${isAnonym}">
+                                <a class="js-exchange-anonym" href="#anonymPopup">обмен</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${exchangeViewingUrl}">обмен</a>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class = "controlsContainer">
                         <c:url value="/advertisement/approve.html" var="approve">
@@ -163,6 +163,7 @@
         <div id="block">
             <%@ include file="/WEB-INF/jsp/advertisement/savingSearch.jsp" %>
             <%@ include file="/WEB-INF/jsp/advertisement/exchangeEmptyAdvertsPopup.jsp" %>
+            <%@ include file="/WEB-INF/jsp/advertisement/anonymExchangePopup.jsp" %>
         </div>
     </body>
 </html>
