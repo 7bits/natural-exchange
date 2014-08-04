@@ -153,6 +153,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         }
         criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
         criteria.add(Restrictions.eq("is_visible", Boolean.FALSE));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
@@ -392,6 +393,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             disjunction.add(Restrictions.eq("is_deleted", Boolean.TRUE));
             criteria.add(disjunction);
         }
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 }

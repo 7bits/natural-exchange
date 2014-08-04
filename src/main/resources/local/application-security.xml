@@ -15,7 +15,7 @@
         <security:intercept-url pattern='/login.htm*' access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/advertisement/post.htm*" access="ROLE_ADMIN"/>
-        <security:intercept-url pattern="/advertisement/placing*.*" access="ROLE_USER, ROLE_ADMIN"/>
+        <security:intercept-url pattern="/advertisement/placing*.*" access="ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR"/>
         <security:intercept-url pattern='/advertisement/view*' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'/>
         <security:intercept-url pattern='/advertisement/list.*' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'/>
         <security:intercept-url pattern='/advertisement/exchange.*' access='ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR'/>

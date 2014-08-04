@@ -29,7 +29,7 @@ $(document).ready(function() {
         'modal' :  true,
         'overlayOpacity' : 0.13 ,
         'overlayColor' : '#000000',
-        'scrolling' : 'no',
+        'scrolling' : 'no'
  //       'onStart' : function() {
    //                       document.getElementById('mainEntry').innerHTML = "<div class="">  </div>" ;
   //                     } ;
