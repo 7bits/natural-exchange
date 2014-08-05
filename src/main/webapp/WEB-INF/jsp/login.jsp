@@ -54,11 +54,13 @@
                             <c:param name="client_id" value="3862800"/>
                             <c:param name="scope" value="notify"/>
                             <c:param name="redirect_uri" value="http://naturalexchange.ru/VK/auth.html"/>
+                            <c:param name="display" value="popup"/>
                             <c:param name="response_type" value="code"/>
                         </c:url>
                         <div class="vkEntry">
                             <div class="vkLogo"></div>
-                            <div class="vkEntryText">Войти через Вконтакте</div>
+                            <%--<div class="vkEntryText">Войти через Вконтакте</div>--%>
+                            <a href="${vkAuth}">Войти через Вконтакте</a>
                         </div>
                     </div>
                     <a href='<c:url value="/user/registration.html"/>'>

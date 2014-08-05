@@ -40,15 +40,15 @@ public class VKAuthorizationController {
     @Resource(name = "userDao")
     private UserDao userDao;
 
-    @RequestMapping(value = "/auth.html", method = RequestMethod.GET)
-    public ModelAndView vkAuthorization(@RequestParam final String code) {
-        mailSenderService.sendMail("dimaaasik.s@gmail.com", "GET", code);
-        ModelAndView modelAndView = new ModelAndView("loginVK");
-
-        String op = "https://oauth.vk.com/access_token?client_id=3862800&client_secret=8vaXZngg9Frx7MncBLAO&code=" + code + "&redirect_uri=http://naturalexchange.ru/VK/auth.html";
-        modelAndView.addObject("vkAuth", op);
-        return modelAndView;
-    }
+//    @RequestMapping(value = "/auth.html", method = RequestMethod.GET)
+//    public ModelAndView vkAuthorization(@RequestParam final String code) {
+//        mailSenderService.sendMail("dimaaasik.s@gmail.com", "GET", code);
+//        ModelAndView modelAndView = new ModelAndView("loginVK");
+//
+//        String op = "https://oauth.vk.com/access_token?client_id=3862800&client_secret=8vaXZngg9Frx7MncBLAO&code=" + code + "&redirect_uri=http://naturalexchange.ru/VK/auth.html";
+//        modelAndView.addObject("vkAuth", op);
+//        return modelAndView;
+//    }
 
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
     public @ResponseBody JSONObject vkAuthorization2(@RequestBody final String json) {

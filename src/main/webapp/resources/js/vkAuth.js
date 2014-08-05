@@ -12,18 +12,18 @@ function readyFn( jQuery ) {
 var usrInfo;
 $( document ).ready( readyFn );
 
-function vkAuthButtonFunc(eventObject) {
-    eventObject.preventDefault();
-    var url = "https://oauth.vk.com/authorize";
-    var client_id = "client_id=3862800&";
-    var scope = "scope=notify&";
-    var redirect_uri = "redirect_uri=http://naturalexchange.ru/login.html&";
-    var display = "display=popup&";
-    var response_type = "response_type=token";
-    var data = client_id + scope + redirect_uri + display + response_type;
-    //window.open(url + "?" + data,"window",'width=200,height=400');
-    window.location.replace(url + "?" + data);
-}
+//function vkAuthButtonFunc(eventObject) {
+//    eventObject.preventDefault();
+//    var url = "https://oauth.vk.com/authorize";
+//    var client_id = "client_id=3862800&";
+//    var scope = "scope=notify&";
+//    var redirect_uri = "redirect_uri=http://naturalexchange.ru/login.html&";
+//    var display = "display=popup&";
+//    var response_type = "response_type=token";
+//    var data = client_id + scope + redirect_uri + display + response_type;
+//    //window.open(url + "?" + data,"window",'width=200,height=400');
+//    window.location.replace(url + "?" + data);
+//}
 
 function myAuth() {
     var anchor = window.location.hash;
