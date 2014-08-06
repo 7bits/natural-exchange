@@ -74,7 +74,7 @@
             <div class="footerLink">
                 <a href='<c:url value="/advertisement/list.html"/>'>  Помощь проекту </a>
             </div>
-            <p class="sign"> © 2013 Natural Exchange</p>
+            <p class="sign"> © 2014 Natural Exchange</p>
         </footer>
     </body>
 </html>

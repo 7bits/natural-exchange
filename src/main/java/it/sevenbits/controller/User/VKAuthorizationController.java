@@ -1,6 +1,5 @@
 package it.sevenbits.controller.User;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import it.sevenbits.controller.UsersController;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.User;
@@ -9,7 +8,6 @@ import it.sevenbits.service.mail.MailSenderService;
 import it.sevenbits.util.TimeManager;
 import it.sevenbits.util.form.VkEntryEmailForm;
 import it.sevenbits.util.form.validator.VkEntryEmailFormValidator;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,8 +22,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
-import org.json.simple.JSONObject;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
@@ -46,11 +42,6 @@ import java.util.Map;
 @RequestMapping(value = "VK")
 public class VKAuthorizationController {
 
-    /**
-     * Logger for formatter work
-     */
-    private Logger logger = Logger.getLogger(VKAuthorizationController.class);
-
     @Resource(name = "mailService")
     private MailSenderService mailSenderService;
 
@@ -64,6 +55,7 @@ public class VKAuthorizationController {
     public String vkAuthorization(@RequestParam final String code, final Model model, final RedirectAttributes redirectAttributes) {
         RestTemplate rest = new RestTemplate();
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        // Request to VK API to get token, user_id and etc. Using code getting in auth.jsp
         map.add("client_id", "4491913");
         map.add("client_secret", "Vvsmg0wg4bLTjBguOjcN");
         map.add("code", code);
@@ -73,7 +65,7 @@ public class VKAuthorizationController {
         String userId = id.toString();
         User user = userDao.findEntityByVkId("vk.com/" + userId);
         if (user != null) {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
             token.setDetails(usrDet);
             SecurityContext context = SecurityContextHolder.getContext();
@@ -85,7 +77,7 @@ public class VKAuthorizationController {
             vkMap.add("fields", "first_name,last_name");
             Map<String, Object> userInfo = rest.postForObject("https://api.vk.com/method/users.get", vkMap, Map.class);
             if (userInfo.containsKey("error")) {
-                return "";
+                return "access_denied";
             }
             VkEntryEmailForm vkEntryEmailForm = new VkEntryEmailForm();
             ArrayList<Object> data = (ArrayList<Object>)userInfo.get("response");
@@ -93,16 +85,10 @@ public class VKAuthorizationController {
             vkEntryEmailForm.setFirst_name((String)vkResponse.get("first_name"));
             vkEntryEmailForm.setLast_name((String)vkResponse.get("last_name"));
             vkEntryEmailForm.setVk_link("vk.com/" + userId);
-            model.addAttribute("VkEntryEmailForm", vkEntryEmailForm);
+            model.addAttribute("vkEntryEmailForm", vkEntryEmailForm);
             return "VK/auth";
         }
     }
-
-//    @RequestMapping(value = "/auth.html", method = RequestMethod.GET)
-//    public ModelAndView vkRegistration(final VkEntryEmailForm vkEntryEmailForm) {
-//        ModelAndView modelAndView = new ModelAndView("/auth");
-//        return modelAndView;
-//    }
 
     @Autowired
     private VkEntryEmailFormValidator vkEntryEmailFormValidator;
@@ -130,8 +116,7 @@ public class VKAuthorizationController {
             mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
             return "VK/vkRegistrationText";
         } else {
-            vkEntryEmailForm.setEmail("");
-            model.addAttribute("VkEntryEmailForm", vkEntryEmailForm);
+            model.addAttribute("vkEntryEmailForm", vkEntryEmailForm);
             return "VK/auth";
         }
     }

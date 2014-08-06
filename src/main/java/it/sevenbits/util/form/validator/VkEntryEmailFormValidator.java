@@ -32,7 +32,7 @@ public class VkEntryEmailFormValidator implements Validator {
             "Пожалуйста, введите свой email.");
         String email = vkEntryEmailForm.getEmail();
         if (email.length() > maxEmailLength) {
-            errors.rejectValue("email", "email.tooLong", "Недопустимо больше 26 знаков");
+            errors.rejectValue("email", "email.tooLong", "Email не может быть длиннее 26 знаков.");
         }
         try {
             User user = this.userDao.findUserByEmail(email);

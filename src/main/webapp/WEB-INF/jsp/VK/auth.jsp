@@ -17,16 +17,15 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/viewStyle.css"/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/placingStyle.css"/>"/>
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/emailConfirm.css"/>"/>
-    <%@ include file="/WEB-INF/jsp/headInclude.jsp" %>
     <link rel="shortcut icon" href="<c:url value='/resources/images/favicon.ico'/>" type="image/x-icon">
 </head>
 <body>
-<form:form method="post" action="auth.html" commandName="VkEntryEmailForm" onsubmit="return Validate();">
+<form:form method="post" action="auth.html" commandName="vkEntryEmailForm">
     <div class="vkConfirmText"> Введите свой e-mail, и Ваша регистрация будет завершена.</div>
     <form:input type="email" class="mail placeTitle" path="email"></form:input>
-    <p><span class="errorLk"><form:errors path="email"/></span></p>
+    <p><span class="errorLk vkentry-form-email"><form:errors path="email"/></span></p>
     <div class="buttonArea">
-        <input type="submit" class="sendEmailConfirm" value="Готово"></input>
+        <input type="submit" class="sendEmailConfirm" value="Готово"/>
         <button class="closeEmailConfirm">Отмена</button>
     </div>
     <form:input path="first_name" type="hidden"></form:input>
