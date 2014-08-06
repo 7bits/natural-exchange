@@ -59,7 +59,7 @@ public class VKAuthorizationController {
         map.add("client_id", "4491913");
         map.add("client_secret", "Vvsmg0wg4bLTjBguOjcN");
         map.add("code", code);
-        map.add("redirect_uri", "http://n-exchange.local/n-exchange/VK/auth.html");
+        map.add("redirect_uri", "http://naturalexchange.ru/VK/auth.html");
         Map<String, Object> response = rest.postForObject("https://oauth.vk.com/access_token", map, Map.class);
         Integer id = (Integer)response.get("user_id");
         String userId = id.toString();
