@@ -17,8 +17,22 @@
             <p class="pcate"><form:checkbox id="two2" path="categories" value="delete"/> <label for="two2"> <span class="moderator" name="cate"></span>Удаленные</label></p>
             <p><form:errors path="categories"/></p>
         </div>
+        <p class="filter">
+            Фильтр по времени
+        </p>
+        <p>
+            <label for="from">От</label>
+            <form:input type="text" id="from" name="currentDateFrom" path="dateFrom" value = "${dateFrom}"/>
+            <span class="moderator-error"><br><form:errors path="dateFrom" /> </span>
+        </p>
+        <p>
+            <label for="to">До</label>
+            <form:input type="text" id="to" name="currentDateTo" path="dateTo" value = "${dateTo}"/>
+            <span class="moderator-error"><br><form:errors path="dateTo" /> </span>
+        </p>
         <div>
             <input type="submit" class="search" value="Найти"/>
         </div>
+
     </form:form>
 </aside>

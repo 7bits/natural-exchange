@@ -11,21 +11,21 @@ import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.captcha.Captcha;
 import it.sevenbits.util.form.*;
-import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
+import it.sevenbits.util.form.validator.*;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.annotation.Resource;
 
-import it.sevenbits.util.form.validator.ExchangeFormValidator;
-import it.sevenbits.util.form.validator.MailingNewsValidator;
-import it.sevenbits.util.form.validator.NewsPostingValidator;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,10 +33,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.MapBindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +51,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "advertisement")
 public class AdvertisementController {
     private static final Integer DEFAULT_PAGE_SIZE = 10;
+    private static final long MILISECONDS_IN_A_DAY = 86400000;
 
     private final Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
 
@@ -72,8 +74,8 @@ public class AdvertisementController {
     private MyUserDetailsService myUserDetailsService;
 
 // --Commented out by Inspection START (18.03.14 11:42):
-//    @Autowired
-//    private AdvertisementSearchingValidator advertisementSearchingValidator;
+    @Autowired
+    private AdvertisementSearchingValidator advertisementSearchingValidator;
 // --Commented out by Inspection STOP (18.03.14 11:42)
 
     @Autowired
@@ -194,6 +196,7 @@ public class AdvertisementController {
         }
         return words;
     }
+
     /**
      * Gives information about one advertisement by id for display
      *
@@ -207,9 +210,36 @@ public class AdvertisementController {
                                       @RequestParam(value = "pageSize", required = false)final Integer pageSizeParam,
                                       @RequestParam(value = "currentCategory", required = false)final String currentCategoryParam,
                                       @RequestParam(value = "currentKeyWords", required = false)final String keyWordsParam,
-                                      final AdvertisementSearchingForm advertisementSearchingFormParam) {
+                                      @RequestParam(value = "currentDateFrom", required = false)final String currentDateFrom,
+                                      @RequestParam(value = "currentDateTo", required = false)final String currentDateTo,
+                                      final AdvertisementSearchingForm advertisementSearchingFormParam,
+                                      final BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("advertisement/listModerator");
-        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+        AdvertisementSearchingForm advertisementSearchingForm = advertisementSearchingFormParam;
+        if (currentDateFrom != null) {
+            advertisementSearchingForm.setDateFrom(currentDateFrom);
+        } else if (advertisementSearchingForm.getDateFrom() == null) {
+            advertisementSearchingForm.setDateFrom("");
+        }
+        if (currentDateTo != null) {
+            advertisementSearchingForm.setDateTo(currentDateTo);
+        } else if (advertisementSearchingForm.getDateTo() == null) {
+            advertisementSearchingForm.setDateTo("");
+        }
+
+        this.advertisementSearchingValidator.validate(advertisementSearchingForm, bindingResult);
+        String stringDateFrom = advertisementSearchingFormParam.getDateFrom();
+        String stringDateTo = advertisementSearchingFormParam.getDateTo();
+        Long longDateFrom = null;
+        Long longDateTo = null;
+        if (bindingResult.hasErrors()) {
+        } else {
+            longDateFrom = strDateToUnixTimestamp(stringDateFrom);
+            longDateTo = strDateToUnixTimestamp(stringDateTo);
+            if (longDateTo != null) {
+                longDateTo += this.MILISECONDS_IN_A_DAY;
+            }
+        }
 
         String[] selectedCategories = advertisementSearchingFormParam.getCategories();
         String[] currentCategories;
@@ -262,18 +292,15 @@ public class AdvertisementController {
             modelAndView.addObject("sortOrderDate", newSortOrder.toString());
         }
         List<Advertisement> advertisements;
+        boolean isDeleted = false;
         if (currentCategories.length == 1) {
-            advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
-                    stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
-                    currentSortOrder, currentColumn, true
-            );
-        } else {
-            advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
-                    stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
-                    currentSortOrder, currentColumn, false
-            );
-//            advertisements = Collections.EMPTY_LIST;
+            isDeleted = true;
         }
+        advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
+                stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
+                currentSortOrder, currentColumn, isDeleted, longDateFrom, longDateTo
+        );
+
         PagedListHolder<Advertisement> pageList = new PagedListHolder<Advertisement>();
         pageList.setSource(advertisements);
         int pageSize;
@@ -298,7 +325,27 @@ public class AdvertisementController {
         modelAndView.addObject("pageSize", pageSize);
         modelAndView.addObject("currentColumn", currentColumn);
         modelAndView.addObject("currentSortOrder", currentSortOrder);
+        modelAndView.addObject("currentDateFrom", advertisementSearchingForm.getDateFrom());
+        modelAndView.addObject("currentDateTo", advertisementSearchingForm.getDateTo());
         return modelAndView;
+    }
+
+    private static Long strDateToUnixTimestamp(String dt) {
+        if (dt.equals("")) {
+            return null;
+        }
+        DateFormat formatter;
+        Date date = null;
+        long unixtime;
+        formatter = new SimpleDateFormat("dd.MM.yy");
+        try {
+            date = formatter.parse(dt);
+        } catch (ParseException ex) {
+            //Bad
+            ex.printStackTrace();
+        }
+        unixtime = date.getTime();
+        return unixtime;
     }
 
     @RequestMapping(value = "/view.html", method = RequestMethod.GET)
@@ -779,7 +826,7 @@ public class AdvertisementController {
         List<Advertisement> advertisements;
 
         if (keyWordsParam != null) {
-            advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
+            advertisements = this.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
                     currentCategories, keyWordsParam, currentSortOrder, currentColumn
             );
             advertisementSearchingForm.setKeyWords(keyWordsParam);
@@ -794,7 +841,7 @@ public class AdvertisementController {
                 }
             } else {
                 modelAndView.addObject("currentKeyWords", advertisementSearchingFormParam.getKeyWords());
-                advertisements = findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
+                advertisements = this.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
                         currentCategories,
                         advertisementSearchingFormParam.getKeyWords(),
                         currentSortOrder,

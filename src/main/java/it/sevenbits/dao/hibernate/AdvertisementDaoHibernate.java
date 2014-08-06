@@ -205,6 +205,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
      * Search advertisements from DB, which match category and key words
      * @param categories if null, it isn't use in selection from DB
      * @param keyWords key words,which searching in title
+
      * @return list
      */
 
@@ -317,12 +318,25 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
+    /**
+     *
+     * @param keyWords
+     * @param sortOrder
+     * @param sortPropertyName
+     * @param isDeleted
+     * @param dateFrom from which data searche advertisements
+     * @param dateTo to which data searche advertisements
+                     (if both dates are null then it will find all advertisements)
+     * @return
+     */
     @Override
     public List<Advertisement> findAllAdvertisementsWithKeyWordsOrderBy(
-            String[] keyWords,
-            SortOrder sortOrder,
-            String sortPropertyName,
-            Boolean isDeleted
+            final String[] keyWords,
+            final SortOrder sortOrder,
+            final String sortPropertyName,
+            final Boolean isDeleted,
+            final Long dateFrom,
+            final Long dateTo
     ) {
         String sortByName = (sortPropertyName == null)
                 ? Advertisement.CREATED_DATE_COLUMN_CODE
@@ -345,8 +359,25 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 criteria.add(Restrictions.like("title", "%" + keyWords[i] + "%"));
             }
         }
+
+        if (dateFrom != null || dateTo != null) {
+            Criterion dateCriterion = null;
+            if (dateFrom != null && dateTo != null) {
+                dateCriterion = Restrictions.between("createdDate", dateFrom, dateTo);
+            }
+            if (dateFrom == null) {
+                //less or equal
+                dateCriterion = Restrictions.le("createdDate", dateTo);
+            }
+            if (dateTo == null) {
+                //greater or equal
+                dateCriterion = Restrictions.ge("createdDate", dateFrom);
+            }
+            criteria.add(dateCriterion);
+        }
         criteria.add(Restrictions.eq("is_deleted", isDeleted));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        List<Advertisement> simpleSearch = this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 }
