@@ -4,11 +4,11 @@ import it.sevenbits.controller.UsersController;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.User;
 import it.sevenbits.security.MyUserDetailsService;
-import it.sevenbits.service.mail.MailSenderService;
+import it.sevenbits.services.mail.MailSenderService;
+import it.sevenbits.services.vk.VkService;
 import it.sevenbits.util.TimeManager;
 import it.sevenbits.util.form.VkEntryEmailForm;
 import it.sevenbits.util.form.validator.VkEntryEmailFormValidator;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -17,50 +17,32 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-
-/**
- * Created with IntelliJ IDEA.
- * User: sevenbits
- * Date: 06.09.13
- * Time: 15:31
- * To change this template use File | Settings | File Templates.
- */
 
 @Controller
 @RequestMapping(value = "VK")
 public class VKAuthorizationController {
 
-    @Resource(name = "mailService")
+    @Autowired
     private MailSenderService mailSenderService;
 
-    @Resource(name = "auth")
+    @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-    @Resource(name = "userDao")
+    @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private VkService vkService;
+
     @RequestMapping(value = "/auth.html", method = RequestMethod.GET)
-    public String vkAuthorization(@RequestParam final String code, final Model model, final RedirectAttributes redirectAttributes) {
-        RestTemplate rest = new RestTemplate();
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        // Request to VK API to get token, user_id and etc. Using code getting in auth.jsp
-        map.add("client_id", "4491913");
-        map.add("client_secret", "Vvsmg0wg4bLTjBguOjcN");
-        map.add("code", code);
-        map.add("redirect_uri", "http://naturalexchange.ru/VK/auth.html");
-        Map<String, Object> response = rest.postForObject("https://oauth.vk.com/access_token", map, Map.class);
+    public String authorization(@RequestParam final String code, final Model model) {
+        Map<String, Object> response = vkService.getTokenAndInfo(code);
         Integer id = (Integer)response.get("user_id");
         String userId = id.toString();
         User user = userDao.findEntityByVkId(userId);
@@ -72,29 +54,27 @@ public class VKAuthorizationController {
             context.setAuthentication(token);
             return "redirect:/advertisement/list.html";
         } else {
-            MultiValueMap<String, String> vkMap = new LinkedMultiValueMap<String, String>();
-            vkMap.add("uids", userId);
-            vkMap.add("fields", "first_name,last_name");
-            Map<String, Object> userInfo = rest.postForObject("https://api.vk.com/method/users.get", vkMap, Map.class);
+            String[] parametres = {"first_name", "last_name"};
+            Map<String, Object> userInfo = vkService.getUserDataById(userId, parametres);
             if (userInfo.containsKey("error")) {
                 return "access_denied";
             }
-            VkEntryEmailForm vkEntryEmailForm = new VkEntryEmailForm();
+            VkEntryEmailForm VkEntryEmailForm = new VkEntryEmailForm();
             ArrayList<Object> data = (ArrayList<Object>)userInfo.get("response");
             LinkedHashMap<String, Object> vkResponse = (LinkedHashMap<String, Object>)data.get(0);
-            vkEntryEmailForm.setFirst_name((String)vkResponse.get("first_name"));
-            vkEntryEmailForm.setLast_name((String)vkResponse.get("last_name"));
-            vkEntryEmailForm.setVk_link(userId);
-            model.addAttribute("vkEntryEmailForm", vkEntryEmailForm);
+            VkEntryEmailForm.setFirst_name((String)vkResponse.get("first_name"));
+            VkEntryEmailForm.setLast_name((String)vkResponse.get("last_name"));
+            VkEntryEmailForm.setVk_link(userId);
+            model.addAttribute("vkEntryEmailForm", VkEntryEmailForm);
             return "VK/auth";
         }
     }
 
     @Autowired
-    private VkEntryEmailFormValidator vkEntryEmailFormValidator;
+    VkEntryEmailFormValidator vkEntryEmailFormValidator;
 
     @RequestMapping(value = "/auth.html", method = RequestMethod.POST)
-    public String vkRegistrationComplete(final VkEntryEmailForm vkEntryEmailForm,
+    public String registrationComplete(final VkEntryEmailForm vkEntryEmailForm,
         final BindingResult bindingResult, final Model model) {
         vkEntryEmailFormValidator.validate(vkEntryEmailForm, bindingResult);
         if (!bindingResult.hasErrors()) {

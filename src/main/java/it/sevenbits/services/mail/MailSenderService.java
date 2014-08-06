@@ -1,4 +1,4 @@
-package it.sevenbits.service.mail;
+package it.sevenbits.services.mail;
 
 import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;

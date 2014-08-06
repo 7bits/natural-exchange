@@ -8,7 +8,7 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.*;
 import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.security.MyUserDetailsService;
-import it.sevenbits.service.mail.MailSenderService;
+import it.sevenbits.services.mail.MailSenderService;
 //import it.sevenbits.util.UtilsManager;
 import it.sevenbits.util.UtilsManager;
 import it.sevenbits.util.form.AdvertisementSearchingForm;

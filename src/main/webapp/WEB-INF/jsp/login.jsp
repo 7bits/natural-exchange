@@ -53,7 +53,9 @@
                             <%--<c:param name="client_id" value="3862800"/>--%>
                             <c:param name="client_id" value="4491913"/>
                             <c:param name="scope" value="notify"/>
-                            <c:param name="redirect_uri" value="http://naturalexchange.ru/VK/auth.html"/>
+                            <%--<c:param name="redirect_uri" value="http://naturalexchange.ru/VK/auth.html"/> --%>
+                            <%--local--%>
+                            <c:param name="redirect_uri" value="http://n-exchange.local/n-exchange/VK/auth.html"/>
                             <c:param name="display" value="popup"/>
                             <c:param name="response_type" value="code"/>
                         </c:url>

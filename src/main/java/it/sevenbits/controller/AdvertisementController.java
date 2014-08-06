@@ -6,7 +6,7 @@ import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.security.Role;
-import it.sevenbits.service.mail.MailSenderService;
+import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.captcha.Captcha;
@@ -25,7 +25,6 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +35,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -410,8 +408,8 @@ public class AdvertisementController {
             Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOfferAdvertisement());
             User offer = offerAdvertisement.getUser();
             User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
-//            String advertisementUrl_LOCAL = "http://n-exchange.local/n-exchange/advertisement/view.html?id=";
-            String advertisementUrl = "http://naturalexchange.ru/advertisement/view.html?id=";
+            String advertisementUrl = "http://n-exchange.local/n-exchange/advertisement/view.html?id="; // local
+//            String advertisementUrl = "http://naturalexchange.ru/advertisement/view.html?id=";
             String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
             String titleExchangeMessage = "С вами хотят обменяться!";
             String userName;
@@ -642,7 +640,7 @@ public class AdvertisementController {
                       HttpServletRequest request) {
         JSONObject resultJson = new JSONObject();
         if (!userDao.isExistUserWithEmail(emailParam)) {
-            resultJson.put("success","auth");
+            resultJson.put("success", "auth");
         } else if(isAnonimus) {
             if (!userCaptchaText.equals(request.getSession().getAttribute("captchaStr")) && isAnonimus) {
                 resultJson.put("success","captcha");
