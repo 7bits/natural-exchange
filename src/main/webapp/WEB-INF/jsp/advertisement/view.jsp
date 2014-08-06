@@ -60,17 +60,23 @@
                             <c:param name="id" value="${advertisement.id}"/>
                             <c:param name="currentCategory" value="${currentCategory}"/>
                         </c:url>
-                        <c:choose>
-                            <c:when test="${advertisementIsEmpty}">
-                                <a class="js-exchange" href="#exchange">обмен</a>
-                            </c:when>
-                            <c:when test="${isAnonym}">
-                                <a class="js-exchange-anonym" href="#anonymPopup">обмен</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="${exchangeViewingUrl}">обмен</a>
-                            </c:otherwise>
-                        </c:choose>
+                        <c:if test="${advertisement.user.id != currentUser.id}">
+                            <c:url value="/advertisement/exchange.html" var="exchangeViewingUrl">
+                                <c:param name="id" value="${advertisement.id}"/>
+                                <c:param name="currentCategory" value="${currentCategory}"/>
+                            </c:url>
+                            <c:choose>
+                                <c:when test="${advertisementIsEmpty}">
+                                    <a class="js-exchange" href="#exchange">обмен</a>
+                                </c:when>
+                                <c:when test="${isAnonym}">
+                                    <a class="js-exchange-anonym" href="#anonymPopup">обмен</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="${exchangeViewingUrl}">обмен</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
                     </div>
                     <div class = "controlsContainer">
                         <c:url value="/advertisement/approve.html" var="approve">

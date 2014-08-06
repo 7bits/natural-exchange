@@ -678,20 +678,29 @@ public class AdvertisementController {
         } else {
             return "redirect:/advertisement/list.html";
         }
-        Advertisement advertisement = this.advertisementDao.findById(advertisementId);
-        String userEmail = advertisement.getUser().getEmail();
-        String title = "Ваше объявление удалено модератором";
-        String userName;
-        if (advertisement.getUser().getLastName().equals("")) {
-            userName = "Уважаемый пользователь";
+        User user = this.userDao.findUserByEmail(userDetails.getUsername());
+        if (user.getRole().equals("ROLE_MODERATOR")) {
+            Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+            String userEmail = advertisement.getUser().getEmail();
+            String title = "Ваше объявление удалено модератором";
+            String userName;
+            if (advertisement.getUser().getLastName().equals("")) {
+                userName = "Уважаемый пользователь";
+            } else {
+                userName = "Уважаемый, " + advertisement.getUser().getLastName();
+            }
+            String message = userName + "\nВаше объявление с заголовком : " + advertisement.getTitle()
+                    + "\nС описанием : " + advertisement.getText() + "\nБыло удалено модератором";
+            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
+                this.advertisementDao.setDeleted(advertisementId);
+                mailSenderService.sendMail(userEmail, title, message);
+            }
         } else {
-            userName = "Уважаемый, " + advertisement.getUser().getLastName();
-        }
-        String message = userName + "\nВаше объявление с заголовком : " + advertisement.getTitle()
-            + "\nС описанием : " + advertisement.getText() + "\nБыло удалено модератором";
-        if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
-            this.advertisementDao.setDeleted(advertisementId);
-            mailSenderService.sendMail(userEmail, title, message);
+            Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+            String userEmail = advertisement.getUser().getEmail();
+            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
+                this.advertisementDao.setDeleted(advertisementId);
+            }
         }
         return "redirect:/advertisement/list.html";
     }

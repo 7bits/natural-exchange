@@ -63,7 +63,7 @@ public class VKAuthorizationController {
         Map<String, Object> response = rest.postForObject("https://oauth.vk.com/access_token", map, Map.class);
         Integer id = (Integer)response.get("user_id");
         String userId = id.toString();
-        User user = userDao.findEntityByVkId("vk.com/" + userId);
+        User user = userDao.findEntityByVkId(userId);
         if (user != null) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
@@ -84,7 +84,7 @@ public class VKAuthorizationController {
             LinkedHashMap<String, Object> vkResponse = (LinkedHashMap<String, Object>)data.get(0);
             vkEntryEmailForm.setFirst_name((String)vkResponse.get("first_name"));
             vkEntryEmailForm.setLast_name((String)vkResponse.get("last_name"));
-            vkEntryEmailForm.setVk_link("vk.com/" + userId);
+            vkEntryEmailForm.setVk_link(userId);
             model.addAttribute("vkEntryEmailForm", vkEntryEmailForm);
             return "VK/auth";
         }
