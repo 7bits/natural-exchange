@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 @Controller
 public class NewsPostingController {
 
-    @Resource(name = "mailService")
+    @Autowired
     private MailSenderService mailSenderService;
 
     private final Logger logger = LoggerFactory.getLogger(NewsPostingController.class);

@@ -4,7 +4,6 @@ import it.sevenbits.dao.*;
 import it.sevenbits.entity.*;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
-import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.security.Role;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
@@ -20,7 +19,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import javax.annotation.Resource;
 
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -53,23 +51,20 @@ public class AdvertisementController {
 
     private final Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
 
-    @Resource(name = "advertisementDao")
+    @Autowired
     private AdvertisementDao advertisementDao;
 
-    @Resource(name = "subscriberDao")
+    @Autowired
     private SubscriberDao subscriberDao;
 
-    @Resource(name = "userDao")
+    @Autowired
     private UserDao userDao;
 
-    @Resource(name = "searchVariantDao")
+    @Autowired
     private SearchVariantDao searchVariantDao;
 
-    @Resource(name = "mailService")
+    @Autowired
     private MailSenderService mailSenderService;
-
-    @Resource(name = "auth")
-    private MyUserDetailsService myUserDetailsService;
 
 // --Commented out by Inspection START (18.03.14 11:42):
     @Autowired

@@ -34,6 +34,9 @@ public class VkEntryEmailFormValidator implements Validator {
         if (email.length() > maxEmailLength) {
             errors.rejectValue("email", "email.tooLong", "Email не может быть длиннее 26 знаков.");
         }
+        if (!email.contains(".")) {
+            errors.rejectValue("email", "email.invalid", "Email должен содержать точку.");
+        }
         try {
             User user = this.userDao.findUserByEmail(email);
             errors.rejectValue("email", "email.alreadyExist", "Пользователь с таким email уже существует, пожалуйста, " +

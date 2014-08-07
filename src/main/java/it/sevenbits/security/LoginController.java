@@ -1,13 +1,6 @@
 package it.sevenbits.security;
-
-/**
- * Created with IntelliJ IDEA.
- * User: sevenbits
- * Date: 8/8/13
- * Time: 8:12 PM
- *
- */
-
+import it.sevenbits.services.vk.VkService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +13,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
 
+    @Autowired
+    VkService vkService;
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login() {
-        return new ModelAndView("/login");
+        ModelAndView modelAndView = new ModelAndView("/login");
+        modelAndView.addObject("url", vkService.getDomen() + "/VK/auth.html");
+        return modelAndView;
     }
 
 
