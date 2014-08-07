@@ -342,9 +342,13 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 
     @Override
     public List<Advertisement> findAllByEmail(User user) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
+        DetachedCriteria criteria = DetachedCriteria
+                .forClass(AdvertisementEntity.class, "advertisement");
         UserEntity userEntity = this.userDao.findEntityByEmail(user.getEmail());
         criteria.add(Restrictions.eq("userEntity", userEntity));
+        criteria.add(Restrictions.eq("advertisement.is_deleted", Boolean.FALSE));
+        criteria.add(Restrictions.eq("advertisement.is_visible", Boolean.TRUE));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 

@@ -8,7 +8,7 @@
             <a href="<c:url value="/advertisement/placing.html"/>" class="sendOk">Разместить объявление</a>
         </div>
         <div class="buttonArea">
-            <button id="reject" class="close"> Отмена</button>
+            <button id="closePopup" class="close"> Отмена</button>
         </div>
     </form>
 </div>

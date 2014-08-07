@@ -107,8 +107,6 @@ public class AdvertisementController {
         if (principal instanceof UserDetails) {
             UserDetails user = (UserDetails) principal;
             modelAndView.addObject("currentUser", user);
-            // used in list.jsp in exchange column
-            modelAndView.addObject("isNotAnonym", true);
             // used in list.jsp in exchangePopup, if adverts is empty then we popup window, else goto exchange
             if (this.advertisementDao.findAllByEmail(this.userDao.findEntityByEmail(user.getUsername())).size() == 0) {
                 modelAndView.addObject("advertisementIsEmpty", true);
@@ -129,6 +127,7 @@ public class AdvertisementController {
                 }
             }
         } else {
+            modelAndView.addObject("isAnonym", true);
             modelAndView.addObject("isNotUser", true);
             modelAndView.addObject("isNotSubscriber", true);
             if (mailingNewsFormParam.getEmailNews() != null) {
@@ -330,8 +329,6 @@ public class AdvertisementController {
         Advertisement advertisement = this.advertisementDao.findById(id);
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
-            // used list.jsp in exchange column
-            modelAndView.addObject("isNotAnonym", true);
             UserDetails user = (UserDetails) principal;
             modelAndView.addObject("currentUser", user);
             // used in list.jsp in exchangePopup, if adverts is empty then we popup window, else goto exchange
@@ -356,6 +353,7 @@ public class AdvertisementController {
                 }
             }
         } else {
+            modelAndView.addObject("isAnonym", true);
             if(!advertisement.getIs_visible() || advertisement.getIs_deleted()) {
                 return new ModelAndView();
             }
@@ -680,10 +678,29 @@ public class AdvertisementController {
         } else {
             return "redirect:/advertisement/list.html";
         }
-        Advertisement advertisement = this.advertisementDao.findById(advertisementId);
-        String userEmail = advertisement.getUser().getEmail();
-        if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
-            this.advertisementDao.setDeleted(advertisementId);
+        User user = this.userDao.findUserByEmail(userDetails.getUsername());
+        if (user.getRole().equals("ROLE_MODERATOR")) {
+            Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+            String userEmail = advertisement.getUser().getEmail();
+            String title = "Ваше объявление удалено модератором";
+            String userName;
+            if (advertisement.getUser().getLastName().equals("")) {
+                userName = "Уважаемый пользователь";
+            } else {
+                userName = "Уважаемый, " + advertisement.getUser().getLastName();
+            }
+            String message = userName + "\nВаше объявление с заголовком : " + advertisement.getTitle()
+                    + "\nС описанием : " + advertisement.getText() + "\nБыло удалено модератором";
+            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
+                this.advertisementDao.setDeleted(advertisementId);
+                mailSenderService.sendMail(userEmail, title, message);
+            }
+        } else {
+            Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+            String userEmail = advertisement.getUser().getEmail();
+            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
+                this.advertisementDao.setDeleted(advertisementId);
+            }
         }
         return "redirect:/advertisement/list.html";
     }
@@ -726,11 +743,6 @@ public class AdvertisementController {
         String email = auth.getName();
         User user = this.userDao.findUserByEmail(email);
         List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
-        for(int i = 0; i < advertisements.size(); i++) {
-            if (!advertisements.get(i).getIs_visible()) {
-                advertisements.remove(i);
-            }
-        }
         model.addAttribute("adverts", advertisements);
         model.addAttribute("advertisement", advertisement);
         exchangeForm.setIdExchangeOwnerAdvertisement(idExchangeOwnerAdvertisement);
