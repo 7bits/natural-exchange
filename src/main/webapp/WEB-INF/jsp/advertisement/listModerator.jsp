@@ -11,6 +11,12 @@
         <script type="text/javascript" src='<c:url value="/resources/js/tableCut.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/yandexMetriс.js"/>'  language="javascript"> </script>
         <script type="text/javascript" src='<c:url value="/resources/js/jquery.json-2.2.js"/>'  language="javascript"> </script>
+        <script type="text/javascript" src='<c:url value="/resources/js/calendar.js"/>' language="javascript"> </script>
+
+        <!-- to download, for calendar -->
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
 
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>" />
         <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/mainAsideStyle.css"/>" />
@@ -51,6 +57,8 @@
                                     <c:param name="pageSize" value="${pageSize}"/>
                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                    <c:param name="currentDateFrom" value="${currentDateFrom}"/>
+                                    <c:param name="currentDateTo" value="${currentDateTo}"/>
                                 </c:url>
                                 Дата
                                 <c:choose>
@@ -74,6 +82,8 @@
                                     <c:param name="pageSize" value="${pageSize}"/>
                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                    <c:param name="currentDateFrom" value="${currentDateFrom}"/>
+                                    <c:param name="currentDateTo" value="${currentDateTo}"/>
                                 </c:url>
                                 Заголовок
                                 <c:choose>
@@ -121,9 +131,6 @@
                                         <td class="text" name="text" ><c:out value="${advertisement.text}"/></td>
                                         <td class="photo"><img src='<c:url value="/resources/images/user_images/${advertisement.photoFile}"/>' alt="Нет фото"/></td>
                                         <td class="category">
-                                            <c:if test="${advertisement.category.name eq 'visible'}">
-                                                  Видимые
-                                            </c:if>
                                             <c:if test="${advertisement.category.name eq 'delete'}">
                                                   Удаленные
                                             </c:if>
@@ -152,6 +159,8 @@
                             <input type="hidden" name="sortOrder" value="${currentSortOrder}"/>
                             <input type="hidden" name="currentCategory" value="${currentCategory}"/>
                             <input type="hidden" name="currentKeyWords" value="${currentKeyWords}"/>
+                            <input type="hidden" name="currentDateFrom" value="${currentDateFrom}"/>
+                            <input type="hidden" name="currentDateTo" value="${currentDateTo}"/>
                             <input type="submit" value="OK" class="ok"/>
                         </form>
                     </div>
@@ -167,6 +176,8 @@
                                 <c:param name="sortedBy" value="${currentColumn}"/>
                                 <c:param name="currentCategory" value="${currentCategory}"/>
                                 <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                <c:param name="currentDateFrom" value="${currentDateFrom}"/>
+                                <c:param name="currentDateTo" value="${currentDateTo}"/>
                             </c:url>
                             <a href="${prevPageUrl}" class="going"> << </a>
                         </c:if>
@@ -181,6 +192,8 @@
                                         <c:param name="currentPage" value="1"/>
                                         <c:param name="currentCategory" value="${currentCategory}"/>
                                         <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                        <c:param name="currentDateFrom" value="${currentDateFrom}"/>
+                                        <c:param name="currentDateTo" value="${currentDateTo}"/>
                                     </c:url>
                                     <a href="${pageUrl}" class="number"> 2 </a>
                                 </c:if>
@@ -195,6 +208,8 @@
                                         <c:param name="currentPage" value="${noOfPage-1}"/>
                                         <c:param name="currentCategory" value="${currentCategory}"/>
                                         <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                        <c:param name="currentDateFrom" value="${currentDateFrom}"/>
+                                        <c:param name="currentDateTo" value="${currentDateTo}"/>
                                     </c:url>
                                     <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
                                 </c:if>
@@ -207,6 +222,8 @@
                                     <c:param name="currentPage" value="0"/>
                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                    <c:param name="currentDateFrom" value="${currentDateFrom}"/>
+                                    <c:param name="currentDateTo" value="${currentDateTo}"/>
                                 </c:url>
                                 <a href="${pageUrl}" class="number"> 1</a>
                                 <c:choose>
@@ -223,6 +240,8 @@
                                                 <c:param name="currentPage" value="${noOfPage-1}"/>
                                                 <c:param name="currentCategory" value="${currentCategory}"/>
                                                 <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                                <c:param name="currentDateFrom" value="${currentDateFrom}"/>
+                                                <c:param name="currentDateTo" value="${currentDateTo}"/>
                                             </c:url>
                                             <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
                                         </c:if>
@@ -244,6 +263,8 @@
                                                     <c:param name="currentPage" value="${noOfPage-1}"/>
                                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                                    <c:param name="currentDateFrom" value="${currentDateFrom}"/>
+                                                    <c:param name="currentDateTo" value="${currentDateTo}"/>
                                                 </c:url>
                                                 <a href="${pageUrl}" class="number"><c:out value="${noOfPage}"></c:out></a>
                                             </c:when>
@@ -255,6 +276,8 @@
                                                     <c:param name="currentPage" value="${noOfPage-2}"/>
                                                     <c:param name="currentCategory" value="${currentCategory}"/>
                                                     <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                                    <c:param name="currentDateFrom" value="${currentDateFrom}"/>
+                                                    <c:param name="currentDateTo" value="${currentDateTo}"/>
                                                 </c:url>
                                                 <a href="${pageUrl}" class="number"><c:out value="${noOfPage-1}"></c:out></a>
                                                 <span class="act"> <c:out value="${noOfPage}"></c:out></span>
@@ -272,6 +295,8 @@
                                 <c:param name="sortedBy" value="${currentColumn}"/>
                                 <c:param name="currentCategory" value="${currentCategory}"/>
                                 <c:param name="currentKeyWords" value="${currentKeyWords}"/>
+                                <c:param name="currentDateFrom" value="${currentDateFrom}"/>
+                                <c:param name="currentDateTo" value="${currentDateTo}"/>
                             </c:url>
                             <a href="${nextPageUrl}" class="going next"> >> </a>
                         </c:if>

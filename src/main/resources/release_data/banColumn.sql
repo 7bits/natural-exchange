@@ -1,0 +1,1 @@
+ALTER TABLE `user` CHANGE is_deleted is_banned TINYINT(1);

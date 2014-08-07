@@ -2,6 +2,7 @@ package it.sevenbits.dao;
 
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
+import it.sevenbits.util.SortOrder;
 
 import java.util.List;
 
@@ -39,6 +40,16 @@ public interface UserDao {
      */
     List<User> find();
 
+    List<User> findAllBannedUsers();
+
+    List<User> findAllNotBannedUsers();
+
+    List<User> findUsersByKeywordsDateAndBanOrderBy(final String keyWords,
+                                                    final Long dateFrom,
+                                                    final Long dateTo,
+                                                    final boolean isBanned,
+                                                    SortOrder sortOrder);
+
     Boolean isExistUserWithEmail(String email);
     /**
      * изменить пользователя
@@ -67,4 +78,6 @@ public interface UserDao {
     List<User> findAllModerators();
 
     void updateData(User user);
+
+    void setBanned(String userEmail);
 }
