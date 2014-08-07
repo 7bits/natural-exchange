@@ -12,6 +12,8 @@
                                 http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
     <security:http auto-config="true" access-denied-page="/access_denied.jsp" >
+        <security:custom-filter after="PRE_AUTH_FILTER" ref="banFilter"/>
+
         <security:intercept-url pattern="/css/**" access="ROLE_ADMIN"/>
         <security:intercept-url pattern='/login.htm*' access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
@@ -35,6 +37,7 @@
             <concurrency-control max-sessions="1" />
         </session-management>
     </security:http>
+    <beans:bean id="banFilter" class="it.sevenbits.security.BanFilter" />
 
     <!--<bean:bean id="myUserDetailsService" class="it.sevenbits.security.MyUserDetailsService">-->
 
