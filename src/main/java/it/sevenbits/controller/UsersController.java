@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import it.sevenbits.util.TimeManager;
-import javax.annotation.Resource;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,29 +55,29 @@ public class UsersController {
      *
      */
 
-    @Resource(name = "auth")
+    @Autowired
+    private MailSenderService mailSenderService;
+
+    @Autowired
     private MyUserDetailsService myUserDetailsService;
 
-    @Resource(name = "userDao")
+    @Autowired
     private UserDao userDao;
 
-    @Resource(name = "advertisementDao")
+    @Autowired
     private AdvertisementDao advertisementDao;
 
-    @Resource(name = "subscriberDao")
+    @Autowired
     private SubscriberDao subscriberDao;
 
-    @Resource(name = "searchVariantDao")
+    @Autowired
     private SearchVariantDao searchVariantDao;
-
-    @Resource(name = "mailService")
-    private MailSenderService mailSenderService;
 
     @Autowired
     private UserRegistrationValidator userRegistrationValidator;
 
     @Autowired
-    private AdvertisementSearchingValidator advertSearchingValidator;
+    private AdvertisementSearchingValidator advertisementSearchingValidator;
 
     @Autowired
     private UserEditProfileValidator userEditProfileValidator;
@@ -253,7 +253,7 @@ public class UsersController {
                                      final AdvertisementSearchingForm advertSearchingFormParam,
                                      final BindingResult result
     ){
-        this.advertSearchingValidator.validate(advertSearchingFormParam, result);
+        this.advertisementSearchingValidator.validate(advertSearchingFormParam, result);
         if (result.hasErrors()) {
             advertSearchingFormParam.setKeyWords(oldKeyWordsParam);
             advertSearchingFormParam.setCategories(oldCategoriesParam.split(" "));

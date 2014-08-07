@@ -112,7 +112,7 @@ public class MailSenderService {
         }
     }
 
-    private  String getDomen() {
+    private String getDomen() {
         Properties prop = new Properties();
         try {
             InputStream inStream = getClass().getClassLoader().getResourceAsStream("common.properties");
@@ -122,5 +122,5 @@ public class MailSenderService {
             //TODO:need to do something
             e.printStackTrace();
         }
-        return prop.getProperty("mail.service.domen");
+        return prop.getProperty("application.domen");
 }   }
