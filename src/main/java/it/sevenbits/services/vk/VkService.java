@@ -5,6 +5,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Component
@@ -21,22 +23,27 @@ public class VkService {
         map.add("client_secret", "Vvsmg0wg4bLTjBguOjcN");
         map.add("code", code);
 //        map.add("redirect_uri", "http://naturalexchange.ru/VK/auth.html");
-        map.add("redirect_uri", "http://n-exchange.local/n-exchange/VK/auth.html"); // local
+        map.add("redirect_uri", "http://n-exchange.local/n-exchange/VK/auth.html");
         return rest.postForObject("https://oauth.vk.com/access_token", map, Map.class);
     }
 
     /**
-     * Function uses VK API method users.get with parametres.
+     * Function uses VK API method users.get with parameters.
      */
-    public Map<String, Object> getUserDataById(final String userId, final String[] parametres) {
+    public LinkedHashMap<String, Object> getUserDataById(final String userId, final String[] parameters) {
         RestTemplate rest = new RestTemplate();
         MultiValueMap<String, String> vkMap = new LinkedMultiValueMap<>();
-        String params = new String();
-        for (int i = 0; i < parametres.length; i++) {
-            params.concat(parametres[i]);
+        String params = "";
+        for (String param : parameters) {
+            params.concat(param);
         }
         vkMap.add("uids", userId);
         vkMap.add("fields", params);
-        return rest.postForObject("https://api.vk.com/method/users.get", vkMap, Map.class);
+        Map<String, Object> userInfo = rest.postForObject("https://api.vk.com/method/users.get", vkMap, Map.class);
+        if (userInfo.containsKey("error")) {
+            return null;
+        }
+        ArrayList<Object> data = (ArrayList<Object>)userInfo.get("response");
+        return (LinkedHashMap<String, Object>)data.get(0);
     }
 }
