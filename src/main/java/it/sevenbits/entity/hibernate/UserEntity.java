@@ -67,10 +67,10 @@ public class UserEntity extends User {
         return super.getUpdateDate();
     }
 
-    @Column(name = "is_deleted", nullable = false)
+    @Column(name = "is_banned", nullable = false)
     @Override
-    public boolean getIsDeleted() {
-        return super.getIsDeleted();
+    public boolean getIsBanned() {
+        return super.getIsBanned();
     }
 
     @Column(name = "email", nullable = false)

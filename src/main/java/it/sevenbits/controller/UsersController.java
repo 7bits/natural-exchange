@@ -108,7 +108,7 @@ public class UsersController {
         user.setFirstName(userRegistrationFormParam.getFirstName());
         user.setLastName(userRegistrationFormParam.getLastName());
         user.setVk_link(userRegistrationFormParam.getVkLink());
-        user.setIsDeleted(false);
+        user.setIsBanned(false);
         user.setUpdateDate(TimeManager.getTime());
         user.setCreatedDate(TimeManager.getTime());
         user.setRole("ROLE_USER");

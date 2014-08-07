@@ -79,7 +79,7 @@ public class VKAuthorizationController {
         user.setFirstName(first_name);
         user.setLastName(last_name);
         user.setVk_link(id);
-        user.setIsDeleted(false);
+        user.setIsBanned(false);
         user.setUpdateDate(TimeManager.getTime());
         user.setCreatedDate(TimeManager.getTime());
         user.setRole("ROLE_USER");

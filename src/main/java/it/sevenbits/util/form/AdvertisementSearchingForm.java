@@ -1,6 +1,7 @@
 package it.sevenbits.util.form;
 
 import it.sevenbits.entity.Category;
+import org.springframework.validation.BindingResult;
 
 /**
  * Class for advertisements searching spring form

@@ -51,7 +51,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value = "advertisement")
 public class AdvertisementController {
     private static final Integer DEFAULT_PAGE_SIZE = 10;
-    private static final long MILISECONDS_IN_A_DAY = 86400000;
+    private static final long MILLISECONDS_IN_A_DAY = 86400000;
 
     private final Logger logger = LoggerFactory.getLogger(AdvertisementController.class);
 
@@ -237,7 +237,7 @@ public class AdvertisementController {
             longDateFrom = strDateToUnixTimestamp(stringDateFrom);
             longDateTo = strDateToUnixTimestamp(stringDateTo);
             if (longDateTo != null) {
-                longDateTo += this.MILISECONDS_IN_A_DAY;
+                longDateTo += this.MILLISECONDS_IN_A_DAY;
             }
         }
 

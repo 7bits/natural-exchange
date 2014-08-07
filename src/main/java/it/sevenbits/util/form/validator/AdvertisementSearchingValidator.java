@@ -1,14 +1,9 @@
 package it.sevenbits.util.form.validator;
 
 import it.sevenbits.dao.SearchVariantDao;
-import it.sevenbits.entity.SearchVariant;
-import it.sevenbits.util.UtilsManager;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import javax.annotation.Resource;
@@ -21,7 +16,7 @@ import java.util.StringTokenizer;
  */
 @Component
 public class AdvertisementSearchingValidator implements Validator {
-    private final static int DTAE_LENGTH = 3;
+    private final static int DATE_LENGTH = 3;
     @Resource(name = "searchVariantDao")
     private SearchVariantDao searchVariantDao;
 
@@ -67,7 +62,7 @@ public class AdvertisementSearchingValidator implements Validator {
         StringTokenizer token = new StringTokenizer(date, ".");
         int length = token.countTokens();
         //1 - day, 2 - month, 3 - year
-        if (length != this.DTAE_LENGTH) {
+        if (length != this.DATE_LENGTH) {
             return false;
         }
         List<String> dayMonthYear = new ArrayList<String>();
