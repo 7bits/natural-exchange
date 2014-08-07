@@ -1,6 +1,7 @@
 package it.sevenbits.entity;
 
 import it.sevenbits.security.Role;
+import it.sevenbits.util.TimeManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class User implements UserDetails  {
     private Long createdDate;
     private Long updatedDate;
     private String password;
-    private Boolean isDeleted;
+    private Boolean isBanned;
     private String role;
     private String activationCode;
     private Long activationDate;
@@ -46,7 +47,7 @@ public class User implements UserDetails  {
 
     public User(
             final String firstName, final String email, final String lastName, final String vkLink,
-            final Long createdDate, final Long updatedDate, final Boolean deleted, final String password,
+            final Long createdDate, final Long updatedDate, final Boolean banned, final String password,
             final String role, final String activationCode, final Long activationDate, final String avatar
     ) {
         this.firstName = firstName;
@@ -55,7 +56,7 @@ public class User implements UserDetails  {
         this.vkLink = vkLink;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-        this.isDeleted = deleted;
+        this.isBanned = banned;
         this.password = password;
         this.role = role;
         this.activationCode = activationCode;
@@ -75,8 +76,8 @@ public class User implements UserDetails  {
         return createdDate;
     }
 
-    public boolean getIsDeleted() {
-        return isDeleted;
+    public boolean getIsBanned() {
+        return isBanned;
     }
     public String getLastName() {
         return this.lastName;
@@ -104,8 +105,8 @@ public class User implements UserDetails  {
     public String getFirstName() {
         return this.firstName;
     }
-    public void setIsDeleted(final boolean deleted) {
-        isDeleted = deleted;
+    public void setIsBanned(final boolean banned) {
+        isBanned = banned;
     }
 
     public void setFirstName(final String value) {
@@ -150,6 +151,10 @@ public class User implements UserDetails  {
         return Role.createModeratorRole();
     }
 
+    public String getCreatedDateFormat() {
+        return TimeManager.getDateString(createdDate);
+    }
+
    @Override
     public Collection<? extends GrantedAuthority>  getAuthorities() {
         Collection<Role> collection = new ArrayList<>();
@@ -179,7 +184,7 @@ public class User implements UserDetails  {
 
     @Override
     public boolean isEnabled() {
-        return !isDeleted;
+        return !isBanned;
     }
 
     @SuppressWarnings("RedundantIfStatement")
@@ -196,7 +201,7 @@ public class User implements UserDetails  {
         if (createdDate != null ? ! createdDate.equals(that.createdDate) : that.createdDate!= null) return false;
         if (password != null ? ! password.equals(that.password) : that.password!= null) return false;
         if (updatedDate != null ? !updatedDate.equals(that.updatedDate) : that.updatedDate != null) return false;
-        if (isDeleted != null ? ! isDeleted.equals(that.isDeleted) : that.isDeleted!= null) return false;
+        if (isBanned != null ? ! isBanned.equals(that.isBanned) : that.isBanned!= null) return false;
         if (role != null ? ! role.equals(that.role) : that.role!= null) return false;
         if (activationCode!= null ? !activationCode.equals(that.activationCode) : that.activationCode!= null) return false;
         if (activationDate != null ? ! activationDate.equals(that.activationDate) : that.activationDate!= null) return false;
@@ -214,9 +219,9 @@ public class User implements UserDetails  {
         result = 31 * result + (activationDate!= null ? activationDate.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (updatedDate != null ? updatedDate.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isBanned != null ? isBanned.hashCode() : 0);
         result = 31 * result + (role!= null ? role.hashCode() : 0);
-        result = 31 * result + (isDeleted != null ? isDeleted.hashCode() : 0);
+        result = 31 * result + (isBanned != null ? isBanned.hashCode() : 0);
         result = 31 * result + (avatar!= null ? avatar.hashCode() : 0);
         return result;
     }
