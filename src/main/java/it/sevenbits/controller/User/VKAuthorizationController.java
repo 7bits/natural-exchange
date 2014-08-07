@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -54,14 +53,12 @@ public class VKAuthorizationController {
             context.setAuthentication(token);
             return "redirect:/advertisement/list.html";
         } else {
-            String[] parametres = {"first_name", "last_name"};
-            Map<String, Object> userInfo = vkService.getUserDataById(userId, parametres);
-            if (userInfo.containsKey("error")) {
-                return "access_denied";
-            }
+            String[] parameters = {"first_name", "last_name"};
             VkEntryEmailForm VkEntryEmailForm = new VkEntryEmailForm();
-            ArrayList<Object> data = (ArrayList<Object>)userInfo.get("response");
-            LinkedHashMap<String, Object> vkResponse = (LinkedHashMap<String, Object>)data.get(0);
+            LinkedHashMap<String, Object> vkResponse = vkService.getUserDataById(userId, parameters);
+            if (vkResponse == null) {
+                return "redirect:/access_denied";
+            }
             VkEntryEmailForm.setFirst_name((String)vkResponse.get("first_name"));
             VkEntryEmailForm.setLast_name((String)vkResponse.get("last_name"));
             VkEntryEmailForm.setVk_link(userId);
