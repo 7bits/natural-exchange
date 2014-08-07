@@ -315,7 +315,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         UserEntity userEntity = this.userDao.findEntityByEmail(user.getEmail());
         criteria.add(Restrictions.eq("userEntity", userEntity));
         criteria.add(Restrictions.eq("advertisement.is_deleted", Boolean.FALSE));
-        criteria.add(Restrictions.eq("advertisement.is_visible", Boolean.TRUE));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
