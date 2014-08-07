@@ -1,6 +1,6 @@
 package it.sevenbits.controller;
 
-import it.sevenbits.service.mail.MailSenderService;
+import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.form.NewsPostingForm;
 import it.sevenbits.util.form.validator.NewsPostingValidator;
 import org.slf4j.Logger;

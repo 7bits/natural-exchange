@@ -45,7 +45,7 @@
         </property>
     </bean>
 
-    <bean id="mailService" class="it.sevenbits.service.mail.MailSenderService">
+    <bean id="mailService" class="it.sevenbits.services.mail.MailSenderService">
         <property name="mailSender" ref="mailSender" />
     </bean>
 

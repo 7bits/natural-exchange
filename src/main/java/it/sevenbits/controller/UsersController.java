@@ -8,8 +8,7 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.*;
 import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.security.MyUserDetailsService;
-import it.sevenbits.service.mail.MailSenderService;
-//import it.sevenbits.util.UtilsManager;
+import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.UtilsManager;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.UserRegistrationForm;
@@ -38,7 +37,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-//import static it.sevenbits.util.UtilsManager.*;
 
 /**
  * The controller servicing the page of the registration form of the user.
@@ -108,7 +106,7 @@ public class UsersController {
         user.setFirstName(userRegistrationFormParam.getFirstName());
         user.setLastName(userRegistrationFormParam.getLastName());
         user.setVk_link(userRegistrationFormParam.getVkLink());
-        user.setIsDeleted(false);
+        user.setIsBanned(false);
         user.setUpdateDate(TimeManager.getTime());
         user.setCreatedDate(TimeManager.getTime());
         user.setRole("ROLE_USER");

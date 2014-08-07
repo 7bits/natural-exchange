@@ -52,4 +52,5 @@
                         <p><input type="submit" value="Подписаться" class="send"/></p>
                     </form:form>
                 </c:if>
+
             </aside>

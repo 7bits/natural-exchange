@@ -72,7 +72,9 @@ public interface AdvertisementDao {
                                                                  final SortOrder sortOrder,
                                                                  final String sortPropertyName,
                                                                  final Boolean isDeleted,
-                                                                 final Boolean isVisible);
+                                                                 final Long dateFrom,
+                                                                 final Long dateTo);
+
     /**
      * Change advertisement
      * @param advertisement advertisement to update

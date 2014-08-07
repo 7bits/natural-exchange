@@ -11,6 +11,11 @@
                 <a href='<c:url value="/user/userProfile.html"/>'>личный кабинет</a>
             </sec:authorize>
         </div>
+        <div class="entryBlock">
+            <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_MODERATOR" >
+                <a href="<c:url value="/advertisement/moderator/list.html"/>" > Модерирование </a>
+            </sec:authorize>
+        </div>
         <div id=logotype>
             <a href='<c:url value="/advertisement/list.html"/>'>
                 <img src='<c:url value="/resources/images/logoAll.png"/>' alt="ex4ange)"/>
@@ -27,16 +32,9 @@
                     <a class='login' href='<c:url value="/login.html"/>'>  вход на сайт </a>
                 </div>
             </sec:authorize>
-            <sec:authorize ifAnyGranted= "ROLE_USER,IS_AUTHENTICATED_ANONYMOUSLY">
-                <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
-                    Разместить объявление
-                </a>
-            </sec:authorize>
-            <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_MODERATOR">
-                <a href='<c:url value="/advertisement/moderator/list.html"/>' rel="nofollow" class="manage-panel">
-                    Все объявления
-                </a>
-            </sec:authorize>
+            <a href='<c:url value="/advertisement/placing.html"/>' rel="nofollow" class="manage-panel">
+                Разместить объявление
+            </a>
         </div>
         <%--<%@ include file="/WEB-INF/jsp/advertisement/loginPopup.jsp" %>--%>
     </header>
