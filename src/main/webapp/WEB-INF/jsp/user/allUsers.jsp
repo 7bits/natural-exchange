@@ -75,9 +75,6 @@
                         <th class="email">
                             Email
                         </th>
-                        <th class="ban-status">
-                            Статус
-                        </th>
                         <th class="ban-button">
                             Забанить/ <br>
                             Разбанить
@@ -99,25 +96,22 @@
                                 <c:out value="${currentUser.firstName} ${currentUser.lastName}"/>
                             </td>
                             <td class="email"><c:out value="${currentUser.email}"/></td>
-                            <td class="ban-status">
-                            <c:if test="${currentUser.isBanned}">
-                                Забаненный
-                            </c:if>
-                            </td>
                             <td class="ban-button">
                                 <c:choose>
                                     <c:when test="${currentUser.isBanned == false}">
                                         <form action = "<c:url value='/moderator/banuser.html'>
                                                             <c:param name='email' value='${currentUser.email}'/>
+                                                            <c:param name="ban" value=""/>
                                                         </c:url>" method="POST">
-                                            <input type="submit" name="ban-action" value="Иди в бан" />
+                                            <input type="submit" name="ban-action" value="Забанить" />
                                         </form>
                                     </c:when>
                                     <c:otherwise>
                                         <form action = "<c:url value='/moderator/banuser.html'>
                                                             <c:param name='email' value='${currentUser.email}'/>
+                                                            <c:param name="ban" value="banned"/>
                                                         </c:url>" method="POST">
-                                            <input type="submit" name="ban-action" value="Выходи из бана" />
+                                            <input type="submit" name="ban-action" value="Разбанить" />
                                         </form>
                                     </c:otherwise>
                                 </c:choose>
@@ -142,6 +136,9 @@
                                 <option <c:if test="${pageSize == 15}">selected</c:if> value="15">15</option>
                             </select>
                         </div>
+                        <input type="hidden" name="sortOrder" value="${sortOrderDate}"/>
+                        <input type="hidden" name="currentCategory" value="${currentCategory}"/>
+                        <input type="hidden" name="currentKeyWords" value="${currentKeyWords}"/>
                         <input type="submit" value="OK" class="ok"/>
                     </form>
                 </div>

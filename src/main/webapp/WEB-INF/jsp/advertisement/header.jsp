@@ -14,6 +14,7 @@
         <div class="entryBlock">
             <sec:authorize  ifAnyGranted="ROLE_ADMIN, ROLE_MODERATOR" >
                 <a href="<c:url value="/advertisement/moderator/list.html"/>" > Модерирование </a>
+                <a href="<c:url value="/moderator/userlist.html"/>" > Администрирование </a>
             </sec:authorize>
         </div>
         <div id=logotype>

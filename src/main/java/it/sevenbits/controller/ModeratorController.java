@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -100,18 +102,30 @@ public class ModeratorController {
         boolean isBanned = true;
         String category = "";
         if (previousCurrentCategory != null) {
-            if (userSearchingForm.getCategories()[0].equals("")) {
-                isBanned = false;
+            if (userSearchingForm.getCategories() != null) {
+                if (userSearchingForm.getCategories().length == 0 || userSearchingForm.getCategories()[0].equals("")) {
+                    isBanned = false;
+                    userSearchingForm.setCategories(new String[]{""});
+                } else {
+                    category = "banned";
+                    userSearchingForm.setCategories(new String[]{"banned"});
+                }
             } else {
-                category = "banned";
+                if (previousCurrentCategory.equals("")) {
+                    isBanned = false;
+                }
+                userSearchingForm.setCategories(new String[]{previousCurrentCategory});
             }
+
+        } else {
+            category = "banned";
+            userSearchingForm.setCategories(new String[]{"banned"});
         }
 
 
         PagedListHolder<User> users = new PagedListHolder<User>();
-        List<User> listUsers = new ArrayList<User>();
-        listUsers = this.userDao.findUsersByKeywordsDateAndBanOrderBy(keyWordsFromForm, longDateFrom, longDateTo,
-                isBanned, currentSortOrder);
+        List<User> listUsers = this.getAllUsersExceptCurrent(keyWordsFromForm, longDateFrom, longDateTo,
+                                                             isBanned, currentSortOrder);
         users.setSource(listUsers);
         users.setSource(listUsers);
 
@@ -130,12 +144,13 @@ public class ModeratorController {
         } else {
             currentPage = previousCurrentPage.intValue();
         }
+        users.setPage(currentPage);
 
-        modelAndView.addObject("sortOrder", currentSortOrder.toString());
+        modelAndView.addObject("sortOrderDate", currentSortOrder.toString());
         modelAndView.addObject("currentCategory", category);
         modelAndView.addObject("pageSize", previousPageSize);
         modelAndView.addObject("noOfPage", noOfPage);
-        modelAndView.addObject("PageSize", pageSize);
+        modelAndView.addObject("pageSize", pageSize);
         modelAndView.addObject("currentPage", currentPage);
         modelAndView.addObject("currentDateFrom", stringDateFrom);
         modelAndView.addObject("currentDateTo", stringDateTo);
@@ -162,26 +177,60 @@ public class ModeratorController {
         return unixtime;
     }
 
+    private String emailFromCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = null;
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = (UserDetails) auth.getPrincipal();
+            String name = userDetails.getUsername();
+            return name;
+        }
+        return null;
+    }
+
+    private List<User> getAllUsersExceptCurrent(String keyWordsFromForm, Long longDateFrom, Long longDateTo,
+                                                 boolean isBanned, SortOrder currentSortOrder) {
+        List<User> listUsers = this.userDao.findUsersByKeywordsDateAndBanOrderBy(keyWordsFromForm, longDateFrom, longDateTo,
+                isBanned, currentSortOrder);
+        String email = this.emailFromCurrentUser();
+        if (email != null) {
+            for (User currentUser : listUsers) {
+                if (currentUser.getEmail().equals(email)) {
+                    listUsers.remove(currentUser);
+                    break;
+                }
+            }
+        }
+        return listUsers;
+    }
+
     @RequestMapping(value = "/banuser.html", method = RequestMethod.POST)
-    public String ban(@RequestParam(value = "email", required = true) final String userEmail) {
+    public String ban(@RequestParam(value = "email", required = true) final String userEmail,
+                      @RequestParam(value = "ban", required = false) final String status) {
         String rederectAddress = "redirect:/moderator/userlist.html";
         if (userEmail == null) {
             return rederectAddress;
         }
-//        User userToBan = this.userDao.findUserByEmail(userEmail);
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        UserDetails userDetails;
-//        if (principal instanceof UserDetails) {
-//            userDetails = (UserDetails) principal;
-//        } else {
-//            return rederectAddress;
-//        }
 
-//        String roleOfCurrentUser = userToBan.getRole();
-//        if (userDetails.getAuthorities().equals(Role.createModeratorRole())) {
-//            if (!roleOfCurrentUser.equals(Role.createAdminRole().toString())) {
+        User userToBan = this.userDao.findUserByEmail(userEmail);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails;
+        if (principal instanceof UserDetails) {
+            userDetails = (UserDetails) principal;
+        } else {
+            return rederectAddress;
+        }
+
+        String roleOfCurrentUser = userToBan.getRole();
+        String insideRole = Role.createModeratorRole().toString();
+
+        if (userDetails.getAuthorities().contains(Role.createModeratorRole())) {
+            if (!roleOfCurrentUser.equals(Role.createAdminRole().toString())) {
                 this.userDao.setBanned(userEmail);
-//            }
+            }
+        }
+//        if (status != null) {
+//            rederectAddress += "?currentCategory=" + status;
 //        }
         return rederectAddress;
     }
