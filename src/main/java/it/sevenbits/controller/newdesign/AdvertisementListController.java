@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class TestJadeController {
+@RequestMapping(value = "new/advertisement")
+public class AdvertisementListController {
 
-    @RequestMapping(value = "/testJade.html", method = RequestMethod.GET)
-    public ModelAndView showUsers() {
-        return new ModelAndView("testJade.jade");
+    @RequestMapping(value = "/list.html", method = RequestMethod.GET)
+    public ModelAndView list() {
+        return new ModelAndView("list.jade");
     }
-
 }
