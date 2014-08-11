@@ -53,7 +53,7 @@ http://www.springframework.org/schema/p "
     </bean>
 
     <bean id="jadeTemplateLoader" class="de.neuland.jade4j.spring.template.SpringTemplateLoader">
-        <property name="basePath" value="/WEB-INF/jade"/>
+        <property name="basePath" value="/WEB-INF/jade/"/>
         <property name="encoding" value="UTF-8"/>
         <property name="suffix" value=".jade"/>
     </bean>

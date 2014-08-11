@@ -36,7 +36,7 @@ public class TestJadeController {
 
     @RequestMapping(value = "/testJade.html", method = RequestMethod.GET)
     public ModelAndView showUsers() {
-        return new ModelAndView("testJade");
+        return new ModelAndView("testJade.jade");
     }
 
 }
