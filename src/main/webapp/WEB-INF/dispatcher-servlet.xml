@@ -39,6 +39,25 @@ http://www.springframework.org/schema/p "
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
     </bean>
 
+
+    <!-- Define jade view resolver -->
+
+    <bean id="jadeResolver" class="it.sevenbits.viewresolver.CustomJadeViewResolver">
+        <property name="configuration" ref="jadeConfiguration"/>
+        <property name="order" value="0"/>
+    </bean>
+
+    <bean id="jadeConfiguration" class="de.neuland.jade4j.JadeConfiguration">
+        <property name="caching" value="false"/>
+        <property name="templateLoader" ref="jadeTemplateLoader"/>
+    </bean>
+
+    <bean id="jadeTemplateLoader" class="de.neuland.jade4j.spring.template.SpringTemplateLoader">
+        <property name="basePath" value="/WEB-INF/jade"/>
+        <property name="encoding" value="UTF-8"/>
+        <property name="suffix" value=".jade"/>
+    </bean>
+
     <bean id="viewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="mediaTypes">
             <map>
@@ -58,6 +77,7 @@ http://www.springframework.org/schema/p "
         </property>
         <property name="viewResolvers">
             <list>
+                <ref bean="jadeResolver"/>
                 <ref bean="viewResolver1"/>
             </list>
         </property>

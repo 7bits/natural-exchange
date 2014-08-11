@@ -173,6 +173,13 @@
         </dependency>
 
 
+        <!-- Jade -->
+        <dependency>
+            <groupId>de.neuland-bfi</groupId>
+            <artifactId>spring-jade4j</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+
         <!--Javax-->
 
         <dependency>
