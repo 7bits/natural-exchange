@@ -1,9 +1,15 @@
 doctype 5
 html
   head
-    include head
-  include header
+    meta(charset='utf-8')
+    title Natural Exchange
+    link(rel='stylesheet', href='/resources/css/newHead.css')
+    link(rel='stylesheet', href='/resources/css/footer.css')
+    block customcss
   body
+    include header
     .container
       block content
-  include footer
+  footer
+    block customscripts
+    include footer
