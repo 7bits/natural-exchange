@@ -1,6 +1,6 @@
 .header {
-  padding-left: 400px;
-  padding-right: 400px;
+  padding-left: 19%;
+  padding-right: 19%;
   height: 137px;
   background-color: rgb(47, 47, 47);
 }
@@ -74,16 +74,13 @@
 .add-advertisement:hover {
   background-color: rgb(243, 152, 34);
 }
-.text-add {
-  display: inline-block;
-  vertical-align: middle;
-}
 .menu-list {
   float: right;
+  margin-right: -147px;
 }
 .menu-list li {
   float: right;
-  padding-top: 12px;
+  padding-top: 45px;
   margin-left: 20px;
   font-size: 20px;
   display: inline;
