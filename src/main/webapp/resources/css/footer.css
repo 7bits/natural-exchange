@@ -1,0 +1,33 @@
+.footer {
+  background: rgb(47,47,47);
+}
+
+.footer-text {
+  font: normal 14px "Rectangular Marquee";
+  color: rgb(136,136,136);
+  padding-top: 1%;
+}
+
+.subtext {
+  padding-left: 10%;
+  float: left;
+  width: 185px;
+}
+
+.end-title {
+  float: right;
+  padding-right: 10%;
+}
+
+.blue-light-text {
+  color: rgb(26,178,175);
+}
+
+.logo {
+  padding-top: 1%;
+  padding-left: 25%;
+}
+
+.vk-link {
+  padding-left: 70%;
+}
