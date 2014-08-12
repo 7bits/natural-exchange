@@ -1,5 +1,26 @@
 doctype 5
 html
-  title Natural Exchange
-  block header
-    h1 Here our site
+  head
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='/resources/css/newHead.css')
+    title Natural Exchange
+  body
+    .header
+      .right-top-links
+        a.entire(href='#') Вход
+        | /
+        a.registration(href='#') Регистрация
+      .left-top-logo
+        img.top-image(src='/resources/images/logotype.png', align='left')
+        .n-exchange
+          | NATURAL
+          br
+          | EXCHANGE
+      .main-links
+        ul.menu-list
+          li
+            a.add-advertisement(href='#') ДОБАВИТЬ ПРЕДЛОЖЕНИЕ
+          li
+            a.common-link(href='#') ВСЕ ПРЕДЛОЖЕНИЯ
+          li
+            a.common-link(href='#') ГЛАВНАЯ

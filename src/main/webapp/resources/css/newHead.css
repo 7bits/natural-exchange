@@ -1,0 +1,108 @@
+.header {
+  padding-left: 400px;
+  padding-right: 400px;
+  height: 137px;
+  background-color: rgb(47, 47, 47);
+}
+.right-top-links {
+  margin-top: 21px;
+  color: rgb(136, 136, 136);
+  float: right;
+}
+.registration, .entire {
+  text-decoration: none;
+  font-family: mySans;
+  font-size: 15px;
+  color: rgb(136, 136, 136);
+}
+.entire {
+  background: url(../images/anyUser.png);
+  background-size: contain;
+  padding-left: 25px;
+  background-repeat: no-repeat;
+}
+.registration:hover, .entire:hover {
+  text-decoration: underline;
+  font-family: mySans;
+  font-size: 15px;
+  color: rgb(223, 83, 70);
+}
+.top-image {
+  margin-top: 19px;
+}
+.n-exchange {
+  margin-top: 29px;
+  margin-left: 14px;
+  line-height: 30px;
+  font-family: myNight;
+  color: rgb(255, 255, 255);
+  float: left;
+  font-size: 32px;
+}
+.common-link {
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  text-decoration: none;
+  font-family: boldSans;
+  font-size: 15px;
+  color: rgb(248, 184, 50);
+  border-radius: 100px;
+}
+.common-link:hover {
+  background-color: rgb(31, 31, 31);
+}
+.add-advertisement {
+  float: right;
+  padding-left: 35px;
+  padding-right: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-decoration: none;
+  text-align: center;
+  font-family: boldSans;
+  font-size: 15px;
+  color: rgb(255, 255, 255);
+  background: url(../images/plus.png);
+  background-color: rgb(223, 83, 70);
+  background-repeat: no-repeat;
+  border-radius: 100px;
+  background-position: 5px 7px;
+}
+.add-advertisement:hover {
+  background-color: rgb(243, 152, 34);
+}
+.text-add {
+  display: inline-block;
+  vertical-align: middle;
+}
+.menu-list {
+  float: right;
+}
+.menu-list li {
+  float: right;
+  padding-top: 12px;
+  margin-left: 20px;
+  font-size: 20px;
+  display: inline;
+}
+.menu-list li a {
+  text-decoration: none;
+}
+
+@font-face {
+  font-family: mySans;
+  src:  url('../fonts/pt-sans.regular.ttf');
+}
+
+@font-face {
+  font-family: boldSans;
+  src: url('../fonts/Prosto.ttf');
+}
+
+@font-face {
+  font-family: myNight;
+  src: url('../fonts/Firenight-Regular.ttf');
+}

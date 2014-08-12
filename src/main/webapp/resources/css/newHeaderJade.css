@@ -1,0 +1,11 @@
+.right-text {
+    float: right;
+    display: inline;
+}
+.registration, .entire {
+    font-size: 15px;
+}
+.left-text {
+    float: left;
+    font-size: 26px;
+}
