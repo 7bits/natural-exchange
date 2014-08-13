@@ -4,6 +4,9 @@
   height: 137px;
   background-color: rgb(47, 47, 47);
 }
+.left-top-logo {
+  overflow: hidden;
+}
 .right-top-links {
   height: 22px;
   width: 200px;
@@ -73,6 +76,10 @@
   background-repeat: no-repeat;
   border-radius: 100px;
   background-position: 5px 7px;
+}
+.main-links {
+  overflow: hidden;
+  margin-top: -50px;
 }
 .add-advertisement:hover {
   background-color: rgb(243, 152, 34);
