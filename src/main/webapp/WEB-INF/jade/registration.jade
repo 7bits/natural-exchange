@@ -1,0 +1,21 @@
+extends layout/layout
+block customcss
+  link(rel='stylesheet', href='/resources/css/enter.css')
+block content
+  div#registration-form.form-entry
+    form#enter(method='get')
+      div.enter-head
+        a.rounded.enter ВХОД
+        a.rounded.registration РЕГИСТРАЦИЯ
+        button#reject.vk-cross-circle
+      div.entry-form
+        div.entry-text Чтобы обмениваться и размещать свои
+        div.entry-text предложения, войдите или зарегистрируйтесь
+        div
+          input(type='email', placeholder='Ваш e-mail').form-rounded-button
+        input(type='text', placeholder='Ваше имя').form-rounded-button
+        input(type='text', placeholder='Ваша фамилия').form-rounded-button
+        input(type='text', placeholder='Пароль').form-rounded-button
+        div
+          button#entry.rounded-button.entry ЗАРЕГЕСТРИРОВАТЬСЯ
+          a(href='').vk-logo

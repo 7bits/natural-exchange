@@ -1,0 +1,123 @@
+.form-entry {
+  margin: auto;
+  height: 350px;
+  width: 405px;
+}
+
+.enter-head {
+  padding-top: 50px;
+  height: 35px;
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0);
+  /*background-color: crimson;*/
+}
+
+.tab-and-exit {
+  padding-left: 30px;
+  float: right;
+  display: inline-block;
+}
+
+.vk-cross-circle {
+  float: right;
+  width: 26px;
+  height: 37px;
+  background-position: right top;
+  background-image: url("/resources/images/newdesign/circle-cross.png");
+  background-repeat: no-repeat;
+}
+
+.rounded {
+  background-color: rgb(248, 184, 50);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+
+  font: normal 18px "Rectangular Marquee";
+}
+
+.rounded:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+.enter {
+  width: 70px;
+  height: 35px;
+  float: left;
+}
+
+.entry-text {
+  font: normal 16px "PTSans";
+  color: rgb(136,136,136);
+}
+
+.registration {
+  display: inline-block;
+  width: 224px;
+  height: 35px;
+}
+
+.registration:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+.rounded-button {
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  width: 370px;
+  height: 30px;
+  margin-top: 15px;
+}
+
+.form-rounded-button {
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  width: 370px;
+  height: 30px;
+  margin-top: 15px;
+
+  background-color: rgb(255, 255, 255);
+}
+
+.form-rounded-button:hover {
+  background-color: rgb(253, 168, 97);
+}
+
+.entry-form {
+  background-color: rgb(248, 184, 50);
+  height: 315px;
+}
+
+.entry {
+  float: left;
+  background-color: rgb(26, 178, 175);
+  width: 146px;
+  height: 42px;
+  background-image: url("/resources/images/newdesign/accept.png");
+  background-repeat: no-repeat;
+  background-position: 5px 7px;
+}
+
+.vk-logo {
+  float: right;
+  width: 53px;
+  background-image: url("/resources/images/newdesign/vk-logo.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+  height: 55px;
+}
+
+.vk-logo-text {
+  display: inline-block;
+  width: 135px;
+  margin-top: 15px;
+}
+
+.text-and-logo {
+  display: inline-block;
+  margin-top: 15px;
+  float: right;
+}

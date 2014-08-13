@@ -12,6 +12,6 @@ public class AdvertisementListController {
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public ModelAndView list() {
-        return new ModelAndView("list.jade");
+        return new ModelAndView("enter.jade");
     }
 }
