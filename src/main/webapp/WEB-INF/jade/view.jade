@@ -1,0 +1,27 @@
+extends layout/layout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newView.css')
+block append content
+  .content
+    .title
+      | НАСТОЛЬНАЯ ИГРА КАРКАССОН
+    .advertisement-container
+      .information
+        .category
+          | Категрия:
+          a.concrete-category НАСТОЛЬНЫЕ ИГРЫ
+        .tags
+          | Теги:
+          a.tag(href='#') НАСТОЛКИ
+        .description
+          | Описание:
+          p.current-description
+            | Вы – феодальный правитель одной из провинций средневековой Франции. Вам предстоит расширять свои владения, строить города и монастыри, прокладывать дороги и не забывать мудро управлять своими подданными, ведь именно они приносят вам успех в соперничестве с соседями.
+        .who-change
+          | Меняет:
+          a.change-user(href='#') Mari Mari
+      .picture
+        img.thing-picture(src='/resources/images/thingPicture.png')
+    .change-button
+      a.change(href='#') ОБМЕНЯТЬ
+
