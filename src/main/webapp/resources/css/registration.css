@@ -1,7 +1,125 @@
-.registration:hover {
+#registration-form {
+  margin: auto;
+  height: 520px;
+  width: 405px;
+}
+
+.registration-form {
+  padding-top: 20px;
   background-color: rgb(248, 184, 50);
+  height: 505px;
+}
+
+.registration-tab {
+  margin-right: 50px;
+  display: inline-block;
+  text-decoration: none;
+
+  width: 190px;
+  height: 35px;
+}
+
+.enter-ref {
+  text-decoration: none;
+  background-color: rgb(255, 255, 255);
+  color: rgb(243, 152, 34);
+  width: 130px;
+  height: 35px;
+  float: left;
+}
+
+.enter-ref:hover {
+  background-color: rgb(248, 184, 50);
+}
+
+.reg {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  float: left;
+
+  background-color: rgb(26, 178, 175);
+  border-color: rgb(26, 178, 175);
+
+  width: 270px;
+  height: 42px;
+  margin-left: 15px;
+  padding-left: 35px;
+
+  background-image: url("/resources/images/newdesign/accept.png");
+  background-repeat: no-repeat;
+  background-position: 16px 9px;
+
 }
 
 .enter:hover {
   background-color: rgb(255, 255, 255);
+}
+
+.border-file-choose {
+  outline: 0;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+
+  width: 370px;
+  height: 40px;
+  display: inline-block;
+
+
+  box-sizing: border-box;
+  -moz-box-sizing : border-box;
+  -webkit-box-sizing : border-box;
+  margin-top: 15px;
+  margin-left: 15px;
+  padding-left: 30px;
+
+  border: 3px solid rgb(243, 152, 34);
+
+}
+
+.file-choose {
+  box-sizing: border-box;
+  -moz-box-sizing : border-box;
+  -webkit-box-sizing : border-box;
+
+  background-color: rgb(243, 152, 34);
+  border-color: rgb(243, 152, 34);
+
+  width: 170px;
+  height: 30px;
+
+  font: 13px normal boldSans;
+  color: rgb(255, 255, 255);
+}
+
+.reg-rounded-button {
+  outline: 0;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+
+  margin-top: 2px;
+  margin-left: 20px;
+}
+
+.file-hollow-text {
+  width: 124px;
+  float: left;
+
+  color: rgb(168, 129, 49);
+  font: 18px bold mySans;
+
+  padding-top: 7px;
+}
+
+.reg-and-logo {
+  padding-top: 60px;
+}
+
+.logo-pos {
+  margin-top: 10px;
+  margin-right: 20px;
 }

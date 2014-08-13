@@ -35,3 +35,22 @@
 .end {
   display: inline;
 }
+
+.hidden {
+  display: none;
+}
+
+@font-face {
+  font-family: mySans;
+  src:  url('../fonts/pt-sans.regular.ttf');
+}
+
+@font-face {
+  font-family: boldSans;
+  src: url('../fonts/Prosto.ttf');
+}
+
+@font-face {
+  font-family: myNight;
+  src: url('../fonts/Firenight-Regular.ttf');
+}
