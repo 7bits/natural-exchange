@@ -1,0 +1,89 @@
+.content {
+  padding-left: 19%;
+  padding-right: 19%;
+  background-color: rgb(248, 184, 50);
+}
+.advertisement-container {
+  overflow: hidden;
+}
+.information {
+  width: 50%;
+  float: left;
+}
+.picture {
+  float:right;
+}
+.title {
+  font-size: 22px;
+  font-family: boldSans;
+  line-height: 120px;
+}
+.category, .tags, .who-change {
+  font-size: 18px;
+  font-family: boldSans;
+  line-height: 60px;
+}
+.description {
+  font-size: 18px;
+  font-family: boldSans;
+}
+.concrete-category {
+  margin-left: 10px;
+  color: rgb(223, 83, 70);
+}
+.tag {
+  margin-left: 10px;
+  font-size: 13px;
+  text-decoration: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  background-color: rgb(223, 83, 70);
+  color: rgb(255, 255, 255);
+  border-radius: 100px;
+}
+.change-user {
+  margin-left: 10px;
+  color: rgb(60, 56, 47);
+  background-image: url('../images/changeUser.png');
+  background-size: contain;
+  padding-left: 17px;
+  background-repeat: no-repeat;
+  text-decoration: none;
+  font-size: 13px;
+}
+.current-description {
+  margin-left: 10px;
+  font-family: "PS Sans";
+  font-weight: normal;
+  font-size: 18px;
+  display: inline;
+}
+.thing-picture {
+  float: left;
+}
+.change-button {
+  line-height: 200px;
+  text-align: center;
+}
+.change {
+  padding-top: 13px;
+  padding-bottom: 13px;
+  padding-left: 45px;
+  padding-right: 25px;
+  font-family: boldSans;
+  font-size: 15px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  background: url(../images/changeButtonImg.png);
+  background-position: 17px 12px;
+  background-color: rgb(26, 178, 175);
+  background-repeat: no-repeat;
+  border-radius: 100px;
+}
+
+@font-face {
+  font-family: boldSans;
+  src: url('../fonts/Prosto.ttf');
+}
