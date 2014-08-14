@@ -1,18 +1,34 @@
+.placing-advert {
+  height: 600px;
+}
+
 .head-text {
   font: 22px boldSans;
-  padding-left: 10%;
+  padding-left: 15px;
   padding-top: 3%;
+}
+
+.main-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.form-placing {
+  padding-top: 30px;
 }
 
 .advertisement-title {
   width: 500px;
-  margin-left: 10%;
+}
+
+.placing-file-and-tags {
+  padding-top: 40px;
 }
 
 .select-category {
+  outline: 0;
   margin-top: 1%;
-  margin-right: 10%;
-  width: 30%;
+  width: 384px;
   height: 40px;
   padding-left: 20px;
   float: right;
@@ -24,7 +40,7 @@
 
   color: rgb(173, 173, 173);
   background-color: rgb(255, 255, 255);
-  background-image: url('../images/arrow.png');
+  background-image: url("/resources/images/newdesign/arrow.1.png");
   background-repeat: no-repeat;
   background-position: 95% 50%;
 
@@ -33,7 +49,6 @@
 }
 
 .choose-tags {
-  margin-left: 45%;
 }
 
 .placing-textarea {
@@ -43,14 +58,14 @@
   border-bottom-right-radius: 20px;
 
   padding-top: 20px;
+  margin-top: 40px;
   height: 200px;
   width: 500px;
-  margin-left: 10%;
+  resize: none;
 }
 
 .placing-file-choose {
   width: 500px;
-  margin-left: 10%;
 }
 
 .adding-advert {
@@ -60,9 +75,15 @@
 
   background-color: rgb(26, 178, 175);
   border: none;
+  float: left;
 
-  width: 180px;
-  height: 42px;
+  padding-left: 20px;
+  padding-top: 10px;
+  margin-left: 15px;
+  margin-top: 40px;
+
+  width: 200px;
+  height: 40px;
   text-decoration: none;
 
   background-image: url("/resources/images/newdesign/accept.png");
@@ -70,16 +91,29 @@
   background-position: 16px 9px;
 }
 
-.placing-tag-choose {
-  width: 30%;
+.choose-tags-and-button {
+  display: inline-block;
+  position: relative;
+}
 
-  margin-left: 13%;
+.placing-tag-choose {
+  width: 384px;
+  margin-left: 101px;
 }
 
 .file-button-pos {
-  margin-left: 40px;
+  margin-left: 160px;
 }
 
 .placing-tag-add {
-  margin-right: 20%;
+  position: absolute;
+  left: 280px;
+  bottom: 5px;
+
+  background-image: url(/resources/images/newdesign/plus-circle.png);
+  background-repeat: no-repeat;
+  background-position: 15px 6px;
+}
+
+.placing-end-button {
 }

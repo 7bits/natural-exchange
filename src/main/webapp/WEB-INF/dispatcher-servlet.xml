@@ -77,8 +77,8 @@ http://www.springframework.org/schema/p "
         </property>
         <property name="viewResolvers">
             <list>
-                <ref bean="jadeResolver"/>
                 <ref bean="viewResolver1"/>
+                <ref bean="jadeResolver"/>
             </list>
         </property>
         <property name="defaultViews">
