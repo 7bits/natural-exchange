@@ -1,5 +1,91 @@
 extends layout/layout
-
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newList.css')
 block content
-  h1 List of advertisements
-
+  .content
+    .container.advertisement-list
+      div
+        form.searching-form
+          input.tag-search(type='text', placeholder='Введите параметры поиска', maxlength='50')
+          select.category-search
+            option(disabled='disabled', selected='selected') Выберите категорию
+            option.choosen-category Игры
+            option.choosen-category Одежда
+            option.choosen-category Не одежда
+          input.search(type='submit', value='НАЙТИ')
+      .underneath
+        .example
+          | Например:
+          a.monopoly(href='#') Монополия
+          a.save-search(href='#') СОХРАНИТЬ ПОИСК
+      .row
+        .advertisement.col-md-3
+          img.adv-image(src='/resources/images/littleThingImg.png')
+          p.date 12 августа 2014
+          a.adv-name(href='#') НАСТОЛКА ПО ВЛАСТЕЛИНУ КОЛЕЦ
+          .name-cover
+            a.adv-owner(href='#') Иван Константинопольский
+          a.change-button(href='#') ОБМЕНЯТЬ
+        .advertisement.col-md-3
+          img.adv-image(src='/resources/images/anotherThing1.png')
+          p.date 11 августа 2014
+          a.adv-name(href='#') НАСТОЛКА 10000 ЛЕТ ДО НАШЕЙ ЭРЫ
+          .name-cover
+            a.adv-owner(href='#') Лена Солнышко
+          a.change-button(href='#') ОБМЕНЯТЬ
+        .advertisement.col-md-3
+          img.adv-image(src='/resources/images/stPiter.png')
+          p.date 11 августа 2014
+          a.adv-name(href='#') БАРЫ ПЕТЕРБУРГА НАСТОЛЬНАЯ ИГРА
+          .name-cover
+            a.adv-owner(href='#') Mari Mari
+          a.change-button(href='#') ОБМЕНЯТЬ
+        .advertisement.col-md-3
+          img.adv-image(src='/resources/images/starWars.png')
+          p.date 11 августа 2014
+          a.adv-name(href='#') ЗВЕЗДНЫЕ ВОЙНЫ ВОЙНА КЛОНОВ
+          .name-cover
+            a.adv-owner(href='#') Mari Mari
+          a.change-button(href='#') ОБМЕНЯТЬ
+        .advertisement.col-md-3
+          img.adv-image(src='/resources/images/evolution.png')
+          p.date 10 августа 2014
+          a.adv-name(href='#') ЭВОЛЮЦИЯ
+          .name-cover
+            a.adv-owner(href='#') Иван Константинопольский
+          a.change-button(href='#') ОБМЕНЯТЬ
+        .advertisement.col-md-3
+          img.adv-image(src='/resources/images/monopoly.png')
+          p.date 9 августа 2014
+          a.adv-name(href='#') НАСТОЛЬНАЯ ИГРА "МОНОПОЛИЯ"
+          .name-cover
+            a.adv-owner(href='#') Mari Mari
+          a.change-button(href='#') ОБМЕНЯТЬ
+        .advertisement.col-md-3
+          img.adv-image(src='/resources/images/monopoly.png')
+          p.date 9 августа 2014
+          a.adv-name(href='#') НАСТОЛЬНАЯ ИГРА "МОНОПОЛИЯ"
+          .name-cover
+            a.adv-owner(href='#') Mari Mari
+          a.change-button(href='#') ОБМЕНЯТЬ
+        .advertisement.col-md-3
+          img.adv-image(src='/recources/images/monopoly.png')
+          p.date 9 августа 2014
+          a.adv-name(href='#') НАСТОЛЬНАЯ ИГРА "МОНОПОЛИЯ"
+          .name-cover
+            a.adv-owner(href='#') Mari Mari
+          a.change-button(href='#') ОБМЕНЯТЬ
+      .pages
+        ul.page-list
+          li
+            a.first(href='#') 1
+          li
+            a.second(href='#') 2
+          li
+            a.third(href='#') 3
+      .to-know
+        | Узнавайте нововости проекта первыми!
+      .lower-case
+        form
+          input.e-mail-field(type='text', maxlength='50', placeholder='Ваш e-mail')
+          input.e-mail-submit(type='submit', value='подписаться')
