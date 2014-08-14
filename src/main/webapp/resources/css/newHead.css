@@ -99,11 +99,13 @@
 
 @font-face {
   font-family: mySans;
+  font-weight: normal;
   src:  url('../fonts/pt-sans.regular.ttf');
 }
 
 @font-face {
   font-family: boldSans;
+  font-weight: normal;
   src: url('../fonts/Prosto.ttf');
 }
 

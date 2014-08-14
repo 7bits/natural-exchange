@@ -8,7 +8,8 @@ $(document).ready(function() {
         'modal' :  true,
         'overlayOpacity' : 0.13 ,
         'overlayColor' : '#000000',
-        'scrolling' : 'no'
+        'scrolling' : 'no',
+        'background' : 'transparent'
     });
     $("#entry-form").keypress(function(e){
         if(e.keyCode===13) {

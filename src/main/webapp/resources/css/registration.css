@@ -85,12 +85,13 @@
   -webkit-box-sizing : border-box;
 
   background-color: rgb(243, 152, 34);
-  border-color: rgb(243, 152, 34);
+  border: none;
 
   width: 170px;
   height: 30px;
-
-  font: 13px normal boldSans;
+  font-family: boldSans;
+  font-size: 13px;
+  /*font: 13px normal boldSans;*/
   color: rgb(255, 255, 255);
 }
 

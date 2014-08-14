@@ -3,7 +3,7 @@ extends layout/layout
     div.placing
       div
         div.head-text ДОБАВЛЕНИЕ ПРЕДЛОЖЕНИЯ
-        div.text Настольная игра "Монополия"
+        input(type='text', placeholder="Заголовок").form-rounded-button.hollow-text
         select
           option НАСТОЛЬНЫЕ ИГРЫ
           option ХУДОЖЕСТВЕННАЯ ЛИТЕРАТУРА
@@ -12,5 +12,6 @@ extends layout/layout
         div.file-text
           | mono.jpg
         button.red-text ВЫБРАТЬ ФАЙЛ
-      textarea
+        input(type='text', placeholder="Теги").form-rounded-button.hollow-text
+      textarea.form-rounded-button.hollow-text
       button ДОБАВИТЬ

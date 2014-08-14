@@ -1,4 +1,40 @@
+#fancybox-overlay {
+  opacity: 0.6;
+}
+
 #fancybox-outer {
+  background: none;
+}
+
+#fancybox-bg-n {
+  background: none;
+}
+
+#fancybox-bg-ne {
+  background: none;
+}
+
+#fancybox-bg-e {
+  background: none;
+}
+
+#fancybox-bg-se {
+  background: none;
+}
+
+#fancybox-bg-s {
+  background: none;
+}
+
+#fancybox-bg-sw {
+  background: none;
+}
+
+#fancybox-bg-w {
+  background: none;
+}
+
+#fancybox-bg-nw {
   background: none;
 }
 
@@ -6,6 +42,7 @@
   margin: auto;
   height: 320px;
   width: 405px;
+  background: transparent;
 }
 
 .enter-head {
@@ -57,7 +94,7 @@
 }
 
 .entry-text {
-  font: normal 16px mySans;
+  font: 16px mySans;
   color: rgb(255, 255, 255);
 }
 
@@ -105,7 +142,7 @@
   margin-left: 15px;
   padding-left: 30px;
 
-  border-color: rgb(243, 152, 34);
+  border: 2px solid rgb(243, 152, 34);
   background-color: rgb(255, 255, 255);
 }
 

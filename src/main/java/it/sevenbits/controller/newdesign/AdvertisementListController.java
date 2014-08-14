@@ -15,14 +15,9 @@ public class AdvertisementListController {
         return new ModelAndView("list.jade");
     }
 
-    @RequestMapping(value = "/enter.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
     public ModelAndView enter() {
-        return new ModelAndView("enter.jade");
-    }
-
-    @RequestMapping(value = "/registration.html", method = RequestMethod.GET)
-    public ModelAndView registration() {
-        return new ModelAndView("registration.jade");
+        return new ModelAndView("placing.jade");
     }
 
     @RequestMapping(value = "/view.html", method = RequestMethod.GET)
