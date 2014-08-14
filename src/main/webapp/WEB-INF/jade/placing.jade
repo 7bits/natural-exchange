@@ -1,17 +1,23 @@
 extends layout/layout
-  block content
-    div.placing
-      div
-        div.head-text ДОБАВЛЕНИЕ ПРЕДЛОЖЕНИЯ
-        input(type='text', placeholder="Заголовок").form-rounded-button.hollow-text
-        select
-          option НАСТОЛЬНЫЕ ИГРЫ
-          option ХУДОЖЕСТВЕННАЯ ЛИТЕРАТУРА
-          option ПРОЧЕЕ
-      div
-        div.file-text
-          | mono.jpg
-        button.red-text ВЫБРАТЬ ФАЙЛ
-        input(type='text', placeholder="Теги").form-rounded-button.hollow-text
-      textarea.form-rounded-button.hollow-text
-      button ДОБАВИТЬ
+
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newPlacing.css')
+  link(rel='stylesheet', href='/resources/css/newList.css')
+block content
+  div.placing.nexchange-mainbg
+    div
+      div.head-text ДОБАВЛЕНИЕ ПРЕДЛОЖЕНИЯ
+      input(type='text', placeholder="Заголовок").form-rounded-button.hollow-text.advertisement-title
+      select.select-category
+        option(disabled='disabled', selected='selected') Выберите категорию
+        option.choosen-category НАСТОЛЬНЫЕ ИГРЫ
+        option.choosen-category ХУДОЖЕСТВЕННАЯ ЛИТЕРАТУРА
+        option.choosen-category ПРОЧЕЕ
+    div
+      div.border-file-choose.placing-file-choose
+        div.file-hollow-text Фотография
+        button#entry.reg-rounded-button.file-choose.file-button-pos ВЫБРАТЬ ФАЙЛ
+      input(type='text', placeholder="Теги").form-rounded-button.hollow-text.placing-tag-choose
+      button#entry.reg-rounded-button.file-choose.placing-tag-add ДОБАВИТЬ
+    textarea(placeholder="Описание").form-rounded-button.hollow-text.placing-textarea
+    a(href='').rounded-button.adding-advert.small-tab-text ДОБАВИТЬ

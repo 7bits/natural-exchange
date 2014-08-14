@@ -1,0 +1,85 @@
+.head-text {
+  font: 22px boldSans;
+  padding-left: 10%;
+  padding-top: 3%;
+}
+
+.advertisement-title {
+  width: 500px;
+  margin-left: 10%;
+}
+
+.select-category {
+  margin-top: 1%;
+  margin-right: 10%;
+  width: 30%;
+  height: 40px;
+  padding-left: 20px;
+  float: right;
+
+
+  box-sizing: border-box;
+  border-radius: 100px;
+  border: 2px solid rgb(243, 152, 34);
+
+  color: rgb(173, 173, 173);
+  background-color: rgb(255, 255, 255);
+  background-image: url('../images/arrow.png');
+  background-repeat: no-repeat;
+  background-position: 95% 50%;
+
+  font-size: 18px;
+  font-family: mySans;
+}
+
+.choose-tags {
+  margin-left: 45%;
+}
+
+.placing-textarea {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+
+  padding-top: 20px;
+  height: 200px;
+  width: 500px;
+  margin-left: 10%;
+}
+
+.placing-file-choose {
+  width: 500px;
+  margin-left: 10%;
+}
+
+.adding-advert {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+
+  background-color: rgb(26, 178, 175);
+  border: none;
+
+  width: 180px;
+  height: 42px;
+  text-decoration: none;
+
+  background-image: url("/resources/images/newdesign/accept.png");
+  background-repeat: no-repeat;
+  background-position: 16px 9px;
+}
+
+.placing-tag-choose {
+  width: 30%;
+
+  margin-left: 13%;
+}
+
+.file-button-pos {
+  margin-left: 40px;
+}
+
+.placing-tag-add {
+  margin-right: 20%;
+}
