@@ -1,0 +1,242 @@
+#fancybox-overlay {
+  opacity: 0.6;
+}
+
+#fancybox-outer {
+  background: none;
+}
+
+#fancybox-bg-n {
+  background: none;
+}
+
+#fancybox-bg-ne {
+  background: none;
+}
+
+#fancybox-bg-e {
+  background: none;
+}
+
+#fancybox-bg-se {
+  background: none;
+}
+
+#fancybox-bg-s {
+  background: none;
+}
+
+#fancybox-bg-sw {
+  background: none;
+}
+
+#fancybox-bg-w {
+  background: none;
+}
+
+#fancybox-bg-nw {
+  background: none;
+}
+
+#entry-form {
+  margin: auto;
+  height: 320px;
+  width: 405px;
+  background: transparent;
+}
+
+.enter-head {
+  height: 35px;
+  background-color: rgba(255, 255, 255, 0);
+  /*background-color: crimson;*/
+}
+
+.tab-text {
+  text-align: center;
+  font: 18px boldSans;
+}
+
+.tab-and-exit {
+  float: right;
+  display: inline-block;
+}
+
+.text-center {
+  padding-left: 20px;
+}
+
+.vk-cross-circle {
+  float: right;
+
+  width: 26px;
+  height: 37px;
+
+  background-position: right top;
+  background-image: url("/resources/images/newdesign/circle-cross.png");
+  background-repeat: no-repeat;
+}
+
+.rounded {
+  background-color: rgb(248, 184, 50);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+
+  padding-top: 8px;
+}
+
+.enter-tab {
+  width: 130px;
+  height: 35px;
+  float: left;
+}
+
+.entry-text {
+  font: 16px mySans;
+  color: rgb(255, 255, 255);
+}
+
+.registration-ref {
+  margin-right: 50px;
+  display: inline-block;
+  text-decoration: none;
+  background-color: rgb(255, 255, 255);
+  color: rgb(243, 152, 34);
+
+  width: 190px;
+  height: 35px;
+}
+
+.registration-ref:hover {
+  background-color: rgb(248, 184, 50);
+}
+
+.rounded-button {
+  outline: 0;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+
+  width: 370px;
+  height: 30px;
+  margin-top: 15px;
+}
+
+.form-rounded-button {
+  outline: 0;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+
+  width: 370px;
+  height: 40px;
+
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  margin-top: 15px;
+  margin-left: 15px;
+  padding-left: 30px;
+
+  border: 2px solid rgb(243, 152, 34);
+  background-color: rgb(255, 255, 255);
+}
+
+.form-rounded-button:hover {
+  outline: 0;
+  background-color: rgb(243, 152, 34);
+  border-color: rgb(255, 255, 255);
+}
+
+.entry-form {
+  padding-top: 20px;
+  background-color: rgb(248, 184, 50);
+  height: 315px;
+}
+
+.end-form {
+  padding-top: 30px;
+}
+
+.entry {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  float: left;
+
+  background-color: rgb(26, 178, 175);
+  border-color: rgb(26, 178, 175);
+
+  width: 146px;
+  height: 42px;
+  margin-left: 15px;
+  padding-left: 20px;
+
+  background-image: url("/resources/images/newdesign/accept.png");
+  background-repeat: no-repeat;
+  background-position: 16px 9px;
+}
+
+.hollow-text {
+  font: 18px bold mySans;
+}
+
+.small-tab-text {
+  color: white;
+  text-align: center;
+  font: 15px boldSans;
+}
+
+.vk-logo {
+  float: right;
+  width: 53px;
+
+  background-image: url("/resources/images/newdesign/vk-logo.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+
+  height: 55px;
+}
+
+.vk-logo-text {
+
+  display: inline-block;
+  width: 135px;
+  margin-top: 15px;
+}
+
+.text-and-logo {
+  padding-top: 20px;
+  padding-right: 20px;
+  display: inline-block;
+  float: right;
+}
+
+input[type="email"]::-webkit-input-placeholder {
+  line-height: 24px;
+  font: 18px bold mySans;
+  color: rgb(172, 172, 172);
+}
+
+input[type="email"]::-moz-placeholder {
+  line-height: 24px;
+  font: 18px bold mySans;
+  color: rgb(172, 172, 172);
+}
+
+input[type="text"]::-webkit-input-placeholder {
+  line-height: 24px;
+  font: 18px bold mySans;
+  color: rgb(172, 172, 172);
+}
+
+input[type="text"]::-moz-placeholder {
+  line-height: 24px;
+  font: 18px bold mySans;
+  color: rgb(172, 172, 172);
+}
+

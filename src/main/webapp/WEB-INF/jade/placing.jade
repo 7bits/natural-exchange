@@ -1,0 +1,17 @@
+extends layout/layout
+  block content
+    div.placing
+      div
+        div.head-text ДОБАВЛЕНИЕ ПРЕДЛОЖЕНИЯ
+        input(type='text', placeholder="Заголовок").form-rounded-button.hollow-text
+        select
+          option НАСТОЛЬНЫЕ ИГРЫ
+          option ХУДОЖЕСТВЕННАЯ ЛИТЕРАТУРА
+          option ПРОЧЕЕ
+      div
+        div.file-text
+          | mono.jpg
+        button.red-text ВЫБРАТЬ ФАЙЛ
+        input(type='text', placeholder="Теги").form-rounded-button.hollow-text
+      textarea.form-rounded-button.hollow-text
+      button ДОБАВИТЬ
