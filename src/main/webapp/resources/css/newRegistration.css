@@ -6,7 +6,6 @@
 
 .registration-form {
   padding-top: 20px;
-  background-color: rgb(248, 184, 50);
   height: 505px;
 }
 
@@ -39,12 +38,14 @@
   float: left;
 
   background-color: rgb(26, 178, 175);
-  border-color: rgb(26, 178, 175);
+  border: none;
 
   width: 270px;
   height: 42px;
   margin-left: 15px;
   padding-left: 35px;
+  padding-top: 10px;
+  text-decoration: none;
 
   background-image: url("/resources/images/newdesign/accept.png");
   background-repeat: no-repeat;
@@ -93,6 +94,10 @@
   font-size: 13px;
   /*font: 13px normal boldSans;*/
   color: rgb(255, 255, 255);
+}
+
+.file-choose:hover {
+  background-color: rgb(223, 83, 70);
 }
 
 .reg-rounded-button {
