@@ -7,10 +7,11 @@
   overflow: hidden;
 }
 .information {
-  width: 50%;
+  width: 44%;
   float: left;
 }
 .picture {
+  width: 50%;
   float:right;
 }
 .title {
@@ -61,6 +62,7 @@
   display: inline;
 }
 .thing-picture {
+  width: 100%;
   float: left;
 }
 .change-button {
