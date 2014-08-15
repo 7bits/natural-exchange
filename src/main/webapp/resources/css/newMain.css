@@ -1,0 +1,178 @@
+.head-things {
+  height: 525px;
+  overflow: hidden;
+  background: url(../images/mainBackground.png) no-repeat;
+  background-position: center;
+}
+.row1 {
+  width: 774px;
+  display: block;
+  margin: 0 auto;
+}
+.games, .music {
+  position: relative;
+  padding-right: 80px;
+  margin-top: 5%;
+  float: left;
+}
+.liter {
+  position: relative;
+  margin-top: 5%;
+  float: left;
+}
+.music-link {
+  height: 100px;
+}
+
+.bones-image:hover, .music-image:hover, .liter-image:hover {
+  text-decoration: none;
+  border-radius: 150px;
+  border: 4px solid rgb(58, 184, 184);
+}
+
+/*.music-image:hover {*/
+  /*border-radius: 150px;*/
+  /*border: 4px solid rgb(58, 184, 184);*/
+/*}*/
+.bones-cover, .music-cover, .literature-cover {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.category-note {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  font-family: boldSans;
+  font-size: 17px;
+}
+.category-note:hover {
+  text-decoration: none;
+  color: rgb(26, 178, 175);
+}
+.liter-image, .bones-image, .music-image {
+  display: block;
+  margin: 0 auto;
+}
+.game-link:hover, .music-link:hover, .liter-link:hover {
+  color: rgb(58, 184, 184);
+}
+
+.main-page {
+  margin: 0 auto;
+  width: 1050px;
+  overflow: hidden;
+  background-color: rgb(248, 184, 50);
+}
+.change-text {
+  margin-top: 5%;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-family: boldSans;
+  font-size: 30px;
+}
+.many-other {
+  line-height: 95px;
+  text-align: center;
+  font-family: boldSans;
+  font-size: 18px;
+}
+.show-all {
+  line-height: 100px;
+  margin-left: 36%;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-family: boldSans;
+  font-size: 13px;
+  text-align: center;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  background-color: rgb(243, 152, 34);
+  border: none;
+  border-radius: 100px;
+}
+.show-all:hover {
+  background-color: rgb(223, 83, 70);
+}
+.about {
+  line-height: 150px;
+  text-align: center;
+  font-family: boldSans;
+  font-size: 30px;
+}
+.exchange-block {
+  display: inline;
+}
+
+.text-about {
+  display: inherit;
+  font-family: mySans;
+  font-size: 19px;
+}
+.project {
+  display: inherit;
+  color: rgb(223, 83, 70);
+  font-family: boldSans;
+  font-size: 19px;
+}
+.edification {
+  line-height: 50px;
+  font-family: boldSans;
+  font-size: 19px;
+}
+.news {
+  text-align: center;
+  margin-top: 85px;
+  font-family: boldSans;
+  font-size: 22px;
+}
+.subscribe-cover {
+  text-align: center;
+}
+.subscribe-form {
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+.for-email {
+  width: 370px;
+  height: 40px;
+  padding-left: 20px;
+  box-sizing: border-box;
+  outline: 0;
+  color: rgb(172, 172, 172);
+  border: 2px solid rgb(243, 152, 34);
+  border-radius: 100px;
+  font-size: 18px;
+}
+.for-email:hover {
+  border: 2px solid rgb(255, 255, 255);
+  background-color: rgb(243, 152, 34);
+}
+.submit-email {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 35px;
+  padding-right: 25px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: boldSans;
+  color: rgb(255, 255, 255);
+  border-radius: 100px;
+  border: none;
+  background-color: rgb(26, 178, 175);
+  background-image: url('../images/okImg.png');
+  background-repeat: no-repeat;
+  background-position: 10px 9px;
+}
+
+@font-face {
+  font-family: mySans;
+  src:  url('../fonts/pt-sans.regular.ttf');
+}
+
+@font-face {
+  font-family: boldSans;
+  src: url('../fonts/Prosto.ttf');
+}
