@@ -1,6 +1,12 @@
+.head-component {
+  background-color: rgb(47, 47, 47);
+}
+
 .header {
-  padding-left: 19%;
-  padding-right: 19%;
+  margin: 0 auto;
+  width: 1050px;
+  min-width: 945px;
+  overflow: hidden;
   height: 137px;
   background-color: rgb(47, 47, 47);
 }
