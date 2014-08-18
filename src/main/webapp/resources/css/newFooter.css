@@ -24,8 +24,10 @@
 }
 
 .logo {
-  padding-top: 1%;
-  padding-left: 25%;
+  /*padding-top: 1%;*/
+  /*padding-left: 25%;*/
+  margin-left: 25%;
+  margin-top: 1%;
 }
 
 .vk-link {
