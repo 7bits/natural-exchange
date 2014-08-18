@@ -2,6 +2,7 @@ extends layout/layout
 block append customcss
   link(rel='stylesheet', href='/resources/css/newMain.css')
   link(rel='stylesheet', href='/resources/css/newList.css')
+  link(rel='stylesheet', href='/resources/css/newExchange.css')
 block content
   .content
     .container.head-things
@@ -35,7 +36,8 @@ block content
             a.adv-name(href='/new/advertisement/view.html') #{advertisement.title}
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
-            a.change-button(href='#') ОБМЕНЯТЬ
+            a.change-button.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ
+            include exchange
         //.advertisement.col-md-3
         //  img.adv-image(src='/resources/images/littleThingImg.png')
         //  p.date 12 августа 2014
@@ -75,6 +77,8 @@ block content
       p.edification Обменивайтесь, оставляйте пользователям отзывы и оценки, и будет вам счастье!
       p.news УЗНАВАЙТЕ НОВОСТИ ПРОЕКТА ПЕРВЫМИ!
       .subscribe-cover
-        form.subscribe-form
+        form.subscribe-form(action='/new/main.html', method='post', name='mailingNewsFormParam')
           input.for-email(type='text', placeholder='Ваш e-mail')
           input.submit-email(type='submit', value='ПОДПИСАТЬСЯ')
+block append customjs
+  script(src="/resources/js/newExchangePopup.js")
