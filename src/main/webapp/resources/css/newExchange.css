@@ -114,13 +114,27 @@
 
 .chosen-advert {
   float: left;
-  height: 30px;
-  width: 40px;
   background-image: url("/resources/images/newdesign/not-selected-advert.png");
   background-repeat: no-repeat;
   background-position: 8px 0px;
 }
 
-.chosen-advert:active {
+input[type="radio"] {
+  display: none;
+}
+
+label {
+  height: 30px;
+  width: 40px;
+}
+
+input[type="radio"]:checked+label{
+  background-image: url("/resources/images/newdesign/selected-advert.png");
+}
+
+input[type="radio"]:checked:disabled+label{
+  background-image: url("/resources/images/newdesign/not-selected-advert.png");
+}
+input[type="radio"]:disabled+label{
   background-image: url("/resources/images/newdesign/selected-advert.png");
 }
