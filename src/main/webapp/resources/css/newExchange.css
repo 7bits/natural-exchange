@@ -1,0 +1,126 @@
+#exchange-form {
+  height: 573px;
+  width: 400px;
+}
+
+.exchange-form {
+  height: 540px;
+}
+
+.header-text {
+  font: 18px boldSans;
+  margin-left: 15px;
+  padding-top: 30px;
+}
+
+.placing-textarea {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+
+  height: 200px;
+  width: 500px;
+  resize: none;
+}
+
+.exchange-button {
+  margin-left: 70px;
+
+  padding-top: 13px;
+  padding-bottom: 13px;
+  padding-left: 45px;
+  padding-right: 25px;
+
+  font-family: boldSans;
+  font-size: 15px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  background: url(../images/changeButtonImg.png);
+  background-position: 17px 12px;
+  background-color: rgb(26, 178, 175);
+  background-repeat: no-repeat;
+  border-radius: 100px;
+}
+
+.offer-message {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+
+  width: 360px;
+  height: 110px;
+
+  padding-top: 10px;
+  margin-top: 10px;
+  resize: none;
+}
+
+.user-adverts-table {
+  margin-left: 15px;
+  margin-top: 10px;
+
+  background-color: white;
+  height: 200px;
+  width: 365px;
+  overflow-y: scroll;
+}
+
+.offer-advert-lotro {
+  width: 290px;
+  height: 52px;
+
+  background-image: url("/resources/images/newdesign/LOTR.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+
+.offer-advert-lotro:active {
+  background-color: rgb(242, 241, 241);
+}
+
+.offer-advert-bones {
+  width: 290px;
+  height: 52px;
+
+  background-image: url("/resources/images/newdesign/bones.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+
+.offer-advert-bones:active {
+  background-color: rgb(242, 241, 241);
+}
+
+.advert-chosen-text {
+  font: 15px mySans;
+
+  margin-top: 10px;
+}
+
+.text-advert {
+  font: 14px boldSans;
+
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+.offer-advert-text {
+  margin-top: 8px;
+  width: 200px;
+  font : 15px boldSans;
+}
+
+.chosen-advert {
+  float: left;
+  height: 30px;
+  width: 40px;
+  background-image: url("/resources/images/newdesign/not-selected-advert.png");
+  background-repeat: no-repeat;
+  background-position: 8px 0px;
+}
+
+.chosen-advert:active {
+  background-image: url("/resources/images/newdesign/selected-advert.png");
+}

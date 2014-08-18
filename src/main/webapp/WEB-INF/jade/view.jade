@@ -1,6 +1,7 @@
 extends layout/layout
 block append customcss
   link(rel='stylesheet', href='/resources/css/newView.css')
+  link(rel='stylesheet', href='/resources/css/newExchange.css')
 block append content
   .content
     .title
@@ -23,5 +24,8 @@ block append content
       .picture
         img.thing-picture(src='/resources/images/thingPicture.png')
     .change-button
-      a.change(href='#') ОБМЕНЯТЬ
+      a.change.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ
+    include exchange
+block append customjs
+  script(src="/resources/js/newExchangePopup.js")
 

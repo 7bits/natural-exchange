@@ -1,6 +1,6 @@
 $(document).ready(function() {
     "use strict";
-    $(".js-entry").fancybox({
+    $(".js-newExchange").fancybox({
         "width" : 600,
         "height" : 460,
         "margin" :0,
@@ -10,14 +10,14 @@ $(document).ready(function() {
         'overlayColor' : '#000000',
         'scrolling' : 'no'
     });
-    $("#entry-form").keypress(function(e){
+    $("#new-exchange-popup").keypress(function(e){
         if(e.keyCode===13) {
             e.preventDefault();
         }
     });
     $.fancybox.resize();
-    $("#entry-form").submit(function() { return false; });
-    $("#reject").click( function(){
+    $("#new-exchange-popup").submit(function() { return false; });
+    $("#exchange-reject").click( function(){
         $.fancybox.close();
     });
 });
