@@ -134,6 +134,10 @@
   margin: 0 auto;
   margin-bottom: 50px;
 }
+.errorLk {
+  color: red;
+  font-size: 14px;
+}
 .for-email {
   width: 370px;
   height: 40px;
