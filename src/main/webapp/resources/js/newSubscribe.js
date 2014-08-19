@@ -3,6 +3,7 @@ $(document).ready(function() {
         e.preventDefault();
         var emailString = $('.for-email');
         var errorString = $('.errorLk');
+        var sendingUrl = $('.sending-form').val();
         var dataJson = {
             email: emailString.val(),
             errors: null
@@ -10,7 +11,7 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/n-exchange/new/main.html',
+            url: sendingUrl,
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
