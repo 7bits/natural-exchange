@@ -9,22 +9,22 @@ block content
       p.change-text ЗДЕСЬ ВЫ МОЖЕТЕ ОБМЕНЯТЬ
       .row1
         .games.col-md-4
-          a.game-link(href='#')
+          a.game-link(href='/new/advertisement/list.html')
             img.games-image(src='/resources/images/bones.png')
             .games-cover
-              a.category-note(href='#')
+              a.category-note(href='/new/advertisement/list.html')
                 | ИГРЫ
         .clothes.col-md-4
-          a.clothes-link(href='#')
+          a.clothes-link(href='/new/advertisement/list.html')
             img.clothes-image(src='/resources/images/score.png')
             .clothes-cover
-              a.category-note(href='#')
+              a.category-note(href='/new/advertisement/list.html')
                 | ОДЕЖДА
         .no-clothes.col-md-4
-          a.no-clothes-link(href='#')
+          a.no-clothes-link(href='/new/advertisement/list.html')
             img.no-clothes-image(src='/resources/images/book.png')
             .no-clothes-cover
-              a.category-note(href='#')
+              a.category-note(href='/new/advertisement/list.html')
                 | НЕ ОДЕЖДА
     .container.main-page
       p.many-other ... И МНОГОЕ ДРУГОЕ!
@@ -32,7 +32,7 @@ block content
         for advertisement in advertisements
           .advertisement
             img.adv-image(src='/resources/images/#{advertisement.photoFile}')
-            p.date #{advertisement.createdDate}
+            p.date #{advertisement.createdDateFormat}
             a.adv-name(href='/new/advertisement/view.html') #{advertisement.title}
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
@@ -77,8 +77,10 @@ block content
       p.edification Обменивайтесь, оставляйте пользователям отзывы и оценки, и будет вам счастье!
       p.news УЗНАВАЙТЕ НОВОСТИ ПРОЕКТА ПЕРВЫМИ!
       .subscribe-cover
-        form.subscribe-form(action='/new/main.html', method='post', name='mailingNewsFormParam')
+        form.subscribe-form
           input.for-email(type='text', placeholder='Ваш e-mail')
           input.submit-email(type='submit', value='ПОДПИСАТЬСЯ')
+          p.errorLk
 block append customjs
   script(src="/resources/js/newExchangePopup.js")
+  script(src="/resources/js/newSubscribe.js")

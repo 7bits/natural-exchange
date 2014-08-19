@@ -11,15 +11,13 @@ import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "new")
@@ -57,30 +55,30 @@ public class MainController {
     }
 
     @RequestMapping(value = "/main.html", method = RequestMethod.POST)
-    public ModelAndView subscribe(
-            final MailingNewsForm mailingNewsFormParam,
-            final BindingResult bindingResult) {
-        ModelAndView modelAndView = this.mainPage();
-
-//        modelAndView.addObject("isAnonym", true);
-//        modelAndView.addObject("isNotUser", true);
-//        modelAndView.addObject("isNotSubscriber", true);
-        if (mailingNewsFormParam.getEmailNews() != null) {
-            Subscriber newSubscriber = new Subscriber(mailingNewsFormParam.getEmailNews());
-            mailingNewsValidator.validate(mailingNewsFormParam, bindingResult);
-            if (!bindingResult.hasErrors()) {
-                MailingNewsForm mailingNewsForm = new MailingNewsForm();
-                if (this.subscriberDao.isExists(newSubscriber)) {
-                    mailingNewsForm.setEmailNews("Вы уже подписаны.");
-                } else {
-                    modelAndView.addObject("isNotSubscriber", "true");
-                    this.subscriberDao.create(newSubscriber);
-                    mailingNewsForm.setEmailNews("Ваш e-mail добавлен.");
-                }
-                modelAndView.addObject("mailingNewsForm", mailingNewsForm);
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody Map subscribe(@ModelAttribute("email") MailingNewsForm form,
+                         final BindingResult bindingResult) {
+        Map map = new HashMap();
+        mailingNewsValidator.validate(form, bindingResult);
+        if (!bindingResult.hasErrors()) {
+            Subscriber newSubscriber = new Subscriber(form.getEmailNews());
+            if (this.subscriberDao.isExists(newSubscriber)) {
+                map.put("success", false);
+                Map errors = new HashMap();
+                errors.put("exist", "Вы уже подписаны.");
+                map.put("errors", errors);
+            } else {
+                this.subscriberDao.create(newSubscriber);
+                map.put("success", true);
             }
+        } else {
+            map.put("success", false);
+            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            Map errors = new HashMap();
+            errors.put("wrong", errorMessage);
+            map.put("errors", errors);
         }
-        return modelAndView;
+        return map;
     }
 
     private String[] getAllCategories() {

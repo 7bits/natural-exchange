@@ -12,6 +12,12 @@ public class MailingNewsForm {
 
     private String emailNews;
 
+    public MailingNewsForm() {}
+
+    public MailingNewsForm(String previousEmail) {
+        emailNews = previousEmail;
+    }
+
     public String getEmailNews() {
         return emailNews;
     }
