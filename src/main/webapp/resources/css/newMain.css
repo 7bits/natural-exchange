@@ -9,22 +9,22 @@
   display: block;
   margin: 0 auto;
 }
-.games, .music {
+.games, .clothes {
   position: relative;
   padding-right: 80px;
   margin-top: 5%;
   float: left;
 }
-.liter {
+.no-clothes {
   position: relative;
   margin-top: 5%;
   float: left;
 }
-.music-link {
+.clothes-link {
   height: 100px;
 }
 
-.bones-image:hover, .music-image:hover, .liter-image:hover {
+.games-image:hover, .clothes-image:hover, .no-clothes-image:hover {
   text-decoration: none;
   border-radius: 150px;
   border: 4px solid rgb(58, 184, 184);
@@ -34,7 +34,7 @@
   /*border-radius: 150px;*/
   /*border: 4px solid rgb(58, 184, 184);*/
 /*}*/
-.bones-cover, .music-cover, .literature-cover {
+.games-cover, .clothes-cover, .no-clothes-cover {
   margin-top: 20px;
   text-align: center;
 }
@@ -49,11 +49,11 @@
   text-decoration: none;
   color: rgb(26, 178, 175);
 }
-.liter-image, .bones-image, .music-image {
+.no-clothes-image, .bones-image, .clothes-image {
   display: block;
   margin: 0 auto;
 }
-.game-link:hover, .music-link:hover, .liter-link:hover {
+.game-link:hover, .clothes-link:hover, .no-clothes-link:hover {
   color: rgb(58, 184, 184);
 }
 
@@ -133,6 +133,10 @@
 .subscribe-form {
   margin: 0 auto;
   margin-bottom: 50px;
+}
+.errorLk {
+  color: red;
+  font-size: 14px;
 }
 .for-email {
   width: 370px;

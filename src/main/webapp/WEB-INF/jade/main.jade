@@ -2,66 +2,70 @@ extends layout/layout
 block append customcss
   link(rel='stylesheet', href='/resources/css/newMain.css')
   link(rel='stylesheet', href='/resources/css/newList.css')
+  link(rel='stylesheet', href='/resources/css/newExchange.css')
 block content
   .content
     .container.head-things
       p.change-text ЗДЕСЬ ВЫ МОЖЕТЕ ОБМЕНЯТЬ
       .row1
         .games.col-md-4
-          a.game-link(href='#')
-            img.bones-image(src='/resources/images/bones.png')
-            .bones-cover
-              a.category-note(href='#')
-                | НАСТОЛЬНЫЕ
-                br
+          a.game-link(href='/new/advertisement/list.html')
+            img.games-image(src='/resources/images/bones.png')
+            .games-cover
+              a.category-note(href='/new/advertisement/list.html')
                 | ИГРЫ
-        .music.col-md-4
-          a.music-link(href='#')
-            img.music-image(src='/resources/images/score.png')
-            .music-cover
-              a.category-note(href='#')
-                | МУЗЫКАЛЬНУЮ
-                br
-                | ЛИТЕРАТУРУ
-        .liter.col-md-4
-          a.liter-link(href='#')
-            img.liter-image(src='/resources/images/book.png')
-            .literature-cover
-              a.category-note(href='#')
-                | ХУДОЖЕСТВЕННУЮ
-                br
-                | ЛИТЕРАТУРУ
+        .clothes.col-md-4
+          a.clothes-link(href='/new/advertisement/list.html')
+            img.clothes-image(src='/resources/images/score.png')
+            .clothes-cover
+              a.category-note(href='/new/advertisement/list.html')
+                | ОДЕЖДА
+        .no-clothes.col-md-4
+          a.no-clothes-link(href='/new/advertisement/list.html')
+            img.no-clothes-image(src='/resources/images/book.png')
+            .no-clothes-cover
+              a.category-note(href='/new/advertisement/list.html')
+                | НЕ ОДЕЖДА
     .container.main-page
       p.many-other ... И МНОГОЕ ДРУГОЕ!
       .row
-        .advertisement.col-md-3
-          img.adv-image(src='/resources/images/littleThingImg.png')
-          p.date 12 августа 2014
-          a.adv-name(href='/new/advertisement/view.html') НАСТОЛКА ПО ВЛАСТЕЛИНУ КОЛЕЦ
-          .name-cover
-            a.adv-owner(href='#') Иван Константинопольский
-          a.change-button(href='#') ОБМЕНЯТЬ
-        .advertisement.col-md-3
-          img.adv-image(src='/resources/images/anotherThing1.png')
-          p.date 11 августа 2014
-          a.adv-name(href='/new/advertisement/view.html') НАСТОЛКА 10000 ЛЕТ ДО НАШЕЙ ЭРЫ
-          .name-cover
-            a.adv-owner(href='#') Лена Солнышко
-          a.change-button(href='#') ОБМЕНЯТЬ
-        .advertisement.col-md-3
-          img.adv-image(src='/resources/images/stPiter.png')
-          p.date 11 августа 2014
-          a.adv-name(href='/new/advertisement/view.html') БАРЫ ПЕТЕРБУРГА НАСТОЛЬНАЯ ИГРА
-          .name-cover
-            a.adv-owner(href='#') Mari Mari
-          a.change-button(href='#') ОБМЕНЯТЬ
-        .advertisement.col-md-3
-          img.adv-image(src='/resources/images/starWars.png')
-          p.date 11 августа 2014
-          a.adv-name(href='/new/advertisement/view.html') ЗВЕЗДНЫЕ ВОЙНЫ ВОЙНА КЛОНОВ
-          .name-cover
-            a.adv-owner(href='#') Mari Mari
-          a.change-button(href='#') ОБМЕНЯТЬ
+        for advertisement in advertisements
+          .advertisement
+            img.adv-image(src='/resources/images/#{advertisement.photoFile}')
+            p.date #{advertisement.createdDateFormat}
+            a.adv-name(href='/new/advertisement/view.html') #{advertisement.title}
+            .name-cover
+              a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
+            a.change-button.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ
+            include exchange
+        //.advertisement.col-md-3
+        //  img.adv-image(src='/resources/images/littleThingImg.png')
+        //  p.date 12 августа 2014
+        //  a.adv-name(href='/new/advertisement/view.html') НАСТОЛКА ПО ВЛАСТЕЛИНУ КОЛЕЦ
+        //  .name-cover
+        //    a.adv-owner(href='#') Иван Константинопольский
+        //  a.change-button(href='#') ОБМЕНЯТЬ
+        //.advertisement.col-md-3
+        //  img.adv-image(src='/resources/images/anotherThing1.png')
+        //  p.date 11 августа 2014
+        //  a.adv-name(href='/new/advertisement/view.html') НАСТОЛКА 10000 ЛЕТ ДО НАШЕЙ ЭРЫ
+        //  .name-cover
+        //    a.adv-owner(href='#') Лена Солнышко
+        //  a.change-button(href='#') ОБМЕНЯТЬ
+        //.advertisement.col-md-3
+        //  img.adv-image(src='/resources/images/stPiter.png')
+        //  p.date 11 августа 2014
+        //  a.adv-name(href='/new/advertisement/view.html') БАРЫ ПЕТЕРБУРГА НАСТОЛЬНАЯ ИГРА
+        //  .name-cover
+        //    a.adv-owner(href='#') Mari Mari
+        //  a.change-button(href='#') ОБМЕНЯТЬ
+        //.advertisement.col-md-3
+        //  img.adv-image(src='/resources/images/starWars.png')
+        //  p.date 11 августа 2014
+        //  a.adv-name(href='/new/advertisement/view.html') ЗВЕЗДНЫЕ ВОЙНЫ ВОЙНА КЛОНОВ
+        //  .name-cover
+        //    a.adv-owner(href='#') Mari Mari
+        //  a.change-button(href='#') ОБМЕНЯТЬ
       a.show-all(href='/new/advertisement/list.html') ПОСМОТРЕТЬ ВСЕ ОБЪЯВЛЕНИЯ
       p.about О ПРОЕКТЕ
       p.text-about
@@ -76,3 +80,7 @@ block content
         form.subscribe-form
           input.for-email(type='text', placeholder='Ваш e-mail')
           input.submit-email(type='submit', value='ПОДПИСАТЬСЯ')
+          p.errorLk
+block append customjs
+  script(src="/resources/js/newExchangePopup.js")
+  script(src="/resources/js/newSubscribe.js")
