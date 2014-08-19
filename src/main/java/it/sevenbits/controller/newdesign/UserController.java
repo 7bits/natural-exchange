@@ -69,44 +69,46 @@ public class UserController {
     @Autowired
     private UserEditProfileValidator userEditProfileValidator;
 
-//    @RequestMapping(value = "/main.html", method = RequestMethod.POST)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    public @ResponseBody Map subscribe(@ModelAttribute("email") MailingNewsForm form,
-//                                       final BindingResult bindingResult) {
-//        Map map = new HashMap();
-//        mailingNewsValidator.validate(form, bindingResult);
-//        if (!bindingResult.hasErrors()) {
-//            Subscriber newSubscriber = new Subscriber(form.getEmailNews());
-//            if (this.subscriberDao.isExists(newSubscriber)) {
-//                map.put("success", false);
-//                Map errors = new HashMap();
-//                errors.put("exist", "Вы уже подписаны.");
-//                map.put("errors", errors);
-//            } else {
-//                this.subscriberDao.create(newSubscriber);
-//                map.put("success", true);
-//            }
-//        } else {
-//            map.put("success", false);
-//            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
-//            Map errors = new HashMap();
-//            errors.put("wrong", errorMessage);
-//            map.put("errors", errors);
-//        }
-//        return map;
-//    }
-
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody Map registrationRequest(@ModelAttribute("email") UserRegistrationForm form,
         final BindingResult bindingResult
        ) {
         Map map = new HashMap();
-        if (!userDao.isExistUserWithEmail(form.getEmail())) {
-            form.setIsReceiveNews(false);
-            form.setVkLink("");
-            userRegistrationValidator.validate(form, bindingResult);
-            if (!bindingResult.hasErrors()) {
+        form.setIsReceiveNews(false);
+        form.setVkLink("");
+        userRegistrationValidator.validate(form, bindingResult);
+        if (!bindingResult.hasErrors()) {
+            if (!userDao.isExistUserWithEmail(form.getEmail())) {
+                map.put("success", false);
+                Map errors = new HashMap();
+                errors.put("not-exist", "Не найден аккаунт с таким email.");
+                map.put("errors", errors);
+            } else {
+                map.put("success", true);
+                map.put("redirect", "");
+            }
+        } else {
+            map.put("success", false);
+            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            Map errors = new HashMap();
+            errors.put("wrong", errorMessage);
+            map.put("errors", errors);
+        }
+        return map;
+    }
+
+    @RequestMapping(value = "/entry.html", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody Map entryRequest(@ModelAttribute("email") UserRegistrationForm form,
+                                                 final BindingResult bindingResult
+    ) {
+        Map map = new HashMap();
+        form.setIsReceiveNews(false);
+        form.setVkLink("");
+        userRegistrationValidator.validate(form, bindingResult);
+        if (!bindingResult.hasErrors()) {
+            if (!userDao.isExistUserWithEmail(form.getEmail())) {
                 map.put("success", true);
                 Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
                 User user = new User();
@@ -133,15 +135,15 @@ public class UserController {
                 mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
             } else {
                 map.put("success", false);
-                String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
                 Map errors = new HashMap();
-                errors.put("wrong", errorMessage);
+                errors.put("exist", "Вы уже зарегистрированы.");
                 map.put("errors", errors);
             }
         } else {
             map.put("success", false);
+            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
             Map errors = new HashMap();
-            errors.put("exist", "Вы уже зарегистрированы.");
+            errors.put("wrong", errorMessage);
             map.put("errors", errors);
         }
         return map;
