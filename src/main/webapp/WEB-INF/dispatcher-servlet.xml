@@ -22,6 +22,8 @@ http://www.springframework.org/schema/p "
                 class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
             <property name="paramName" value="locale"/>
         </bean>
+
+        <bean class="it.sevenbits.helpers.HandlerInterceptor"></bean>
     </mvc:interceptors>
 
     <!-- Saves a locale change using a cookie -->

@@ -80,6 +80,7 @@ block content
         form.subscribe-form
           input.for-email(type='text', placeholder='Ваш e-mail')
           input.submit-email(type='submit', value='ПОДПИСАТЬСЯ')
+          input.sending-form(type='hidden', value='#{getCurrentRelativeURI}')
           p.errorLk
 block append customjs
   script(src="/resources/js/newExchangePopup.js")
