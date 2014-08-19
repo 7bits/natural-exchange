@@ -214,6 +214,22 @@
   margin-top: 15px;
 }
 
+.reg-error {
+  padding-top: 50px;
+  padding-left: 6px;
+
+  color: red;
+  font-size: 14px;
+}
+
+.reg-accepting {
+  padding-top: 50px;
+  padding-left: 6px;
+
+  color: green;
+  font-size: 14px;
+}
+
 .text-and-logo {
   padding-top: 20px;
   padding-right: 20px;

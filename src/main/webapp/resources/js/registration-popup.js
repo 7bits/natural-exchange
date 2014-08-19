@@ -20,7 +20,10 @@ $(document).ready(function() {
     $("#reg-reject").click( function(){
         $.fancybox.close();
     });
-    $('.js-registration-complete').click(function() {
+    $('.js-registration-complete').click(function(e) {
+        e.preventDefault();
+        var errorString = $('.reg-error');
+        var acceptString = $('.reg-accepting');
         var email = $("#reg-email").val();
         var firstName = $("#reg-first-name").val();
         var lastName = $("#reg-last-name").val();
@@ -29,21 +32,22 @@ $(document).ready(function() {
             email: email,
             firstName: firstName,
             lastName: lastName,
-            password: password
+            password: password,
+            errors: null
         };
         $.ajax({
             type: 'POST',
             url: '/n-exchange/new/user/registration.html',
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
-                if (data.success == "auth") {
+                if (data.success == true) {
                     errorString.text("");
-                    emailString.val("Ваш e-mail добавлен.");
+                    acceptString.text("Вы зарегистрированы!");
                 } else {
                     var errorVariant = data.errors;
+                    acceptString.text("");
                     if(errorVariant.exist) {
-                        emailString.val(data.errors.exist);
-                        errorString.text("");
+                        errorString.text(data.errors.exist);
                     } else if (errorVariant.wrong) {
                         errorString.text(data.errors.wrong);
                     }

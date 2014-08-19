@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,83 +69,81 @@ public class UserController {
     @Autowired
     private UserEditProfileValidator userEditProfileValidator;
 
+//    @RequestMapping(value = "/main.html", method = RequestMethod.POST)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    public @ResponseBody Map subscribe(@ModelAttribute("email") MailingNewsForm form,
+//                                       final BindingResult bindingResult) {
+//        Map map = new HashMap();
+//        mailingNewsValidator.validate(form, bindingResult);
+//        if (!bindingResult.hasErrors()) {
+//            Subscriber newSubscriber = new Subscriber(form.getEmailNews());
+//            if (this.subscriberDao.isExists(newSubscriber)) {
+//                map.put("success", false);
+//                Map errors = new HashMap();
+//                errors.put("exist", "Вы уже подписаны.");
+//                map.put("errors", errors);
+//            } else {
+//                this.subscriberDao.create(newSubscriber);
+//                map.put("success", true);
+//            }
+//        } else {
+//            map.put("success", false);
+//            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
+//            Map errors = new HashMap();
+//            errors.put("wrong", errorMessage);
+//            map.put("errors", errors);
+//        }
+//        return map;
+//    }
+
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody Map registrationRequest(@RequestParam(value = "email", required = false) final String email,
-        @RequestParam(value = "firstName", required = false) final String firstName,
-        @RequestParam(value = "lastName", required = false) final String lastName,
-        @RequestParam(value = "password", required = false) final String password
+    public @ResponseBody Map registrationRequest(@ModelAttribute("email") UserRegistrationForm form,
+        final BindingResult bindingResult
        ) {
-        Map<String, String> response = new HashMap<>();
-        if (!userDao.isExistUserWithEmail(email)) {
-            UserRegistrationForm userRegistrationForm = new UserRegistrationForm();
-            userRegistrationForm.setEmail(email);
-            userRegistrationForm.setFirstName(firstName);
-            userRegistrationForm.setLastName(lastName);
-            userRegistrationForm.setPassword(password);
-            userRegistrationForm.setIsReceiveNews(false);
-            userRegistrationForm.setVkLink("");
-//            userRegistrationValidator.validate(userRegistrationForm, );
-            response.put("success", "auth");
-            Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
-            User user = new User();
-            user.setEmail(email);
-            String userPassword = md5encoder.encodePassword(password, "");
-            user.setPassword(userPassword);
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setVk_link("");
-            user.setIsBanned(false);
-            user.setUpdateDate(TimeManager.getTime());
-            user.setCreatedDate(TimeManager.getTime());
-            user.setRole("ROLE_USER");
+        Map map = new HashMap();
+        if (!userDao.isExistUserWithEmail(form.getEmail())) {
+            form.setIsReceiveNews(false);
+            form.setVkLink("");
+            userRegistrationValidator.validate(form, bindingResult);
+            if (!bindingResult.hasErrors()) {
+                map.put("success", true);
+                Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
+                User user = new User();
+                user.setEmail(form.getEmail());
+                String userPassword = md5encoder.encodePassword(form.getPassword(), "");
+                user.setPassword(userPassword);
+                user.setFirstName(form.getFirstName());
+                user.setLastName(form.getLastName());
+                user.setVk_link("");
+                user.setIsBanned(false);
+                user.setUpdateDate(TimeManager.getTime());
+                user.setCreatedDate(TimeManager.getTime());
+                user.setRole("ROLE_USER");
 ////            if (userRegistrationFormParam.getIsReceiveNews()) {
 ////                Subscriber subscriber = new Subscriber(userRegistrationFormParam.getEmail());
 ////                if (!this.subscriberDao.isExists(subscriber)) {
 ////                    this.subscriberDao.create(subscriber);
 ////                }
 ////            }
-            user.setActivationDate(TimeManager.addDate(REGISTRATION_PERIOD));
-            String code = md5encoder.encodePassword(user.getPassword(), user.getEmail());
-            user.setActivationCode(code);
-            this.userDao.create(user);
-            mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
+                user.setActivationDate(TimeManager.addDate(REGISTRATION_PERIOD));
+                String code = md5encoder.encodePassword(user.getPassword(), user.getEmail());
+                user.setActivationCode(code);
+                this.userDao.create(user);
+                mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
+            } else {
+                map.put("success", false);
+                String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
+                Map errors = new HashMap();
+                errors.put("wrong", errorMessage);
+                map.put("errors", errors);
+            }
         } else {
-            response.put("error", "failed");
+            map.put("success", false);
+            Map errors = new HashMap();
+            errors.put("exist", "Вы уже зарегистрированы.");
+            map.put("errors", errors);
         }
-        return response;
+        return map;
     }
-
-//    @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
-//    public ModelAndView registrationRequestForm(final UserRegistrationForm userRegistrationFormParam,
-//                                                final BindingResult result) {
-//        userRegistrationValidator.validate(userRegistrationFormParam, result);
-//        if (result.hasErrors()) {
-//            return new ModelAndView("user/registration");
-//        }
-//        Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
-//        User user = new User();
-//        user.setEmail(userRegistrationFormParam.getEmail());
-//        String password = md5encoder.encodePassword(userRegistrationFormParam.getPassword(), "");
-//        user.setPassword(password);
-//        user.setFirstName(userRegistrationFormParam.getFirstName());
-//        user.setLastName(userRegistrationFormParam.getLastName());
-//        user.setVk_link(userRegistrationFormParam.getVkLink());
-//        user.setIsBanned(false);
-//        user.setUpdateDate(TimeManager.getTime());
-//        user.setCreatedDate(TimeManager.getTime());
-//        user.setRole("ROLE_USER");
-//        if (userRegistrationFormParam.getIsReceiveNews()) {
-//            Subscriber subscriber = new Subscriber(userRegistrationFormParam.getEmail());
-//            if (!this.subscriberDao.isExists(subscriber)) {
-//                this.subscriberDao.create(subscriber);
-//            }
-//        }
-//        user.setActivationDate(TimeManager.addDate(REGISTRATION_PERIOD));
-//        String code = md5encoder.encodePassword(user.getPassword(), user.getEmail() );
-//        user.setActivationCode(code);
-//        this.userDao.create(user);
-//        mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
-//        return new ModelAndView("user/regUserLink");
-//    }
 }
