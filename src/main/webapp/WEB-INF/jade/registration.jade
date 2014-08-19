@@ -9,15 +9,15 @@ div.hidden
       div.registration-form.nexchange-mainbg
         div.text-center.entry-text Чтобы обмениваться и размещать свои
         div.text-center.entry-text предложения, войдите или зарегистрируйтесь
-        input(type='email', placeholder='Ваш e-mail').form-rounded-button.hollow-text
-        input(type='text', placeholder='Ваше имя').form-rounded-button.hollow-text
-        input(type='text', placeholder='Ваша фамилия').form-rounded-button.hollow-text
-        input(type='text', placeholder='Пароль').form-rounded-button.hollow-text
-        div.border-file-choose
+        input#reg-email(type='email', placeholder='Ваш e-mail').form-rounded-button.hollow-text
+        input#reg-first-name(type='text', placeholder='Ваше имя').form-rounded-button.hollow-text
+        input#reg-last-name(type='text', placeholder='Ваша фамилия').form-rounded-button.hollow-text
+        input#reg-pass(type='text', placeholder='Пароль').form-rounded-button.hollow-text
+        //div.border-file-choose
           div.file-hollow-text
             | Фотография
           button#entry.reg-rounded-button.file-choose ВЫБРАТЬ ФАЙЛ
         div.reg-and-logo
-          a#registr(href='').rounded-button.reg.small-tab-text ЗАРЕГЕСТРИРОВАТЬСЯ
-          a(href='').vk-logo.logo-pos
+          a#registr(href='').rounded-button.reg.small-tab-text.js-registration-complete ЗАРЕГЕСТРИРОВАТЬСЯ
+          a(href='').vk-logo.logo-pos.js-vk-entry
 
