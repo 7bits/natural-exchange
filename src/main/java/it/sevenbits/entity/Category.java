@@ -35,6 +35,22 @@ public class Category {
         isDeleted = deleted;
     }
 
+    public String getReallyName() {
+        String result = "";
+        switch(name) {
+            case "games":
+                result = "Игры";
+                break;
+            case "clothes":
+                result = "Одежда";
+                break;
+            default:
+                result = "Не одежда";
+                break;
+        }
+        return result;
+    }
+
     public String getName() {
         return name;
     }

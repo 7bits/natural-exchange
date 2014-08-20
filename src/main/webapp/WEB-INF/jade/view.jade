@@ -4,25 +4,24 @@ block append customcss
   link(rel='stylesheet', href='/resources/css/newExchange.css')
 block append content
   .content
-    .title
-      | НАСТОЛЬНАЯ ИГРА КАРКАССОН
+    .title #{advertisement.getTitle()}
     .advertisement-container
       .information
         .category
           | Категрия:
-          a.concrete-category НАСТОЛЬНЫЕ ИГРЫ
+          a.concrete-category #{category.getReallyName()}
         .tags
           | Теги:
-          a.tag(href='#') НАСТОЛКИ
+          for tag in tags
+            a.tag(href='#{uri.uri("/new/advertisement/list.html?keyWords=" + tag.getName())}') #{tag.getName()}
         .description
           | Описание:
-          p.current-description
-            | Вы – феодальный правитель одной из провинций средневековой Франции. Вам предстоит расширять свои владения, строить города и монастыри, прокладывать дороги и не забывать мудро управлять своими подданными, ведь именно они приносят вам успех в соперничестве с соседями.
+          p.current-description #{advertisement.getText()}
         .who-change
           | Меняет:
-          a.change-user(href='#') Mari Mari
+          a.change-user(href='#') #{fullUserName}
       .picture
-        img.thing-picture(src='/resources/images/thingPicture.png')
+        img.thing-picture(src='/resources/images/#{advertisement.getPhotoFile()}')
     .change-button
       a.change.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ
     include exchange

@@ -5,6 +5,9 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.CategoryDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
+import it.sevenbits.entity.User;
+import it.sevenbits.entity.hibernate.AdvertisementEntity;
+import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.util.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -208,7 +211,21 @@ public class AdvertisementListController {
     }
 
     @RequestMapping(value = "/view.html", method = RequestMethod.GET)
-    public ModelAndView showAdvertisement() {
-        return new ModelAndView("view.jade");
+    public ModelAndView showAdvertisement(@RequestParam(value = "id", required = true) final Long id) {
+        ModelAndView modelAndView = new ModelAndView("view.jade");
+        Advertisement advertisement = this.advertisementDao.findById(id);
+        User user = advertisement.getUser();
+        Category category = advertisement.getCategory();
+        modelAndView.addObject("fullUserName", user.getFirstName() + " " + user.getLastName());
+        modelAndView.addObject("advertisement", advertisement);
+        modelAndView.addObject("category", category);
+        Set<TagEntity> tagsSet = this.getTagsFromAdvertisementById(id);
+        modelAndView.addObject("tags", tagsSet);
+        return modelAndView;
+    }
+
+    private Set<TagEntity> getTagsFromAdvertisementById(long id) {
+        AdvertisementEntity advertisementEntity = (AdvertisementEntity) this.advertisementDao.findById(id);
+        return advertisementEntity.getTags();
     }
 }
