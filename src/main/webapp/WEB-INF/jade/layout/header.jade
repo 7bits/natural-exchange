@@ -16,6 +16,8 @@
         br
         | EXCHANGE
     .main-links
+      if isAuthComplete
+        p Вы успешно зарегистрировались на нашем сайте. Мы очень Вам рады!
       ul.menu-list
         li
           a.add-advertisement(href='/new/advertisement/placing.html') ДОБАВИТЬ ПРЕДЛОЖЕНИЕ

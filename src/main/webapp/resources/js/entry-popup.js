@@ -26,7 +26,7 @@ $(document).ready(function() {
         var acceptString = $('.reg-accepting');
         var email = $("#entry-email").val();
         var password = $("#entry-pass").val();
-        var redirectUrl = $('.entry-form').data("url");
+        var redirectUrl = $('.js-entry-form').data("url");
         var dataJson = {
             email: email,
             password: password,
@@ -48,6 +48,8 @@ $(document).ready(function() {
                         errorString.text(data.errors.wrong);
                     } else if (errorVariant.wrongPassword) {
                         errorString.text(data.errors.wrongPassword);
+                    } else if (errorVariant.notRegistrationComplete) {
+                        errorString.text(data.errors.notRegistrationComplete);
                     }
                 }
             },

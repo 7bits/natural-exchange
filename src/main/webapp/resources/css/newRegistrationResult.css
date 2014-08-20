@@ -1,0 +1,28 @@
+.registrationResult {
+  background-color: rgb(248, 184, 50);
+  height: 400px;
+}
+
+.center {
+  text-align: center;
+
+  font: 14px mySans;
+}
+
+.to-main-button {
+  margin-left: 30px;
+  margin-top: 30px;
+
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-family: boldSans;
+  font-size: 13px;
+  text-decoration: none;
+  outline: 0;
+  color: rgb(255, 255, 255);
+  background-color: rgb(243, 152, 34);
+  border: none;
+  border-radius: 100px;
+}

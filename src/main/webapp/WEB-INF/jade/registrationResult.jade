@@ -1,0 +1,8 @@
+extends layout/layout
+
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newRegistrationResult.css')
+block content
+  .registrationResult
+    div.center-text Вы успешно зарегистрировались на нашем сайте. Мы очень Вам рады!
+    a(href='#{uri.uri("/new/main.html")}').to-main-button НА ГЛАВНУЮ

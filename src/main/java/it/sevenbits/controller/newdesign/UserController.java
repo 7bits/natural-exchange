@@ -141,12 +141,19 @@ public class UserController {
                 Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
                 User user = userDao.findUserByEmail(form.getEmail());
                 if (user.getPassword().equals(md5PasswordEncoder.encodePassword(form.getPassword(), ""))) {
-                    map.put("success", true);
-                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-                    UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
-                    token.setDetails(usrDet);
-                    SecurityContext context = SecurityContextHolder.getContext();
-                    context.setAuthentication(token);
+                    if (user.getActivationDate() != 0L) {
+                        map.put("success", false);
+                        Map errors = new HashMap();
+                        errors.put("notRegistrationComplete", "Вы не активировали свой аккаунт.");
+                        map.put("errors", errors);
+                    } else {
+                        map.put("success", true);
+                        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                        UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
+                        token.setDetails(usrDet);
+                        SecurityContext context = SecurityContextHolder.getContext();
+                        context.setAuthentication(token);
+                    }
                 } else {
                     map.put("success", false);
                     Map errors = new HashMap();

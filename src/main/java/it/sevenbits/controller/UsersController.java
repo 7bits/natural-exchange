@@ -157,7 +157,7 @@ public class UsersController {
             return new ModelAndView("user/conf_failed");
         }
         if (user.getActivationDate() == 0) {
-            return new ModelAndView("user/loginRes");
+            return new ModelAndView("registrationResult");
         }
         if (checkRegistrationLink(user, codeParam)) {
             this.userDao.updateActivationCode(user);
@@ -167,7 +167,7 @@ public class UsersController {
             token.setDetails(usrDet);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(token);
-            return new ModelAndView("user/loginRes");
+            return new ModelAndView("registrationResult");
         } else {
             return new ModelAndView("user/conf_failed");
         }
