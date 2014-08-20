@@ -1,5 +1,6 @@
 package it.sevenbits.helpers;
 
+import it.sevenbits.helpers.jadeHelpers.CallFunctionHelper;
 import it.sevenbits.helpers.jadeHelpers.UrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 public class HandlerInterceptor extends HandlerInterceptorAdapter {
 
     private UrlService urlService = new UrlService();
+
+    private CallFunctionHelper callFunctionHelper = new CallFunctionHelper();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

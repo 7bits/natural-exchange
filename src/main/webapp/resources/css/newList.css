@@ -184,7 +184,19 @@ select {
   list-style-type: none;
   margin-right: 10px;
 }
-.second, .third {
+.trine {
+  text-decoration: none;
+  font-family: boldSans;
+  font-size: 30px;
+  color: rgb(243, 152, 34);
+}
+.trine:hover {
+  color: rgb(0, 0, 0);
+}
+.mark {
+  background-color: rgb(243, 152, 34);
+}
+.page-link {
   padding-top: 5px;
   padding-bottom: 5px;
   padding-right: 10px;
@@ -195,19 +207,7 @@ select {
   font-size: 17px;
   color: rgb(255, 255, 255);
 }
-.first {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 13px;
-  padding-right: 13px;
-  text-decoration: none;
-  border-radius: 100px;
-  font-family: boldSans;
-  font-size: 17px;
-  color: rgb(255, 255, 255);
-  background-color: rgb(243, 152, 34);
-}
-.pages li a:hover {
+.page-link:hover {
   background-color: rgb(243, 152, 34);
 }
 .to-know {
@@ -217,8 +217,6 @@ select {
   font-size: 14px;
 }
 .lower-case {
-
-
 }
 .e-mail-field {
   margin-bottom: 20px;
@@ -243,6 +241,10 @@ select {
   border-radius: 100px;
   background-color: rgb(243, 152, 34);
   border: none;
+}
+.error-pointer {
+  color: red;
+  font-size: 14px;
 }
 
 @font-face {
