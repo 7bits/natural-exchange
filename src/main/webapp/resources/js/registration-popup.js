@@ -18,6 +18,15 @@ $(document).ready(function() {
     $.fancybox.resize();
     $("#registration-form").submit(function() { return false; });
     $("#reg-reject").click( function(){
+        errorString.text("");
+        acceptString.text("");
+        $.fancybox.close();
+    });
+    $(".js-entry").click( function(){
+        var errorString = $('.reg-error');
+        var acceptString = $('.reg-accepting');
+        errorString.text("");
+        acceptString.text("");
         $.fancybox.close();
     });
     $('.js-registration-complete').click(function(e) {

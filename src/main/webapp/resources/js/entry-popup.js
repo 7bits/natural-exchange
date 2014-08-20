@@ -18,6 +18,17 @@ $(document).ready(function() {
     $.fancybox.resize();
     $("#entry-form").submit(function() { return false; });
     $("#reject").click( function(){
+        var errorString = $('.reg-error');
+        var acceptString = $('.reg-accepting');
+        errorString.text("");
+        acceptString.text("");
+        $.fancybox.close();
+    });
+    $("js-registration").click( function(){
+        var errorString = $('.reg-error');
+        var acceptString = $('.reg-accepting');
+        errorString.text("");
+        acceptString.text("");
         $.fancybox.close();
     });
     $('.js-entry-complete').click(function(e) {
