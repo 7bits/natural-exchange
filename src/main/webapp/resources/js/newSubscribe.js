@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    "use strict";
     $('.submit-email').click(function(e) {
         e.preventDefault();
         var emailString = $('.for-email');
@@ -34,7 +35,7 @@ $(document).ready(function() {
             }
         })
 
-    },
+    });
     $('.e-mail-submit').click(function(e) {
         e.preventDefault();
         var emailString = $('.e-mail-field');
@@ -70,5 +71,4 @@ $(document).ready(function() {
             }
         })
     })
-    )
 });
