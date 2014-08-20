@@ -28,6 +28,7 @@ $(document).ready(function() {
         var firstName = $("#reg-first-name").val();
         var lastName = $("#reg-last-name").val();
         var password = $("#reg-pass").val();
+        var sendingUrl = $(".registration-form").data("url");
         var dataJson = {
             email: email,
             firstName: firstName,
@@ -37,7 +38,7 @@ $(document).ready(function() {
         };
         $.ajax({
             type: 'POST',
-            url: '/n-exchange/new/user/registration.html',
+            url: sendingUrl,
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {

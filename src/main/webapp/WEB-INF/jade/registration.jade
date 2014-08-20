@@ -1,6 +1,6 @@
 div.hidden
   div#registration-form
-    form#enter(method='get')
+    form#enter(method='get').registration-form(data-url='#{uri.uri("/new/user/registration.html")}')
       div.enter-head
         a(href='#entry-form').rounded.enter-ref.tab-text.js-entry ВХОД
         div.tab-and-exit
