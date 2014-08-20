@@ -22,10 +22,12 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         String relativePath = request.getServletPath();
         String fullPath = this.urlService.uri(relativePath);
-        String currentPage = urlService.getAfterDomenPath() + relativePath;
+        String prefix = urlService.getAfterDomenPath();
+        String currentPage = prefix + relativePath;
         
         modelAndView.addObject("getCurrentFullURI", fullPath);
         modelAndView.addObject("getCurrentRelativeURI", currentPage);
+        modelAndView.addObject("getPrefix", prefix);
         super.postHandle(request, response, handler, modelAndView);
     }
 }
