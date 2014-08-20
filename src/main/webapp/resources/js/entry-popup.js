@@ -38,6 +38,7 @@ $(document).ready(function() {
         var email = $("#entry-email").val();
         var password = $("#entry-pass").val();
         var redirectUrl = $('.js-entry-form').data("url");
+        var mainUrl = $('.js-entry-form').data("mainurl");
         var dataJson = {
             email: email,
             password: password,
@@ -45,7 +46,7 @@ $(document).ready(function() {
         };
         $.ajax({
             type: 'POST',
-            url: '/n-exchange/new/user/entry.html',
+            url: mainUrl,
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
