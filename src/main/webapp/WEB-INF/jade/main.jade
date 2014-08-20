@@ -77,10 +77,9 @@ block content
       p.edification Обменивайтесь, оставляйте пользователям отзывы и оценки, и будет вам счастье!
       p.news УЗНАВАЙТЕ НОВОСТИ ПРОЕКТА ПЕРВЫМИ!
       .subscribe-cover
-        form.subscribe-form
+        form.subscribe-form(data-url='#{uri.uri("/new/main.html")}')
           input.for-email(type='text', placeholder='Ваш e-mail')
           input.submit-email(type='submit', value='ПОДПИСАТЬСЯ')
-          input.sending-form(type='hidden', value='#{getCurrentRelativeURI}')
           p.errorLk
 block append customjs
   script(src="/resources/js/newExchangePopup.js")

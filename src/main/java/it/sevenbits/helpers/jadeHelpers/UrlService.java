@@ -43,7 +43,7 @@ public class UrlService {
         StringTokenizer tokenizer = new StringTokenizer(result, "/");
         int parts = tokenizer.countTokens();
         List<String> urlParts = new ArrayList<String>();
-        if (parts > this.START_URL_PART) {
+        if (parts >= this.START_URL_PART) {
 
             for (int i = 0; i < parts; i++) {
                 if (i >= this.START_URL_PART) {
@@ -56,8 +56,6 @@ public class UrlService {
             for (int i = 0; i < urlParts.size(); i++) {
                 result += '/' + urlParts.get(i);
             }
-        } else if (parts == this.START_URL_PART) {
-            result = "/";
         }
         return result;
     }
@@ -71,6 +69,10 @@ public class UrlService {
         } catch (IOException e) {
             return DEFAULT_PAGE;
         }
-        return prop.getProperty("mail.service.domen");
+        String result = prop.getProperty("mail.service.domen");
+        if (result == null) {
+            result = prop.getProperty("application.domen");
+        }
+        return result;
     }
 }

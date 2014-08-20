@@ -3,7 +3,7 @@ $(document).ready(function() {
         e.preventDefault();
         var emailString = $('.for-email');
         var errorString = $('.errorLk');
-        var sendingUrl = $('.sending-form').val();
+        var sendingUrl = $('.subscribe-form').data("url");
         var dataJson = {
             email: emailString.val(),
             errors: null
