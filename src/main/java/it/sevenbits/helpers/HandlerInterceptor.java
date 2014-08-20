@@ -24,7 +24,7 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
         String fullPath = this.urlService.uri(relativePath);
         String prefix = urlService.getAfterDomenPath();
         String currentPage = prefix + relativePath;
-        
+
         modelAndView.addObject("getCurrentFullURI", fullPath);
         modelAndView.addObject("getCurrentRelativeURI", currentPage);
         modelAndView.addObject("getPrefix", prefix);
