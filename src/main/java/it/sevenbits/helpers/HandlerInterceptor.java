@@ -1,6 +1,5 @@
 package it.sevenbits.helpers;
 
-import it.sevenbits.helpers.jadeHelpers.AuthService;
 import it.sevenbits.helpers.jadeHelpers.UrlService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -12,6 +11,8 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
 
     private final AuthService authService = new AuthService();
     private UrlService urlService = new UrlService();
+
+    private CallFunctionHelper callFunctionHelper = new CallFunctionHelper();
 
 
     @Override

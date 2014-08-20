@@ -106,7 +106,7 @@
     </session-config>
 
     <welcome-file-list>
-        <welcome-file>/advertisement/list.html</welcome-file>
+        <welcome-file>/new/main.html</welcome-file>
     </welcome-file-list>
 
     <error-page>
