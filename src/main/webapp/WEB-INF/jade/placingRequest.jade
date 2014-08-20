@@ -1,0 +1,9 @@
+extends layout/layout
+
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newRegistrationResult.css')
+block content
+  .registrationResult
+    div.center-text Ваше объявление очень важно для нас!
+    a(href='#{uri.uri("/new/main.html")}').to-main-button НА ГЛАВНУЮ
+

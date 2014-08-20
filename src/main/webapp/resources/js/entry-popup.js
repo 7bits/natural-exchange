@@ -17,7 +17,7 @@ $(document).ready(function() {
     });
     $.fancybox.resize();
     $("#entry-form").submit(function() { return false; });
-    $("#reject").click( function(){
+    $("#entry-reject").click( function(){
         var errorString = $('.reg-error');
         var acceptString = $('.reg-accepting');
         errorString.text("");
