@@ -24,8 +24,9 @@ $(document).ready(function() {
         e.preventDefault();
         var errorString = $('.reg-error');
         var acceptString = $('.reg-accepting');
-        var email = $("#reg-email").val();
-        var password = $("#reg-pass").val();
+        var email = $("#entry-email").val();
+        var password = $("#entry-pass").val();
+        var redirectUrl = $('.entry-form').data("url");
         var dataJson = {
             email: email,
             password: password,
@@ -37,21 +38,23 @@ $(document).ready(function() {
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
-                    errorString.text("");
-                    acceptString.text("");
+                    window.location.href = redirectUrl;
                 } else {
                     var errorVariant = data.errors;
                     acceptString.text("");
-                    if(errorVariant.exist) {
-                        errorString.text(data.errors.exist);
+                    if(errorVariant.notExist) {
+                        errorString.text(data.errors.notExist);
                     } else if (errorVariant.wrong) {
                         errorString.text(data.errors.wrong);
+                    } else if (errorVariant.wrongPassword) {
+                        errorString.text(data.errors.wrongPassword);
                     }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                errorString.text("Активируйте свой аккаунт прежде чем войти.");
                 if(jqXHR.status==404) {
-                    alert(errorThrown);
+//                    alert(errorThrown);
                 }
             }
         })

@@ -178,13 +178,6 @@ public class UsersController {
         return new ModelAndView("user/conf_failed");
     }
 
-    @RequestMapping(value = "/logout.html", method = RequestMethod.GET)
-    public ModelAndView logout() {
-        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
-        return new ModelAndView("advertisement/list");
-    }
-
-
     @RequestMapping(value = "/userProfile.html", method = RequestMethod.GET)
     public ModelAndView seeProfile() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

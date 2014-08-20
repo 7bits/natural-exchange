@@ -22,11 +22,4 @@ public class LoginController {
         modelAndView.addObject("url", vkService.getDomen() + "/VK/auth.html");
         return modelAndView;
     }
-
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout(final ModelMap model) {
-         return "login";
-     }
-
 }

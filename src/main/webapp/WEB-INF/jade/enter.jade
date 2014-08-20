@@ -1,6 +1,6 @@
 div.hidden
   div#entry-form
-    form#enter(method='get')
+    form#enter(method='get').entry-form(data-url='#{uri.uri("/new/main.html")}')
       div.enter-head
         div.rounded.enter-tab.tab-text ВХОД
         div.tab-and-exit
@@ -9,8 +9,8 @@ div.hidden
       div.entry-form.nexchange-mainbg
         div.text-center.entry-text Чтобы обмениваться и размещать свои
         div.text-center.entry-text предложения, войдите или зарегистрируйтесь
-        input(type='email', placeholder='Ваш e-mail').form-rounded-button.hollow-text
-        input(type='text', placeholder='Пароль').form-rounded-button.hollow-text
+        input#entry-email(type='email', placeholder='Ваш e-mail').form-rounded-button.hollow-text
+        input#entry-pass(type='text', placeholder='Пароль').form-rounded-button.hollow-text
         div.end-form
           a#entry(href='').rounded-button.entry.small-tab-text.js-entry-complete ВОЙТИ
           div.text-and-logo

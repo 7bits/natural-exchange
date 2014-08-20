@@ -28,9 +28,9 @@
         <security:intercept-url pattern="/moderator/*" access="ROLE_MODERATOR, ROLE_ADMIN"/>
 
         <security:form-login login-page='/login.html'
-                             default-target-url='/advertisement/list.html'
+                             default-target-url='/new/main.html'
                              authentication-failure-url="/auth_failed.html"/>
-        <security:logout logout-url="/user/logout.html"/>
+        <security:logout logout-url="/user/logout.html" logout-success-url="/new/main.html"/>
         <security:anonymous username="guest"  granted-authority="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
         <session-management>

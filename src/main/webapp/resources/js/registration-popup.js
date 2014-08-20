@@ -42,7 +42,7 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
                     errorString.text("");
-                    acceptString.text("Вы зарегистрированы!");
+                    acceptString.text("Вы зарегистрированы! На ваш email выслано подтверждение вашего аккаунта.");
                 } else {
                     var errorVariant = data.errors;
                     acceptString.text("");
