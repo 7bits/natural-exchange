@@ -26,7 +26,7 @@ public class VkService {
         map.add("client_id", "4491913");
         map.add("client_secret", "Vvsmg0wg4bLTjBguOjcN");
         map.add("code", code);
-        map.add("redirect_uri", domen + "/VK/auth.html");
+        map.add("redirect_uri", domen + "/new/VK/auth.html");
         return rest.postForObject("https://oauth.vk.com/access_token", map, Map.class);
     }
 

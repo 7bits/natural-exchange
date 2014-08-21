@@ -1,0 +1,8 @@
+extends ../layout/layout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newRegistrationResult.css')
+block content
+  .registrationResult
+    div.center-text Ваш профиль создан. Вам отправлено письмо с активационной ссылкой.
+      |  Пройдите по ссылке, чтобы активировать свой аккаунт.
+    a(href='#{uri.uri("/new/main.html")}').to-main-button НА ГЛАВНУЮ

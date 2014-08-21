@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "VK")
+@RequestMapping(value = "new/VK")
 public class VKAuthorizationController {
 
     @Autowired
@@ -51,18 +51,20 @@ public class VKAuthorizationController {
             token.setDetails(usrDet);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(token);
-            return "redirect:/advertisement/list.html";
+            return "redirect:/new/advertisement/list.html";
         } else {
             String[] parameters = {"first_name", "last_name"};
-            VkEntryEmailForm VkEntryEmailForm = new VkEntryEmailForm();
+//            VkEntryEmailForm vkEntryEmailForm = new VkEntryEmailForm();
             LinkedHashMap<String, Object> vkResponse = vkService.getUserDataById(userId, parameters);
             if (vkResponse == null) {
                 return "redirect:/access_denied";
             }
-            VkEntryEmailForm.setFirst_name((String)vkResponse.get("first_name"));
-            VkEntryEmailForm.setLast_name((String)vkResponse.get("last_name"));
-            VkEntryEmailForm.setVk_link(userId);
-            model.addAttribute("vkEntryEmailForm", VkEntryEmailForm);
+//            vkEntryEmailForm.setFirst_name((String)vkResponse.get("first_name"));
+//            vkEntryEmailForm.setLast_name((String)vkResponse.get("last_name"));
+//            vkEntryEmailForm.setVk_link(userId);
+            model.addAttribute("first_name", (String)vkResponse.get("first_name"));
+            model.addAttribute("last_name", (String)vkResponse.get("last_name"));
+            model.addAttribute("vk_link", userId);
             return "VK/auth";
         }
     }

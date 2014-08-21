@@ -1,6 +1,7 @@
 div.hidden
   div#new-exchange-popup
-    form#exchange-form(method='get')
+    form#exchange-form(method='get', action="exchange.html", commandName="exchangeForm")
+      input(type='hidden', name="idExchangeOwnerAdvertisement")
       div.enter-head
           a#exchange-reject.vk-cross-circle
       div.exchange-form.nexchange-mainbg
@@ -24,6 +25,6 @@ div.hidden
                     div.offer-advert-text ЗАПАСНОЙ НАБОР КУБИКОВ
         div.text-center.advert-chosen-text Вы выбрали:
         div.text-advert НАСТОЛЬНАЯ ИГРА ПО ВЛАСТЕЛИНУ КОЛЕЦ
-        textarea(placeholder="Ваше сообщение владельцу").form-rounded-button.hollow-text.offer-message
+        textarea(placeholder="Ваше сообщение владельцу", name="exchangePropose").form-rounded-button.hollow-text.offer-message
         div.end-form
-          a#entry(href='').exchange-button ПРЕДЛОЖИТЬ ОБМЕН
+          input(type='submit', value='ПРЕДЛОЖИТЬ ОБМЕН').exchange-button
