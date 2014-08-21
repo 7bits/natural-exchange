@@ -1,0 +1,28 @@
+extends ../layout/layout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newCabinet.css')
+block content
+  .content
+    .user-container
+      .user-information
+        img.user-image(src='/resources/images/user.png')
+        p.user-name
+          | Иван
+          br
+          | Константинопольский
+        p.user-email-cover
+          a.user-email(href='#') ivan.const@yandex.ru
+        p.edit-user-cover
+          a.edit-user-profile(href='#') Редактировать
+        p.fix-text Дата регистрации:
+        p.register-date 8 августа 2014
+        .change-block
+          p.fix-text Произведено обменов:
+          p.change-count 10
+      .right-block
+        .user-page
+          ul.pages
+            li
+              a.inset(href='#') ЛИЧНЫЙ КАБИНЕТ
+            li
+              a.inset(href='#') МОИ ОБМЕНЫ

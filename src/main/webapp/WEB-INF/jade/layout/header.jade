@@ -2,7 +2,7 @@
   .header
     .right-top-links
       if auth.isAuthenticated()
-        a(href='').entire Личный кабинет
+        a(href='#{uri.uri("/new/user/userprofile/searches.html")}').entire Личный кабинет
         | /
         a(href='#{uri.uri("/user/logout.html")}').registration Выход
       else
