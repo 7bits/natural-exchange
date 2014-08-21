@@ -1,2 +1,30 @@
 extends cabinet/cabinetLayout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newSearches.css')
+block information
+  p.saveSearchText СОХРАНЕННЫЕ ПАРАМЕТРЫ ПОИСКА
+    .savingSearch
+      a.deleteSearch(href='#')
+        img(src='/resources/images/deleteNotActive.png')
+      a.editSearch(href='#')
+        img(src='/resources/images/editActive.png')
+      .nameAndCategory
+        a.thingName(href='#') Укулеле
+        p.categoryName МУЗЫКАЛЬНЫЕ ИНСТРУМЕНТЫ
+      a.tag(href='#') инструменты
+      a.tag(href='#') струнные
+      a.tag(href='#') укулеле
+    p.spacer
+      | ___________________________________________________________________________________________
+    .savingSearch
+      a.deleteSearch(href='#')
+        img(src='/resources/images/deleteNotActive.png')
+      a.editSearch(href='#')
+        img(src='/resources/images/editActive.png')
+      .nameAndCategory
+        a.thingName(href='#') монополия
+        p.categoryName НАСТОЛЬНЫЕ ИГРЫ
+      a.tag(href='#') игры
+    p.spacer
+      | ___________________________________________________________________________________________
 

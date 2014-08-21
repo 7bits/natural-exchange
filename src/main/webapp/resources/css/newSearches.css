@@ -1,0 +1,66 @@
+.deleteSearch, .editSearch {
+  overflow: hidden;
+  float: right;
+}
+.saveSearchText {
+  margin-bottom: 50px;
+  line-height: 40px;
+  font-family: boldSans;
+  font-size: 22px;
+}
+.savingSearch {
+  overflow: hidden;
+}
+.nameAndCategory {
+  display: inline;
+}
+.thingName {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  margin-right: 38px;
+  float: left;
+  display: inherit;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  font-family: boldSans;
+  font-size: 16px;
+}
+.categoryName {
+  margin: 5px;
+  margin-right: 48px;
+  float: left;
+  display: inherit;
+  color: rgb(223, 83, 70);
+  font-family: boldSans;
+  font-size: 13px;
+  font-size: 15px;
+}
+
+.editSearch, .deleteSearch {
+  margin-left: 7px;
+  opacity: 0.5;
+}
+.editSearch:hover, .deleteSearch:hover {
+  opacity: 1;
+}
+
+.tag {
+  float: left;
+  margin-right: 25px;
+  margin-bottom: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 20px;
+  padding-left: 20px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-family: boldSans;
+  background-color: rgb(223, 83, 70);
+  border-radius: 100px;
+}
+.spacer {
+  margin-top: 0px;
+  margin-bottom: 27px;
+  color: rgb(243, 152, 34);
+  font-weight: bold;
+}
