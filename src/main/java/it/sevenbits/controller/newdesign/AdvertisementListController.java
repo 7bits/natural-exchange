@@ -1,31 +1,27 @@
 package it.sevenbits.controller.newdesign;
 
 
-import it.sevenbits.dao.*;
 import it.sevenbits.entity.*;
-import it.sevenbits.services.mail.MailSenderService;
-import it.sevenbits.util.FileManager;
-import it.sevenbits.entity.User;
+import it.sevenbits.dao.*;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
+import it.sevenbits.services.mail.MailSenderService;
+import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.ExchangeForm;
-import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import it.sevenbits.util.form.validator.ExchangeFormValidator;
-import it.sevenbits.util.form.validator.MailingNewsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.security.core.Authentication;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -50,6 +46,9 @@ public class AdvertisementListController {
 
     @Autowired
     private SubscriberDao subscriberDao;
+
+    @Autowired
+    private SearchVariantDao searchVariantDao;
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public ModelAndView list(@RequestParam(value = "currentPage", required = false) final Integer previousPage,
@@ -231,6 +230,36 @@ public class AdvertisementListController {
             keyWords[i] = token.nextToken();
         }
         return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories, keyWords, sortOrder, sortColumn);
+    }
+
+    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody Map saveSearch(
+            @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
+            @RequestParam(value = "currentCategory", required = false) final String previousCategory,
+            @RequestParam(value = "currentPage", required = false) final Integer previousPage) {
+//        String redirectAddress = "redirect:/new/advertisement/list.html?";
+//        if (previousPage != null) {
+//            redirectAddress += "currentPage=" + previousPage.toString() + "&";
+//        }
+//        if (previousKeyWords != null) {
+//            redirectAddress += "currentPage=" + previousKeyWords + "&";
+//        }
+//        if (previousKeyWords != null) {
+//            redirectAddress += "currentPage=" + previousCategory;
+//        }
+        Map map = new HashMap<>();
+        map.put("currentCategory", previousCategory);
+        map.put("currentPage", previousPage);
+        map.put("keyWords", previousKeyWords);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails user = (UserDetails) principal;
+            String email = user.getUsername();
+            SearchVariant searchVariant = new SearchVariant(email, previousKeyWords, previousCategory);
+            searchVariantDao.create(searchVariant);
+        }
+        return map;
     }
 
     @RequestMapping(value = "/view.html", method = RequestMethod.GET)

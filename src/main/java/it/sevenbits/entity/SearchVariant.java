@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 /**
@@ -63,6 +64,27 @@ public class SearchVariant {
 
     public Long getCreatedDate() {
         return createdDate;
+    }
+
+    public String getRealCategories() {
+        StringTokenizer tokenizer = new StringTokenizer(categories);
+        String result = "";
+        int length = tokenizer.countTokens();
+        for (int i = 0; i < length; i++) {
+            switch (tokenizer.nextToken()) {
+                case "games":
+                    result += "ИГРЫ";
+                    break;
+                case "clothes":
+                    result += "ОДЕЖДА";
+                    break;
+                default:
+                    result += "НЕ ОДЕЖДА";
+                    break;
+            }
+            result += ' ';
+        }
+        return result;
     }
 
     /**

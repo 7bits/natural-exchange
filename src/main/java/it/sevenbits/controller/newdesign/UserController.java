@@ -5,7 +5,9 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
+import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
+import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.TimeManager;
@@ -20,8 +22,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -175,12 +180,31 @@ public class UserController {
     @RequestMapping(value = "/userprofile/searches.html", method = RequestMethod.GET)
     public ModelAndView showUserProfile() {
         ModelAndView modelAndView = new ModelAndView("userSearch.jade");
+        Long id = this.getCurrentUser();
+        User currentUser = this.userDao.findById(id);
+        List<SearchVariant> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        modelAndView.addObject("currentUser", currentUser);
+        modelAndView.addObject("userPage", "searches.html");
+        modelAndView.addObject("searchVariants", searchVariantList);
         return modelAndView;
     }
 
     @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
     public ModelAndView showUserAdvertisements() {
         ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
+        Long id = this.getCurrentUser();
+        User currentUser = this.userDao.findById(id);
+        modelAndView.addObject("userPage", "advertisements.html");
+        modelAndView.addObject("currentUser", currentUser);
         return modelAndView;
+    }
+
+    private Long getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            UserEntity userEntity = (UserEntity) auth.getPrincipal();
+            return userEntity.getId();
+        }
+        return (long) 0;
     }
 }
