@@ -43,7 +43,7 @@ block content
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
             a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
-            include exchange
+        include exchange
       .pages
         ul.page-list
           if (previous == true)

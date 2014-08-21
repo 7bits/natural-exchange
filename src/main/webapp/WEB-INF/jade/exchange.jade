@@ -1,6 +1,6 @@
 div.hidden
   div#new-exchange-popup
-    form#exchange-form(method='get', action="exchange.html", commandName="exchangeForm")
+    form#exchange-form(method='get', action="exchange.html", commandName="exchangeForm").js-exchange-form(data-url='#{uri.uri("/new/advertisement/list.html")}', data-mainurl='#{uri.uri("/new/advertisement/exchange.html")}')
       input(type='hidden', name="idExchangeOwnerAdvertisement").hiddenOwnerAdvId
       input(type='hidden', name="idExchangeOfferAdvertisement").hiddenOfferAdvId
       div.enter-head

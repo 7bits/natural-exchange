@@ -17,15 +17,14 @@ import it.sevenbits.util.form.validator.ExchangeFormValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -347,10 +346,12 @@ public class AdvertisementListController {
 
     //    We must return object cause in one way we must return string, otherwise ModelAndView
     @RequestMapping(value = "/exchange.html", method = RequestMethod.POST)
-    public String submitExchange(final ExchangeForm exchangeForm, final BindingResult exchangeResult,
-                                 final RedirectAttributes redirectAttributes, final Model model){
-        exchangeFormValidator.validate(exchangeForm, exchangeResult);
-        if (!exchangeResult.hasErrors()) {
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody Map submitExchange(@ModelAttribute("email") ExchangeForm exchangeForm,
+                                 final BindingResult bindingResult) {
+        Map map = new HashMap();
+        exchangeFormValidator.validate(exchangeForm, bindingResult);
+        if (!bindingResult.hasErrors()) {
             Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOfferAdvertisement());
             User offer = offerAdvertisement.getUser();
             User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
@@ -372,14 +373,15 @@ public class AdvertisementListController {
                     "право связаться с заинтересованным пользователем на вашу вещь.\n"
                     + "\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши объявления с нашего сервиса.\n" + "Спасибо!";
             mailSenderService.sendMail(owner.getEmail(), titleExchangeMessage, message);
-            redirectAttributes.addFlashAttribute("flashSuccessMsg", "Обмен совершен успешно!");
-            return "redirect:/new/advertisement/list.html";
+            map.put("success", true);
         } else {
-            model.addAttribute("exchangeForm", exchangeForm);
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            exchangeFormView(model, exchangeForm.getIdExchangeOwnerAdvertisement(), auth, exchangeForm);
-            return "new/advertisement/exchange";
+            map.put("success", false);
+            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            Map errors = new HashMap();
+            errors.put("wrong", errorMessage);
+            map.put("errors", errors);
         }
+        return map;
     }
 
     private List<String> selectTags(String tags) {

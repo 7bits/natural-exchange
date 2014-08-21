@@ -10,9 +10,9 @@ $(document).ready(function() {
 
     $(".chosen-advert").click(function() {
         var exchButton = $(this);
-        var offerAdvId = exchButton.data('adv-id');
+        var offerAdvId = exchButton.data('offeradvid');
         var hiddenId = $('.hiddenOfferAdvId');
-        hiddenId.val(ownerAdvId);
+        hiddenId.val(offerAdvId);
     });
 
 
@@ -40,15 +40,15 @@ $(document).ready(function() {
         e.preventDefault();
         var errorString = $('.reg-error');
         var acceptString = $('.reg-accepting');
-        var email = $("#entry-email").val();
-        var password = $("#entry-pass").val();
-        var ownerAdvId = $().val(".hiddenOwnerAdvId");
-        var redirectUrl = $('.js-entry-form').data("url");
-        var mainUrl = $('.js-entry-form').data("mainurl");
+        var ownerAdvId = $(".hiddenOwnerAdvId").val();
+        var offerAdvId = $(".hiddenOfferAdvId").val();
+        var exchangePropose = $(".offer-message").val();
+        var redirectUrl = $('.js-exchange-form').data("url");
+        var mainUrl = $('.js-exchange-form').data("mainurl");
         var dataJson = {
             idExchangeOwnerAdvertisement: ownerAdvId,
-            idExchangeOfferAdvertisement: email,
-            exchangePropose: password,
+            idExchangeOfferAdvertisement: offerAdvId,
+            exchangePropose: exchangePropose,
             errors: null
         };
         $.ajax({
