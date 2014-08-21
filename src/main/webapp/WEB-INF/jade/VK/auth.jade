@@ -1,11 +1,14 @@
 extends ../layout/layout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newAuth.css')
 block content
-  form(method='post', commandName="vkEntryEmailForm", action="auth.html")
-    div Введите свой e-mail, и Ваша регистрация будет завершена.
-    input(type='email', name='email')
-    div
-      input(type='submit', value='Готово')
-      a(href='#{uri.uri("/new/advertisement/list.html")}') Отмена
-    input(type='hidden', name='first_name', value='#{first_name}')
-    input(type='hidden', name='last_name', value='#{last_name}')
-    input(type='hidden', name='vk_link', value='#{vk_link}')
+  .auth-content
+    form(method='post', commandName="vkEntryEmailForm", action="auth.html")
+      div Введите свой e-mail, и Ваша регистрация будет завершена.
+      input(type='email', name='email').form-rounded-button.hollow-text
+      div.button-and-reject
+        input(type='submit', value='Готово').rounded-button.auth-complete.small-tab-text
+        a(href='#{uri.uri("/new/advertisement/list.html")}').reg-rounded-button.file-choose.auth-reject Отмена
+      input(type='hidden', name='first_name', value='#{first_name}')
+      input(type='hidden', name='last_name', value='#{last_name}')
+      input(type='hidden', name='vk_link', value='#{vk_link}')
