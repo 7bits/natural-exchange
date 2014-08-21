@@ -13,6 +13,39 @@
   margin: 0 auto;
 }
 
+.file-button-hollow-text {
+  color: rgb(168, 129, 49);
+  font: 18px bold mySans;
+
+  padding-top: 7px;
+}
+
+.placing-tag-form-rounded-button {
+  outline: 0;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+
+  width: 370px;
+  height: 40px;
+
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  margin-top: 15px;
+  margin-left: 15px;
+  padding-left: 30px;
+
+  border: 2px solid rgb(243, 152, 34);
+  background-color: rgb(255, 255, 255);
+}
+
+.chosen-tags {
+  width: 50px;
+  padding-left: 650px;
+}
+
 .form-placing {
   padding-top: 30px;
 }
@@ -27,7 +60,7 @@
 
 .select-category {
   outline: 0;
-  margin-top: 1%;
+  margin-top: 15px;
   width: 384px;
   height: 40px;
   padding-left: 20px;
@@ -66,6 +99,35 @@
 
 .placing-file-choose {
   width: 500px;
+}
+
+.placing-file-choose:hover {
+  background: white;
+}
+
+.placing-button-file-choose {
+  position: relative;
+
+  box-sizing: border-box;
+  -moz-box-sizing : border-box;
+  -webkit-box-sizing : border-box;
+
+  background-color: rgb(243, 152, 34);
+  border: none;
+
+  width: 170px;
+  height: 30px;
+  font-family: boldSans;
+  font-size: 13px;
+  /*font: 13px normal boldSans;*/
+  color: rgb(255, 255, 255);
+}
+
+.placing-file-choose input[type=file] {
+/*.placing-button-file-choose input=*/
+  position: absolute;
+  top: 0;
+  opacity: 0
 }
 
 .adding-advert {
@@ -109,6 +171,8 @@
   position: absolute;
   left: 280px;
   bottom: 5px;
+  padding-left: 50px;
+  padding-top: 7px;
 
   background-image: url(/resources/images/newdesign/plus-circle.png);
   background-repeat: no-repeat;
@@ -117,3 +181,4 @@
 
 .placing-end-button {
 }
+

@@ -8,7 +8,7 @@ block content
     div.main-content
       div.head-text ДОБАВЛЕНИЕ ПРЕДЛОЖЕНИЯ
       div.form-placing
-        form#placing-advert(method='post', action="placing.html", commandName="advertisementPlacingForm")
+        form#placing-advert(method='post', action="placing.html", commandName="advertisementPlacingForm", enctype="multipart/form-data")
           input(type='text', placeholder="Заголовок", name="title").form-rounded-button.hollow-text.advertisement-title
           select.select-category(name="category")
             option(selected='selected', disabled='disabled') Выберите Категорию
@@ -25,14 +25,17 @@ block content
             else
               option.choosen-category(value='notclothes') Не одежда
           div.placing-file-and-tags
-            div.border-file-choose.placing-file-choose
-              div.file-hollow-text Фотография
-              input#image.reg-rounded-button.file-choose.file-button-pos(name="image", type="file") ВЫБРАТЬ ФАЙЛ
+            label.border-file-choose.placing-file-choose
+              div.file-button-hollow-text Выберите фотографию
+              input#image(name = "image", type="file")
             div.choose-tags-and-button
-              input(type='text', placeholder="Теги", name="tags").form-rounded-button.hollow-text.placing-tag-choose
-              button#entry.reg-rounded-button.file-choose.placing-tag-add ДОБАВИТЬ
+              input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
+              a#add-tag.reg-rounded-button.file-choose.placing-tag-add.js-add-tag ДОБАВИТЬ
+              input(type='hidden', name="tags", value="").js-tags-chosen
+            div.chosen-tags
           textarea(placeholder="Описание", name="text").form-rounded-button.hollow-text.placing-textarea
           div.placing-end-button
-            input(type="submit", placeholder="ДОБАВИТЬ").rounded-button.adding-advert.small-tab-text
+            input(type="submit", placeholder="ДОБАВИТЬ", value="ДОБАВИТЬ").rounded-button.adding-advert.small-tab-text
 block append customjs
   script(src="/resources/js/badImage.js")
+  script(src="/resources/js/newPlacing.js")
