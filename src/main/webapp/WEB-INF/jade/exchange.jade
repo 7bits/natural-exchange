@@ -1,7 +1,8 @@
 div.hidden
   div#new-exchange-popup
     form#exchange-form(method='get', action="exchange.html", commandName="exchangeForm")
-      input(type='hidden', name="idExchangeOwnerAdvertisement")
+      input(type='hidden', name="idExchangeOwnerAdvertisement").hiddenOwnerAdvId
+      input(type='hidden', name="idExchangeOfferAdvertisement").hiddenOfferAdvId
       div.enter-head
         a#exchange-reject.vk-cross-circle
       div.exchange-form.nexchange-mainbg
@@ -12,8 +13,8 @@ div.hidden
               for advertisement in userAdvertisements
                 tr
                   td
-                    input(type='radio', name='exchange-advert', id="#{advertisement.id}")
-                    label(for='#{advertisement.id}').chosen-advert
+                    input(type='radio', name='exchange-advert', id='#{advertisement.id}')
+                    label(for='#{advertisement.id}', data-offerAdvId='#{advertisement.id}').chosen-advert
                   td
                     div.offer-advert
                       div.offer-advert-text #{advertisement.title}

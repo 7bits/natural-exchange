@@ -1,14 +1,20 @@
 $(document).ready(function() {
     "use strict";
 
-    $(".js-who-owner").click( function() {
-        var currentTag = $('.js-added-tag');
-        var tagElem = $('.chosen-tags');
-        var tags = $('.js-tags-chosen');
-        var lastTags = tags.val() + " ";
-        tagElem.text(lastTags + currentTag.val() + " ");
-        tags.val(lastTags + currentTag.val());
+    $(".js-who-owner").click(function() {
+        var exchButton = $(this);
+        var ownerAdvId = exchButton.data('adv-id');
+        var hiddenId = $('.hiddenOwnerAdvId');
+        hiddenId.val(ownerAdvId);
     });
+
+    $(".chosen-advert").click(function() {
+        var exchButton = $(this);
+        var offerAdvId = exchButton.data('adv-id');
+        var hiddenId = $('.hiddenOfferAdvId');
+        hiddenId.val(ownerAdvId);
+    });
+
 
     $(".js-newExchange").fancybox({
         "width" : 600,
@@ -36,11 +42,13 @@ $(document).ready(function() {
         var acceptString = $('.reg-accepting');
         var email = $("#entry-email").val();
         var password = $("#entry-pass").val();
+        var ownerAdvId = $().val(".hiddenOwnerAdvId");
         var redirectUrl = $('.js-entry-form').data("url");
         var mainUrl = $('.js-entry-form').data("mainurl");
         var dataJson = {
-            email: email,
-            password: password,
+            idExchangeOwnerAdvertisement: ownerAdvId,
+            idExchangeOfferAdvertisement: email,
+            exchangePropose: password,
             errors: null
         };
         $.ajax({

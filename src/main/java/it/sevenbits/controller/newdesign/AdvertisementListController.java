@@ -342,17 +342,6 @@ public class AdvertisementListController {
         return new ModelAndView("placingRequest");
     }
 
-    @RequestMapping(value = "/exchange.html", method = RequestMethod.GET)
-    public ModelAndView exchange(@RequestParam(value = "id", required = true) final Long id, final Model model
-    ) {
-        //TODO: need to control viewing of deleted and new advertisement
-        ModelAndView modelAndView = new ModelAndView("new/advertisement/exchange");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        ExchangeForm exchangeForm = new ExchangeForm();
-        exchangeFormView(model, id, auth, exchangeForm);
-        return modelAndView;
-    }
-
     @Autowired
     private ExchangeFormValidator exchangeFormValidator;
 
