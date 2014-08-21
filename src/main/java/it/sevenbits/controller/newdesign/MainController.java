@@ -59,7 +59,7 @@ public class MainController {
         pageList.setPageSize(MAIN_ADVERTISEMENTS);
         pageList.setPage(0);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        List<Advertisement> userAdvertisements = null;
+        List<Advertisement> userAdvertisements = new LinkedList<>();
         if (auth.getPrincipal() instanceof UserDetails) {
             User user = this.userDao.findUserByEmail(auth.getName());
             userAdvertisements = this.advertisementDao.findAllByEmail(user);
