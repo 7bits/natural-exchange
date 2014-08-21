@@ -27,7 +27,9 @@
         <security:intercept-url pattern="/user/**" access="ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/moderator/*" access="ROLE_MODERATOR, ROLE_ADMIN"/>
 
-        <security:form-login login-page='/login.html'
+        <security:intercept-url pattern="/new/user/editProfile.*" access='ROLE_USER'/>
+
+        <security:form-login login-page='/new/main.html'
                              default-target-url='/new/main.html'
                              authentication-failure-url="/auth_failed.html"/>
         <security:logout logout-url="/user/logout.html" logout-success-url="/new/main.html"/>

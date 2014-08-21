@@ -1,0 +1,96 @@
+.content {
+  background-color: rgb(248, 184, 50);
+
+}
+.user-container {
+  padding-top: 50px;
+  margin: 0 auto;
+  width: 1050px;
+  overflow: hidden;
+}
+.back-to-the-cab {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-right: 20px;
+  padding-left: 40px;
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  font-family: boldSans;
+  font-size: 13px;
+  border-radius: 100px;
+  background-color: rgb(243, 152, 34);
+  background-image: url('../images/leftArrow.png');
+  background-repeat: no-repeat;
+  background-position: 14px 9px;
+}
+.change-info {
+  line-height: 80px;
+  font-family: boldSans;
+  font-size: 22px;
+}
+.first-name-field, .last-name-field {
+  width: 50%;
+  height: 38px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  box-sizing: border-box;
+
+  outline: 0;
+  color: rgb(0, 0, 0);
+  border: 2px solid rgb(243, 152, 34);
+  border-radius: 100px;
+  font-size: 18px;
+}
+.first-name-field:hover, .last-name-field:hover {
+  border: 2px solid rgb(26, 178, 175);
+}
+
+.user-avatar {
+  height: 100px;
+  width: 100px;
+  border-radius: 100px;
+  border: 3px solid rgb(26, 178, 175);
+}
+.choose-user-photo {
+  position: absolute;
+  width: 29%;
+  height: 38px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  box-sizing: border-box;
+
+  outline: 0;
+  color: rgb(168, 129, 49);
+  border: 2px solid rgb(243, 152, 34);
+  border-radius: 100px;
+  font-size: 18px;
+  background-color: rgb(248, 184, 50);
+}
+.change-information {
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 40px;
+  padding-right: 25px;
+  font-family: boldSans;
+  font-size: 15px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(26, 178, 175);
+  background-image: url('../images/okImg.png');
+  background-repeat: no-repeat;
+  background-position: 10px 10px;
+  border: none;
+  border-radius: 100px;
+}
+
+@font-face {
+  font-family: mySans;
+  src:  url('../fonts/pt-sans.regular.ttf');
+}
+
+@font-face {
+  font-family: boldSans;
+  src: url('../fonts/Prosto.ttf');
+}

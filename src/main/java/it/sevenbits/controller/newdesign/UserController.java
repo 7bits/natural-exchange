@@ -18,6 +18,7 @@ import it.sevenbits.util.form.validator.UserEditProfileValidator;
 import it.sevenbits.util.form.validator.UserEntryValidator;
 import it.sevenbits.util.form.validator.UserRegistrationValidator;
 import org.json.simple.JSONObject;
+import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -83,8 +85,10 @@ public class UserController {
 
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody Map registrationRequest(@ModelAttribute("email") UserRegistrationForm form,
-                                                 final BindingResult bindingResult
+    public
+    @ResponseBody
+    Map registrationRequest(@ModelAttribute("email") UserRegistrationForm form,
+                            final BindingResult bindingResult
     ) {
         Map map = new HashMap();
         userRegistrationValidator.validate(form, bindingResult);
@@ -132,8 +136,10 @@ public class UserController {
 
     @RequestMapping(value = "/entry.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody Map entryRequest(@ModelAttribute("email") UserEntryForm form,
-                                                 final BindingResult bindingResult
+    public
+    @ResponseBody
+    Map entryRequest(@ModelAttribute("email") UserEntryForm form,
+                     final BindingResult bindingResult
     ) {
         Map map = new HashMap();
         userEntryValidator.validate(form, bindingResult);
@@ -207,4 +213,31 @@ public class UserController {
         }
         return (long) 0;
     }
+
+    @RequestMapping(value = "/editprofile.html", method = RequestMethod.GET)
+    public ModelAndView editProfile() {
+        ModelAndView modelAndView = new ModelAndView("editProfile.jade");
+        Long id = this.getCurrentUser();
+        User currentUser = this.userDao.findById(id);
+        modelAndView.addObject("currentUser", currentUser);
+        return modelAndView;
+    }
+
+//    @RequestMapping(value = "/editProfile.html", method = RequestMethod.POST)
+//    public String changeUserInformation(
+//        @RequestParam(value = "firstName", required = false) final String firstName,
+//        @RequestParam(value = "lastName", required = false) final String lastName,
+//        @RequestParam(value = "newAvatar", required = false) final String newAvatar) {
+//        Long id = this.getCurrentUser();
+//        User currentUser = this.userDao.findById(id);
+//        User userNew = new User();
+//        userNew.setEmail(currentUser.getEmail());
+//        userNew.setPassword(currentUser.getPassword());
+//        userNew.setFirstName(firstName);
+//        userNew.setLastName(lastName);
+//        userNew.setVk_link(newAvatar);
+//        userNew.setUpdateDate(TimeManager.getTime());
+//        this.userDao.updateData(userNew);
+//        return "redirect:/user/userprofile/searches.html";
+//    }
 }

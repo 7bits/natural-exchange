@@ -1,0 +1,19 @@
+extends layout/layout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newEditProfile.css')
+block content
+  .content
+    .user-container
+      a.back-to-the-cab(href='#{uri.uri("/new/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
+      p.change-info ИЗМЕНИТЬ ЛИЧНУЮ ИНФОРМАЦИЮ
+      form
+        div
+          input.first-name-field(type='text', value='#{currentUser.getFirstName()}')
+        div
+          input.last-name-field(type='text', value='#{currentUser.getLastName()}')
+        div
+          if (currentUser.getAvatar() != null)
+            img.user-avatar(src='/resources/images/avatars/#{currentUser.getAvatar()}')
+          input.choose-user-photo(type='text', placeholder='Выбрать другой файл')
+        div
+          input.change-information(type='submit', value='СОХРАНИТЬ')
