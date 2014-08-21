@@ -42,7 +42,7 @@ block content
             a.adv-name(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
-            a.change-button.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ
+            a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup') ОБМЕНЯТЬ
             include exchange
       .pages
         ul.page-list

@@ -3,15 +3,20 @@ package it.sevenbits.controller.newdesign;
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.CategoryDao;
 import it.sevenbits.dao.SubscriberDao;
+import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
 import it.sevenbits.entity.Subscriber;
+import it.sevenbits.entity.User;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +39,9 @@ public class MainController {
     private SubscriberDao subscriberDao;
 
     @Autowired
+    private UserDao userDao;
+
+    @Autowired
     private MailingNewsValidator mailingNewsValidator;
 
     @RequestMapping(value = "/main.html", method = RequestMethod.GET)
@@ -50,7 +58,14 @@ public class MainController {
         pageList.setSource(advertisements);
         pageList.setPageSize(MAIN_ADVERTISEMENTS);
         pageList.setPage(0);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<Advertisement> userAdvertisements = null;
+        if (auth.getPrincipal() instanceof UserDetails) {
+            User user = this.userDao.findUserByEmail(auth.getName());
+            userAdvertisements = this.advertisementDao.findAllByEmail(user);
+        }
         modelAndView.addObject("advertisements", pageList.getPageList());
+        modelAndView.addObject("userAdvertisements", userAdvertisements);
         return modelAndView;
     }
 

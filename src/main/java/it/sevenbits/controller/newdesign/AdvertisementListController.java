@@ -1,32 +1,33 @@
 package it.sevenbits.controller.newdesign;
 
 
-import it.sevenbits.dao.AdvertisementDao;
-import it.sevenbits.dao.CategoryDao;
-import it.sevenbits.dao.SubscriberDao;
-import it.sevenbits.entity.Advertisement;
-import it.sevenbits.entity.Category;
-import it.sevenbits.entity.Subscriber;
-import it.sevenbits.entity.Tag;
+import it.sevenbits.dao.*;
+import it.sevenbits.entity.*;
+import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
+import it.sevenbits.util.form.ExchangeForm;
 import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
+import it.sevenbits.util.form.validator.ExchangeFormValidator;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
@@ -34,6 +35,12 @@ import java.util.*;
 @RequestMapping(value = "new/advertisement")
 public class AdvertisementListController {
     private static final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private MailSenderService mailSenderService;
 
     @Autowired
     private AdvertisementDao advertisementDao;
@@ -68,6 +75,12 @@ public class AdvertisementListController {
         List<Advertisement> advertisements = this.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
                 currentCategories, keyWordSearch, mainSortOrder, sortBy
         );
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<Advertisement> userAdvertisements = new LinkedList<>();
+        if (auth.getPrincipal() instanceof UserDetails) {
+            User user = this.userDao.findUserByEmail(auth.getName());
+            userAdvertisements = this.advertisementDao.findAllByEmail(user);
+        }
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
         pageList.setPageSize(this.DEFAULT_ADVERTISEMENTS_PER_LIST);
@@ -84,6 +97,7 @@ public class AdvertisementListController {
 
         this.addPages(modelAndView, currentPage, pageCount);
         modelAndView.addObject("advertisements", pageList.getPageList());
+        modelAndView.addObject("userAdvertisements", userAdvertisements);
         modelAndView.addObject("pageCount", pageCount);
         modelAndView.addObject("currentPage", currentPage);
 
@@ -328,6 +342,57 @@ public class AdvertisementListController {
         return new ModelAndView("placingRequest");
     }
 
+    @RequestMapping(value = "/exchange.html", method = RequestMethod.GET)
+    public ModelAndView exchange(@RequestParam(value = "id", required = true) final Long id, final Model model
+    ) {
+        //TODO: need to control viewing of deleted and new advertisement
+        ModelAndView modelAndView = new ModelAndView("new/advertisement/exchange");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        ExchangeForm exchangeForm = new ExchangeForm();
+        exchangeFormView(model, id, auth, exchangeForm);
+        return modelAndView;
+    }
+
+    @Autowired
+    private ExchangeFormValidator exchangeFormValidator;
+
+    //    We must return object cause in one way we must return string, otherwise ModelAndView
+    @RequestMapping(value = "/exchange.html", method = RequestMethod.POST)
+    public String submitExchange(final ExchangeForm exchangeForm, final BindingResult exchangeResult,
+                                 final RedirectAttributes redirectAttributes, final Model model){
+        exchangeFormValidator.validate(exchangeForm, exchangeResult);
+        if (!exchangeResult.hasErrors()) {
+            Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOfferAdvertisement());
+            User offer = offerAdvertisement.getUser();
+            User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
+            String advertisementUrl = "http://n-exchange.local/n-exchange/advertisement/view.html?id="; // local
+//            String advertisementUrl = "http://naturalexchange.ru/advertisement/view.html?id=";
+            String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
+            String titleExchangeMessage = "С вами хотят обменяться!";
+            String userName;
+            if (owner.getLastName().equals("")) {
+                userName = "владелец вещи";
+            } else {
+                userName = owner.getLastName();
+            }
+            String message = "Пользователь с email'ом : " + offer.getUsername() +  "\nХочет обменяться с вами на вашу вещь : \n"
+                    + advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue
+                    + "\nИ предлагает вам взамен\n" + advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement()
+                    + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeForm.getExchangePropose()
+                    + "\n Уважаемый " + userName + "\nПока что наш сервис находится в разработке, так что мы оставляем за вами " +
+                    "право связаться с заинтересованным пользователем на вашу вещь.\n"
+                    + "\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши объявления с нашего сервиса.\n" + "Спасибо!";
+            mailSenderService.sendMail(owner.getEmail(), titleExchangeMessage, message);
+            redirectAttributes.addFlashAttribute("flashSuccessMsg", "Обмен совершен успешно!");
+            return "redirect:/new/advertisement/list.html";
+        } else {
+            model.addAttribute("exchangeForm", exchangeForm);
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            exchangeFormView(model, exchangeForm.getIdExchangeOwnerAdvertisement(), auth, exchangeForm);
+            return "new/advertisement/exchange";
+        }
+    }
+
     private List<String> selectTags(String tags) {
         if (tags == null) {
             return null;
@@ -340,5 +405,17 @@ public class AdvertisementListController {
             saparateTags.add(token.nextToken());
         }
         return saparateTags;
+    }
+
+    private void exchangeFormView(final Model model, final Long idExchangeOwnerAdvertisement, Authentication auth,
+                                  final ExchangeForm exchangeForm) {
+        Advertisement advertisement = this.advertisementDao.findById(idExchangeOwnerAdvertisement);
+        String email = auth.getName();
+        User user = this.userDao.findUserByEmail(email);
+        List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
+        model.addAttribute("adverts", advertisements);
+        model.addAttribute("advertisement", advertisement);
+        exchangeForm.setIdExchangeOwnerAdvertisement(idExchangeOwnerAdvertisement);
+        model.addAttribute("exchangeForm", exchangeForm);
     }
 }
