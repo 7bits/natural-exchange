@@ -5,25 +5,29 @@ block content
   .content
     .user-container
       .user-information
-        img.user-image(src='/resources/images/user.png')
+        if (currentUser.getAvatar() != null)
+          img.user-image(src='/resources/images/avatars/' + currentUser.getAvatar())
         p.user-name
-          | Иван
+          | #{currentUser.getFirstName()}
           br
-          | Константинопольский
+          | #{currentUser.getLastName()}
         p.user-email-cover
-          a.user-email(href='#') ivan.const@yandex.ru
+          a.user-email(href='#') #{currentUser.getEmail()}
         p.edit-user-cover
           a.edit-user-profile(href='#') Редактировать
         p.fix-text Дата регистрации:
-        p.register-date 8 августа 2014
-        .change-block
-          p.fix-text Произведено обменов:
-          p.change-count 10
+        p.register-date #{currentUser.getCreatedDateFormat()}
       .right-block
         .user-page
           ul.pages
-            li
-              a.inset(href='#') ЛИЧНЫЙ КАБИНЕТ
-            li
-              a.inset(href='#') МОИ ОБМЕНЫ
+            if (userPage == "searches.html")
+              li
+                a.inset.substract-inset(href='#{uri.uri("/new/user/userprofile/searces.html")}') ЛИЧНЫЙ КАБИНЕТ
+              li
+                a.inset(href='#{uri.uri("/new/user/userprofile/advertisements.html")}') МОИ ОБЪЯВЛЕНИЯ
+            else
+              li
+                a.inset(href='#{uri.uri("/new/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
+              li
+                a.inset.substract-inset(href='#{uri.uri("/new/user/userprofile/advertisements.html")}') МОИ ОБЪЯВЛЕНИЯ
         block information
