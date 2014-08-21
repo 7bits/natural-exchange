@@ -28,12 +28,14 @@ block content
               option.choosen-category(selected='selected', value='notclothes') Не одежда
             else
               option.choosen-category(value='notclothes') Не одежда
+          input.current-page(type='hidden', value='#{currentPage}')
           input.search(type='submit', value='НАЙТИ')
       .underneath
         .example
           | Например:
           a.monopoly(href='#') Монополия
-          a.save-search(href='#') СОХРАНИТЬ ПОИСК
+          if (auth.isAuthenticated())
+            a.save-search.js-save-search(href='#', data-url='#{uri.uri("/new/advertisement/list.html")}') СОХРАНИТЬ ПОИСК
       .row
         for advertisement in advertisements
           .advertisement
@@ -83,3 +85,4 @@ block content
 block append customjs
   script(src="/resources/js/newExchangePopup.js")
   script(src="/resources/js/newSubscribe.js")
+  script(src="/resources/js/newSavingSearch.js")
