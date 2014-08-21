@@ -67,29 +67,18 @@
   overflow-y: scroll;
 }
 
-.offer-advert-lotro {
-  width: 290px;
+.offer-advert {
   height: 52px;
-
-  background-image: url("/resources/images/newdesign/LOTR.png");
-  background-repeat: no-repeat;
-  background-position: right top;
 }
 
-.offer-advert-lotro:active {
-  background-color: rgb(242, 241, 241);
+.exchange-adv-image {
+  display: block;
+  margin-left: auto;
+  height: 60px;
+  width: 60px;
 }
 
-.offer-advert-bones {
-  width: 290px;
-  height: 52px;
-
-  background-image: url("/resources/images/newdesign/bones.png");
-  background-repeat: no-repeat;
-  background-position: right top;
-}
-
-.offer-advert-bones:active {
+.offer-advert:active {
   background-color: rgb(242, 241, 241);
 }
 

@@ -9,22 +9,18 @@ div.hidden
         div.user-adverts-table
           table
             tbody
-              tr
-                td
-                  input#1(type='radio', name='exchange-advert')
-                  label(for='1').chosen-advert
-                td
-                  div.offer-advert-lotro
-                    div.offer-advert-text НАСТОЛЬНАЯ ИГРА ПО ВЛАСТЕЛИНУ КОЛЕЦ
-              tr
-                td
-                  input#2(type='radio', name='exchange-advert')
-                  label(for='2').chosen-advert
-                td
-                  div.offer-advert-bones
-                    div.offer-advert-text ЗАПАСНОЙ НАБОР КУБИКОВ
+              for advertisement in userAdvertisements
+                tr
+                  td
+                    input(type='radio', name='exchange-advert', id="#{advertisement.id}")
+                    label(for='#{advertisement.id}').chosen-advert
+                  td
+                    div.offer-advert
+                      div.offer-advert-text #{advertisement.title}
+                  td
+                    img.exchange-adv-image(src='/resources/images/#{advertisement.photoFile}')
         div.text-center.advert-chosen-text Вы выбрали:
-        div.text-advert НАСТОЛЬНАЯ ИГРА ПО ВЛАСТЕЛИНУ КОЛЕЦ
+        div.text-advert #{advertisement.title}
         textarea(placeholder="Ваше сообщение владельцу", name="exchangePropose").form-rounded-button.hollow-text.offer-message
         div.end-form
-          input(type='submit', value='ПРЕДЛОЖИТЬ ОБМЕН').exchange-button
+          input(type='submit', value='ПРЕДЛОЖИТЬ ОБМЕН').exchange-button.js-exchange-complete

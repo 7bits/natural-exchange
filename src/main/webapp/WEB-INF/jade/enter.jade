@@ -15,7 +15,7 @@ div.hidden
           a#entry(href='').rounded-button.entry.small-tab-text.js-entry-complete ВОЙТИ
           div.text-and-logo
             div.entry-text.vk-logo-text Или войдите через
-            a(href='#{vkAuth.getVkUrl()}').vk-logo.js-vk-entry-complete
+            a(href='https://oauth.vk.com/authorize?client_id=4491913&scope=notify&redirect_uri=' + locals.uri.uri("/new/VK/auth.html") + '&display=popup&response_type=code').vk-logo.js-vk-entry-complete
         p.reg-error
         p.reg-accepting
 
