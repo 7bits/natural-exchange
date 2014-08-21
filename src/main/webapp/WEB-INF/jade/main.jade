@@ -9,22 +9,22 @@ block content
       p.change-text ЗДЕСЬ ВЫ МОЖЕТЕ ОБМЕНЯТЬ
       .row1
         .games.col-md-4
-          a.game-link(href='/new/advertisement/list.html')
+          a.game-link(href='#{uri.uri("/new/advertisement/list.html?currentCategory=games")}')
             img.games-image(src='/resources/images/bones.png')
             .games-cover
-              a.category-note(href='/new/advertisement/list.html')
+              a.category-note(href='#{uri.uri("/new/advertisement/list.html?currentCategory=games")}')
                 | ИГРЫ
         .clothes.col-md-4
-          a.clothes-link(href='/new/advertisement/list.html')
+          a.clothes-link(href='#{uri.uri("/new/advertisement/list.html?currentCategory=clothes")}')
             img.clothes-image(src='/resources/images/score.png')
             .clothes-cover
-              a.category-note(href='/new/advertisement/list.html')
+              a.category-note(href='#{uri.uri("/new/advertisement/list.html?currentCategory=clothes")}')
                 | ОДЕЖДА
         .no-clothes.col-md-4
-          a.no-clothes-link(href='/new/advertisement/list.html')
+          a.no-clothes-link(href='#{uri.uri("/new/advertisement/list.html?currentCategory=notclothes")}')
             img.no-clothes-image(src='/resources/images/book.png')
             .no-clothes-cover
-              a.category-note(href='/new/advertisement/list.html')
+              a.category-note(href='#{uri.uri("/new/advertisement/list.html?currentCategory=notclothes")}')
                 | НЕ ОДЕЖДА
     .container.main-page
       p.many-other ... И МНОГОЕ ДРУГОЕ!
@@ -33,7 +33,7 @@ block content
           .advertisement
             img.adv-image(src='/resources/images/#{advertisement.photoFile}')
             p.date #{advertisement.createdDateFormat}
-            a.adv-name(href='/new/advertisement/view.html') #{advertisement.title}
+            a.adv-name(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
             a.change-button.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ

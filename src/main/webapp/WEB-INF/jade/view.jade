@@ -10,10 +10,11 @@ block append content
         .category
           | Категрия:
           a.concrete-category #{category.getReallyName()}
-        .tags
-          | Теги:
-          for tag in tags
-            a.tag(href='#{uri.uri("/new/advertisement/list.html?keyWords=" + tag.getName())}') #{tag.getName()}
+        if (tags.size() != 0)
+          .tags
+            | Теги:
+            for tag in tags
+              a.tag(href='#{uri.uri("/new/advertisement/list.html?keyWords=" + tag.getName())}') #{tag.getName()}
         .description
           | Описание:
           p.current-description #{advertisement.getText()}
