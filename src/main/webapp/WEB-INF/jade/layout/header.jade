@@ -19,8 +19,12 @@
       if isAuthComplete
         p Вы успешно зарегистрировались на нашем сайте. Мы очень Вам рады!
       ul.menu-list
-        li
-          a.add-advertisement(href='#{uri.uri("/new/advertisement/placing.html")}') ДОБАВИТЬ ПРЕДЛОЖЕНИЕ
+        if (auth.isAuthenticated())
+          li
+            a.add-advertisement(href='#{uri.uri("/new/advertisement/placing.html")}') ДОБАВИТЬ ПРЕДЛОЖЕНИЕ
+        else
+          li
+            a.add-advertisement.js-entry(href='#entry-form') ДОБАВИТЬ ПРЕДЛОЖЕНИЕ
         li
           a.common-link(href='#{uri.uri("/new/advertisement/list.html")}') ВСЕ ПРЕДЛОЖЕНИЯ
         li
