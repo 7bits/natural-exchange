@@ -323,10 +323,23 @@ public class AdvertisementListController {
         }
         FileManager fileManager = new FileManager();
         String photo = null;
-        if (advertisementPlacingFormParam.getImage() == null && editingAdvertisementId == null) {
-            photo = defaultPhoto;
-        } else if (!(advertisementPlacingFormParam.getImage() == null)) {
-            photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+//        if (advertisementPlacingFormParam.getImage() == null && editingAdvertisementId == null) {
+//            photo = defaultPhoto;
+//        } else if (!(advertisementPlacingFormParam.getImage() == null)) {
+//            if (!(advertisementPlacingFormParam.getImage().getName().equals(""))) {
+//                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+//            } else {
+//                photo = defaultPhoto;
+//            }
+//        }
+        if (!(advertisementPlacingFormParam.getImage() == null)) {
+            if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("") && editingAdvertisementId == null) {
+                photo = defaultPhoto;
+            } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals(""))) {
+                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+            } else {
+                photo = defaultPhoto;
+            }
         }
 
         Advertisement advertisement = null;
