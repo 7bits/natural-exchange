@@ -273,7 +273,14 @@ public class AdvertisementListController {
         modelAndView.addObject("advertisement", advertisement);
         modelAndView.addObject("category", category);
         Set<TagEntity> tagsSet = this.getTagsFromAdvertisementById(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<Advertisement> userAdvertisements = new LinkedList<>();
+        if (auth.getPrincipal() instanceof UserDetails) {
+            user = this.userDao.findUserByEmail(auth.getName());
+            userAdvertisements = this.advertisementDao.findAllByEmail(user);
+        }
         modelAndView.addObject("tags", tagsSet);
+        modelAndView.addObject("userAdvertisements", userAdvertisements);
         return modelAndView;
     }
 
@@ -399,8 +406,7 @@ public class AdvertisementListController {
             Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOfferAdvertisement());
             User offer = offerAdvertisement.getUser();
             User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
-            String advertisementUrl = "http://n-exchange.local/n-exchange/advertisement/view.html?id="; // local
-//            String advertisementUrl = "http://naturalexchange.ru/advertisement/view.html?id=";
+            String advertisementUrl = mailSenderService.getDomen() + "/new/advertisement/view.html?id=";
             String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
             String titleExchangeMessage = "С вами хотят обменяться!";
             String userName;

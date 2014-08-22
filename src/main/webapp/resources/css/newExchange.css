@@ -111,7 +111,7 @@
 }
 
 input[type="radio"] {
-  visibility: hidden;
+  /*visibility: hidden;*/
 }
 
 label {

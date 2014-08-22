@@ -13,13 +13,12 @@ div.hidden
               for advertisement in userAdvertisements
                 tr
                   td
-                    input(type='radio', name='exchange-advert', id='#{advertisement.id}')
-                    label(for='#{advertisement.id}', data-offerAdvId='#{advertisement.id}').chosen-advert
+                    input(type='radio', name='exchange-advert', id='#{advertisement.id}', data-offerAdvId='#{advertisement.id}').chosen-advert
                   td
                     div.offer-advert
                       div.offer-advert-text #{advertisement.title}
                   td
-                    img.exchange-adv-image(src='/resources/images/#{advertisement.photoFile}')
+                    img.exchange-adv-image(src='/resources/images/user_images/#{advertisement.photoFile}')
         div.text-center.advert-chosen-text Вы выбрали:
         div.text-advert #{advertisement.title}
         textarea(placeholder="Ваше сообщение владельцу", name="exchangePropose").form-rounded-button.hollow-text.offer-message
