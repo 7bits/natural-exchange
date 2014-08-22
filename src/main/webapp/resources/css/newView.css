@@ -62,7 +62,7 @@
   display: inline;
 }
 .thing-picture {
-  width: 100%;
+  max-width: 100%;
   float: left;
 }
 .change-button {

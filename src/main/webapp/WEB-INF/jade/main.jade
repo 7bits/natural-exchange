@@ -36,9 +36,10 @@ block content
             a.adv-name(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
-            a.change-button.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ
-        include exchange
-      a.show-all(href='/new/advertisement/list.html') ПОСМОТРЕТЬ ВСЕ ОБЪЯВЛЕНИЯ
+            if (auth.isAuthenticated())
+              a.change-button.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ
+              include exchange
+      a.show-all(href='#{uri.uri("/new/advertisement/list.html")}') ПОСМОТРЕТЬ ВСЕ ОБЪЯВЛЕНИЯ
       p.about О ПРОЕКТЕ
       p.text-about
         | У вас много настольных игр, и вам уже надоело играть в одно и то же? Или, может быть, вы хотите поделиться хорошей музыкальной литераурой? А может быть, у вас есть интересные книги, которые вы уже перечитали миллион раз, и хочется чего-то новенького? Тогда вы попали по адресу!
