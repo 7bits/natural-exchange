@@ -10,6 +10,7 @@
   padding-top: 40px;
 }
 .tag-search {
+  outline: 0;
   width: 45%;
   height: 38px;
   padding-left: 20px;
@@ -21,9 +22,11 @@
   font-size: 18px;
 }
 .tag-search:hover {
+  outline: 0;
   border: 2px solid rgb(26, 178, 175);;
 }
 .category-search {
+  outline: 0;
   margin-left: 15px;
   width: 40%;
   height: 40px;
@@ -38,6 +41,9 @@
   background-position: 95% 50%;
   font-size: 18px;
   font-family: boldSans;
+}
+.category-search:hover, .category-search:active {
+  outline: 0;
 }
 .choosen-category {
   color: rgb(0, 0, 0);
@@ -219,6 +225,7 @@ select {
 .lower-case {
 }
 .e-mail-field {
+  outline: 0;
   margin-bottom: 20px;
   height: 24px;
   padding-left: 15px;
@@ -229,6 +236,9 @@ select {
   font-size: 15px;
   border-radius: 100px;
   border: 2px solid rgb(243, 152, 34);
+}
+.e-mail-field:hover, .e-mail-field:active {
+  outline: 0;
 }
 .e-mail-submit {
   padding-bottom: 5px;
