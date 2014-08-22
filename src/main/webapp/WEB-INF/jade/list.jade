@@ -45,7 +45,7 @@ block content
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
             if (auth.isAuthenticated())
-              a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup') ОБМЕНЯТЬ
+              a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
               include exchange
       .pages
         ul.page-list
