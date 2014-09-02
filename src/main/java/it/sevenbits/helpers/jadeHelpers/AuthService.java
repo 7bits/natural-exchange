@@ -38,4 +38,13 @@ public class AuthService {
         }
         return false;
     }
+
+    public boolean isUserModeratorOrAdministrator() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User user = (User) auth.getPrincipal();
+            return (user.getRole().equals("ROLE_MODERATOR") || user.getRole().equals("ROLE_ADMINISTRATOR"));
+        }
+        return false;
+    }
 }

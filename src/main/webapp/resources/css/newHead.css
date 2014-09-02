@@ -7,8 +7,13 @@
   width: 1050px;
   min-width: 945px;
   overflow: hidden;
-  height: 137px;
   background-color: rgb(47, 47, 47);
+}
+.common-size {
+  height: 137px;
+}
+.admin-size {
+  height: 200px;
 }
 .left-top-logo {
   overflow: hidden;

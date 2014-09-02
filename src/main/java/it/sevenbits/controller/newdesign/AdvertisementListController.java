@@ -88,7 +88,7 @@ public class AdvertisementListController {
         }
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
-        pageList.setPageSize(this.DEFAULT_ADVERTISEMENTS_PER_LIST);
+        pageList.setPageSize(DEFAULT_ADVERTISEMENTS_PER_LIST);
 
         int pageCount = pageList.getPageCount();
         int currentPage;
