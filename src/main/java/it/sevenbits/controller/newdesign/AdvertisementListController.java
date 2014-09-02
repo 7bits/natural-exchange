@@ -294,6 +294,16 @@ public class AdvertisementListController {
         return advertisementEntity.getTags();
     }
 
+    private String getTagsFromAdvertisementByIdAsString(long id) {
+        AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(id);
+        Set<TagEntity> tags = advertisement.getTags();
+        String forTags = "";
+        for(TagEntity tag: tags) {
+            forTags += tag.getName() + " ";
+        }
+        return forTags;
+    }
+
     @Autowired
     private AdvertisementPlacingValidator advertisementPlacingValidator;
 
@@ -301,7 +311,6 @@ public class AdvertisementListController {
     public ModelAndView placingAdvertisement(@RequestParam(value = "id", required = false) final Long id) {
         ModelAndView modelAndView = new ModelAndView("placing");
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
-        advertisementPlacingForm.setCategory("clothes");
         if (id != null) {
             Advertisement advertisement = this.advertisementDao.findById(id);
             advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
@@ -310,6 +319,21 @@ public class AdvertisementListController {
         }
         modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
         modelAndView.addObject("isEditing", false);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/edit.html", method = RequestMethod.GET)
+    public ModelAndView edit(@RequestParam(value = "id", required = true) final Long advertisementId) {
+        ModelAndView modelAndView =  new ModelAndView("placing");
+        modelAndView.addObject("isEditing",true);
+        modelAndView.addObject("advertisementId", advertisementId);
+        AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
+        AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
+        advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
+        advertisementPlacingForm.setText(advertisement.getText());
+        advertisementPlacingForm.setTitle(advertisement.getTitle());
+        advertisementPlacingForm.setTags(getTagsFromAdvertisementByIdAsString(advertisementId));
+        modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
         return modelAndView;
     }
 

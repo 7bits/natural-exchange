@@ -8,7 +8,7 @@ block append content
     .advertisement-container
       .information
         .category
-          | Категрия:
+          | Категория:
           a.concrete-category #{category.getReallyName()}
         if (tags.size() != 0)
           .tags
@@ -21,10 +21,11 @@ block append content
         .who-change
           | Меняет:
           a.change-user(href='#') #{fullUserName}
-          if (auth.isUserModerator())
-              a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
-          else if (advertisement.getUser() == auth.getCurrentUser())
-              a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
+        if (auth.isUserModerator())
+            a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
+        else if (advertisement.getUser() == auth.getCurrentUser())
+            a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
+            a.tag(href='#{uri.uri("/new/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ОБЪЯВЛЕНИЕ
       .picture
         img.thing-picture(src='/resources/images/user_images/#{advertisement.getPhotoFile()}')
     .change-button
