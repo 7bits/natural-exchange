@@ -13,6 +13,8 @@ import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.ExchangeForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import it.sevenbits.util.form.validator.ExchangeFormValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,8 @@ import java.util.*;
 @RequestMapping(value = "new/advertisement")
 public class AdvertisementListController {
     private static final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
+
+    private Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Autowired
     private UserDao userDao;
