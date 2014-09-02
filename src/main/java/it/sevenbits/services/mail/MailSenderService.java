@@ -122,5 +122,9 @@ public class MailSenderService {
             //TODO:need to do something
             e.printStackTrace();
         }
-        return prop.getProperty("application.domen");
+        String result = prop.getProperty("mail.service.domen");
+        if (result == null) {
+            result = prop.getProperty("application.domen");
+        }
+        return result;
 }   }
