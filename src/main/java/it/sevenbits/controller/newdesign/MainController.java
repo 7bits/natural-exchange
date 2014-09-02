@@ -11,6 +11,7 @@ import it.sevenbits.entity.User;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import java.util.*;
 @RequestMapping(value = "new")
 public class MainController {
     private static final int MAIN_ADVERTISEMENTS = 4;
+    private Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Autowired
     private AdvertisementDao advertisementDao;
