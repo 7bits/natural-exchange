@@ -1,5 +1,6 @@
 package it.sevenbits.helpers.jadeHelpers;
 
+import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,5 +20,13 @@ public class AuthService {
             return userEntity.getId();
         }
         return (long) 0;
+    }
+
+    public User getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return (User) auth.getPrincipal();
+        }
+        return new User();
     }
 }

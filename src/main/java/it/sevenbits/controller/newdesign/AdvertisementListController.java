@@ -5,6 +5,7 @@ import it.sevenbits.entity.*;
 import it.sevenbits.dao.*;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
+import it.sevenbits.security.Role;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
@@ -448,15 +449,41 @@ public class AdvertisementListController {
         return saparateTags;
     }
 
-    private void exchangeFormView(final Model model, final Long idExchangeOwnerAdvertisement, Authentication auth,
-                                  final ExchangeForm exchangeForm) {
-        Advertisement advertisement = this.advertisementDao.findById(idExchangeOwnerAdvertisement);
-        String email = auth.getName();
-        User user = this.userDao.findUserByEmail(email);
-        List<Advertisement> advertisements = this.advertisementDao.findAllByEmail(user);
-        model.addAttribute("adverts", advertisements);
-        model.addAttribute("advertisement", advertisement);
-        exchangeForm.setIdExchangeOwnerAdvertisement(idExchangeOwnerAdvertisement);
-        model.addAttribute("exchangeForm", exchangeForm);
+    @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
+    public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails;
+        String redirectAddress = "redirect:/advertisement/moderator/list.html" + "?currentCategory=";
+        if (principal instanceof UserDetails) {
+            userDetails = (UserDetails) principal;
+        } else {
+            return redirectAddress;
+        }
+        User user = this.userDao.findUserByEmail(userDetails.getUsername());
+        if (user.getRole().equals("ROLE_MODERATOR")) {
+            Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+            String userEmail = advertisement.getUser().getEmail();
+            String title = "Ваше объявление удалено модератором";
+            String userName;
+            if (advertisement.getUser().getLastName().equals("")) {
+                userName = "Уважаемый пользователь";
+            } else {
+                userName = "Уважаемый, " + advertisement.getUser().getLastName();
+            }
+            String message = userName + "\nВаше объявление с заголовком : " + advertisement.getTitle()
+                    + "\nС описанием : " + advertisement.getText() + "\nБыло удалено модератором";
+            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
+                this.advertisementDao.setDeleted(advertisementId);
+                mailSenderService.sendMail(userEmail, title, message);
+            }
+        } else {
+            redirectAddress = "redirect:/new/advertisement/list.html";
+            Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+            String userEmail = advertisement.getUser().getEmail();
+            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
+                this.advertisementDao.setDeleted(advertisementId);
+            }
+        }
+        return redirectAddress;
     }
 }

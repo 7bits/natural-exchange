@@ -21,6 +21,8 @@ block append content
         .who-change
           | Меняет:
           a.change-user(href='#') #{fullUserName}
+          if (advertisement.getUser() == auth.getCurrentUser())
+              a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
       .picture
         img.thing-picture(src='/resources/images/user_images/#{advertisement.getPhotoFile()}')
     .change-button
