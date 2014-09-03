@@ -1,15 +1,10 @@
 package it.sevenbits.controller.newdesign;
 
 import it.sevenbits.dao.AdvertisementDao;
-import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
-import it.sevenbits.entity.User;
 import it.sevenbits.util.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,36 +14,26 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 
 @Controller
-@RequestMapping(value = "moderator")
+@RequestMapping(value = "new/moderator")
 public class ModeratorController {
 
     private static final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
 
     @Autowired
-    private UserDao userDao;
-
-    @Autowired
     private AdvertisementDao advertisementDao;
 
     @RequestMapping(value = "/advertisementList.html", method = RequestMethod.GET)
-    public ModelAndView showAllAdvertisements(@RequestParam(value = "currentPage", required = false) final Integer previousPage,
-                                              @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
-                                              @RequestParam(value = "currentCategory", required = false) final String previousCategory) {
+    public ModelAndView showAllAdvertisements(
+        @RequestParam(value = "currentPage", required = false) final Integer previousPage,
+        @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
+        @RequestParam(value = "isDeleted", required = false) final Boolean previousDeletedMark) {
         ModelAndView modelAndView = new ModelAndView("moderator.jade");
 
-        Boolean is_deleted = false;
-        String[] currentCategory = new String[1];
-        if (previousCategory != null) {
-            if (previousCategory.equals("deleted")) {
-                is_deleted = true;
-                currentCategory[0] = "deleted";
-            } else {
-                currentCategory[0] = "";
-            }
-        } else {
-            currentCategory[0] = "";
+        Boolean isDeleted = false;
+        if (previousDeletedMark != null) {
+            isDeleted = previousDeletedMark;
         }
-        modelAndView.addObject("currentCategory", currentCategory[0]);
+        modelAndView.addObject("currentCategory", isDeleted);
 
         SortOrder mainSortOrder = SortOrder.DESCENDING;
         String sortBy = "createdDate";
@@ -59,15 +44,10 @@ public class ModeratorController {
         }
         modelAndView.addObject("keyWords", keyWordSearch);
 
-        List<Advertisement> advertisements = this.findAllAdvertisementsWithDeleteCtireryAndKeyWordsOrderBy(
-                currentCategory, keyWordSearch, mainSortOrder, sortBy
+        List<Advertisement> advertisements = this.findAllAdvertisementsWithDeleteCtirerionAndKeyWordsOrderBy(
+                isDeleted, keyWordSearch, mainSortOrder, sortBy
         );
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        List<Advertisement> userAdvertisements = new LinkedList<>();
-        if (auth.getPrincipal() instanceof UserDetails) {
-            User user = this.userDao.findUserByEmail(auth.getName());
-            userAdvertisements = this.advertisementDao.findAllByEmail(user);
-        }
+
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
         pageList.setPageSize(DEFAULT_ADVERTISEMENTS_PER_LIST);
@@ -81,28 +61,24 @@ public class ModeratorController {
         }
         pageList.setPage(currentPage - 1);
 
-
         this.addPages(modelAndView, currentPage, pageCount);
         modelAndView.addObject("advertisements", pageList.getPageList());
-        modelAndView.addObject("userAdvertisements", userAdvertisements);
         modelAndView.addObject("pageCount", pageCount);
         modelAndView.addObject("currentPage", currentPage);
 
         return modelAndView;
     }
 
-    private List<Advertisement> findAllAdvertisementsWithDeleteCtireryAndKeyWordsOrderBy(
-            final String[] categories, final String keyWordsStr, final SortOrder sortOrder, final String sortColumn
+    private List<Advertisement> findAllAdvertisementsWithDeleteCtirerionAndKeyWordsOrderBy(
+            final Boolean isDeleted, final String keyWordsStr, final SortOrder sortOrder, final String sortColumn
     ) {
-        if (categories.length == 0) {
-            return Collections.emptyList();
-        }
         StringTokenizer token = new StringTokenizer(keyWordsStr);
         String[] keyWords = new String[token.countTokens()];
         for (int i = 0; i < keyWords.length; i++) {
             keyWords[i] = token.nextToken();
         }
-        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories, keyWords, sortOrder, sortColumn);
+        return this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(keyWords, sortOrder, sortColumn,
+            isDeleted, null, null);
     }
 
     private void addPages(ModelAndView modelAndView, int currentPage, int pageCount) {

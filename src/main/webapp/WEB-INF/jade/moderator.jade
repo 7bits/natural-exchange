@@ -10,13 +10,13 @@ extends layout/layout
           form.searching-form(action = '#{uri.uri("/new/advertisement/list.html")}', method = 'get')
             input.tag-search(type='text', placeholder='Введите параметры поиска', maxlength='50', name='keyWords',
             value='#{keyWords}')
-            select.category-search(name='currentCategory')
-              if (currentCategory == 'deleted')
-                option(selected='selected', value='deleted') Удаленные
-                option.choosen-category(value='') Не Удаленные
+            select.category-search(name='isNowDeleted')
+              if (isDeleted)
+                option(selected='selected', value='true') Удаленные
+                option.choosen-category(value='false') Не Удаленные
               else
-                option(value='deleted') Удаленные
-                option.choosen-category(selected='selected', value='') Не Удаленные
+                option(value='true') Удаленные
+                option.choosen-category(selected='selected', value='false') Не Удаленные
             input.current-page(type='hidden', value='#{currentPage}')
             input.search(type='submit', value='НАЙТИ')
         .underneath
@@ -38,31 +38,31 @@ extends layout/layout
           ul.page-list
             if (previous == true)
               li
-                a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') <
+                a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') <
             if (pageList.first != null)
               if (currentPage == pageList.first)
                 li
-                  a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.first}
+                  a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.first}
               else
                 li
-                  a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.first}
+                  a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.first}
             if (pageList.second != null)
               if (currentPage == pageList.second)
                 li
-                  a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.second}
+                  a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.second}
               else
                 li
-                  a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.second}
+                  a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.second}
             if (pageList.third != null)
               if (currentPage == pageList.third)
                 li
-                  a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.third}
+                  a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.third}
               else
                 li
-                  a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.third}
+                  a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.third}
             if (next == true)
               li
-                a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') >
+                a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') >
         .to-know
           | Узнавайте нововости проекта первыми!
         .lower-case
