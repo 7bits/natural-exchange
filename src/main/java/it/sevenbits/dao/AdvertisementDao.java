@@ -91,7 +91,7 @@ public interface AdvertisementDao {
 
     void setTags(List<Tag> tags, int adv_id);
 
-    void setApproved(Long id);
+//    void setApproved(Long id);
 
     void update(final Long id, final Advertisement advertisement, final String categoryName, Set<Tag> tags);
 

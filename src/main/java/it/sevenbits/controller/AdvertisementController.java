@@ -740,7 +740,7 @@ public class AdvertisementController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails user = (UserDetails) principal;
         if(user.getAuthorities().contains(Role.createModeratorRole())) {
-            this.advertisementDao.setApproved(advertisementId);
+            this.advertisementDao.setDeleted(advertisementId);
         }
         return "redirect:/advertisement/moderator/list.html";
     }

@@ -1,78 +1,64 @@
 extends layout/layout
-  extends layout/layout
-  block append customcss
-    link(rel='stylesheet', href='/resources/css/newList.css')
-    link(rel='stylesheet', href='/resources/css/newExchange.css')
-  block content
-    .content
-      .container.advertisement-list
-        div
-          form.searching-form(action = '#{uri.uri("/new/advertisement/list.html")}', method = 'get')
-            input.tag-search(type='text', placeholder='Введите параметры поиска', maxlength='50', name='keyWords',
-            value='#{keyWords}')
-            select.category-search(name='isNowDeleted')
-              if (isDeleted)
-                option(selected='selected', value='true') Удаленные
-                option.choosen-category(value='false') Не Удаленные
-              else
-                option(value='true') Удаленные
-                option.choosen-category(selected='selected', value='false') Не Удаленные
-            input.current-page(type='hidden', value='#{currentPage}')
-            input.search(type='submit', value='НАЙТИ')
-        .underneath
-          .example
-            if (auth.isAuthenticated())
-              a.save-search.js-save-search(href='#', data-url='#{uri.uri("/new/advertisement/list.html")}') СОХРАНИТЬ ПОИСК
-        .row
-          for advertisement in advertisements
-            .advertisement
-              img.adv-image(src='/resources/images/user_images/#{advertisement.photoFile}')
-              p.date #{advertisement.createdDateFormat}
-              a.adv-name(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
-              .name-cover
-                a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
-              if (auth.isAuthenticated())
-                a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
-                include exchange
-        .pages
-          ul.page-list
-            if (previous == true)
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newList.css')
+block content
+  .content
+    .container.advertisement-list
+      div
+        form.searching-form(action = '#{uri.uri("/new/moderator/advertisementList.html")}', method = 'get')
+          input.tag-search(type='text', placeholder='Введите параметры поиска', maxlength='50', name='keyWords',
+          value='#{keyWords}')
+          select.category-search(name='isDeleted')
+            if (isDeleted)
+              option.choosen-category(selected='selected', value='true') Удаленные
+              option.choosen-category(value='false') Не Удаленные
+            else
+              option.choosen-category(value='true') Удаленные
+              option.choosen-category(selected='selected', value='false') Не Удаленные
+          input.current-page(type='hidden', value='#{currentPage}')
+          input.search(type='submit', value='НАЙТИ')
+      .underneath
+      .row
+        for advertisement in advertisements
+          .advertisement
+            img.adv-image(src='/resources/images/user_images/#{advertisement.photoFile}')
+            p.date #{advertisement.createdDateFormat}
+            a.adv-name(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
+            .name-cover
+              a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
+            if (!isDeleted)
+              a.delete-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/new/moderator/advertisementList.html")}') УДАЛИТЬ
+            else
+              a.restore-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/new/moderator/advertisementList.html")}') ВОССТАНОВИТЬ
+      .pages
+        ul.page-list
+          if (previous == true)
+            li
+              a.trine(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted)}') <
+          if (pageList.first != null)
+            if (currentPage == pageList.first)
               li
-                a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') <
-            if (pageList.first != null)
-              if (currentPage == pageList.first)
-                li
-                  a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.first}
-              else
-                li
-                  a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.first}
-            if (pageList.second != null)
-              if (currentPage == pageList.second)
-                li
-                  a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.second}
-              else
-                li
-                  a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.second}
-            if (pageList.third != null)
-              if (currentPage == pageList.third)
-                li
-                  a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.third}
-              else
-                li
-                  a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') #{pageList.third}
-            if (next == true)
+                a.page-link.mark(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted)}') #{pageList.first}
+            else
               li
-                a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&isDeleted=" + isNowDeleted)}') >
-        .to-know
-          | Узнавайте нововости проекта первыми!
-        .lower-case
-          form.subscribe-form(data-url='#{uri.uri("/new/main.html")}')
-            input.e-mail-field(type='text', maxlength='50', placeholder='Ваш e-mail')
-            input.e-mail-submit(type='submit', value='подписаться')
-            p.error-pointer
-  block append customjs
-    script(src="/resources/js/newExchangePopup.js")
-    script(src="/resources/js/newSubscribe.js")
-    script(src="/resources/js/newSavingSearch.js")
-
-
+                a.page-link(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted)}') #{pageList.first}
+          if (pageList.second != null)
+            if (currentPage == pageList.second)
+              li
+                a.page-link.mark(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted)}') #{pageList.second}
+            else
+              li
+                a.page-link(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted)}') #{pageList.second}
+          if (pageList.third != null)
+            if (currentPage == pageList.third)
+              li
+                a.page-link.mark(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted)}') #{pageList.third}
+            else
+              li
+                a.page-link(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted)}') #{pageList.third}
+          if (next == true)
+            li
+              a.trine(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted)}') >
+      .low-space
+block append customjs
+  script(src="/resources/js/newModerActions.js")

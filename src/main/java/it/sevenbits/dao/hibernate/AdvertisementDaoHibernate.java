@@ -270,7 +270,8 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     @Override
     public void setDeleted(Long id) {
         AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
-        advertisementEntity.setIs_deleted(true);
+        boolean deleteState = advertisementEntity.getIs_deleted();
+        advertisementEntity.setIs_deleted(!deleteState);
         hibernateTemplate.update(advertisementEntity);
     }
 
@@ -286,13 +287,13 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         advertisementEntity.setTags(tagsEntity);
     }
 
-    @Override
-    public void setApproved(Long id) {
-        AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
-        boolean deletedState =  advertisementEntity.getIs_deleted();
-        advertisementEntity.setIs_deleted(!deletedState);
-        hibernateTemplate.update(advertisementEntity);
-    }
+//    @Override
+//    public void setApproved(Long id) {
+//        AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
+//        boolean deletedState =  advertisementEntity.getIs_deleted();
+//        advertisementEntity.setIs_deleted(!deletedState);
+//        hibernateTemplate.update(advertisementEntity);
+//    }
 
     @Override
     public void update(Long id, Advertisement advertisement, String categoryName, Set<Tag> tags) {

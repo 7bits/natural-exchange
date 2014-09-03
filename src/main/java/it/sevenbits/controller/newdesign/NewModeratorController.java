@@ -5,17 +5,16 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.util.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.*;
 
 @Controller
 @RequestMapping(value = "new/moderator")
-public class ModeratorController {
+public class NewModeratorController {
 
     private static final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
 
@@ -26,14 +25,15 @@ public class ModeratorController {
     public ModelAndView showAllAdvertisements(
         @RequestParam(value = "currentPage", required = false) final Integer previousPage,
         @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
-        @RequestParam(value = "isDeleted", required = false) final Boolean previousDeletedMark) {
+        @RequestParam(value = "isDeleted", required = false) final Boolean previousDeletedMark
+    ) {
         ModelAndView modelAndView = new ModelAndView("moderator.jade");
 
         Boolean isDeleted = false;
         if (previousDeletedMark != null) {
             isDeleted = previousDeletedMark;
         }
-        modelAndView.addObject("currentCategory", isDeleted);
+        modelAndView.addObject("isDeleted", isDeleted);
 
         SortOrder mainSortOrder = SortOrder.DESCENDING;
         String sortBy = "createdDate";
@@ -150,5 +150,15 @@ public class ModeratorController {
                 break;
         }
         modelAndView.addObject("pageList", pageMap);
+    }
+
+    @RequestMapping(value = "/advertisementList.html", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody String deleteOrRestoreAdvertisement(
+        @RequestParam(value = "advertisementId", required = true) final Long id
+    ) {
+        String redirectAddress = "redirect:new/moderator/advertisementList.html";
+        this.advertisementDao.setDeleted(id);
+        return redirectAddress;
     }
 }

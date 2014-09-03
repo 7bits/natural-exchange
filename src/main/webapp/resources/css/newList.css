@@ -178,8 +178,25 @@
   background-repeat: no-repeat;
   background-position: 10px 9px;
 }
-.change-button:hover {
+.change-button:hover, .delete-button:hover, .restore-button:hover {
   background-color: rgb(223, 83, 70);
+}
+.delete-button, .restore-button {
+  position: absolute;
+  bottom: 10px;
+  display: block;
+  width: 135px;
+  margin-left: 12%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: boldSans;
+  color: rgb(255, 255, 255);
+  border-radius: 100px;
+  background-color: rgb(26, 178, 175);
 }
 select {
   -webkit-appearance: none;
@@ -228,7 +245,8 @@ select {
   font-family: mySans;
   font-size: 14px;
 }
-.lower-case {
+.low-space {
+  height: 50px;
 }
 .e-mail-field {
   outline: 0;
