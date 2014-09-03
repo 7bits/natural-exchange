@@ -25,6 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -334,6 +335,8 @@ public class AdvertisementListController {
         advertisementPlacingForm.setTitle(advertisement.getTitle());
         advertisementPlacingForm.setTags(getTagsFromAdvertisementByIdAsString(advertisementId));
         modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
+        Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementId);
+        modelAndView.addObject("tags", tags);
         return modelAndView;
     }
 
@@ -355,7 +358,11 @@ public class AdvertisementListController {
         String defaultPhoto = "no_photo.png";
         advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
         if (result.hasErrors()) {
-            return new ModelAndView("placing");
+            List<ObjectError> errors = result.getAllErrors();
+            ModelAndView modelAndView = new ModelAndView("placing");
+            modelAndView.addObject("isErrors", true);
+            modelAndView.addObject("errors", errors);
+            return modelAndView;
         }
         FileManager fileManager = new FileManager();
         String photo = null;

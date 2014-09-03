@@ -35,14 +35,20 @@ block content
               input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
               a#add-tag.reg-rounded-button.file-choose.placing-tag-add.js-add-tag ДОБАВИТЬ
               input(type='hidden', name="tags", value="#{advertisementPlacingForm.getTags()}").js-tags-chosen
-            div.chosen-tags
+            if (isEditing)
+              for tag in tags
+                  a.tag(href='') #{tag.getName()}
+            div.js-chosen-tags
+            if (isErrors)
+              for error in errors
+                div.red-alert-text #{error.getDefaultMessage()}
           if (isEditing)
               textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.getText()}").form-rounded-button.hollow-text.placing-textarea
           else
             textarea(placeholder="Описание", name="text").form-rounded-button.hollow-text.placing-textarea
           div.placing-end-button
             if (isEditing)
-              input(type="submit", placeholder="РЕДАКТИРОВАТЬ", value="РЕДАКТИРОВАТЬ").rounded-button.adding-advert.small-tab-text
+              input(type="submit", placeholder="РЕДАКТИРОВАТЬ", value="ИЗМЕНИТЬ").rounded-button.adding-advert.small-tab-text
               input(type="hidden", value='#{advertisementId}')
             else
               input(type="submit", placeholder="ДОБАВИТЬ", value="ДОБАВИТЬ").rounded-button.adding-advert.small-tab-text
