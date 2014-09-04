@@ -29,6 +29,8 @@
         <security:intercept-url pattern="/new/moderator/*" access="ROLE_MODERATOR, ROLE_ADMIN"/>
 
         <security:intercept-url pattern="/new/user/editProfile.*" access='ROLE_USER'/>
+        <security:intercept-url pattern="new/advertisement/placing*.*" access="ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR"/>
+        <security:intercept-url pattern="new/advertisement/edit*.*" access="ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR"/>
 
         <security:form-login login-page='/new/main.html'
                              default-target-url='/new/main.html'

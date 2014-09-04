@@ -6,36 +6,55 @@ block append customcss
 block content
   div.placing-advert.nexchange-mainbg
     div.main-content
-      div.head-text ДОБАВЛЕНИЕ ПРЕДЛОЖЕНИЯ
+      if (isEditing)
+          div.head-text РЕДАКТИРОВАНИЕ ПРЕДЛОЖЕНИЯ
+      else
+        div.head-text ДОБАВЛЕНИЕ ПРЕДЛОЖЕНИЯ
       div.form-placing
-        form#placing-advert(method='post', action="placing.html", commandName="advertisementPlacingForm", enctype="multipart/form-data")
-          input(type='text', placeholder="Заголовок", name="title").form-rounded-button.hollow-text.advertisement-title
+        form#placing-advert(method='post', action="placing.html", enctype="multipart/form-data")
+          if (isEditing)
+              input(type='text', placeholder="Заголовок", name="title", value="#{advertisementPlacingForm.getTitle()}").form-rounded-button.hollow-text.advertisement-title
+          else
+            input(type='text', placeholder="Заголовок", name="title").form-rounded-button.hollow-text.advertisement-title
           select.select-category(name="category")
-            option(selected='selected', disabled='disabled') Выберите Категорию
-            if (currentCategory == 'games')
-              option.choosen-category(selected='selected', value='games', name="category") Игры
+            if (isEditing)
+                option(selected='selected', disabled='disabled') #{advertisementPlacingForm.getCategory()}
             else
-              option.choosen-category(value='games') Игры
-            if (currentCategory == 'clothes')
-              option.choosen-category(selected='selected', value='clothes', name="category") Одежда
-            else
-              option.choosen-category(value='clothes') Одежда
-            if (currentCategory == 'notclothes')
-              option.choosen-category(selected='selected', value='notclothes', name="category") Не одежда
-            else
-              option.choosen-category(value='notclothes') Не одежда
+              option(selected='selected', disabled='disabled') Выберите Категорию
+            option.choosen-category(value='games', name="category") Игры
+            option.choosen-category(value='clothes', name="category") Одежда
+            option.choosen-category(value='notclothes', name="category") Не одежда
           div.placing-file-and-tags
             label.border-file-choose.placing-file-choose
-              div.file-button-hollow-text Выберите фотографию
-              input#image(name = "image", type="file")
+              div.file-button-hollow-text.js-image-text Выберите фотографию
+              if (isEditing)
+                input#image(name = "image", type="file", value="#{advertisementPlacingForm.getImage()}").js-image-chosen
+              else
+                input#image(name = "image", type="file").js-image-chosen
             div.choose-tags-and-button
               input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
               a#add-tag.reg-rounded-button.file-choose.placing-tag-add.js-add-tag ДОБАВИТЬ
-              input(type='hidden', name="tags", value="").js-tags-chosen
-            div.chosen-tags
-          textarea(placeholder="Описание", name="text").form-rounded-button.hollow-text.placing-textarea
+              input(type='hidden', name="tags", value="#{advertisementPlacingForm.getTags()}").js-tags-chosen
+            if (isEditing)
+              for tag in tags
+                  a.tag(href='') #{tag.getName()}
+            if (isErrors)
+              for error in errors
+                div.red-alert-text #{error.getDefaultMessage()}
+          if (isEditing)
+              div.tags-and-textarea
+                textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.getText()}").form-rounded-button.hollow-text.placing-textarea
+                div.chosen-tags.js-tags-placing
+          else
+              div.tags-and-textarea
+                textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.getText()}").form-rounded-button.hollow-text.placing-textarea
+                div.chosen-tags.js-tags-placing
           div.placing-end-button
-            input(type="submit", placeholder="ДОБАВИТЬ", value="ДОБАВИТЬ").rounded-button.adding-advert.small-tab-text
+            if (isEditing)
+              input(type="submit", placeholder="РЕДАКТИРОВАТЬ", value="ИЗМЕНИТЬ").rounded-button.adding-advert.small-tab-text
+              input(type="hidden", value='#{advertisementId}')
+            else
+              input(type="submit", placeholder="ДОБАВИТЬ", value="ДОБАВИТЬ").rounded-button.adding-advert.small-tab-text
 block append customjs
   script(src="/resources/js/badImage.js")
   script(src="/resources/js/newPlacing.js")

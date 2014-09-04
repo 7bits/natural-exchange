@@ -1,181 +1,243 @@
 .placing-advert {
-  height: 600px;
+    height: 700px;
 }
 
 .head-text {
-  font: 22px boldSans;
-  padding-left: 15px;
-  padding-top: 3%;
+    font: 22px boldSans;
+    padding-left: 15px;
+    padding-top: 3%;
 }
 
 .main-content {
-  max-width: 1000px;
-  margin: 0 auto;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .file-button-hollow-text {
-  color: rgb(168, 129, 49);
-  font: 18px bold mySans;
+    color: rgb(168, 129, 49);
+    font: 18px bold mySans;
 
-  padding-top: 7px;
+    padding-top: 7px;
 }
 
 .placing-tag-form-rounded-button {
-  outline: 0;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 50px;
+    outline: 0;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
 
-  width: 370px;
-  height: 40px;
+    width: 370px;
+    height: 40px;
 
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  margin-top: 15px;
-  margin-left: 15px;
-  padding-left: 30px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin-top: 15px;
+    margin-left: 15px;
+    padding-left: 30px;
 
-  border: 2px solid rgb(243, 152, 34);
-  background-color: rgb(255, 255, 255);
+    border: 2px solid rgb(243, 152, 34);
+    background-color: rgb(255, 255, 255);
 }
 
 .chosen-tags {
-  width: 50px;
-  padding-left: 650px;
+    /*padding-left: 650px;*/
+    float: right;
+    padding-left: 100px;
+
+    width: 384px;
+}
+
+.tag {
+    margin-left: 650px;
+
+    font-size: 13px;
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background-color: rgb(223, 83, 70);
+    color: rgb(255, 255, 255);
+    border-radius: 100px;
+}
+
+.chosen-tag {
+    display: inline-block;
+
+    margin-top: 20px;
+    margin-left: 5px;
+
+    font-size: 13px;
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background-color: rgb(223, 83, 70);
+    color: rgb(255, 255, 255);
+    border-radius: 100px;
+}
+
+.cross-circle {
+    float: right;
+
+    margin-top: 25px;
+
+    width: 25px;
+    height: 25px;
+
+    background-position: right top;
+    background-image: url("/resources/images/newdesign/circle-cross.png");
+    background-repeat: no-repeat;
+}
+
+.tags-and-textarea {
+    display: inline-block;
+}
+
+
+
+.red-alert-text {
+    color: red;
+}
+
+.tags-and-cross {
+    display: inline-block;
 }
 
 .form-placing {
-  padding-top: 30px;
+    padding-top: 30px;
 }
 
 .advertisement-title {
-  width: 500px;
+    width: 500px;
 }
 
 .placing-file-and-tags {
-  padding-top: 40px;
+    padding-top: 40px;
 }
 
 .select-category {
-  outline: 0;
-  margin-top: 15px;
-  width: 384px;
-  height: 40px;
-  padding-left: 20px;
-  float: right;
+    outline: 0;
+    margin-top: 15px;
+    width: 384px;
+    height: 40px;
+    padding-left: 20px;
+    float: right;
 
+    box-sizing: border-box;
+    border-radius: 100px;
+    border: 2px solid rgb(243, 152, 34);
 
-  box-sizing: border-box;
-  border-radius: 100px;
-  border: 2px solid rgb(243, 152, 34);
+    color: rgb(173, 173, 173);
+    background-color: rgb(255, 255, 255);
+    background-image: url("/resources/images/newdesign/arrow.1.png");
+    background-repeat: no-repeat;
+    background-position: 95% 50%;
 
-  color: rgb(173, 173, 173);
-  background-color: rgb(255, 255, 255);
-  background-image: url("/resources/images/newdesign/arrow.1.png");
-  background-repeat: no-repeat;
-  background-position: 95% 50%;
-
-  font-size: 18px;
-  font-family: mySans;
+    font-size: 18px;
+    font-family: mySans;
 }
 
 .choose-tags {
 }
 
 .placing-textarea {
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+    display: inline-block;
 
-  padding-top: 20px;
-  margin-top: 40px;
-  height: 200px;
-  width: 500px;
-  resize: none;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+    padding-top: 20px;
+    margin-top: 40px;
+    height: 200px;
+    width: 500px;
+    resize: none;
 }
 
 .placing-file-choose {
-  width: 500px;
+    width: 500px;
 }
 
 .placing-file-choose:hover {
-  background: white;
+    background: white;
 }
 
 .placing-button-file-choose {
-  position: relative;
+    position: relative;
 
-  box-sizing: border-box;
-  -moz-box-sizing : border-box;
-  -webkit-box-sizing : border-box;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 
-  background-color: rgb(243, 152, 34);
-  border: none;
+    background-color: rgb(243, 152, 34);
+    border: none;
 
-  width: 170px;
-  height: 30px;
-  font-family: boldSans;
-  font-size: 13px;
-  /*font: 13px normal boldSans;*/
-  color: rgb(255, 255, 255);
+    width: 170px;
+    height: 30px;
+    font-family: boldSans;
+    font-size: 13px;
+    /*font: 13px normal boldSans;*/
+    color: rgb(255, 255, 255);
 }
 
 .placing-file-choose input[type=file] {
-/*.placing-button-file-choose input=*/
-  position: absolute;
-  top: 0;
-  opacity: 0
+    /*.placing-button-file-choose input=*/
+    position: absolute;
+    top: 0;
+    opacity: 0
 }
 
 .adding-advert {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 
-  background-color: rgb(26, 178, 175);
-  border: none;
-  float: left;
+    background-color: rgb(26, 178, 175);
+    border: none;
+    float: left;
 
-  padding-left: 20px;
-  margin-left: 15px;
-  margin-top: 40px;
+    padding-left: 20px;
+    margin-left: 15px;
+    margin-top: 40px;
 
-  width: 200px;
-  height: 40px;
-  text-decoration: none;
+    width: 200px;
+    height: 40px;
+    text-decoration: none;
 
-  background-image: url("/resources/images/newdesign/accept.png");
-  background-repeat: no-repeat;
-  background-position: 16px 9px;
+    background-image: url("/resources/images/newdesign/accept.png");
+    background-repeat: no-repeat;
+    background-position: 16px 9px;
 }
 
 .choose-tags-and-button {
-  display: inline-block;
-  position: relative;
+    display: inline-block;
+    position: relative;
 }
 
 .placing-tag-choose {
-  width: 384px;
-  margin-left: 101px;
+    width: 384px;
+    margin-left: 101px;
 }
 
 .file-button-pos {
-  margin-left: 160px;
+    margin-left: 160px;
 }
 
 .placing-tag-add {
-  position: absolute;
-  left: 280px;
-  bottom: 5px;
-  padding-left: 50px;
-  padding-top: 7px;
+    position: absolute;
+    left: 280px;
+    bottom: 5px;
+    padding-left: 50px;
+    padding-top: 7px;
 
-  background-image: url(/resources/images/newdesign/plus-circle.png);
-  background-repeat: no-repeat;
-  background-position: 15px 6px;
+    background-image: url(/resources/images/newdesign/plus-circle.png);
+    background-repeat: no-repeat;
+    background-position: 15px 6px;
 }
 
 .placing-end-button {
