@@ -55,8 +55,10 @@
   position: absolute;
   width: 29%;
   height: 38px;
+  min-width: 300px;
   margin-bottom: 10px;
   padding-left: 20px;
+  padding-top: 7px;
   box-sizing: border-box;
 
   outline: 0;
@@ -66,14 +68,18 @@
   font-size: 18px;
   background-color: rgb(248, 184, 50);
 }
+.choose-user-photo:hover {
+  background-color: rgb(255, 255, 255);
+}
 .change-information {
-  margin-top: 30px;
+  margin-top: 57px;
   margin-bottom: 30px;
 
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 40px;
   padding-right: 25px;
+  cursor: pointer;
   font-family: boldSans;
   font-size: 15px;
   color: rgb(255, 255, 255);
@@ -83,6 +89,13 @@
   background-position: 10px 10px;
   border: none;
   border-radius: 100px;
+}
+.picture-block, .choose-image-block {
+  display: inline-block;
+}
+.hide-file {
+  padding-top: 7px;
+  margin-left: 10px;
 }
 
 @font-face {

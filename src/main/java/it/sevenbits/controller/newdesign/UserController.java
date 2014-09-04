@@ -10,7 +10,9 @@ import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.services.mail.MailSenderService;
+import it.sevenbits.util.FileManager;
 import it.sevenbits.util.TimeManager;
+import it.sevenbits.util.form.EditingUserInfoForm;
 import it.sevenbits.util.form.UserEntryForm;
 import it.sevenbits.util.form.UserRegistrationForm;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
@@ -34,6 +36,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -214,7 +217,7 @@ public class UserController {
         return (long) 0;
     }
 
-    @RequestMapping(value = "/editprofile.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/userprofile/editprofile.html", method = RequestMethod.GET)
     public ModelAndView editProfile() {
         ModelAndView modelAndView = new ModelAndView("editProfile.jade");
         Long id = this.getCurrentUser();
@@ -223,21 +226,30 @@ public class UserController {
         return modelAndView;
     }
 
-//    @RequestMapping(value = "/editProfile.html", method = RequestMethod.POST)
-//    public String changeUserInformation(
-//        @RequestParam(value = "firstName", required = false) final String firstName,
-//        @RequestParam(value = "lastName", required = false) final String lastName,
-//        @RequestParam(value = "newAvatar", required = false) final String newAvatar) {
-//        Long id = this.getCurrentUser();
-//        User currentUser = this.userDao.findById(id);
-//        User userNew = new User();
-//        userNew.setEmail(currentUser.getEmail());
-//        userNew.setPassword(currentUser.getPassword());
-//        userNew.setFirstName(firstName);
-//        userNew.setLastName(lastName);
-//        userNew.setVk_link(newAvatar);
-//        userNew.setUpdateDate(TimeManager.getTime());
-//        this.userDao.updateData(userNew);
-//        return "redirect:/user/userprofile/searches.html";
-//    }
+    @RequestMapping(value = "/userprofile/editprofile.html", method = RequestMethod.POST)
+    public String changeUserInformation(
+//        @RequestParam(value = "previousAvatar", required = false) final String previousAvatar,
+        final EditingUserInfoForm editingUserInfoForm,
+        final BindingResult bindingResult) {
+        String newFirstName = editingUserInfoForm.getFirstName();
+        String newLastName = editingUserInfoForm.getLastName();
+        String newAvatar = editingUserInfoForm.getPreviousAvatar();//previousAvatar;
+        MultipartFile avatarFile = editingUserInfoForm.getImage();
+        if (avatarFile != null) {
+            FileManager fileManager = new FileManager();
+            newAvatar = fileManager.savingFile(avatarFile);
+        }
+        Long id = this.getCurrentUser();
+        User currentUser = this.userDao.findById(id);
+        User userNew = new User();
+        userNew.setEmail(currentUser.getEmail());
+        userNew.setPassword(currentUser.getPassword());
+        userNew.setFirstName(newFirstName);
+        userNew.setLastName(newLastName);
+        userNew.setAvatar(newAvatar);
+        userNew.setVk_link(currentUser.getVk_link());
+        userNew.setUpdateDate(TimeManager.getTime());
+        this.userDao.updateData(userNew);
+        return "redirect:/new/user/userprofile/searches.html";
+    }
 }
