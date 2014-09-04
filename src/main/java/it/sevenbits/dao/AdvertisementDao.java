@@ -75,6 +75,15 @@ public interface AdvertisementDao {
                                                                  final Long dateFrom,
                                                                  final Long dateTo);
 
+    List<Advertisement> findAllAdvertisementsWithKeyWordsAndCategoryOrderBy(
+        final String[] categories,
+        final String[] keyWords,
+        final SortOrder sortOrder,
+        final String sortPropertyName,
+        final Long dateFrom,
+        final Long dateTo
+    );
+
     /**
      * Change advertisement
      * @param advertisement advertisement to update

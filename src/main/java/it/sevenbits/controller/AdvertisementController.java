@@ -230,7 +230,7 @@ public class AdvertisementController {
             longDateFrom = strDateToUnixTimestamp(stringDateFrom);
             longDateTo = strDateToUnixTimestamp(stringDateTo);
             if (longDateTo != null) {
-                longDateTo += this.MILLISECONDS_IN_A_DAY;
+                longDateTo += MILLISECONDS_IN_A_DAY;
             }
         }
 

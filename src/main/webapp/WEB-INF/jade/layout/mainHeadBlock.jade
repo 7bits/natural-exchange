@@ -8,8 +8,9 @@
     | /
     a(href='#registration-form').registration.js-registration Регистрация
 .left-top-logo
-  img.top-image(src='/resources/images/logotype.png', align='left')
-  .n-exchange
+  a(href='#{uri.uri("/new/main.html")}')
+    img.top-image(src='/resources/images/logotype.png', align='left')
+  a.n-exchange(href='#{uri.uri("/new/main.html")}')
     | NATURAL
     br
     | EXCHANGE

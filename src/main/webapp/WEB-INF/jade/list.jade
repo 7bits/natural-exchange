@@ -2,6 +2,7 @@ extends layout/layout
 block append customcss
   link(rel='stylesheet', href='/resources/css/newList.css')
   link(rel='stylesheet', href='/resources/css/newExchange.css')
+  link(rel='stylesheet', href='//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css')
 block content
   .content
     .container.advertisement-list
@@ -30,6 +31,12 @@ block content
               option.choosen-category(value='notclothes') Не одежда
           input.current-page(type='hidden', value='#{currentPage}')
           input.search(type='submit', value='НАЙТИ')
+          p
+            label(for='date-from') С
+            input(type='text', class='date-from', name='dateFrom', value='#{dateFrom}')
+            label(for='date-to') По
+            input(type='text', class='date-to', name='dateTo', value='#{dateTo}')
+          p.date-error #{dateError}
       .underneath
         .example
           | Например:
@@ -51,31 +58,31 @@ block content
         ul.page-list
           if (previous == true)
             li
-              a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') <
+              a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') <
           if (pageList.first != null)
             if (currentPage == pageList.first)
               li
-                a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.first}
+                a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
             else
               li
-                a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.first}
+                a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
           if (pageList.second != null)
             if (currentPage == pageList.second)
               li
-                a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.second}
+                a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
             else
               li
-                a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.second}
+                a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
           if (pageList.third != null)
             if (currentPage == pageList.third)
               li
-                a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.third}
+                a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
             else
               li
-                a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') #{pageList.third}
+                a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
           if (next == true)
             li
-              a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory)}') >
+              a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') >
       .to-know
         | Узнавайте нововости проекта первыми!
       .lower-case
@@ -87,3 +94,5 @@ block append customjs
   script(src="/resources/js/newExchangePopup.js")
   script(src="/resources/js/newSubscribe.js")
   script(src="/resources/js/newSavingSearch.js")
+  script(src='/resources/js/calendar.js')
+  script(src='//code.jquery.com/ui/1.11.1/jquery-ui.js')

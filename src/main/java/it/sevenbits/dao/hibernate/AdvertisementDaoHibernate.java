@@ -251,7 +251,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 
         criteria.add(Restrictions.eq("advertisement.is_deleted", Boolean.FALSE));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        List<Advertisement> simpleSearch = this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
@@ -379,7 +378,67 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         }
         criteria.add(Restrictions.eq("is_deleted", isDeleted));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        List<Advertisement> simpleSearch = this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
+        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
+    }
+
+    @Override
+    public List<Advertisement> findAllAdvertisementsWithKeyWordsAndCategoryOrderBy(
+        String[] categories,
+        String[] keyWords,
+        SortOrder sortOrder,
+        String sortPropertyName,
+        Long dateFrom,
+        Long dateTo
+    ) {
+        String sortByName = (sortPropertyName == null)
+                ? Advertisement.CREATED_DATE_COLUMN_CODE
+                : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
+                ;
+        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
+        switch (sortOrder) {
+            case ASCENDING :
+                criteria.addOrder(Order.asc(sortByName));
+                break;
+            case DESCENDING :
+                criteria.addOrder(Order.desc(sortByName));
+                break;
+            default:
+                //
+                break;
+        }
+
+        if (categories != null) {
+            criteria.createAlias("categoryEntity", "category");
+            Disjunction disjunction = Restrictions.disjunction();
+            for (int i = 0; i < categories.length; i++) {
+                disjunction.add(Restrictions.eq("category.name", categories[i]));
+            }
+            criteria.add(disjunction);
+        }
+
+        if (keyWords != null) {
+            for (int i = 0; i < keyWords.length; i++) {
+                criteria.add(Restrictions.like("title", "%" + keyWords[i] + "%"));
+            }
+        }
+
+        if (dateFrom != null || dateTo != null) {
+            Criterion dateCriterion = null;
+            if (dateFrom != null && dateTo != null) {
+                dateCriterion = Restrictions.between("createdDate", dateFrom, dateTo);
+            }
+            if (dateFrom == null) {
+                //less or equal
+                dateCriterion = Restrictions.le("createdDate", dateTo);
+            }
+            if (dateTo == null) {
+                //greater or equal
+                dateCriterion = Restrictions.ge("createdDate", dateFrom);
+            }
+            criteria.add(dateCriterion);
+        }
+        criteria.add(Restrictions.eq("is_deleted", false));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 }

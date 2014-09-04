@@ -7,11 +7,14 @@ import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.security.Role;
 import it.sevenbits.services.mail.MailSenderService;
+import it.sevenbits.util.DatePair;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
+import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.ExchangeForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
+import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.ExchangeFormValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +32,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
 @RequestMapping(value = "new/advertisement")
 public class AdvertisementListController {
     private static final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
+    private static final long MILLISECONDS_IN_A_DAY = 86400000;
 
     private Logger logger = LoggerFactory.getLogger(MainController.class);
 
@@ -51,16 +58,26 @@ public class AdvertisementListController {
     private CategoryDao categoryDao;
 
     @Autowired
-    private SubscriberDao subscriberDao;
+    private AdvertisementSearchingValidator advertisementSearchingValidator;
 
     @Autowired
     private SearchVariantDao searchVariantDao;
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
-    public ModelAndView list(@RequestParam(value = "currentPage", required = false) final Integer previousPage,
-                             @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
-                             @RequestParam(value = "currentCategory", required = false) final String previousCategory) {
+    public ModelAndView list(
+        @RequestParam(value = "currentPage", required = false) final Integer previousPage,
+        @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
+        @RequestParam(value = "currentCategory", required = false) final String previousCategory,
+        @RequestParam(value = "dateFrom", required = false) final String previousDateFrom,
+        @RequestParam(value = "dateTo", required = false) final String previousDateTo,
+        final AdvertisementSearchingForm previousAdvertisementSearchingForm,
+        final BindingResult bindingResult
+    ) {
         ModelAndView modelAndView = new ModelAndView("list.jade");
+
+        DatePair datePair = this.takeAndValidateDate(previousDateFrom, previousDateTo, bindingResult, modelAndView);
+        Long dateFrom = datePair.getDateFrom();
+        Long dateTo = datePair.getDateTo();
 
         String[] currentCategories = this.getAllCategories();
         if (previousCategory != null) {
@@ -77,9 +94,15 @@ public class AdvertisementListController {
         }
         modelAndView.addObject("keyWords", keyWordSearch);
 
-        List<Advertisement> advertisements = this.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
-                currentCategories, keyWordSearch, mainSortOrder, sortBy
+        List<Advertisement> advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsAndCategoryOrderBy(
+            this.stringToArray(previousCategory),
+            this.stringToArray(previousKeyWords),
+            mainSortOrder,
+            sortBy,
+            dateFrom,
+            dateTo
         );
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         List<Advertisement> userAdvertisements = new LinkedList<>();
         if (auth.getPrincipal() instanceof UserDetails) {
@@ -105,8 +128,63 @@ public class AdvertisementListController {
         modelAndView.addObject("userAdvertisements", userAdvertisements);
         modelAndView.addObject("pageCount", pageCount);
         modelAndView.addObject("currentPage", currentPage);
+        modelAndView.addObject("dateFrom", previousDateFrom);
+        modelAndView.addObject("dateTo", previousDateTo);
 
         return modelAndView;
+    }
+
+    private DatePair takeAndValidateDate(String dateFrom, String dateTo, BindingResult bindingResult,
+                                         ModelAndView modelAndView) {
+        AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
+        if (dateFrom != null) {
+            advertisementSearchingForm.setDateFrom(dateFrom);
+        } else if (advertisementSearchingForm.getDateFrom() == null) {
+            advertisementSearchingForm.setDateFrom("");
+        }
+        if (dateTo != null) {
+            advertisementSearchingForm.setDateTo(dateTo);
+        } else if (advertisementSearchingForm.getDateTo() == null) {
+            advertisementSearchingForm.setDateTo("");
+        }
+        this.advertisementSearchingValidator.validate(advertisementSearchingForm, bindingResult);
+        //it made for null dates
+        String stringDateFrom = advertisementSearchingForm.getDateFrom();
+        String stringDateTo = advertisementSearchingForm.getDateTo();
+        Long longDateFrom = null;
+        Long longDateTo = null;
+        if (!bindingResult.hasErrors()) {
+            longDateFrom = strDateToUnixTimestamp(stringDateFrom);
+            longDateTo = strDateToUnixTimestamp(stringDateTo);
+            if (longDateTo != null) {
+                longDateTo += MILLISECONDS_IN_A_DAY;
+            }
+        } else {
+            String errorDate = bindingResult.
+                    getAllErrors().
+                    get(0).
+                    getDefaultMessage();
+            modelAndView.addObject("dateError", errorDate);
+        }
+        return new DatePair(longDateFrom, longDateTo);
+    }
+
+    private static Long strDateToUnixTimestamp(String dt) {
+        if (dt.equals("")) {
+            return null;
+        }
+        DateFormat formatter;
+        Date date = null;
+        long unixtime;
+        formatter = new SimpleDateFormat("dd.MM.yy");
+        try {
+            date = formatter.parse(dt);
+        } catch (ParseException ex) {
+            //Bad
+            ex.printStackTrace();
+        }
+        unixtime = date.getTime();
+        return unixtime;
     }
 
     /**
@@ -194,6 +272,9 @@ public class AdvertisementListController {
 
 
     private String[] stringToArray(String str) {
+        if (str == null) {
+            return null;
+        }
         StringTokenizer token = new StringTokenizer(str);
         String[] allCategories = new String[token.countTokens()];
         for (int i = 0; i < allCategories.length; i++) {

@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
  * Class for advertisements searching spring form
  */
 public class AdvertisementSearchingForm {
+    private Boolean isDeleted;
     private String[] categories;
     private String keyWords;
     private String dateFrom;
@@ -51,5 +52,13 @@ public class AdvertisementSearchingForm {
 
     public void setDateTo(String dateTo) {
         this.dateTo = dateTo;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

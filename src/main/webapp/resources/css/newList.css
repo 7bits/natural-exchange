@@ -117,6 +117,10 @@
   font-family: mySans;
   color: rgb(143, 143, 143);
 }
+.date-error {
+  font-size: 12px;
+  color: rgb(255, 0, 0);
+}
 .name-cover {
   margin-top: 20px;
 }
