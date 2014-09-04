@@ -38,14 +38,17 @@ block content
             if (isEditing)
               for tag in tags
                   a.tag(href='') #{tag.getName()}
-            div.js-chosen-tags
             if (isErrors)
               for error in errors
                 div.red-alert-text #{error.getDefaultMessage()}
           if (isEditing)
-              textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.getText()}").form-rounded-button.hollow-text.placing-textarea
+              div.tags-and-textarea
+                textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.getText()}").form-rounded-button.hollow-text.placing-textarea
+                div.chosen-tags.js-tags-placing
           else
-            textarea(placeholder="Описание", name="text").form-rounded-button.hollow-text.placing-textarea
+              div.tags-and-textarea
+                textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.getText()}").form-rounded-button.hollow-text.placing-textarea
+                div.chosen-tags.js-tags-placing
           div.placing-end-button
             if (isEditing)
               input(type="submit", placeholder="РЕДАКТИРОВАТЬ", value="ИЗМЕНИТЬ").rounded-button.adding-advert.small-tab-text

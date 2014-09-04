@@ -42,13 +42,11 @@
 }
 
 .chosen-tags {
-    width: 50px;
-    padding-left: 650px;
-}
+    /*padding-left: 650px;*/
+    float: right;
+    padding-left: 100px;
 
-.js-chosen-tags {
-    width: 50px;
-    padding-left: 650px;
+    width: 384px;
 }
 
 .tag {
@@ -66,7 +64,10 @@
 }
 
 .chosen-tag {
+    display: inline-block;
+
     margin-top: 20px;
+    margin-left: 5px;
 
     font-size: 13px;
     text-decoration: none;
@@ -82,6 +83,7 @@
 .cross-circle {
     float: right;
 
+    margin-top: 25px;
 
     width: 25px;
     height: 25px;
@@ -91,15 +93,17 @@
     background-repeat: no-repeat;
 }
 
+.tags-and-textarea {
+    display: inline-block;
+}
+
+
+
 .red-alert-text {
     color: red;
 }
 
 .tags-and-cross {
-    padding-top: 10px;
-
-    width: 130px;
-
     display: inline-block;
 }
 
@@ -141,6 +145,8 @@
 }
 
 .placing-textarea {
+    display: inline-block;
+
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     border-bottom-left-radius: 20px;
