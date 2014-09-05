@@ -237,7 +237,7 @@ public class UserController {
         MultipartFile avatarFile = editingUserInfoForm.getImage();
         if (avatarFile != null) {
             FileManager fileManager = new FileManager();
-            newAvatar = fileManager.savingFile(avatarFile);
+            newAvatar = fileManager.savingFile(avatarFile, false);
         }
         Long id = this.getCurrentUser();
         User currentUser = this.userDao.findById(id);

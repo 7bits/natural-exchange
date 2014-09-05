@@ -429,7 +429,7 @@ public class AdvertisementListController {
             if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("") && editingAdvertisementId == null) {
                 photo = defaultPhoto;
             } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals(""))) {
-                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
             } else {
                 photo = defaultPhoto;
             }

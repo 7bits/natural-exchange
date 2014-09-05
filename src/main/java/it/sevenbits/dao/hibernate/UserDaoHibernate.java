@@ -237,6 +237,7 @@ public class UserDaoHibernate implements UserDao {
         userToUpdate.setLastName(userNewParam.getLastName());
         userToUpdate.setVk_link(userNewParam.getVk_link());
         userToUpdate.setUpdateDate(TimeManager.getTime());
+        userToUpdate.setAvatar(userNewParam.getAvatar());
         this.hibernateTemplate.update(userToUpdate);
     }
 
