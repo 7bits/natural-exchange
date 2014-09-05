@@ -11,6 +11,8 @@ $("#add-tag").on('click', function() {
 $(".js-image-chosen").on('change', function() {
     var currentText = $('.js-image-text');
     currentText.text("Изображение выбрано");
+    var currentImage = $('.js-current-image');
+    currentImage.remove();
 });
 
 $("body").on('click', '.js-deleting-tag', function(){

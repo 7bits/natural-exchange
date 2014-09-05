@@ -16,6 +16,7 @@ import it.sevenbits.util.form.ExchangeForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.ExchangeFormValidator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.util.FileSystemUtils;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -407,7 +409,7 @@ public class AdvertisementListController {
     @RequestMapping(value = "/edit.html", method = RequestMethod.GET)
     public ModelAndView edit(@RequestParam(value = "id", required = true) final Long advertisementId) {
         ModelAndView modelAndView =  new ModelAndView("placing");
-        modelAndView.addObject("isEditing",true);
+        modelAndView.addObject("isEditing", true);
         modelAndView.addObject("advertisementId", advertisementId);
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
@@ -418,6 +420,8 @@ public class AdvertisementListController {
         modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
         Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementId);
         modelAndView.addObject("tags", tags);
+        modelAndView.addObject("imageUrl", "/resources/images/user_images/" + advertisement.getPhotoFile());
+        modelAndView.addObject("imageFileName", advertisement.getPhotoFile());
         return modelAndView;
     }
 
@@ -434,7 +438,8 @@ public class AdvertisementListController {
     public ModelAndView processPlacingAdvertisement(
             final AdvertisementPlacingForm advertisementPlacingFormParam,
             final BindingResult result,
-            final Long editingAdvertisementId
+            final Long editingAdvertisementId,
+            final String advertisementOldImageName
     ) {
         String defaultPhoto = "no_photo.png";
         advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
@@ -459,11 +464,33 @@ public class AdvertisementListController {
         if (!(advertisementPlacingFormParam.getImage() == null)) {
             if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("") && editingAdvertisementId == null) {
                 photo = defaultPhoto;
-            } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals(""))) {
+            } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) && advertisementOldImageName != null) {
+//                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
                 photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+                FileSystemUtils fileSystemUtils = null;
+                File advertisementOldImageFile = new File("/webapp/resources/images/user_images/" + advertisementOldImageName);
+                try {
+                    fileSystemUtils.deleteRecursively(advertisementOldImageFile);
+                } catch (NullPointerException ex) {
+
+                }
+            } else if (advertisementOldImageName != null) {
+                photo = advertisementOldImageName;
             } else {
-                photo = defaultPhoto;
+                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
             }
+//            if (advertisementOldImageName != null) {
+//                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+//                FileSystemUtils fileSystemUtils = null;
+//                File advertisementOldImageFile = new File("/webapp/resources/images/user_images/" + advertisementOldImageName);
+//                try {
+//                    fileSystemUtils.deleteRecursively(advertisementOldImageFile);
+//                } catch (NullPointerException ex) {
+//
+//                }
+//            }
+        } else {
+            photo = defaultPhoto;
         }
 
         Advertisement advertisement = null;

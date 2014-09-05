@@ -20,6 +20,18 @@
     padding-top: 7px;
 }
 
+.file-current-hollow-text {
+    color: rgb(168, 129, 49);
+    font: 18px bold mySans;
+
+    padding-left: 20px;
+    text-decoration: none;
+}
+
+.file-current-hollow-text:hover {
+    color: rgb(223, 83, 70);
+}
+
 .placing-tag-form-rounded-button {
     outline: 0;
     border-top-left-radius: 50px;
