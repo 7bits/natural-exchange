@@ -19,5 +19,8 @@ block content
           label
             .choose-user-photo Выберите другой файл
             input#image.hide-file(type='file', name='image')
+        div.delete-avatar-block
+          input.delete-checkbox(type='checkbox', name = 'isDelete')
+          p.checkbox-text УДАЛИТЬ АВАТАР
         div
           input.change-information(type='submit', value='СОХРАНИТЬ')

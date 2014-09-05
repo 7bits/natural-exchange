@@ -235,9 +235,13 @@ public class UserController {
         String newLastName = editingUserInfoForm.getLastName();
         String newAvatar = editingUserInfoForm.getPreviousAvatar();//previousAvatar;
         MultipartFile avatarFile = editingUserInfoForm.getImage();
-        if (avatarFile != null) {
-            FileManager fileManager = new FileManager();
-            newAvatar = fileManager.savingFile(avatarFile, false);
+        if (editingUserInfoForm.getIsDelete() == null) {
+            if (!avatarFile.getOriginalFilename().equals("")) {
+                FileManager fileManager = new FileManager();
+                newAvatar = fileManager.savingFile(avatarFile, false);
+            }
+        } else {
+            newAvatar = null;
         }
         Long id = this.getCurrentUser();
         User currentUser = this.userDao.findById(id);

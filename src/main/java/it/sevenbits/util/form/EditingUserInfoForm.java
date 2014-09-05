@@ -6,8 +6,16 @@ public class EditingUserInfoForm {
     private String previousAvatar;
     private String firstName;
     private String lastName;
+    private Boolean isDelete;
     private MultipartFile image;
 
+    public Boolean getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Boolean isDelete) {
+        this.isDelete = isDelete;
+    }
 
     public String getPreviousAvatar() {
         return previousAvatar;
