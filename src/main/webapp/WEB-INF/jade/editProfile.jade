@@ -1,4 +1,4 @@
-extends layout/layout
+extends cabinet/cabinetLayout
 block append customcss
   link(rel='stylesheet', href='/resources/css/newEditProfile.css')
 block content
@@ -6,14 +6,18 @@ block content
     .user-container
       a.back-to-the-cab(href='#{uri.uri("/new/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
       p.change-info ИЗМЕНИТЬ ЛИЧНУЮ ИНФОРМАЦИЮ
-      form
+      form(action = 'editprofile.html', method = 'post', commandName="editindUserInfoForm", enctype="multipart/form-data")
         div
-          input.first-name-field(type='text', value='#{currentUser.getFirstName()}')
+          input.first-name-field(type='text', value='#{currentUser.getFirstName()}', name='firstName')
         div
-          input.last-name-field(type='text', value='#{currentUser.getLastName()}')
-        div
+          input.last-name-field(type='text', value='#{currentUser.getLastName()}', name='lastName')
+        div.picture-block
           if (currentUser.getAvatar() != null)
             img.user-avatar(src='/resources/images/avatars/#{currentUser.getAvatar()}')
-          input.choose-user-photo(type='text', placeholder='Выбрать другой файл')
+          input(type='hidden', value='#{currentUser.getAvatar()}', name='previousAvatar')
+        div.choose-image-block
+          label
+            .choose-user-photo Выберите другой файл
+            input#image.hide-file(type='file', name='image')
         div
           input.change-information(type='submit', value='СОХРАНИТЬ')
