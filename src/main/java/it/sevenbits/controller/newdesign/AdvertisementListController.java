@@ -16,7 +16,6 @@ import it.sevenbits.util.form.ExchangeForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.ExchangeFormValidator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.util.FileSystemUtils;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -457,7 +456,7 @@ public class AdvertisementListController {
                 photo = defaultPhoto;
             } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) && advertisementOldImageName != null) {
                 // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
-                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
                 if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
                         advertisementOldImageName.equals("image3.jpg")) {
 
@@ -470,7 +469,7 @@ public class AdvertisementListController {
             } else if (advertisementOldImageName != null) {
                 photo = advertisementOldImageName;
             } else {
-                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
             }
         } else {
             photo = defaultPhoto;

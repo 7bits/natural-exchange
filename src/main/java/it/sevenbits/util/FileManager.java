@@ -14,7 +14,8 @@ import java.util.UUID;
  */
 public class FileManager {
 
-    private String path;
+    private String advertisementImagePath;
+    private String avatarImagePath;
 
     public FileManager() {
         Properties prop = new Properties();
@@ -26,15 +27,21 @@ public class FileManager {
             //TODO:need to do something
             e.printStackTrace();
         }
-        path = prop.getProperty("file.manager.path");
+        advertisementImagePath = prop.getProperty("file.manager.advertisementimagepath");
+        avatarImagePath = prop.getProperty("file.manager.avatarpath");
     }
 
-    public String savingFile(final MultipartFile multipartFile) {
+    public String savingFile(final MultipartFile multipartFile, boolean isAdvertisement) {
         UUID id = UUID.randomUUID();
         String idStr = id.toString().replaceAll("-", "");
         String contentType = getType(multipartFile.getOriginalFilename());
         String fileName = "img_" + idStr + "." + contentType;
-        String directory = path;
+        String directory;
+        if (isAdvertisement) {
+            directory = advertisementImagePath;
+        } else {
+            directory = avatarImagePath;
+        }
         String filePath = directory + fileName;
         File file = new File(filePath);
         try {
@@ -47,7 +54,7 @@ public class FileManager {
     }
 
     public final String getImagesFilesPath() {
-        return path;
+        return advertisementImagePath;
     }
 
     private String getType(final String fileName) {

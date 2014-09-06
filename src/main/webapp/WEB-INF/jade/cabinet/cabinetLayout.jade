@@ -14,7 +14,7 @@ block content
         p.user-email-cover
           a.user-email(href='#') #{currentUser.getEmail()}
         p.edit-user-cover
-          a.edit-user-profile(href='#{uri.uri("/new/user/editprofile.html")}') Редактировать
+          a.edit-user-profile(href='#{uri.uri("/new/user/userprofile/editprofile.html")}') Редактировать
         p.fix-text Дата регистрации:
         p.register-date #{currentUser.getCreatedDateFormat()}
       .right-block

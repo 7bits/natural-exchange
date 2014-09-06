@@ -534,7 +534,7 @@ public class AdvertisementController {
             if (advertisementPlacingFormParam.getImage().isEmpty() && editingAdvertisementId == null) {
                 photo = defaultPhoto;
             } else if (!advertisementPlacingFormParam.getImage().isEmpty()) {
-                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
             }
 
             Advertisement advertisement = null;
