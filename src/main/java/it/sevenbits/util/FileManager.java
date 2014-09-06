@@ -46,6 +46,10 @@ public class FileManager {
         return fileName;
     }
 
+    public final String getImagesFilesPath() {
+        return path;
+    }
+
     private String getType(final String fileName) {
         StringTokenizer token = new StringTokenizer(fileName, ".");
         String type;

@@ -452,47 +452,29 @@ public class AdvertisementListController {
         }
         FileManager fileManager = new FileManager();
         String photo = null;
-//        if (advertisementPlacingFormParam.getImage() == null && editingAdvertisementId == null) {
-//            photo = defaultPhoto;
-//        } else if (!(advertisementPlacingFormParam.getImage() == null)) {
-//            if (!(advertisementPlacingFormParam.getImage().getName().equals(""))) {
-//                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
-//            } else {
-//                photo = defaultPhoto;
-//            }
-//        }
         if (!(advertisementPlacingFormParam.getImage() == null)) {
             if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("") && editingAdvertisementId == null) {
                 photo = defaultPhoto;
             } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) && advertisementOldImageName != null) {
-//                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
+                // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
                 photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
-                FileSystemUtils fileSystemUtils = null;
-                File advertisementOldImageFile = new File("/webapp/resources/images/user_images/" + advertisementOldImageName);
-                try {
-                    fileSystemUtils.deleteRecursively(advertisementOldImageFile);
-                } catch (NullPointerException ex) {
+                if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
+                        advertisementOldImageName.equals("image3.jpg")) {
 
+                } else {
+                    File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
+                    if (!advertisementOldImageFile.delete()) {
+                        //fail
+                    }
                 }
             } else if (advertisementOldImageName != null) {
                 photo = advertisementOldImageName;
             } else {
                 photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
             }
-//            if (advertisementOldImageName != null) {
-//                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage());
-//                FileSystemUtils fileSystemUtils = null;
-//                File advertisementOldImageFile = new File("/webapp/resources/images/user_images/" + advertisementOldImageName);
-//                try {
-//                    fileSystemUtils.deleteRecursively(advertisementOldImageFile);
-//                } catch (NullPointerException ex) {
-//
-//                }
-//            }
         } else {
             photo = defaultPhoto;
         }
-
         Advertisement advertisement = null;
         if (editingAdvertisementId == null) {
             advertisement = new Advertisement();
