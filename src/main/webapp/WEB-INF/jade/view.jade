@@ -4,7 +4,7 @@ block append customcss
   link(rel='stylesheet', href='/resources/css/newExchange.css')
 block append content
   .content
-    .title #{advertisement.getTitle()}
+    .title #{advertisement.title}
     .advertisement-container
       .information
         .category
@@ -14,10 +14,10 @@ block append content
           .tags
             | Теги:
             for tag in tags
-              a.tag(href='#{uri.uri("/new/advertisement/list.html?keyWords=" + tag.getName())}') #{tag.getName()}
+              a.tag(href='#{uri.uri("/new/advertisement/list.html?keyWords=" + tag.name)}') #{tag.name}
         .description
           | Описание:
-          p.current-description #{advertisement.getText()}
+          p.current-description #{advertisement.text}
         .who-change
           | Меняет:
           a.change-user(href='#') #{fullUserName}
@@ -27,7 +27,7 @@ block append content
             a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
             a.tag(href='#{uri.uri("/new/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ОБЪЯВЛЕНИЕ
       .picture
-        img.thing-picture(src='/resources/images/user_images/#{advertisement.getPhotoFile()}')
+        img.thing-picture(src='/resources/images/user_images/#{advertisement.photoFile}')
     .change-button
       a.change.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ
     include exchange

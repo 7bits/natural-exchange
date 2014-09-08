@@ -13,12 +13,12 @@ block content
       div.form-placing
         form#placing-advert(method='post', action="placing.html", enctype="multipart/form-data")
           if (isEditing)
-              input(type='text', placeholder="Заголовок", name="title", value="#{advertisementPlacingForm.getTitle()}").form-rounded-button.hollow-text.advertisement-title
+              input(type='text', placeholder="Заголовок", name="title", value="#{advertisementPlacingForm.title}").form-rounded-button.hollow-text.advertisement-title
           else
             input(type='text', placeholder="Заголовок", name="title").form-rounded-button.hollow-text.advertisement-title
           select.select-category(name="category")
             if (isEditing)
-                option(selected='selected', disabled='disabled') #{advertisementPlacingForm.getCategory()}
+                option(selected='selected', disabled='disabled') #{advertisementPlacingForm.category}
             else
               option(selected='selected', disabled='disabled') Выберите Категорию
             option.choosen-category(value='games', name="category") Игры
@@ -28,26 +28,26 @@ block content
             label.border-file-choose.placing-file-choose
               div.file-button-hollow-text.js-image-text Выберите фотографию
               if (isEditing)
-                input#image(name = "image", type="file", value="#{advertisementPlacingForm.getImage()}").js-image-chosen
+                input#image(name = "image", type="file", value="#{advertisementPlacingForm.image}").js-image-chosen
               else
                 input#image(name = "image", type="file").js-image-chosen
             div.choose-tags-and-button
               input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
               a#add-tag.reg-rounded-button.file-choose.placing-tag-add.js-add-tag ДОБАВИТЬ
-              input(type='hidden', name="tags", value="#{advertisementPlacingForm.getTags()}").js-tags-chosen
+              input(type='hidden', name="tags", value="#{advertisementPlacingForm.tags}").js-tags-chosen
             if (isEditing)
               for tag in tags
-                  a.tag(href='') #{tag.getName()}
+                  a.tag(href='') #{tag.name}
             if (isErrors)
               for error in errors
                 div.red-alert-text #{error.getDefaultMessage()}
           if (isEditing)
               div.tags-and-textarea
-                textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.getText()}").form-rounded-button.hollow-text.placing-textarea
+                textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.text}").form-rounded-button.hollow-text.placing-textarea
                 div.chosen-tags.js-tags-placing
           else
               div.tags-and-textarea
-                textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.getText()}").form-rounded-button.hollow-text.placing-textarea
+                textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.text}").form-rounded-button.hollow-text.placing-textarea
                 div.chosen-tags.js-tags-placing
           div.placing-end-button
             if (isEditing)

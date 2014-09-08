@@ -6,15 +6,14 @@ block content
     .user-container
       a.back-to-the-cab(href='#{uri.uri("/new/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
       p.change-info ИЗМЕНИТЬ ЛИЧНУЮ ИНФОРМАЦИЮ
-      form(action = 'editprofile.html', method = 'post', commandName="editindUserInfoForm", enctype="multipart/form-data")
+      form(action = 'edit.html', method = 'post', commandName="editindUserInfoForm", enctype="multipart/form-data")
         div
-          input.first-name-field(type='text', value='#{currentUser.getFirstName()}', name='firstName')
+          input.first-name-field(type='text', value='#{currentUser.firstName}', name='firstName')
         div
-          input.last-name-field(type='text', value='#{currentUser.getLastName()}', name='lastName')
+          input.last-name-field(type='text', value='#{currentUser.lastName}', name='lastName')
         div.picture-block
-          if (currentUser.getAvatar() != null)
-            img.user-avatar(src='/resources/images/avatars/#{currentUser.getAvatar()}')
-          input(type='hidden', value='#{currentUser.getAvatar()}', name='previousAvatar')
+          if (currentUser.avatar != null)
+            img.user-avatar(src='/resources/images/avatars/#{currentUser.avatar}')
         div.choose-image-block
           label
             .choose-user-photo Выберите другой файл

@@ -19,6 +19,8 @@ import it.sevenbits.util.TimeManager;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.MailException;
@@ -37,6 +39,8 @@ import static it.sevenbits.util.SortOrder.ASCENDING;
 public class AdvertisementDaoHibernate implements AdvertisementDao {
 
     private HibernateTemplate hibernateTemplate;
+
+    private final Logger logger = LoggerFactory.getLogger(AdvertisementDaoHibernate.class);
 
     @Autowired
     public AdvertisementDaoHibernate(@Qualifier("sessionFactory") final SessionFactory sessionFactory) {
@@ -75,7 +79,8 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         try {
             mailSenderService.sendNotifyToModerator(advertisementEntity.getId(), advertisementEntity.getCategory().getName());
         } catch (MailException ex) {
-//            TODO нужно обработать это исключение и залогировать (добавить варнинг в лог)
+//            TODO нужно обработать это исключение
+            logger.warn("Notification couldn't been sent");
         }
         return  advertisementEntity;
     }

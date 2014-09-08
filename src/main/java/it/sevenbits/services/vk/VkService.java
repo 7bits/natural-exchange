@@ -1,5 +1,7 @@
 package it.sevenbits.services.vk;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -14,6 +16,7 @@ import java.util.Properties;
 
 @Component
 public class VkService {
+    private final Logger logger = LoggerFactory.getLogger(VkService.class);
 
     /**
      * Method return token, expires and userId using code.
@@ -58,6 +61,7 @@ public class VkService {
             inStream.close();
         } catch (IOException e) {
             //TODO:need to do something
+            logger.warn("Can't open file in common.properties");
             e.printStackTrace();
         }
         String result = prop.getProperty("mail.service.domen");

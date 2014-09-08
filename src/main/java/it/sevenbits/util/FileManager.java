@@ -1,6 +1,8 @@
 package it.sevenbits.util;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.util.UUID;
  */
 public class FileManager {
 
+    private final Logger logger = LoggerFactory.getLogger(FileManager.class);
+
     private String advertisementImagePath;
     private String avatarImagePath;
 
@@ -25,6 +29,7 @@ public class FileManager {
             inStream.close();
         } catch (IOException e) {
             //TODO:need to do something
+            logger.warn("Can't open file in common.properties");
             e.printStackTrace();
         }
         advertisementImagePath = prop.getProperty("file.manager.advertisementimagepath");
@@ -36,21 +41,43 @@ public class FileManager {
         String idStr = id.toString().replaceAll("-", "");
         String contentType = getType(multipartFile.getOriginalFilename());
         String fileName = "img_" + idStr + "." + contentType;
-        String directory;
-        if (isAdvertisement) {
-            directory = advertisementImagePath;
-        } else {
-            directory = avatarImagePath;
-        }
+        String directory = getPath(isAdvertisement);
         String filePath = directory + fileName;
         File file = new File(filePath);
         try {
             FileUtils.writeByteArrayToFile(file, multipartFile.getBytes());
         } catch (Throwable e) {
             //TODO:need to do something
+            logger.warn("Can't record file");
             e.printStackTrace();
         }
         return fileName;
+    }
+
+    private String getPath(boolean isAdvertisement) {
+        String res = null;
+        if (isAdvertisement) {
+            res = advertisementImagePath;
+        } else {
+            res = avatarImagePath;
+        }
+        return res;
+    }
+
+    public boolean deleteFile(String fileName, boolean isAdvertisement) {
+        String path = getPath(isAdvertisement);
+        File file = new File(path + fileName);
+        if (!file.exists()) {
+            return false;
+        }
+        try {
+            FileUtils.forceDelete(file);
+        } catch (IOException e) {
+            //TODO: logs if file doesn't record
+            logger.warn("Can't delete file");
+            e.printStackTrace();
+        }
+        return true;
     }
 
     private String getType(final String fileName) {

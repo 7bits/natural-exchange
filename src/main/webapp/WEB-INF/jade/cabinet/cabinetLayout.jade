@@ -8,13 +8,13 @@ block content
         if (currentUser.getAvatar() != null)
           img.user-image(src='/resources/images/avatars/' + currentUser.getAvatar())
         p.user-name
-          | #{currentUser.getFirstName()}
+          | #{currentUser.firstName}
           br
-          | #{currentUser.getLastName()}
+          | #{currentUser.lastName}
         p.user-email-cover
-          a.user-email(href='#') #{currentUser.getEmail()}
+          a.user-email(href='#') #{currentUser.email}
         p.edit-user-cover
-          a.edit-user-profile(href='#{uri.uri("/new/user/userprofile/editprofile.html")}') Редактировать
+          a.edit-user-profile(href='#{uri.uri("/new/user/userprofile/edit.html")}') Редактировать
         p.fix-text Дата регистрации:
         p.register-date #{currentUser.getCreatedDateFormat()}
       .right-block

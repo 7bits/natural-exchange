@@ -10,7 +10,7 @@ block information
         a.editSearch(href='#')
           img(src='/resources/images/editActive.png')
         .nameAndCategory
-          a.thingName(href='#{uri.uri("/new/advertisement/list.html?keyWords=" + searchVariant.getKeyWords() + "&categories=" + searchVariant.getRealCategories())}') #{searchVariant.getKeyWords()}
+          a.thingName(href='#{uri.uri("/new/advertisement/list.html?keyWords=" + searchVariant.keyWords + "&categories=" + searchVariant.getRealCategories())}') #{searchVariant.keyWords}
           p.categoryName #{searchVariant.getRealCategories()}
         //a.tag(href='#') инструменты
         //a.tag(href='#') струнные

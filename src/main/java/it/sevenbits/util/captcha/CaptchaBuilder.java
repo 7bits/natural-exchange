@@ -1,5 +1,8 @@
 package it.sevenbits.util.captcha;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -160,10 +163,10 @@ class CaptchaBuilder {
 
             int charX = (int) (0.5 * charDim - 0.5 * charWidth);
             charGraphics.drawString("" + characterToShow, charX,
-                    (int) ((charDim - fontMetrics.getAscent()) / 2 + fontMetrics.getAscent()));
+                ((charDim - fontMetrics.getAscent()) / 2 + fontMetrics.getAscent()));
 
             float x = horizMargin + spacePerChar * (i) - charDim / 2.0f;
-            int y = (int) ((height - charDim) / 2);
+            int y = ((height - charDim) / 2);
             graphic.drawImage(charImage, (int) x, y, charDim, charDim, null, null);
 
             charGraphics.dispose();
