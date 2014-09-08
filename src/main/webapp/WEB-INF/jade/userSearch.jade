@@ -7,7 +7,7 @@ block information
       .savingSearch
         a.deleteSearch(href='#')
           img(src='/resources/images/deleteNotActive.png')
-        a.editSearch(href='#')
+        a.editSearch(href='#{uri.uri("/new/user/userprofile/editSearch.html?id=" + searchVariant.id)}')
           img(src='/resources/images/editActive.png')
         .nameAndCategory
           a.thingName(href='#{uri.uri("/new/advertisement/list.html?keyWords=" + searchVariant.keyWords + "&categories=" + searchVariant.getRealCategories())}') #{searchVariant.keyWords}

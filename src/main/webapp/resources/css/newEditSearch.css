@@ -1,0 +1,9 @@
+.editingSearch {
+    background-color: rgb(248, 184, 50);
+
+    height: 845px;
+}
+
+.title-and-category {
+    display: inline-block;
+}

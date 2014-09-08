@@ -5,6 +5,7 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
+import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
@@ -13,6 +14,7 @@ import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.TimeManager;
 import it.sevenbits.util.form.EditingUserInfoForm;
+import it.sevenbits.util.form.SearchEditForm;
 import it.sevenbits.util.form.UserEntryForm;
 import it.sevenbits.util.form.UserRegistrationForm;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
@@ -35,9 +37,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "new/user")
@@ -251,5 +251,43 @@ public class UserController {
         userNew.setUpdateDate(TimeManager.getTime());
         this.userDao.updateData(userNew);
         return "redirect:/new/user/userprofile/searches.html";
+    }
+
+    @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.GET)
+    public ModelAndView searchEditing(@RequestParam(value = "id", required = true) final Long id) {
+        ModelAndView modelAndView = new ModelAndView("editSearch");
+        SearchEditForm searchEditForm = new SearchEditForm();
+        if (id != null) {
+            SearchVariant searchVariant = this.searchVariantDao.findById(id);
+            searchEditForm.setCategory(searchVariant.getCategories());
+            searchEditForm.setKeywords(searchVariant.getKeyWords());
+        }
+        Set<String> keywords = getKeywordsFromSearchVariant(searchEditForm.getKeywords());
+        modelAndView.addObject("keywords", keywords);
+        modelAndView.addObject("searchEditForm", searchEditForm);
+        return modelAndView;
+    }
+
+    private Set<String> getKeywordsFromSearchVariant(final String keywords) {
+        Set<String> setOfKeywords = new HashSet<>();
+        StringBuffer newKeyword = new StringBuffer("");
+        boolean findSpace = false;
+        for (int i = 0; i < keywords.length(); i++) {
+            if (keywords.charAt(i) == ' ') {
+                findSpace = true;
+                continue;
+            }
+            if (findSpace) {
+                if (keywords.charAt(i) != ' ') {
+                    newKeyword.append(keywords.charAt(i));
+                } else {
+                    findSpace = false;
+                    String keyword = new String(newKeyword);
+                    setOfKeywords.add(keyword);
+                    newKeyword.delete(0, newKeyword.length());
+                }
+            }
+        }
+        return setOfKeywords;
     }
 }

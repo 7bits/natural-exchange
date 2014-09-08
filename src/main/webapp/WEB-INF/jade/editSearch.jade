@@ -1,0 +1,37 @@
+extends layout/layout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newEditSearch.css')
+  link(rel='stylesheet', href='/resources/css/newPlacing.css')
+  link(rel='stylesheet', href='/resources/css/newList.css')
+block content
+  .editingSearch
+    form#edit-search(method='post', action="editSearch.html")
+      div
+        a(href='#{uri.uri("/new/user/userprofile/searches.html")}').cabinet.save-search ЛИЧНЫЙ КАБИНЕТ
+      div.center-large-text ИЗМЕНИТЬ ПАРАМЕТРЫ ПОИСКА
+      div.title-and-category
+        input(type='text', placeholder="Заголовок", name="title", value="#{searchEditForm.title}").form-rounded-button.hollow-text.advertisement-title
+        select.select-category(name="category")
+          if (searchEditForm.category == "games")
+            option.choosen-category(value='games', selected='selected', name="category") Игры
+          else
+            option.choosen-category(value='games', name="category") Игры
+          if (searchEditForm.category == "clothes")
+            option.choosen-category(value='clothes', selected='selected', name="category") Одежда
+          else
+            option.choosen-category(value='clothes', name="category") Одежда
+          if (searchEditForm.category == "notclothes")
+            option.choosen-category(value='notclothes', selected='selected', name="category") Не одежда
+          else
+            option.choosen-category(value='notclothes', name="category") Не одежда
+      div.chosen-tags.js-tags-placing
+        for keyword in keywords
+          div.tags-and-cross
+            div.chosen-tag #{keyword}
+            a.cross-circle.js-deleting-tag
+      input(type="submit", placeholder="ДОБАВИТЬ", value="СОХРАНИТЬ").rounded-button.adding-advert.small-tab-text
+block append customjs
+  script(src="/resources/js/badImage.js")
+  script(src="/resources/js/newSearch.js")
+
+
