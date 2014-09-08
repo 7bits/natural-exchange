@@ -6,6 +6,8 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.mail.MailSender;
@@ -30,6 +32,9 @@ public class MailSenderService {
      *
      */
     public static final String THANKS_FOR_REGISTRATION = "Чтобы подтвердить регистрацию на нашем сайте, пройдите по ссылке: ";
+
+    private final Logger logger = LoggerFactory.getLogger(MailSenderService.class);
+
     /**
      *
      */
@@ -120,6 +125,7 @@ public class MailSenderService {
             inStream.close();
         } catch (IOException e) {
             //TODO:need to do something
+            logger.warn("Can't open file in common.properties");
             e.printStackTrace();
         }
         String result = prop.getProperty("mail.service.domen");

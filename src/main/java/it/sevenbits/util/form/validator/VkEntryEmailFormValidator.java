@@ -3,6 +3,8 @@ package it.sevenbits.util.form.validator;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.User;
 import it.sevenbits.util.form.VkEntryEmailForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,8 @@ import org.springframework.validation.Errors;
  */
 @Component
 public class VkEntryEmailFormValidator implements Validator {
+    private final Logger logger = LoggerFactory.getLogger(VkEntryEmailFormValidator.class);
+
     private final static int maxEmailLength = 26;
 
     @Override
@@ -42,7 +46,7 @@ public class VkEntryEmailFormValidator implements Validator {
             errors.rejectValue("email", "email.alreadyExist", "Пользователь с таким email уже существует, пожалуйста, " +
                     "введите другой email");
         } catch (UsernameNotFoundException ex) {
-
+            logger.warn("User doesn't found");
         }
     }
 }

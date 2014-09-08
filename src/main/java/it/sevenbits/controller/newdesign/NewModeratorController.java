@@ -6,11 +6,12 @@ import it.sevenbits.util.DatePair;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,9 +24,10 @@ import java.util.*;
 @Controller
 @RequestMapping(value = "new/moderator")
 public class NewModeratorController {
-
     private static final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
     private static final long MILLISECONDS_IN_A_DAY = 86400000;
+
+    private Logger logger = LoggerFactory.getLogger(NewModeratorController.class);
 
     @Autowired
     private AdvertisementDao advertisementDao;
@@ -125,7 +127,7 @@ public class NewModeratorController {
         return new DatePair(longDateFrom, longDateTo);
     }
 
-    private static Long strDateToUnixTimestamp(String dt) {
+    private Long strDateToUnixTimestamp(String dt) {
         if (dt.equals("")) {
             return null;
         }
@@ -136,7 +138,7 @@ public class NewModeratorController {
         try {
             date = formatter.parse(dt);
         } catch (ParseException ex) {
-            //Bad
+            this.logger.error("Wrong date format");
             ex.printStackTrace();
         }
         unixtime = date.getTime();

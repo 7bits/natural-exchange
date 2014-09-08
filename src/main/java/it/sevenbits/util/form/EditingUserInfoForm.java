@@ -3,7 +3,6 @@ package it.sevenbits.util.form;
 import org.springframework.web.multipart.MultipartFile;
 
 public class EditingUserInfoForm {
-    private String previousAvatar;
     private String firstName;
     private String lastName;
     private Boolean isDelete;
@@ -15,14 +14,6 @@ public class EditingUserInfoForm {
 
     public void setIsDelete(Boolean isDelete) {
         this.isDelete = isDelete;
-    }
-
-    public String getPreviousAvatar() {
-        return previousAvatar;
-    }
-
-    public void setPreviousAvatar(String previousAvatar) {
-        this.previousAvatar = previousAvatar;
     }
 
     public String getFirstName() {

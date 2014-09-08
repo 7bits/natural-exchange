@@ -16,11 +16,8 @@ import it.sevenbits.util.form.EditingUserInfoForm;
 import it.sevenbits.util.form.UserEntryForm;
 import it.sevenbits.util.form.UserRegistrationForm;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
-import it.sevenbits.util.form.validator.UserEditProfileValidator;
 import it.sevenbits.util.form.validator.UserEntryValidator;
 import it.sevenbits.util.form.validator.UserRegistrationValidator;
-import org.json.simple.JSONObject;
-import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +30,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -217,7 +212,7 @@ public class UserController {
         return (long) 0;
     }
 
-    @RequestMapping(value = "/userprofile/editprofile.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.GET)
     public ModelAndView editProfile() {
         ModelAndView modelAndView = new ModelAndView("editProfile.jade");
         Long id = this.getCurrentUser();
@@ -226,26 +221,28 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/userprofile/editprofile.html", method = RequestMethod.POST)
-    public String changeUserInformation(
-//        @RequestParam(value = "previousAvatar", required = false) final String previousAvatar,
-        final EditingUserInfoForm editingUserInfoForm,
-        final BindingResult bindingResult) {
-        String newFirstName = editingUserInfoForm.getFirstName();
-        String newLastName = editingUserInfoForm.getLastName();
-        String newAvatar = editingUserInfoForm.getPreviousAvatar();//previousAvatar;
-        MultipartFile avatarFile = editingUserInfoForm.getImage();
-        if (editingUserInfoForm.getIsDelete() == null) {
-            if (!avatarFile.getOriginalFilename().equals("")) {
-                FileManager fileManager = new FileManager();
-                newAvatar = fileManager.savingFile(avatarFile, false);
-            }
-        } else {
-            newAvatar = null;
-        }
+    @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.POST)
+    public String changeUserInformation(final EditingUserInfoForm editingUserInfoForm) {
         Long id = this.getCurrentUser();
         User currentUser = this.userDao.findById(id);
         User userNew = new User();
+
+        String newFirstName = editingUserInfoForm.getFirstName();
+        String newLastName = editingUserInfoForm.getLastName();
+        String newAvatar = currentUser.getAvatar();
+        MultipartFile avatarFile = editingUserInfoForm.getImage();
+        FileManager fileManager = new FileManager();
+        if (editingUserInfoForm.getIsDelete() == null) {
+            if (!avatarFile.getOriginalFilename().equals("")) {
+                newAvatar = fileManager.savingFile(avatarFile, false);
+            } else {
+                fileManager.deleteFile(newAvatar, false);
+            }
+        } else {
+            fileManager.deleteFile(newAvatar, false);
+            newAvatar = null;
+        }
+
         userNew.setEmail(currentUser.getEmail());
         userNew.setPassword(currentUser.getPassword());
         userNew.setFirstName(newFirstName);

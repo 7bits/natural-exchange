@@ -1,5 +1,8 @@
 package it.sevenbits.helpers.jadeHelpers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -10,6 +13,8 @@ import java.util.StringTokenizer;
 public class UrlService {
     public static final String DEFAULT_PAGE = "http://naturalexchange.ru";
     private static final int START_URL_PART = 2;
+
+    private final Logger logger = LoggerFactory.getLogger(UrlService.class);
 
     private String rootPath = "";
     private String afterDomenPath = "";
@@ -67,6 +72,7 @@ public class UrlService {
             prop.load(inStream);
             inStream.close();
         } catch (IOException e) {
+            logger.warn("Can't open file in common.properties");
             return DEFAULT_PAGE;
         }
         String result = prop.getProperty("mail.service.domen");
