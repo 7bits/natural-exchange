@@ -234,9 +234,8 @@ public class UserController {
         FileManager fileManager = new FileManager();
         if (editingUserInfoForm.getIsDelete() == null) {
             if (!avatarFile.getOriginalFilename().equals("")) {
-                newAvatar = fileManager.savingFile(avatarFile, false);
-            } else {
                 fileManager.deleteFile(newAvatar, false);
+                newAvatar = fileManager.savingFile(avatarFile, false);
             }
         } else {
             fileManager.deleteFile(newAvatar, false);
