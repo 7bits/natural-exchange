@@ -348,7 +348,8 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 ? Advertisement.CREATED_DATE_COLUMN_CODE
                 : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
         ;
-        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
+        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class, "advertisement");
+        criteria.createAlias("tags", "tag", Criteria.LEFT_JOIN);
         switch (sortOrder) {
             case ASCENDING :
                 criteria.addOrder(Order.asc(sortByName));
@@ -361,9 +362,14 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 break;
         }
         if (keyWords != null) {
+            Disjunction disjunction = Restrictions.disjunction();
             for (int i = 0; i < keyWords.length; i++) {
-                criteria.add(Restrictions.like("title", "%" + keyWords[i] + "%"));
+                disjunction.add(Restrictions.like("advertisement.title", "%" + keyWords[i] + "%") );
+                disjunction.add(Restrictions.like("tag.name","%" + keyWords[i] + "%"));
+                criteria.add(disjunction);
+                disjunction = Restrictions.disjunction();
             }
+            criteria.add(disjunction);
         }
 
         if (dateFrom != null || dateTo != null) {
@@ -399,7 +405,8 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 ? Advertisement.CREATED_DATE_COLUMN_CODE
                 : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
                 ;
-        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
+        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class, "advertisement");
+        criteria.createAlias("tags", "tag", Criteria.LEFT_JOIN);
         switch (sortOrder) {
             case ASCENDING :
                 criteria.addOrder(Order.asc(sortByName));
@@ -422,9 +429,14 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         }
 
         if (keyWords != null) {
+            Disjunction disjunction = Restrictions.disjunction();
             for (int i = 0; i < keyWords.length; i++) {
-                criteria.add(Restrictions.like("title", "%" + keyWords[i] + "%"));
+                disjunction.add(Restrictions.like("advertisement.title", "%" + keyWords[i] + "%") );
+                disjunction.add(Restrictions.like("tag.name","%" + keyWords[i] + "%"));
+                criteria.add(disjunction);
+                disjunction = Restrictions.disjunction();
             }
+            criteria.add(disjunction);
         }
 
         if (dateFrom != null || dateTo != null) {
