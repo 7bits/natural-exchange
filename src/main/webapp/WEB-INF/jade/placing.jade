@@ -12,24 +12,17 @@ block content
       div.form-placing
         form#placing-advert(method='post', action="placing.html", enctype="multipart/form-data")
           if (isEditing)
-              input(type='text', placeholder="Заголовок", name="title", value="#{advertisementPlacingForm.title}").form-rounded-button.hollow-text.advertisement-title
+            input(type='text', placeholder="Заголовок", name="title", value="#{advertisementPlacingForm.title}").form-rounded-button.hollow-text.advertisement-title
           else
             input(type='text', placeholder="Заголовок", name="title").form-rounded-button.hollow-text.advertisement-title
           select.select-category(name="category")
             if (!isEditing)
-              option(selected='selected', disabled='disabled') Выберите Категорию
-            if (advertisementPlacingForm.category == "games")
-              option.choosen-category(value='games', selected='selected', name="category") Игры
-            else
-              option.choosen-category(value='games', name="category") Игры
-            if (advertisementPlacingForm.category == "clothes")
-              option.choosen-category(value='clothes', selected='selected', name="category") Одежда
-            else
-              option.choosen-category(value='clothes', name="category") Одежда
-            if (advertisementPlacingForm.category == "notclothes")
-              option.choosen-category(value='notclothes', selected='selected', name="category") Не одежда
-            else
-              option.choosen-category(value='notclothes', name="category") Не одежда
+              option(selected='selected', disabled='disabled') Выберите категорию
+            for category in categories
+              if (category.name == advertisementPlacingForm.category)
+                option.choosen-category(value='#{category.name}', selected='selected', name="category") #{category.name}
+              else
+                option.choosen-category(value='#{category.name}', name="category") #{category.name}
           div.placing-file-and-tags
             label.border-file-choose.placing-file-choose
               div.file-button-hollow-text.js-image-text Выберите изображение
@@ -40,7 +33,7 @@ block content
               input(type='hidden', name="tags", value="#{advertisementPlacingForm.tags}").js-tags-chosen
             if (isEditing)
               a(href='#{imageUrl}').file-current-hollow-text.js-current-image Текущее изображение
-            if (isErrors)
+            if (!errors.isEmpty())
               for error in errors
                 div.red-alert-text #{error.getDefaultMessage()}
             if (isEditing)

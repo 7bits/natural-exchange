@@ -3,7 +3,156 @@
 
     height: 845px;
 }
+.cabinet-button {
+    padding-top: 20px;
+}
+
+.center-large-text {
+    font-family: mySans;
+    font-size: 22px;
+
+    padding-left: 40px;
+    padding-top: 10px;
+}
+
+.keyword {
+    outline: 0;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+
+    height: 40px;
+    width: 700px;
+
+    margin-top: 15px;
+    margin-left: 15px;
+    padding-left: 30px;
+
+    border: 2px solid rgb(243, 152, 34);
+    background-color: rgb(255, 255, 255);
+}
+
+.keyword:hover {
+    outline: 0;
+    background-color: rgb(243, 152, 34);
+    border-color: rgb(255, 255, 255);
+}
+
+.placing-keyword {
+    width: 700px;
+
+    outline: 0;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+
+    height: 40px;
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin-top: 15px;
+    margin-left: 30px;
+    padding-left: 30px;
+
+    border: 2px solid rgb(243, 152, 34);
+    background-color: rgb(255, 255, 255);
+}
+
+.select-position {
+    margin-left: 15px;
+}
+
+.button-keyword-add {
+    position: absolute;
+    left: 530px;
+    bottom: 5px;
+    padding-left: 50px;
+    padding-top: 7px;
+
+    background-image: url(/resources/images/newdesign/plus-circle.png);
+    background-repeat: no-repeat;
+    background-position: 15px 6px;
+}
+
+.edit-search-button {
+    margin-left: 40px;
+
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    font-family: boldSans;
+    font-size: 13px;
+    text-decoration: none;
+
+    color: rgb(255, 255, 255);
+    background-color: rgb(243, 152, 34);
+
+    border: none;
+    border-radius: 100px;
+}
+
+.edit-search-button:hover {
+    background-color: rgb(223, 83, 70);
+}
 
 .title-and-category {
     display: inline-block;
+}
+
+.edit-submit {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    background-color: rgb(26, 178, 175);
+    border: none;
+    float: left;
+
+    padding-left: 20px;
+    margin-left: 40px;
+    margin-top: 60px;
+
+    width: 200px;
+    height: 40px;
+    text-decoration: none;
+
+    font-family: boldSans;
+    font-size: 13px;
+    color: rgb(255, 255, 255);
+
+    background-image: url("/resources/images/newdesign/accept.png");
+    background-repeat: no-repeat;
+    background-position: 16px 9px;
+}
+
+.chosen-keyword {
+    display: inline-block;
+
+    margin-top: 20px;
+    margin-left: 5px;
+
+    font-size: 13px;
+    text-decoration: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background-color: rgb(223, 83, 70);
+    color: rgb(255, 255, 255);
+    border-radius: 100px;
+}
+
+.keyword-and-cross {
+    display: inline-block;
+}
+
+.chosen-keywords {
+    padding-left: 30px;
+
+    width: 384px;
 }

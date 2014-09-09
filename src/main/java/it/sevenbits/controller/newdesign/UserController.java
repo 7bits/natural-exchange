@@ -1,11 +1,9 @@
 package it.sevenbits.controller.newdesign;
 
 
-import it.sevenbits.dao.AdvertisementDao;
-import it.sevenbits.dao.SearchVariantDao;
-import it.sevenbits.dao.SubscriberDao;
-import it.sevenbits.dao.UserDao;
+import it.sevenbits.dao.*;
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
@@ -18,8 +16,10 @@ import it.sevenbits.util.form.SearchEditForm;
 import it.sevenbits.util.form.UserEntryForm;
 import it.sevenbits.util.form.UserRegistrationForm;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
+import it.sevenbits.util.form.validator.SearchEditValidator;
 import it.sevenbits.util.form.validator.UserEntryValidator;
 import it.sevenbits.util.form.validator.UserRegistrationValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +33,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -68,6 +69,9 @@ public class UserController {
 
     @Autowired
     private SubscriberDao subscriberDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
 
     @Autowired
     private SearchVariantDao searchVariantDao;
@@ -262,32 +266,39 @@ public class UserController {
             searchEditForm.setCategory(searchVariant.getCategories());
             searchEditForm.setKeywords(searchVariant.getKeyWords());
         }
-        Set<String> keywords = getKeywordsFromSearchVariant(searchEditForm.getKeywords());
+        List<Category> categories = this.categoryDao.findAll();
+        String[] keywords = StringUtils.split(searchEditForm.getKeywords());
+        Map<String, String> errors = new HashMap<>();
         modelAndView.addObject("keywords", keywords);
         modelAndView.addObject("searchEditForm", searchEditForm);
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("errors", errors);
         return modelAndView;
     }
 
-    private Set<String> getKeywordsFromSearchVariant(final String keywords) {
-        Set<String> setOfKeywords = new HashSet<>();
-        StringBuffer newKeyword = new StringBuffer("");
-        boolean findSpace = false;
-        for (int i = 0; i < keywords.length(); i++) {
-            if (keywords.charAt(i) == ' ') {
-                findSpace = true;
-                continue;
-            }
-            if (findSpace) {
-                if (keywords.charAt(i) != ' ') {
-                    newKeyword.append(keywords.charAt(i));
-                } else {
-                    findSpace = false;
-                    String keyword = new String(newKeyword);
-                    setOfKeywords.add(keyword);
-                    newKeyword.delete(0, newKeyword.length());
-                }
-            }
+    @Autowired
+    SearchEditValidator searchEditValidator;
+
+    @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.POST)
+    public ModelAndView searchEditing(
+            final SearchEditForm searchEditForm,
+            final BindingResult result
+    ) {
+        searchEditValidator.validate(searchEditForm, result);
+        if (result.hasErrors()) {
+            List<ObjectError> errors = result.getAllErrors();
+            ModelAndView modelAndView = new ModelAndView("/userprofile/editSearch.html");
+            modelAndView.addObject("errors", errors);
+            return modelAndView;
         }
-        return setOfKeywords;
+        Long id = this.getCurrentUser();
+        User currentUser = this.userDao.findById(id);
+        SearchVariant newSearchVariant = new SearchVariant();
+        newSearchVariant.setKeyWords(searchEditForm.getKeywords());
+        newSearchVariant.setCategories(searchEditForm.getCategory());
+        newSearchVariant.setEmail(currentUser.getEmail());
+        newSearchVariant.setCreatedDate(TimeManager.getTime());
+        this.searchVariantDao.create(newSearchVariant);
+        return new ModelAndView("redirect:/userprofile/searches.html");
     }
 }

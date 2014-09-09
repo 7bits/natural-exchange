@@ -10,6 +10,7 @@ import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.DatePair;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
+import it.sevenbits.util.UtilsMessage;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.ExchangeForm;
@@ -397,8 +398,12 @@ public class AdvertisementListController {
             advertisementPlacingForm.setText(advertisement.getText());
             advertisementPlacingForm.setTitle(advertisement.getTitle());
         }
+        List<Category> categories =  this.categoryDao.findAll();
         modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
+        modelAndView.addObject("categories", categories);
         modelAndView.addObject("isEditing", false);
+        Map<String, String> errors = new HashMap<>();
+        modelAndView.addObject("errors", errors);
         return modelAndView;
     }
 
@@ -408,7 +413,7 @@ public class AdvertisementListController {
         modelAndView.addObject("isEditing", true);
         modelAndView.addObject("advertisementId", advertisementId);
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
-        AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
+        Advertisement advertisement = this.advertisementDao.findById(advertisementId);
         advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
         advertisementPlacingForm.setText(advertisement.getText());
         advertisementPlacingForm.setTitle(advertisement.getTitle());
@@ -442,7 +447,6 @@ public class AdvertisementListController {
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
             ModelAndView modelAndView = new ModelAndView("placing");
-            modelAndView.addObject("isErrors", true);
             modelAndView.addObject("errors", errors);
             return modelAndView;
         }
@@ -456,11 +460,10 @@ public class AdvertisementListController {
                 photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
                 if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
                         advertisementOldImageName.equals("image3.jpg")) {
-
                 } else {
                     File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
                     if (!advertisementOldImageFile.delete()) {
-                        //fail
+                        //TODO: logging
                     }
                 }
             } else if (advertisementOldImageName != null) {
@@ -532,19 +535,16 @@ public class AdvertisementListController {
             String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
             String titleExchangeMessage = "С вами хотят обменяться!";
             String userName;
+            StringBuilder advertisementUrlOwner = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue);
+            StringBuilder advertisementUrlOffer = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement() + advertisementUrlResidue);
             if (owner.getLastName().equals("")) {
                 userName = "владелец вещи";
             } else {
                 userName = owner.getLastName();
             }
-            String message = "Пользователь с email'ом : " + offer.getUsername() +  "\nХочет обменяться с вами на вашу вещь : \n"
-                    + advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue
-                    + "\nИ предлагает вам взамен\n" + advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement()
-                    + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeForm.getExchangePropose()
-                    + "\n Уважаемый " + userName + "\nПока что наш сервис находится в разработке, так что мы оставляем за вами " +
-                    "право связаться с заинтересованным пользователем на вашу вещь.\n"
-                    + "\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши объявления с нашего сервиса.\n" + "Спасибо!";
-            mailSenderService.sendMail(owner.getEmail(), titleExchangeMessage, message);
+            Map<String, String> letter = UtilsMessage.createLetterForExchange(titleExchangeMessage, exchangeForm.getExchangePropose(), owner.getEmail(),
+                offer.getUsername(), advertisementUrlOwner.toString(), advertisementUrlOffer.toString(), userName);
+            mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
             map.put("success", true);
         } else {
             map.put("success", false);
@@ -574,13 +574,13 @@ public class AdvertisementListController {
     public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails;
-        String redirectAddress = "redirect:/advertisement/moderator/list.html" + "?currentCategory=";
+        String redirectAddress = "redirect:/advertisement/moderator/list.html";
         if (principal instanceof UserDetails) {
             userDetails = (UserDetails) principal;
         } else {
             return redirectAddress;
         }
-        User user = this.userDao.findUserByEmail(userDetails.getUsername());
+        User user = (User) userDetails;
         if (user.getRole().equals("ROLE_MODERATOR")) {
             Advertisement advertisement = this.advertisementDao.findById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
@@ -591,11 +591,11 @@ public class AdvertisementListController {
             } else {
                 userName = "Уважаемый, " + advertisement.getUser().getLastName();
             }
-            String message = userName + "\nВаше объявление с заголовком : " + advertisement.getTitle()
-                    + "\nС описанием : " + advertisement.getText() + "\nБыло удалено модератором";
+            Map<String, String> letter = UtilsMessage.createLetterForDeleteAdvertisementByModerator(advertisement.getTitle(),
+                userEmail, advertisement.getText(), userName, title);
             if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
                 this.advertisementDao.setDeleted(advertisementId);
-                mailSenderService.sendMail(userEmail, title, message);
+                mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
             }
         } else {
             redirectAddress = "redirect:/new/advertisement/list.html";

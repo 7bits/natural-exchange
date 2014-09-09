@@ -6,32 +6,32 @@ block append customcss
 block content
   .editingSearch
     form#edit-search(method='post', action="editSearch.html")
-      div
-        a(href='#{uri.uri("/new/user/userprofile/searches.html")}').cabinet.save-search ЛИЧНЫЙ КАБИНЕТ
+      div.cabinet-button
+        a(href='#{uri.uri("/new/user/userprofile/searches.html")}').cabinet.edit-search-button ЛИЧНЫЙ КАБИНЕТ
       div.center-large-text ИЗМЕНИТЬ ПАРАМЕТРЫ ПОИСКА
       div.title-and-category
-        input(type='text', placeholder="Заголовок", name="title", value="#{searchEditForm.title}").form-rounded-button.hollow-text.advertisement-title
+        div.choose-tags-and-button
+          input(type='text', placeholder="Введите параметр поиска").hollow-text.placing-keyword.js-added-keyword
+          a#add-keyword.reg-rounded-button.file-choose.button-keyword-add.js-add-keyword ДОБАВИТЬ
         select.select-category(name="category")
-          if (searchEditForm.category == "games")
-            option.choosen-category(value='games', selected='selected', name="category") Игры
-          else
-            option.choosen-category(value='games', name="category") Игры
-          if (searchEditForm.category == "clothes")
-            option.choosen-category(value='clothes', selected='selected', name="category") Одежда
-          else
-            option.choosen-category(value='clothes', name="category") Одежда
-          if (searchEditForm.category == "notclothes")
-            option.choosen-category(value='notclothes', selected='selected', name="category") Не одежда
-          else
-            option.choosen-category(value='notclothes', name="category") Не одежда
-      div.chosen-tags.js-tags-placing
+          option(selected='selected', disabled='disabled') Выберите категорию
+          for category in categories
+            if (category.name == advertisementPlacingForm.category)
+              option.choosen-category(value='#{category.name}', selected='selected', name="category") #{category.name}
+            else
+              option.choosen-category(value='#{category.name}', name="category") #{category.name}
+      div.chosen-keywords.js-keywords-placing
         for keyword in keywords
-          div.tags-and-cross
-            div.chosen-tag #{keyword}
-            a.cross-circle.js-deleting-tag
-      input(type="submit", placeholder="ДОБАВИТЬ", value="СОХРАНИТЬ").rounded-button.adding-advert.small-tab-text
+          div.keyword-and-cross
+            div.chosen-keyword #{keyword}
+            a.cross-circle.js-deleting-keyword
+      input(type='hidden', name="keywords", value="#{searchEditForm.keywords}").js-keywords-chosen
+      if (!errors.isEmpty())
+        for error in errors
+          div.red-alert-text #{error.getDefaultMessage()}
+      input(type="submit", placeholder="ДОБАВИТЬ", value="СОХРАНИТЬ").rounded-button.edit-submit
 block append customjs
   script(src="/resources/js/badImage.js")
-  script(src="/resources/js/newSearch.js")
+  script(src="/resources/js/newEditSearch.js")
 
 
