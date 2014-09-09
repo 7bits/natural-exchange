@@ -9,8 +9,10 @@ block content
       form(action = 'edit.html', method = 'post', commandName="editindUserInfoForm", enctype="multipart/form-data")
         div
           input.first-name-field(type='text', value='#{currentUser.firstName}', name='firstName')
+          p.error-user-name #{errorFromFirstName}
         div
           input.last-name-field(type='text', value='#{currentUser.lastName}', name='lastName')
+          p.error-user-name #{errorFromLastName}
         div.picture-block
           if (currentUser.avatar != null)
             img.user-avatar(src='/resources/images/avatars/#{currentUser.avatar}')

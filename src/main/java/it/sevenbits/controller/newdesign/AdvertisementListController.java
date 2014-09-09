@@ -16,6 +16,7 @@ import it.sevenbits.util.form.ExchangeForm;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.ExchangeFormValidator;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,12 @@ public class AdvertisementListController {
     @Autowired
     private SearchVariantDao searchVariantDao;
 
+    @Autowired
+    private ExchangeFormValidator exchangeFormValidator;
+
+    @Autowired
+    private AdvertisementPlacingValidator advertisementPlacingValidator;
+
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public ModelAndView list(
         @RequestParam(value = "currentPage", required = false) final Integer previousPage,
@@ -93,9 +100,10 @@ public class AdvertisementListController {
         }
         modelAndView.addObject("keyWords", keyWordSearch);
 
-        List<Advertisement> advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsAndCategoryOrderBy(
+        List<Advertisement> advertisements = this.advertisementDao.findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(
             this.stringToArray(previousCategory),
             this.stringToArray(previousKeyWords),
+            false,
             mainSortOrder,
             sortBy,
             dateFrom,
@@ -133,6 +141,247 @@ public class AdvertisementListController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody Map saveSearch(
+            @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
+            @RequestParam(value = "currentCategory", required = false) final String previousCategory,
+            @RequestParam(value = "currentPage", required = false) final Integer previousPage) {
+        Map map = new HashMap<>();
+        map.put("currentCategory", previousCategory);
+        map.put("currentPage", previousPage);
+        map.put("keyWords", previousKeyWords);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails user = (UserDetails) principal;
+            String email = user.getUsername();
+            SearchVariant searchVariant = new SearchVariant(email, previousKeyWords, previousCategory);
+            searchVariantDao.create(searchVariant);
+        }
+        return map;
+    }
+
+    @RequestMapping(value = "/view.html", method = RequestMethod.GET)
+    public ModelAndView showAdvertisement(@RequestParam(value = "id", required = true) final Long id) {
+        ModelAndView modelAndView = new ModelAndView("view.jade");
+        Advertisement advertisement = this.advertisementDao.findById(id);
+        User user = advertisement.getUser();
+        Category category = advertisement.getCategory();
+        modelAndView.addObject("fullUserName", user.getFirstName() + " " + user.getLastName());
+        modelAndView.addObject("advertisement", advertisement);
+        modelAndView.addObject("category", category);
+        Set<TagEntity> tagsSet = this.getTagsFromAdvertisementById(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<Advertisement> userAdvertisements = new LinkedList<>();
+        if (auth.getPrincipal() instanceof UserDetails) {
+            user = this.userDao.findUserByEmail(auth.getName());
+            userAdvertisements = this.advertisementDao.findAllByEmail(user);
+        }
+        modelAndView.addObject("tags", tagsSet);
+        modelAndView.addObject("userAdvertisements", userAdvertisements);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
+    public ModelAndView placingAdvertisement(@RequestParam(value = "id", required = false) final Long id) {
+        ModelAndView modelAndView = new ModelAndView("placing");
+        AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
+        if (id != null) {
+            Advertisement advertisement = this.advertisementDao.findById(id);
+            advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
+            advertisementPlacingForm.setText(advertisement.getText());
+            advertisementPlacingForm.setTitle(advertisement.getTitle());
+        }
+        modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
+        modelAndView.addObject("isEditing", false);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/edit.html", method = RequestMethod.GET)
+    public ModelAndView edit(@RequestParam(value = "id", required = true) final Long advertisementId) {
+        ModelAndView modelAndView =  new ModelAndView("placing");
+        modelAndView.addObject("isEditing", true);
+        modelAndView.addObject("advertisementId", advertisementId);
+        AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
+        AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
+        advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
+        advertisementPlacingForm.setText(advertisement.getText());
+        advertisementPlacingForm.setTitle(advertisement.getTitle());
+        advertisementPlacingForm.setTags(getTagsFromAdvertisementByIdAsString(advertisementId));
+        modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
+        Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementId);
+        modelAndView.addObject("tags", tags);
+        modelAndView.addObject("imageUrl", "/resources/images/user_images/" + advertisement.getPhotoFile());
+        modelAndView.addObject("imageFileName", advertisement.getPhotoFile());
+        return modelAndView;
+    }
+
+    /**
+     * Placing or editing the advertisement.
+     *
+     * @param advertisementPlacingFormParam parameters from advertisement form
+     * @param result
+     * @param editingAdvertisementId        id of advertisement which will
+     *                                      be editing
+     * @return ModelAndView object
+     */
+    @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
+    public ModelAndView processPlacingAdvertisement(
+            final AdvertisementPlacingForm advertisementPlacingFormParam,
+            final BindingResult result,
+            final Long editingAdvertisementId,
+            final String advertisementOldImageName
+    ) {
+        String defaultPhoto = "no_photo.png";
+        advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
+        if (result.hasErrors()) {
+            List<ObjectError> errors = result.getAllErrors();
+            ModelAndView modelAndView = new ModelAndView("placing");
+            modelAndView.addObject("isErrors", true);
+            modelAndView.addObject("errors", errors);
+            return modelAndView;
+        }
+        FileManager fileManager = new FileManager();
+        String photo = null;
+        if (!(advertisementPlacingFormParam.getImage() == null)) {
+            if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("") && editingAdvertisementId == null) {
+                photo = defaultPhoto;
+            } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) && advertisementOldImageName != null) {
+                // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
+                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
+                if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
+                        advertisementOldImageName.equals("image3.jpg")) {
+
+                } else {
+                    File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
+                    if (!advertisementOldImageFile.delete()) {
+                        //fail
+                    }
+                }
+            } else if (advertisementOldImageName != null) {
+                photo = advertisementOldImageName;
+            } else {
+                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
+            }
+        } else {
+            photo = defaultPhoto;
+        }
+        Advertisement advertisement = null;
+        if (editingAdvertisementId == null) {
+            advertisement = new Advertisement();
+            advertisement.setPhotoFile(photo);
+        } else {
+            advertisement = advertisementDao.findById(editingAdvertisementId);
+            if (photo != null) {
+                advertisement.setPhotoFile(photo);
+            }
+        }
+        advertisement.setText(advertisementPlacingFormParam.getText());
+        advertisement.setTitle(advertisementPlacingFormParam.getTitle());
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName;
+        if (principal instanceof UserDetails) {//Alex: что это черт возьми???
+            userName = ((UserDetails) principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        List<String> tagList = selectTags(advertisementPlacingFormParam.getTags());
+        Set<Tag> newTags = null;
+        if (tagList != null) {
+            newTags = new HashSet<Tag>();
+            for (String newTag : tagList) {
+                if (!newTag.equals("")) {
+                    Tag addingTag = new Tag();
+                    addingTag.setName(newTag);
+                    newTags.add(addingTag);
+                }
+            }
+        }
+        if (editingAdvertisementId != null) {
+            this.advertisementDao.update(editingAdvertisementId, advertisement, advertisementPlacingFormParam.getCategory(), newTags);
+        } else {
+            this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName, newTags);
+        }
+        return new ModelAndView("placingRequest");
+    }
+
+    @RequestMapping(value = "/exchange.html", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody Map submitExchange(@ModelAttribute("email") ExchangeForm exchangeForm,
+                                            final BindingResult bindingResult) {
+        Map map = new HashMap();
+        exchangeFormValidator.validate(exchangeForm, bindingResult);
+        if (!bindingResult.hasErrors()) {
+            Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOfferAdvertisement());
+            User offer = offerAdvertisement.getUser();
+            User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
+            String advertisementUrl = mailSenderService.getDomen() + "/new/advertisement/view.html?id=";
+            String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
+            String titleExchangeMessage = "С вами хотят обменяться!";
+            String userName;
+            if (owner.getLastName().equals("")) {
+                userName = "владелец вещи";
+            } else {
+                userName = owner.getLastName();
+            }
+            String message = "Пользователь с email'ом : " + offer.getUsername() +  "\nХочет обменяться с вами на вашу вещь : \n"
+                    + advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue
+                    + "\nИ предлагает вам взамен\n" + advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement()
+                    + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeForm.getExchangePropose()
+                    + "\n Уважаемый " + userName + "\nПока что наш сервис находится в разработке, так что мы оставляем за вами " +
+                    "право связаться с заинтересованным пользователем на вашу вещь.\n"
+                    + "\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши объявления с нашего сервиса.\n" + "Спасибо!";
+            mailSenderService.sendMail(owner.getEmail(), titleExchangeMessage, message);
+            map.put("success", true);
+        } else {
+            map.put("success", false);
+            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            Map errors = new HashMap();
+            errors.put("wrong", errorMessage);
+            map.put("errors", errors);
+        }
+        return map;
+    }
+
+    @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
+    public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails;
+        String redirectAddress = "redirect:/advertisement/moderator/list.html" + "?currentCategory=";
+        if (principal instanceof UserDetails) {
+            userDetails = (UserDetails) principal;
+        } else {
+            return redirectAddress;
+        }
+        User user = this.userDao.findUserByEmail(userDetails.getUsername());
+        if (user.getRole().equals("ROLE_MODERATOR")) {
+            Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+            String userEmail = advertisement.getUser().getEmail();
+            String title = "Ваше объявление удалено модератором";
+            String userName;
+            if (advertisement.getUser().getLastName().equals("")) {
+                userName = "Уважаемый пользователь";
+            } else {
+                userName = "Уважаемый, " + advertisement.getUser().getLastName();
+            }
+            String message = userName + "\nВаше объявление с заголовком : " + advertisement.getTitle()
+                    + "\nС описанием : " + advertisement.getText() + "\nБыло удалено модератором";
+            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
+                this.advertisementDao.changeDeleted(advertisementId);
+                mailSenderService.sendMail(userEmail, title, message);
+            }
+        } else {
+            redirectAddress = "redirect:/new/advertisement/list.html";
+            Advertisement advertisement = this.advertisementDao.findById(advertisementId);
+            String userEmail = advertisement.getUser().getEmail();
+            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
+                this.advertisementDao.changeDeleted(advertisementId);
+            }
+        }
+        return redirectAddress;
+    }
+
     private DatePair takeAndValidateDate(String dateFrom, String dateTo, BindingResult bindingResult,
                                          ModelAndView modelAndView) {
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
@@ -147,7 +396,6 @@ public class AdvertisementListController {
             advertisementSearchingForm.setDateTo("");
         }
         this.advertisementSearchingValidator.validate(advertisementSearchingForm, bindingResult);
-        //it made for null dates
         String stringDateFrom = advertisementSearchingForm.getDateFrom();
         String stringDateTo = advertisementSearchingForm.getDateTo();
         Long longDateFrom = null;
@@ -172,18 +420,15 @@ public class AdvertisementListController {
         if (dt.equals("")) {
             return null;
         }
-        DateFormat formatter;
         Date date = null;
-        long unixtime;
-        formatter = new SimpleDateFormat("dd.MM.yy");
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yy");
         try {
             date = formatter.parse(dt);
         } catch (ParseException ex) {
             this.logger.error("Wrong date format");
             ex.printStackTrace();
         }
-        unixtime = date.getTime();
-        return unixtime;
+        return date.getTime();
     }
 
     /**
@@ -304,71 +549,6 @@ public class AdvertisementListController {
         return allCategories;
     }
 
-    private List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
-            final String[] categories, final String keyWordsStr, final SortOrder sortOrder, final String sortColumn
-    ) {
-        if (categories.length == 0) {
-            return Collections.emptyList();
-        }
-        StringTokenizer token = new StringTokenizer(keyWordsStr);
-        String[] keyWords = new String[token.countTokens()];
-        for (int i = 0; i < keyWords.length; i++) {
-            keyWords[i] = token.nextToken();
-        }
-        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories, keyWords, sortOrder, sortColumn);
-    }
-
-    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody Map saveSearch(
-            @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
-            @RequestParam(value = "currentCategory", required = false) final String previousCategory,
-            @RequestParam(value = "currentPage", required = false) final Integer previousPage) {
-//        String redirectAddress = "redirect:/new/advertisement/list.html?";
-//        if (previousPage != null) {
-//            redirectAddress += "currentPage=" + previousPage.toString() + "&";
-//        }
-//        if (previousKeyWords != null) {
-//            redirectAddress += "currentPage=" + previousKeyWords + "&";
-//        }
-//        if (previousKeyWords != null) {
-//            redirectAddress += "currentPage=" + previousCategory;
-//        }
-        Map map = new HashMap<>();
-        map.put("currentCategory", previousCategory);
-        map.put("currentPage", previousPage);
-        map.put("keyWords", previousKeyWords);
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            UserDetails user = (UserDetails) principal;
-            String email = user.getUsername();
-            SearchVariant searchVariant = new SearchVariant(email, previousKeyWords, previousCategory);
-            searchVariantDao.create(searchVariant);
-        }
-        return map;
-    }
-
-    @RequestMapping(value = "/view.html", method = RequestMethod.GET)
-    public ModelAndView showAdvertisement(@RequestParam(value = "id", required = true) final Long id) {
-        ModelAndView modelAndView = new ModelAndView("view.jade");
-        Advertisement advertisement = this.advertisementDao.findById(id);
-        User user = advertisement.getUser();
-        Category category = advertisement.getCategory();
-        modelAndView.addObject("fullUserName", user.getFirstName() + " " + user.getLastName());
-        modelAndView.addObject("advertisement", advertisement);
-        modelAndView.addObject("category", category);
-        Set<TagEntity> tagsSet = this.getTagsFromAdvertisementById(id);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        List<Advertisement> userAdvertisements = new LinkedList<>();
-        if (auth.getPrincipal() instanceof UserDetails) {
-            user = this.userDao.findUserByEmail(auth.getName());
-            userAdvertisements = this.advertisementDao.findAllByEmail(user);
-        }
-        modelAndView.addObject("tags", tagsSet);
-        modelAndView.addObject("userAdvertisements", userAdvertisements);
-        return modelAndView;
-    }
-
     private Set<TagEntity> getTagsFromAdvertisementById(long id) {
         AdvertisementEntity advertisementEntity = (AdvertisementEntity) this.advertisementDao.findById(id);
         return advertisementEntity.getTags();
@@ -384,227 +564,18 @@ public class AdvertisementListController {
         return forTags;
     }
 
-    @Autowired
-    private AdvertisementPlacingValidator advertisementPlacingValidator;
 
-    @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
-    public ModelAndView placingAdvertisement(@RequestParam(value = "id", required = false) final Long id) {
-        ModelAndView modelAndView = new ModelAndView("placing");
-        AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
-        if (id != null) {
-            Advertisement advertisement = this.advertisementDao.findById(id);
-            advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
-            advertisementPlacingForm.setText(advertisement.getText());
-            advertisementPlacingForm.setTitle(advertisement.getTitle());
-        }
-        modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
-        modelAndView.addObject("isEditing", false);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/edit.html", method = RequestMethod.GET)
-    public ModelAndView edit(@RequestParam(value = "id", required = true) final Long advertisementId) {
-        ModelAndView modelAndView =  new ModelAndView("placing");
-        modelAndView.addObject("isEditing", true);
-        modelAndView.addObject("advertisementId", advertisementId);
-        AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
-        AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
-        advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
-        advertisementPlacingForm.setText(advertisement.getText());
-        advertisementPlacingForm.setTitle(advertisement.getTitle());
-        advertisementPlacingForm.setTags(getTagsFromAdvertisementByIdAsString(advertisementId));
-        modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
-        Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementId);
-        modelAndView.addObject("tags", tags);
-        modelAndView.addObject("imageUrl", "/resources/images/user_images/" + advertisement.getPhotoFile());
-        modelAndView.addObject("imageFileName", advertisement.getPhotoFile());
-        return modelAndView;
-    }
-
-    /**
-     * Placing or editing the advertisement.
-     *
-     * @param advertisementPlacingFormParam parameters from advertisement form
-     * @param result
-     * @param editingAdvertisementId        id of advertisement which will
-     *                                      be editing
-     * @return ModelAndView object
-     */
-    @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
-    public ModelAndView processPlacingAdvertisement(
-            final AdvertisementPlacingForm advertisementPlacingFormParam,
-            final BindingResult result,
-            final Long editingAdvertisementId,
-            final String advertisementOldImageName
-    ) {
-        String defaultPhoto = "no_photo.png";
-        advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
-        if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
-            ModelAndView modelAndView = new ModelAndView("placing");
-            modelAndView.addObject("isErrors", true);
-            modelAndView.addObject("errors", errors);
-            return modelAndView;
-        }
-        FileManager fileManager = new FileManager();
-        String photo = null;
-        if (!(advertisementPlacingFormParam.getImage() == null)) {
-            if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("") && editingAdvertisementId == null) {
-                photo = defaultPhoto;
-            } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) && advertisementOldImageName != null) {
-                // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
-                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
-                if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
-                        advertisementOldImageName.equals("image3.jpg")) {
-
-                } else {
-                    File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
-                    if (!advertisementOldImageFile.delete()) {
-                        //fail
-                    }
-                }
-            } else if (advertisementOldImageName != null) {
-                photo = advertisementOldImageName;
-            } else {
-                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
-            }
-        } else {
-            photo = defaultPhoto;
-        }
-        Advertisement advertisement = null;
-        if (editingAdvertisementId == null) {
-            advertisement = new Advertisement();
-            advertisement.setPhotoFile(photo);
-        } else {
-            advertisement = advertisementDao.findById(editingAdvertisementId);
-            if (photo != null) {
-                advertisement.setPhotoFile(photo);
-            }
-        }
-        advertisement.setText(advertisementPlacingFormParam.getText());
-        advertisement.setTitle(advertisementPlacingFormParam.getTitle());
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userName;
-        if (principal instanceof UserDetails) {//Alex: что это черт возьми???
-            userName = ((UserDetails) principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }
-        List<String> tagList = selectTags(advertisementPlacingFormParam.getTags());
-        Set<Tag> newTags = null;
-        if (tagList != null) {
-            newTags = new HashSet<Tag>();
-            for (String newTag : tagList) {
-                if (!newTag.equals("")) {
-                    Tag addingTag = new Tag();
-                    addingTag.setName(newTag);
-                    newTags.add(addingTag);
-                }
-            }
-        }
-        if (editingAdvertisementId != null) {
-            //change tags
-//                Set<TagEntity> existingTags = this.getTagsFromAdvertisementById(editingAdvertisementId);
-
-            this.advertisementDao.update(editingAdvertisementId, advertisement, advertisementPlacingFormParam.getCategory(), newTags);
-        } else {
-            this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName, newTags);
-        }
-        return new ModelAndView("placingRequest");
-    }
-
-    @Autowired
-    private ExchangeFormValidator exchangeFormValidator;
-
-    //    We must return object cause in one way we must return string, otherwise ModelAndView
-    @RequestMapping(value = "/exchange.html", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody Map submitExchange(@ModelAttribute("email") ExchangeForm exchangeForm,
-                                 final BindingResult bindingResult) {
-        Map map = new HashMap();
-        exchangeFormValidator.validate(exchangeForm, bindingResult);
-        if (!bindingResult.hasErrors()) {
-            Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOfferAdvertisement());
-            User offer = offerAdvertisement.getUser();
-            User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
-            String advertisementUrl = mailSenderService.getDomen() + "/new/advertisement/view.html?id=";
-            String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
-            String titleExchangeMessage = "С вами хотят обменяться!";
-            String userName;
-            if (owner.getLastName().equals("")) {
-                userName = "владелец вещи";
-            } else {
-                userName = owner.getLastName();
-            }
-            String message = "Пользователь с email'ом : " + offer.getUsername() +  "\nХочет обменяться с вами на вашу вещь : \n"
-                    + advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue
-                    + "\nИ предлагает вам взамен\n" + advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement()
-                    + advertisementUrlResidue + "\nПрилагается сообщение :\n " + exchangeForm.getExchangePropose()
-                    + "\n Уважаемый " + userName + "\nПока что наш сервис находится в разработке, так что мы оставляем за вами " +
-                    "право связаться с заинтересованным пользователем на вашу вещь.\n"
-                    + "\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши объявления с нашего сервиса.\n" + "Спасибо!";
-            mailSenderService.sendMail(owner.getEmail(), titleExchangeMessage, message);
-            map.put("success", true);
-        } else {
-            map.put("success", false);
-            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
-            Map errors = new HashMap();
-            errors.put("wrong", errorMessage);
-            map.put("errors", errors);
-        }
-        return map;
-    }
 
     private List<String> selectTags(String tags) {
         if (tags == null) {
             return null;
         }
-
-        StringTokenizer token = new StringTokenizer(tags);
-        List<String> saparateTags = new ArrayList<String>();
-        int length = token.countTokens();
-        for (int i = 0; i < length; i++) {
-            saparateTags.add(token.nextToken());
+        String trimString = StringUtils.trim(tags);
+        String[] separateTags = StringUtils.split(trimString);
+        List<String> result = new ArrayList<>();
+        for (String str: separateTags) {
+            result.add(str);
         }
-        return saparateTags;
-    }
-
-    @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
-    public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails;
-        String redirectAddress = "redirect:/advertisement/moderator/list.html" + "?currentCategory=";
-        if (principal instanceof UserDetails) {
-            userDetails = (UserDetails) principal;
-        } else {
-            return redirectAddress;
-        }
-        User user = this.userDao.findUserByEmail(userDetails.getUsername());
-        if (user.getRole().equals("ROLE_MODERATOR")) {
-            Advertisement advertisement = this.advertisementDao.findById(advertisementId);
-            String userEmail = advertisement.getUser().getEmail();
-            String title = "Ваше объявление удалено модератором";
-            String userName;
-            if (advertisement.getUser().getLastName().equals("")) {
-                userName = "Уважаемый пользователь";
-            } else {
-                userName = "Уважаемый, " + advertisement.getUser().getLastName();
-            }
-            String message = userName + "\nВаше объявление с заголовком : " + advertisement.getTitle()
-                    + "\nС описанием : " + advertisement.getText() + "\nБыло удалено модератором";
-            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
-                this.advertisementDao.setDeleted(advertisementId);
-                mailSenderService.sendMail(userEmail, title, message);
-            }
-        } else {
-            redirectAddress = "redirect:/new/advertisement/list.html";
-            Advertisement advertisement = this.advertisementDao.findById(advertisementId);
-            String userEmail = advertisement.getUser().getEmail();
-            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
-                this.advertisementDao.setDeleted(advertisementId);
-            }
-        }
-        return redirectAddress;
+        return result;
     }
 }

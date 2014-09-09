@@ -34,9 +34,9 @@ block content
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
             if (!isDeleted)
-              a.delete-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/new/moderator/advertisementList.html")}') УДАЛИТЬ
+              a.delete-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/new/moderator/DeleteOrRestoreAdvertisement.html")}') УДАЛИТЬ
             else
-              a.restore-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/new/moderator/advertisementList.html")}') ВОССТАНОВИТЬ
+              a.restore-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/new/moderator/DeleteOrRestoreAdvertisement.html")}') ВОССТАНОВИТЬ
       .pages
         ul.page-list
           if (previous == true)

@@ -155,7 +155,7 @@ public class AdvertisementController {
         for (int i = 0; i < keyWords.length; i++) {
             keyWords[i] = token.nextToken();
         }
-        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories, keyWords, sortOrder, sortColumn);
+        return this.advertisementDao.findAdvertisementsWithCategoryAndKeyWords(categories, keyWords, sortOrder, sortColumn);
     }
 
     private List<Advertisement> findAllAdvertisementsWithCategoryOrderBy(
@@ -164,7 +164,7 @@ public class AdvertisementController {
         if (categories.length == 0) {
             return Collections.emptyList();
         }
-        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories, null, sortOrder, sortColumn);
+        return this.advertisementDao.findAdvertisementsWithCategoryAndKeyWords(categories, null, sortOrder, sortColumn);
     }
 
     private String stringArrayToString(final String[] src) {
@@ -289,7 +289,7 @@ public class AdvertisementController {
         if (currentCategories.length == 1) {
             isDeleted = true;
         }
-        advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
+        advertisements = this.advertisementDao.findAdvertisementsWithKeyWordsFilteredByDelete(
                 stringToTokensArray(advertisementSearchingFormParam.getKeyWords()),
                 currentSortOrder, currentColumn, isDeleted, longDateFrom, longDateTo
         );
@@ -721,14 +721,14 @@ public class AdvertisementController {
             String message = userName + "\nВаше объявление с заголовком : " + advertisement.getTitle()
                     + "\nС описанием : " + advertisement.getText() + "\nБыло удалено модератором";
             if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
-                this.advertisementDao.setDeleted(advertisementId);
+                this.advertisementDao.changeDeleted(advertisementId);
                 mailSenderService.sendMail(userEmail, title, message);
             }
         } else {
             Advertisement advertisement = this.advertisementDao.findById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
             if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
-                this.advertisementDao.setDeleted(advertisementId);
+                this.advertisementDao.changeDeleted(advertisementId);
             }
         }
         return rederectAddress;
@@ -740,7 +740,7 @@ public class AdvertisementController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails user = (UserDetails) principal;
         if(user.getAuthorities().contains(Role.createModeratorRole())) {
-            this.advertisementDao.setDeleted(advertisementId);
+            this.advertisementDao.changeDeleted(advertisementId);
         }
         return "redirect:/advertisement/moderator/list.html";
     }
