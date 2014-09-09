@@ -114,11 +114,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         return this.hibernateTemplate.get(AdvertisementEntity.class, id);
     }
 
-    @Override
-    public List<Advertisement> findAll() {
-        return this.findAll(ASCENDING, Advertisement.CREATED_DATE_COLUMN_CODE);
-    }
-
     @SuppressWarnings("incomplete-switch")
     @Override
     public List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName) {
@@ -137,7 +132,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 criteria.addOrder(Order.desc(sortByName));
                 break;
             default:
-                //
                 break;
         }
         criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
@@ -156,109 +150,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public List<Advertisement> findAllAdvertisementsWithCategoryAndOrderBy(
-            final String category, final SortOrder sortOrder, final String sortPropertyName
-    ) {
-        String [] args = new String[1];
-        Object [] values = new Object[1];
-        args[0] = "categoryParam";
-        values[0] = category;
-        String sortByName = (sortPropertyName == null)
-                ? Advertisement.CREATED_DATE_COLUMN_CODE
-                : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
-        ;
-        List<AdvertisementEntity> lst = null;
-        String sortTypeForNamedQueryName = null;
-        String sortByTargetForNamedQueryName = null;
-        switch (sortOrder) {
-            case ASCENDING :
-                sortTypeForNamedQueryName = "Asc";
-                break;
-            case DESCENDING :
-                sortTypeForNamedQueryName = "Desc";
-                break;
-            default:
-                //
-                break;
-        }
-        if (sortByName.equals(Advertisement.TITLE_COLUMN_CODE)) {
-            sortByTargetForNamedQueryName = "Title";
-        } else {
-            sortByTargetForNamedQueryName = "Date";
-        }
-        String namedQueryName = "findAllAdvertisementsWithCategoryAndOrderBy" +
-                sortByTargetForNamedQueryName +
-                sortTypeForNamedQueryName;
-        lst = this.hibernateTemplate.findByNamedQueryAndNamedParam(namedQueryName, args, values);
-        return convertEntityList(lst);
-    }
-
-//    @Override
-//    public List<Advertisement> findAll2() {
-//        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class)
-//        .createAlias("categoryEntity","category")
-//        .add( Restrictions.eq("category.name", "notclothes") );
-//        //criteria.createAlias()
-//        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
-//    }
-
-
-    /**
-     * Search advertisements from DB, which match category and key words
-     * @param categories if null, it isn't use in selection from DB
-     * @param keyWords key words,which searching in title
-
-     * @return list
-     */
-
-    @Override
-    public List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(final String[] categories,
-                                                                                   final String[] keyWords,
-                                                                                   final SortOrder sortOrder,
-                                                                                   final String sortPropertyName) {
-        String sortByName = (sortPropertyName == null)
-                ? Advertisement.CREATED_DATE_COLUMN_CODE
-                : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
-        ;
-        DetachedCriteria criteria = DetachedCriteria
-                .forClass(AdvertisementEntity.class, "advertisement");
-        criteria.createAlias("tags", "tag", Criteria.LEFT_JOIN);
-        switch (sortOrder) {
-            case ASCENDING :
-                criteria.addOrder(Order.asc(sortByName));
-                break;
-            case DESCENDING :
-                criteria.addOrder(Order.desc(sortByName));
-                break;
-            default:
-                //
-                break;
-        }
-        if (categories != null) {
-            criteria.createAlias("categoryEntity", "category");
-            Disjunction disjunction = Restrictions.disjunction();
-            for (int i = 0; i < categories.length; i++) {
-                disjunction.add(Restrictions.eq("category.name", categories[i]));
-            }
-            criteria.add(disjunction);
-        }
-        if (keyWords != null) {
-            Disjunction disjunction = Restrictions.disjunction();
-            for (int i = 0; i < keyWords.length; i++) {
-                disjunction.add(Restrictions.like("advertisement.title", "%" + keyWords[i] + "%") );
-                disjunction.add(Restrictions.like("tag.name","%" + keyWords[i] + "%"));
-                criteria.add(disjunction);
-                disjunction = Restrictions.disjunction();
-            }
-            criteria.add(disjunction);
-        }
-
-        criteria.add(Restrictions.eq("advertisement.is_deleted", Boolean.FALSE));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
-    }
-
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private List<Advertisement> convertEntityList(final List entities) {
         List<Advertisement> advertisementList = new ArrayList<Advertisement>();
@@ -272,7 +163,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     }
 
     @Override
-    public void setDeleted(Long id) {
+    public void changeDeleted(Long id) {
         AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
         boolean deleteState = advertisementEntity.getIs_deleted();
         advertisementEntity.setIs_deleted(!deleteState);
@@ -291,13 +182,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         advertisementEntity.setTags(tagsEntity);
     }
 
-//    @Override
-//    public void setApproved(Long id) {
-//        AdvertisementEntity advertisementEntity = this.hibernateTemplate.get(AdvertisementEntity.class, id);
-//        boolean deletedState =  advertisementEntity.getIs_deleted();
-//        advertisementEntity.setIs_deleted(!deletedState);
-//        hibernateTemplate.update(advertisementEntity);
-//    }
 
     @Override
     public void update(Long id, Advertisement advertisement, String categoryName, Set<Tag> tags) {
@@ -324,83 +208,39 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
-    /**
-     *
-     * @param keyWords
-     * @param sortOrder
-     * @param sortPropertyName
-     * @param isDeleted
-     * @param dateFrom from which data searche advertisements
-     * @param dateTo to which data searche advertisements
-                     (if both dates are null then it will find all advertisements)
-     * @return
-     */
     @Override
-    public List<Advertisement> findAllAdvertisementsWithKeyWordsOrderBy(
-            final String[] keyWords,
-            final SortOrder sortOrder,
-            final String sortPropertyName,
-            final Boolean isDeleted,
-            final Long dateFrom,
-            final Long dateTo
+    public List<Advertisement> findAdvertisementsWithCategoryAndKeyWords(
+            String[] categories,
+            String[] keyWords,
+            SortOrder sortOrder,
+            String sortPropertyName
     ) {
-        String sortByName = (sortPropertyName == null)
-                ? Advertisement.CREATED_DATE_COLUMN_CODE
-                : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
-        ;
-        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class, "advertisement");
-        criteria.createAlias("tags", "tag", Criteria.LEFT_JOIN);
-        switch (sortOrder) {
-            case ASCENDING :
-                criteria.addOrder(Order.asc(sortByName));
-                break;
-            case DESCENDING :
-                criteria.addOrder(Order.desc(sortByName));
-                break;
-            default:
-                //
-                break;
-        }
-        if (keyWords != null) {
-            Disjunction disjunction = Restrictions.disjunction();
-            for (int i = 0; i < keyWords.length; i++) {
-                disjunction.add(Restrictions.like("advertisement.title", "%" + keyWords[i] + "%") );
-                disjunction.add(Restrictions.like("tag.name","%" + keyWords[i] + "%"));
-                criteria.add(disjunction);
-                disjunction = Restrictions.disjunction();
-            }
-            criteria.add(disjunction);
-        }
-
-        if (dateFrom != null || dateTo != null) {
-            Criterion dateCriterion = null;
-            if (dateFrom != null && dateTo != null) {
-                dateCriterion = Restrictions.between("createdDate", dateFrom, dateTo);
-            }
-            if (dateFrom == null) {
-                //less or equal
-                dateCriterion = Restrictions.le("createdDate", dateTo);
-            }
-            if (dateTo == null) {
-                //greater or equal
-                dateCriterion = Restrictions.ge("createdDate", dateFrom);
-            }
-            criteria.add(dateCriterion);
-        }
-        criteria.add(Restrictions.eq("is_deleted", isDeleted));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
+        return this.findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(
+                categories, keyWords, false, sortOrder, sortPropertyName, null, null);
     }
 
     @Override
-    public List<Advertisement> findAllAdvertisementsWithKeyWordsAndCategoryOrderBy(
-        String[] categories,
+    public List<Advertisement> findAdvertisementsWithKeyWordsFilteredByDelete(
         String[] keyWords,
         SortOrder sortOrder,
         String sortPropertyName,
+        Boolean isDeleted,
         Long dateFrom,
-        Long dateTo
-    ) {
+        Long dateTo) {
+        return this.findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(
+            null, keyWords, isDeleted, sortOrder, sortPropertyName, dateFrom, dateTo
+        );
+    }
+
+    @Override
+    public List<Advertisement> findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(
+        String[] categories,
+        String[] keyWords,
+        Boolean isDeleted,
+        SortOrder sortOrder,
+        String sortPropertyName,
+        Long dateFrom,
+        Long dateTo) {
         String sortByName = (sortPropertyName == null)
                 ? Advertisement.CREATED_DATE_COLUMN_CODE
                 : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
@@ -415,7 +255,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 criteria.addOrder(Order.desc(sortByName));
                 break;
             default:
-                //
                 break;
         }
 
@@ -445,16 +284,17 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                 dateCriterion = Restrictions.between("createdDate", dateFrom, dateTo);
             }
             if (dateFrom == null) {
-                //less or equal
                 dateCriterion = Restrictions.le("createdDate", dateTo);
             }
             if (dateTo == null) {
-                //greater or equal
                 dateCriterion = Restrictions.ge("createdDate", dateFrom);
             }
             criteria.add(dateCriterion);
         }
-        criteria.add(Restrictions.eq("is_deleted", false));
+        if (isDeleted == null) {
+            isDeleted = false;
+        }
+        criteria.add(Restrictions.eq("is_deleted", isDeleted));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }

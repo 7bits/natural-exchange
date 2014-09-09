@@ -8,6 +8,7 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
+import it.sevenbits.helpers.jadeHelpers.EncodeDecodeService;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
@@ -16,6 +17,7 @@ import it.sevenbits.util.form.EditingUserInfoForm;
 import it.sevenbits.util.form.UserEntryForm;
 import it.sevenbits.util.form.UserRegistrationForm;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
+import it.sevenbits.util.form.validator.EditingUserInfoFormValidator;
 import it.sevenbits.util.form.validator.UserEntryValidator;
 import it.sevenbits.util.form.validator.UserRegistrationValidator;
 import org.slf4j.Logger;
@@ -31,6 +33,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -76,7 +79,7 @@ public class UserController {
     private UserRegistrationValidator userRegistrationValidator;
 
     @Autowired
-    private AdvertisementSearchingValidator advertisementSearchingValidator;
+    private EditingUserInfoFormValidator editingUserInfoFormValidator;
 
     @Autowired
     private UserEntryValidator userEntryValidator;
@@ -213,25 +216,44 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.GET)
-    public ModelAndView editProfile() {
+    public ModelAndView editProfile(
+        @RequestParam(value = "firstNameError", required = false) final String firstNameError,
+        @RequestParam(value = "lastNameError", required = false) final String lastNameError
+    ) {
         ModelAndView modelAndView = new ModelAndView("editProfile.jade");
         Long id = this.getCurrentUser();
         User currentUser = this.userDao.findById(id);
         modelAndView.addObject("currentUser", currentUser);
+        modelAndView.addObject("errorFromFirstName", EncodeDecodeService.decode(firstNameError));
+        modelAndView.addObject("errorFromLastName", EncodeDecodeService.decode(lastNameError));
         return modelAndView;
     }
 
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.POST)
-    public String changeUserInformation(final EditingUserInfoForm editingUserInfoForm) {
+    public String changeUserInformation(final EditingUserInfoForm editingUserInfoForm, BindingResult bindingResult) {
         Long id = this.getCurrentUser();
         User currentUser = this.userDao.findById(id);
-        User userNew = new User();
+        this.editingUserInfoFormValidator.validate(editingUserInfoForm, bindingResult);
+        if (bindingResult.hasErrors()) {
+            String redirectAddress = "redirect:/new/user/userprofile/edit.html?firstNameError=";
+            FieldError fieldErrorFromFirstName = bindingResult.getFieldError("FirstName");
+            if (fieldErrorFromFirstName != null) {
+                redirectAddress += EncodeDecodeService.encode(fieldErrorFromFirstName.getDefaultMessage());
+            }
+            redirectAddress += "&lastNameError=";
+            FieldError fieldErrorFromLastName = bindingResult.getFieldError("LastName");
+            if (fieldErrorFromLastName != null) {
+                redirectAddress += EncodeDecodeService.encode(fieldErrorFromLastName.getDefaultMessage());
+            }
+            return redirectAddress;
+        }
 
         String newFirstName = editingUserInfoForm.getFirstName();
         String newLastName = editingUserInfoForm.getLastName();
         String newAvatar = currentUser.getAvatar();
         MultipartFile avatarFile = editingUserInfoForm.getImage();
         FileManager fileManager = new FileManager();
+
         if (editingUserInfoForm.getIsDelete() == null) {
             if (!avatarFile.getOriginalFilename().equals("")) {
                 fileManager.deleteFile(newAvatar, false);
@@ -242,14 +264,10 @@ public class UserController {
             newAvatar = null;
         }
 
-        userNew.setEmail(currentUser.getEmail());
-        userNew.setPassword(currentUser.getPassword());
-        userNew.setFirstName(newFirstName);
-        userNew.setLastName(newLastName);
-        userNew.setAvatar(newAvatar);
-        userNew.setVk_link(currentUser.getVk_link());
-        userNew.setUpdateDate(TimeManager.getTime());
-        this.userDao.updateData(userNew);
+        currentUser.setFirstName(newFirstName);
+        currentUser.setLastName(newLastName);
+        currentUser.setAvatar(newAvatar);
+        this.userDao.updateData(currentUser);
         return "redirect:/new/user/userprofile/searches.html";
     }
 }

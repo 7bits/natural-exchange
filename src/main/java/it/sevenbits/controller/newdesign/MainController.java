@@ -11,6 +11,7 @@ import it.sevenbits.entity.User;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,9 +55,10 @@ public class MainController {
         String[] allCategories = this.getAllCategories();
         SortOrder mainSortOrder = SortOrder.DESCENDING;
         String sortBy = "createdDate";
-        advertisements = this.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
-                allCategories, "", mainSortOrder, sortBy
-        );
+
+        advertisements = this.advertisementDao.findAdvertisementsWithCategoryAndKeyWords(
+            allCategories, null, mainSortOrder, sortBy);
+
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
         pageList.setPageSize(MAIN_ADVERTISEMENTS);
@@ -110,19 +112,4 @@ public class MainController {
         }
         return allCategories;
     }
-
-    private List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(
-            final String[] categories, final String keyWordsStr, final SortOrder sortOrder, final String sortColumn
-    ) {
-        if (categories.length == 0) {
-            return Collections.emptyList();
-        }
-        StringTokenizer token = new StringTokenizer(keyWordsStr);
-        String[] keyWords = new String[token.countTokens()];
-        for (int i = 0; i < keyWords.length; i++) {
-            keyWords[i] = token.nextToken();
-        }
-        return this.advertisementDao.findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(categories, keyWords, sortOrder, sortColumn);
-    }
-
 }

@@ -1,6 +1,7 @@
 package it.sevenbits.util;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -85,12 +86,15 @@ public class FileManager {
     }
 
     private String getType(final String fileName) {
-        StringTokenizer token = new StringTokenizer(fileName, ".");
-        String type;
-        for (int i = 0 ; i < token.countTokens() - 1 ; i++) {
-            token.nextToken();
-        }
-        type = token.nextToken();
-        return type;
+//        StringTokenizer token = new StringTokenizer(fileName, ".");
+//        String type;
+//        for (int i = 0 ; i < token.countTokens() - 1 ; i++) {
+//            token.nextToken();
+//        }
+//        type = token.nextToken();
+//        return type;
+        String[] parts = StringUtils.split(fileName, '.');
+        int length = parts.length;
+        return parts[length - 1];
     }
 }

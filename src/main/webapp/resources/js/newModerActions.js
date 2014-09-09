@@ -1,5 +1,6 @@
 $(document).ready(function() {
-    $(".js-moder-action").click(function() {
+    $(".js-moder-action").click(function(e) {
+        e.preventDefault();
         var id = $(this).data('adv-id');
         var destUrl = $(this).data('dest-url');
         var sendingData = {
@@ -10,7 +11,7 @@ $(document).ready(function() {
             type: 'POST',
             data: sendingData,
             success: function(result) {
-                document.location.href = destUrl;
+                document.location.reload();// = destUrl;
             },
             error: function() {
                 alert("Не сработало, я не знаю в чем проблема");
