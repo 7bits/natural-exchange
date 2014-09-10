@@ -17,10 +17,10 @@ block content
           if (allCategoriesSelected)
             option.choosen-category(value='#{searchCategories}', selected='selected', name="category") Все категории
           for category in categories
-            if (category.name == selectedCategory)
-              option.choosen-category(value='#{category.name}', selected='selected', name="category") #{category.name}
+            if (category.slug == selectedCategory)
+              option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
             else
-              option.choosen-category(value='#{category.name}', name="category") #{category.name}
+              option.choosen-category(value='#{category.slug}', name="category") #{category.name}
       div.chosen-keywords.js-keywords-placing
         for keyword in keywords
           div.keyword-and-cross

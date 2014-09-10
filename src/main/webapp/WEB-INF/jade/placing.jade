@@ -20,9 +20,9 @@ block content
               option(selected='selected', disabled='disabled') Выберите категорию
             for category in categories
               if (category.name == advertisementPlacingForm.category)
-                option.choosen-category(value='#{category.name}', selected='selected', name="category") #{category.name}
+                option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
               else
-                option.choosen-category(value='#{category.name}', name="category") #{category.name}
+                option.choosen-category(value='#{category.slug}', name="category") #{category.name}
           div.placing-file-and-tags
             label.border-file-choose.placing-file-choose
               div.file-button-hollow-text.js-image-text Выберите изображение

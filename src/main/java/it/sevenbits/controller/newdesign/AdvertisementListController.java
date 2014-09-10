@@ -217,10 +217,14 @@ public class AdvertisementListController {
         advertisementPlacingForm.setTitle(advertisement.getTitle());
         advertisementPlacingForm.setTags(getTagsFromAdvertisementByIdAsString(advertisementId));
         modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
+        List<Category> categories = this.categoryDao.findAll();
         Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementId);
+        List<ObjectError> errors = new ArrayList<>();
         modelAndView.addObject("tags", tags);
         modelAndView.addObject("imageUrl", "/resources/images/user_images/" + advertisement.getPhotoFile());
         modelAndView.addObject("imageFileName", advertisement.getPhotoFile());
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("errors", errors);
         return modelAndView;
     }
 
