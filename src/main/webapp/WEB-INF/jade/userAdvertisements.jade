@@ -1,4 +1,19 @@
 extends cabinet/cabinetLayout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newUserAdvertisement.css')
 block information
-  p 123
-
+  for advertisement in advertisements
+    div.advertisement
+      div.advertisement-image
+        img.little-image(src='/resources/images/user_images/#{advertisement.photoFile}')
+      div.advertisement-information
+        div
+          p.advertisement-date #{advertisement.createdDateFormat}
+          a.delete-advertisement.js-delete-advertisement(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/new/advertisement/delete.html")}')
+            img(src='/resources/images/orangeRood.png')
+          a.edit-advertisement(href='#{uri.uri("/new/advertisement/edit.html?id=" + advertisement.id)}')
+            img(src='/resources/images/orangeEdit.png')
+        div.advertisement-name
+          a.advertisement-link(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
+block append customjs
+  script(src="/resources/js/newDeleteAdvertisement.js")

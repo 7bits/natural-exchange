@@ -1,0 +1,71 @@
+.advertisement {
+  position: relative;
+  margin-bottom: 16px;
+  padding: 18px;
+  display: block;
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+}
+
+.advertisement-image {
+  display: inline-block;
+}
+
+.advertisement-information {
+  position: absolute;
+  padding-left: 18px;
+  width: 85%;
+  display: inline-block;
+}
+
+.little-image {
+  max-width: 102px;
+  max-height: 70px;
+}
+
+.advertisement-date {
+  display: inline;
+  margin-top: 0px;
+  font-size: 15px;
+  font-family: mySans;
+  color: rgb(173, 173, 173);
+}
+
+.edit-advertisement, .delete-advertisement {
+  float: right;
+  opacity: 0.5;
+}
+
+.delete-advertisement {
+  margin-left: 10px;
+}
+
+.edit-advertisement:hover, .delete-advertisement:hover {
+  opacity: 1;
+}
+
+
+.advertisement-name {
+  margin-top: 5px;
+  margin-right: 56px;
+  width: 85%;
+}
+
+.advertisement-link {
+  text-decoration: none;
+  font-size: 19px;
+  font-family: boldSans;
+  color: rgb(0, 0, 0);
+}
+
+@font-face {
+  font-family: mySans;
+  font-weight: normal;
+  src:  url('../fonts/pt-sans.regular.ttf');
+}
+
+@font-face {
+  font-family: boldSans;
+  font-weight: normal;
+  src: url('../fonts/Prosto.ttf');
+}

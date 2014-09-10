@@ -5,6 +5,7 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.dao.SubscriberDao;
 import it.sevenbits.dao.UserDao;
+import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
@@ -16,7 +17,6 @@ import it.sevenbits.util.TimeManager;
 import it.sevenbits.util.form.EditingUserInfoForm;
 import it.sevenbits.util.form.UserEntryForm;
 import it.sevenbits.util.form.UserRegistrationForm;
-import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.EditingUserInfoFormValidator;
 import it.sevenbits.util.form.validator.UserEntryValidator;
 import it.sevenbits.util.form.validator.UserRegistrationValidator;
@@ -187,7 +187,7 @@ public class UserController {
     @RequestMapping(value = "/userprofile/searches.html", method = RequestMethod.GET)
     public ModelAndView showUserProfile() {
         ModelAndView modelAndView = new ModelAndView("userSearch.jade");
-        Long id = this.getCurrentUser();
+        Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
         List<SearchVariant> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
         modelAndView.addObject("currentUser", currentUser);
@@ -196,23 +196,20 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
-    public ModelAndView showUserAdvertisements() {
-        ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
-        Long id = this.getCurrentUser();
-        User currentUser = this.userDao.findById(id);
-        modelAndView.addObject("userPage", "advertisements.html");
-        modelAndView.addObject("currentUser", currentUser);
-        return modelAndView;
-    }
-
-    private Long getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            UserEntity userEntity = (UserEntity) auth.getPrincipal();
-            return userEntity.getId();
+    private Long getCurrentUserId() {
+        UserEntity currentUser = this.getCurrentUser();
+        if (currentUser != null) {
+            return currentUser.getId();
         }
         return (long) 0;
+    }
+
+    private UserEntity getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return (UserEntity) auth.getPrincipal();
+        }
+        return null;
     }
 
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.GET)
@@ -221,7 +218,7 @@ public class UserController {
         @RequestParam(value = "lastNameError", required = false) final String lastNameError
     ) {
         ModelAndView modelAndView = new ModelAndView("editProfile.jade");
-        Long id = this.getCurrentUser();
+        Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("errorFromFirstName", EncodeDecodeService.decode(firstNameError));
@@ -231,7 +228,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.POST)
     public String changeUserInformation(final EditingUserInfoForm editingUserInfoForm, BindingResult bindingResult) {
-        Long id = this.getCurrentUser();
+        Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
         this.editingUserInfoFormValidator.validate(editingUserInfoForm, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -269,5 +266,15 @@ public class UserController {
         currentUser.setAvatar(newAvatar);
         this.userDao.updateData(currentUser);
         return "redirect:/new/user/userprofile/searches.html";
+    }
+
+    @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
+    public ModelAndView showAdvertisementsOfCurrentUser() {
+        ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
+        User currentUser = this.getCurrentUser();
+        List<Advertisement> advertisementList = advertisementDao.findAllByEmail(currentUser);
+        modelAndView.addObject("advertisements", advertisementList);
+        modelAndView.addObject("currentUser", currentUser);
+        return modelAndView;
     }
 }
