@@ -14,9 +14,10 @@ block content
           input(type='text', placeholder="Введите параметр поиска").hollow-text.placing-keyword.js-added-keyword
           a#add-keyword.reg-rounded-button.file-choose.button-keyword-add.js-add-keyword ДОБАВИТЬ
         select.select-category(name="category")
-          option(selected='selected', disabled='disabled') Выберите категорию
+          if (allCategoriesSelected)
+            option.choosen-category(value='#{searchCategories}', selected='selected', name="category") Все категории
           for category in categories
-            if (category.name == advertisementPlacingForm.category)
+            if (category.name == selectedCategory)
               option.choosen-category(value='#{category.name}', selected='selected', name="category") #{category.name}
             else
               option.choosen-category(value='#{category.name}', name="category") #{category.name}
@@ -30,6 +31,7 @@ block content
         for error in errors
           div.red-alert-text #{error.getDefaultMessage()}
       input(type="submit", placeholder="ДОБАВИТЬ", value="СОХРАНИТЬ").rounded-button.edit-submit
+      input(type="hidden", name="searchVariantId", value="#{searchEditForm.searchVariantId}")
 block append customjs
   script(src="/resources/js/badImage.js")
   script(src="/resources/js/newEditSearch.js")

@@ -265,14 +265,22 @@ public class UserController {
             SearchVariant searchVariant = this.searchVariantDao.findById(id);
             searchEditForm.setCategory(searchVariant.getCategories());
             searchEditForm.setKeywords(searchVariant.getKeyWords());
+            searchEditForm.setSearchVariantId(id);
         }
         List<Category> categories = this.categoryDao.findAll();
         String[] keywords = StringUtils.split(searchEditForm.getKeywords());
+        String[] searchCategories = StringUtils.split(searchEditForm.getCategory());
+        if (searchCategories.length > 1) {
+            modelAndView.addObject("allCategoriesSelected", true);
+        } else {
+            modelAndView.addObject("allCategoriesSelected", false);
+        }
         Map<String, String> errors = new HashMap<>();
         modelAndView.addObject("keywords", keywords);
         modelAndView.addObject("searchEditForm", searchEditForm);
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("errors", errors);
+        modelAndView.addObject("selectedCategory", searchEditForm.getCategory());
         return modelAndView;
     }
 
@@ -291,14 +299,8 @@ public class UserController {
             modelAndView.addObject("errors", errors);
             return modelAndView;
         }
-        Long id = this.getCurrentUser();
-        User currentUser = this.userDao.findById(id);
-        SearchVariant newSearchVariant = new SearchVariant();
-        newSearchVariant.setKeyWords(searchEditForm.getKeywords());
-        newSearchVariant.setCategories(searchEditForm.getCategory());
-        newSearchVariant.setEmail(currentUser.getEmail());
-        newSearchVariant.setCreatedDate(TimeManager.getTime());
-        this.searchVariantDao.create(newSearchVariant);
-        return new ModelAndView("redirect:/userprofile/searches.html");
+        this.searchVariantDao.update(this.searchVariantDao.findById(searchEditForm.getSearchVariantId()),
+            searchEditForm.getKeywords(), searchEditForm.getCategory());
+        return new ModelAndView("redirect:/new/user/userprofile/searches.html");
     }
 }
