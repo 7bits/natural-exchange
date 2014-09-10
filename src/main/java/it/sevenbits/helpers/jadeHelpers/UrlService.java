@@ -44,7 +44,6 @@ public class UrlService {
      */
     public String afterDomen() {
         String result = this.rootPath;
-        int length = result.length();
         StringTokenizer tokenizer = new StringTokenizer(result, "/");
         int parts = tokenizer.countTokens();
         List<String> urlParts = new ArrayList<String>();

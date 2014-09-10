@@ -93,6 +93,11 @@
 .picture-block, .choose-image-block {
   display: inline-block;
 }
+.error-user-name {
+  margin-top: 0px;
+  font-size: 12px;
+  color: rgb(255, 0, 0);
+}
 .hide-file {
   padding-top: 7px;
   margin-left: 10px;

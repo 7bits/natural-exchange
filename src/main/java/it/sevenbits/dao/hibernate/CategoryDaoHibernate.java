@@ -17,6 +17,7 @@ import java.util.List;
  */
 @Repository(value = "categoryDao")
 public class CategoryDaoHibernate implements CategoryDao {
+    private static final int CATEGORIES_ON_MAIN_PAGE = 3;
 
     private HibernateTemplate hibernateTemplate;
 
@@ -26,8 +27,8 @@ public class CategoryDaoHibernate implements CategoryDao {
     }
 
     private CategoryEntity toEntity(final Category category) {
-        return  new CategoryEntity(
-                category.getName(), category.getDescription(), category.getUpdatedDate(),
+        return new CategoryEntity(
+                category.getSlug(), category.getName(), category.getDescription(), category.getUpdatedDate(),
                 category.getCreatedDate(), category.getIsDeleted()
         );
     }
@@ -43,14 +44,22 @@ public class CategoryDaoHibernate implements CategoryDao {
     }
 
     @Override
-    public Category findByName(final String name) {
-        return findEntityByName(name);
+    public Category findBySlug(final String slug) {
+        return findEntityBySlug(slug);
     }
 
     @Override
-    public CategoryEntity findEntityByName(final String name) {
+    public Category findByName(String name) {
         DetachedCriteria criteria = DetachedCriteria.forClass(CategoryEntity.class);
         criteria.add(Restrictions.eq("name", name));
+        List<CategoryEntity> categories = this.hibernateTemplate.findByCriteria(criteria);
+        return categories.get(0);
+    }
+
+    @Override
+    public CategoryEntity findEntityBySlug(final String slug) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(CategoryEntity.class);
+        criteria.add(Restrictions.eq("slug", slug));
         List<CategoryEntity> categories = this.hibernateTemplate.findByCriteria(criteria);
         return categories.get(0);
     }
@@ -59,6 +68,16 @@ public class CategoryDaoHibernate implements CategoryDao {
     public List<Category> findAll() {
         DetachedCriteria criteria = DetachedCriteria.forClass(CategoryEntity.class);
         return this.hibernateTemplate.findByCriteria(criteria);
+    }
+
+    @Override
+    public List<Category> findThreeLastCategories() {
+        List<Category> categoryList = findAll();
+        while (categoryList.size() > CATEGORIES_ON_MAIN_PAGE) {
+            int lastIndex = categoryList.size() - 1;
+            categoryList.remove(lastIndex);
+        }
+        return categoryList;
     }
 
     @Override

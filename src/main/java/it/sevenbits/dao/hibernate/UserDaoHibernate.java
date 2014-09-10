@@ -7,14 +7,13 @@ import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.TimeManager;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -123,7 +122,6 @@ public class UserDaoHibernate implements UserDao {
                 break;
         }
 
-        //по чему искать?
         if (keyWords != null) {
             String[] keyWordsForSearch = stringToTokensArray(keyWords);
             Disjunction disjunction = Restrictions.disjunction();
@@ -142,18 +140,15 @@ public class UserDaoHibernate implements UserDao {
                 dateCriterion = Restrictions.between("createdDate", dateFrom, dateTo);
             }
             if (dateFrom == null) {
-                //less or equal
                 dateCriterion = Restrictions.le("createdDate", dateTo);
             }
             if (dateTo == null) {
-                //greater or equal
                 dateCriterion = Restrictions.ge("createdDate", dateFrom);
             }
             criteria.add(dateCriterion);
         }
         criteria.add(Restrictions.eq("isBanned", isBanned));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        List<User> simpleSearch = this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
@@ -172,12 +167,7 @@ public class UserDaoHibernate implements UserDao {
         if (str == null) {
             return null;
         }
-        StringTokenizer token = new StringTokenizer(str);
-        String[] words = new String[token.countTokens()];
-        for (int i = 0 ; i < words.length ; i++) {
-            words[i] = token.nextToken();
-        }
-        return words;
+        return StringUtils.split(StringUtils.trim(str));
     }
 
 
@@ -224,21 +214,15 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
-    public void updateData(User userNewParam) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String oldEmail = auth.getName();
+    public void updateData(User updatingUser) {
+        String updatingUserEmail = updatingUser.getEmail();
         DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
-        criteria.add(Restrictions.like("email", oldEmail));
+        criteria.add(Restrictions.eq("email", updatingUserEmail));
         List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
-        User userToUpdate = users.get(0);
-        userToUpdate.setEmail(userNewParam.getEmail());
-        userToUpdate.setPassword(userNewParam.getPassword());
-        userToUpdate.setFirstName(userNewParam.getFirstName());
-        userToUpdate.setLastName(userNewParam.getLastName());
-        userToUpdate.setVk_link(userNewParam.getVk_link());
-        userToUpdate.setUpdateDate(TimeManager.getTime());
-        userToUpdate.setAvatar(userNewParam.getAvatar());
-        this.hibernateTemplate.update(userToUpdate);
+        if (users.size() != 0) {
+            updatingUser.setUpdateDate(TimeManager.getTime());
+            this.hibernateTemplate.update(updatingUser);
+        }
     }
 
     @Override

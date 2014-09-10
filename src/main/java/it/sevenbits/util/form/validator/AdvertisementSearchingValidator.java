@@ -1,15 +1,15 @@
 package it.sevenbits.util.form.validator;
 
-import it.sevenbits.dao.SearchVariantDao;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Validator for advertisements searching spring form
@@ -17,8 +17,8 @@ import java.util.StringTokenizer;
 @Component
 public class AdvertisementSearchingValidator implements Validator {
     private final static int DATE_LENGTH = 3;
-    @Resource(name = "searchVariantDao")
-    private SearchVariantDao searchVariantDao;
+
+    Logger logger = LoggerFactory.getLogger(AdvertisementSearchingValidator.class);
 
     @Override
     public boolean supports(final Class<?> clazz) {
@@ -29,11 +29,6 @@ public class AdvertisementSearchingValidator implements Validator {
     public void validate(final Object target, final Errors errors) {
         String errorDate = "Вводите дату в виде dd.mm.yy";
         AdvertisementSearchingForm advertisementSearchingForm = (AdvertisementSearchingForm) target;
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        String email = auth.getName();
-//        String[] categories  = advertisementSearchingForm.getCategories();
-//        String cats = UtilsManager.stringArrayToString(categories);
-//        String keyWords = advertisementSearchingForm.getKeyWords();
         String stringDateFrom = advertisementSearchingForm.getDateFrom();
         String stringDateTo = advertisementSearchingForm.getDateTo();
         boolean validateDateFrom = validateDate(stringDateFrom);
@@ -44,12 +39,6 @@ public class AdvertisementSearchingValidator implements Validator {
         if (!validateDateTo) {
             errors.rejectValue("dateTo", "dateTo", errorDate);
         }
-
-//        if (cats == null) {
-//            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "categories", "category.empty", "Выберите категорию.");
-//        } else  if (this.searchVariantDao.isExist(new SearchVariant(email, keyWords,cats))) {
-//            errors.reject("searchVar.exists", "Такой вариант поиска у вас уже есть.");
-//        }
     }
 
     private boolean validateDate(String date) {
@@ -59,20 +48,13 @@ public class AdvertisementSearchingValidator implements Validator {
         if (date == "") {
             return true;
         }
-        StringTokenizer token = new StringTokenizer(date, ".");
-        int length = token.countTokens();
-        //1 - day, 2 - month, 3 - year
-        if (length != this.DATE_LENGTH) {
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yy");
+        try {
+            formatter.parse(date);
+        } catch (ParseException e) {
+            logger.error("Wrong date format");
+            e.printStackTrace();
             return false;
-        }
-        List<String> dayMonthYear = new ArrayList<String>();
-        for (int i = 0; i < 3; i++) {
-            dayMonthYear.add(token.nextToken());
-        }
-        for (String currentDate: dayMonthYear) {
-            if (!currentDate.matches("[0-9]+")) {
-                return false;
-            }
         }
         return true;
     }

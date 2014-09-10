@@ -13,22 +13,15 @@ block content
           select.category-search(name='currentCategory')
 
             option(selected='selected', disabled='disabled') Выберите Категорию
-            if (currentCategory == "games clothes notclothes")
-              option.choosen-category(selected='selected', value='games clothes notclothes') Все категории
+            if (currentCategory == allCategories)
+              option.choosen-category(selected='selected', value='#{allCategories}') Все категории
             else
-              option.choosen-category(value='games clothes notclothes') Все категории
-            if (currentCategory == 'games')
-              option.choosen-category(selected='selected', value='games') Игры
-            else
-              option.choosen-category(value='games') Игры
-            if (currentCategory == 'clothes')
-              option.choosen-category(selected='selected', value='clothes') Одежда
-            else
-              option.choosen-category(value='clothes') Одежда
-            if (currentCategory == 'notclothes')
-              option.choosen-category(selected='selected', value='notclothes') Не одежда
-            else
-              option.choosen-category(value='notclothes') Не одежда
+              option.choosen-category(value='#{allCategories}') Все категории
+            for category in categories
+              if (category.slug == currentCategory)
+                option.choosen-category(selected='selected', value='#{category.slug}') #{category.name}
+              else
+                option.choosen-category(value='#{category.slug}') #{category.name}
           input.current-page(type='hidden', value='#{currentPage}')
           input.search(type='submit', value='НАЙТИ')
           p

@@ -6,7 +6,6 @@ package it.sevenbits.dao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Tag;
 import it.sevenbits.entity.User;
-import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.util.SortOrder;
 
 import java.util.List;
@@ -31,12 +30,6 @@ public interface AdvertisementDao {
     Advertisement findById(Long id);
 
     /**
-     * Find all advertisements
-     * @return  list of all advertisement
-     */
-    List<Advertisement> findAll();
-
-    /**
      *
      * @param sortOrder - of type SortOrder, it shows the order how to sort list of advertisement
      * @param sortPropertyName  - the name of field, used in defining of sortOrder
@@ -46,38 +39,28 @@ public interface AdvertisementDao {
 
     /**
      *
-     * @param category  given category
-     * @param sortOrder  - parameter that defines sort
-     * @param sortPropertyName the name of field of table Advertisement
-     * @return   sorted list of all advertisement
-     */
-    List<Advertisement> findAllAdvertisementsWithCategoryAndOrderBy(final String category,
-                                                                    final SortOrder sortOrder,
-                                                                    final String sortPropertyName);
-
-    /**
-     *
      * @param categories  Array of string, that represents categories for sorting
      * @param keyWords    Array of string that we are looking for.
      * @param sortOrder  parameter that defines sort
      * @param sortPropertyName  the name of field of table Advertisement
      * @return sorted list of all advertisement
      */
-    List<Advertisement> findAllAdvertisementsWithCategoryAndKeyWordsOrderBy(final String[] categories,
-                                                                            final String[] keyWords,
-                                                                            final SortOrder sortOrder,
-                                                                            final String sortPropertyName);
+    List<Advertisement> findAdvertisementsWithCategoryAndKeyWords(final String[] categories,//3
+                                                                  final String[] keyWords,
+                                                                  final SortOrder sortOrder,
+                                                                  final String sortPropertyName);
 
-    List<Advertisement> findAllAdvertisementsWithKeyWordsOrderBy(final String[] keyWords,
-                                                                 final SortOrder sortOrder,
-                                                                 final String sortPropertyName,
-                                                                 final Boolean isDeleted,
-                                                                 final Long dateFrom,
-                                                                 final Long dateTo);
+    List<Advertisement> findAdvertisementsWithKeyWordsFilteredByDelete(final String[] keyWords,//2
+                                                                       final SortOrder sortOrder,
+                                                                       final String sortPropertyName,
+                                                                       final Boolean isDeleted,
+                                                                       final Long dateFrom,
+                                                                       final Long dateTo);
 
-    List<Advertisement> findAllAdvertisementsWithKeyWordsAndCategoryOrderBy(
+    List<Advertisement> findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(//1
         final String[] categories,
         final String[] keyWords,
+        final Boolean isDeleted,
         final SortOrder sortOrder,
         final String sortPropertyName,
         final Long dateFrom,
@@ -96,11 +79,9 @@ public interface AdvertisementDao {
      */
     void delete(Advertisement advertisement);
 
-    void setDeleted(Long id);
+    void changeDeleted(Long id);
 
     void setTags(List<Tag> tags, int adv_id);
-
-//    void setApproved(Long id);
 
     void update(final Long id, final Advertisement advertisement, final String categoryName, Set<Tag> tags);
 

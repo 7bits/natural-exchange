@@ -6,6 +6,7 @@ import it.sevenbits.util.DatePair;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,8 +67,9 @@ public class NewModeratorController {
         }
         modelAndView.addObject("keyWords", keyWordSearch);
 
-        List<Advertisement> advertisements = this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(
-                stringToTokensArray(keyWordSearch), mainSortOrder, sortBy, isDeleted, dateFrom, dateTo);
+        List<Advertisement> advertisements = this.advertisementDao.findAdvertisementsWithKeyWordsFilteredByDelete(
+                stringToKeyWords(keyWordSearch), mainSortOrder, sortBy, isDeleted, dateFrom, dateTo
+        );
 
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
@@ -92,6 +94,15 @@ public class NewModeratorController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/DeleteOrRestoreAdvertisement.html", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody String deleteOrRestoreAdvertisement(
+            @RequestParam(value = "advertisementId", required = true) final Long id
+    ) {
+        this.advertisementDao.changeDeleted(id);
+        return "redirect:new/moderator/advertisementList.html";
+    }
+
     private DatePair takeAndValidateDate(String dateFrom, String dateTo, BindingResult bindingResult,
                                          ModelAndView modelAndView) {
         AdvertisementSearchingForm advertisementSearchingForm = new AdvertisementSearchingForm();
@@ -106,7 +117,6 @@ public class NewModeratorController {
             advertisementSearchingForm.setDateTo("");
         }
         this.advertisementSearchingValidator.validate(advertisementSearchingForm, bindingResult);
-        //it made for null dates
         String stringDateFrom = advertisementSearchingForm.getDateFrom();
         String stringDateTo = advertisementSearchingForm.getDateTo();
         Long longDateFrom = null;
@@ -118,10 +128,10 @@ public class NewModeratorController {
                 longDateTo += MILLISECONDS_IN_A_DAY;
             }
         } else {
-            String errorDate = bindingResult.
-                               getAllErrors().
-                               get(0).
-                               getDefaultMessage();
+            String errorDate = bindingResult
+                    .getAllErrors()
+                    .get(0)
+                    .getDefaultMessage();
             modelAndView.addObject("dateError", errorDate);
         }
         return new DatePair(longDateFrom, longDateTo);
@@ -131,42 +141,22 @@ public class NewModeratorController {
         if (dt.equals("")) {
             return null;
         }
-        DateFormat formatter;
         Date date = null;
-        long unixtime;
-        formatter = new SimpleDateFormat("dd.MM.yy");
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yy");
         try {
             date = formatter.parse(dt);
         } catch (ParseException ex) {
             this.logger.error("Wrong date format");
             ex.printStackTrace();
         }
-        unixtime = date.getTime();
-        return unixtime;
+        return date.getTime();
     }
 
-    private String[] stringToTokensArray(final String str) {
+    private String[] stringToKeyWords(final String str) {
         if (str == null) {
             return null;
         }
-        StringTokenizer token = new StringTokenizer(str);
-        String[] words = new String[token.countTokens()];
-        for (int i = 0 ; i < words.length ; i++) {
-            words[i] = token.nextToken();
-        }
-        return words;
-    }
-
-    private List<Advertisement> findAllAdvertisementsWithDeleteCtirerionAndKeyWordsOrderBy(
-            final Boolean isDeleted, final String keyWordsStr, final SortOrder sortOrder, final String sortColumn
-    ) {
-        StringTokenizer token = new StringTokenizer(keyWordsStr);
-        String[] keyWords = new String[token.countTokens()];
-        for (int i = 0; i < keyWords.length; i++) {
-            keyWords[i] = token.nextToken();
-        }
-        return this.advertisementDao.findAllAdvertisementsWithKeyWordsOrderBy(keyWords, sortOrder, sortColumn,
-            isDeleted, null, null);
+        return StringUtils.split(StringUtils.trim(str));
     }
 
     private void addPages(ModelAndView modelAndView, int currentPage, int pageCount) {
@@ -238,15 +228,5 @@ public class NewModeratorController {
                 break;
         }
         modelAndView.addObject("pageList", pageMap);
-    }
-
-    @RequestMapping(value = "/advertisementList.html", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody String deleteOrRestoreAdvertisement(
-        @RequestParam(value = "advertisementId", required = true) final Long id
-    ) {
-        String redirectAddress = "redirect:new/moderator/advertisementList.html";
-        this.advertisementDao.setDeleted(id);
-        return redirectAddress;
     }
 }

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.simple</groupId>
+    <groupId>MySel20Proj</groupId>
     <artifactId>n-exchange</artifactId>
     <packaging>war</packaging>
     <version>1.0.0</version>
@@ -340,6 +340,13 @@
             <version>3.2.0.RELEASE</version>
         </dependency>
 
+        <!-- Selenium- java-->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.42.2</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -353,5 +360,6 @@
     </repositories>
 
     <!-- Default build - Production -->
+
 
 </project>
