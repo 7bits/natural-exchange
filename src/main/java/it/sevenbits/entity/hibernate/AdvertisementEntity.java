@@ -23,22 +23,22 @@ import java.util.Set;
         ),
         @NamedQuery (
             name = "findAllAdvertisementsWithCategoryAndOrderByTitleAsc",
-            query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam " +
+            query = "select a from AdvertisementEntity a where a.categoryEntity.slug = :categoryParam " +
                 "order by a.title asc "
         ),
         @NamedQuery (
             name = "findAllAdvertisementsWithCategoryAndOrderByTitleDesc",
-            query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam " +
+            query = "select a from AdvertisementEntity a where a.categoryEntity.slug = :categoryParam " +
                 "order by a.title desc "
         ),
         @NamedQuery (
            name = "findAllAdvertisementsWithCategoryAndOrderByDateAsc",
-           query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam " +
+           query = "select a from AdvertisementEntity a where a.categoryEntity.slug = :categoryParam " +
                "order by a.createdDate asc "
         ),
         @NamedQuery (
             name = "findAllAdvertisementsWithCategoryAndOrderByDateDesc",
-            query = "select a from AdvertisementEntity a where a.categoryEntity.name = :categoryParam " +
+            query = "select a from AdvertisementEntity a where a.categoryEntity.slug = :categoryParam " +
                 "order by a.createdDate desc"
         )
 })

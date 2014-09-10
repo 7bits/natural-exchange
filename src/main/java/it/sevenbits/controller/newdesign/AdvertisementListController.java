@@ -85,11 +85,12 @@ public class AdvertisementListController {
         Long dateFrom = datePair.getDateFrom();
         Long dateTo = datePair.getDateTo();
 
+        List<Category> categoryList = categoryDao.findAll();
         String[] currentCategories = this.getAllCategories();
+        modelAndView.addObject("allCategories", this.arrayToString(currentCategories));
         if (previousCategory != null) {
             currentCategories = this.stringToArray(previousCategory);
         }
-        modelAndView.addObject("currentCategory", this.arrayToString(currentCategories));
 
         SortOrder mainSortOrder = SortOrder.DESCENDING;
         String sortBy = "createdDate";
@@ -98,7 +99,6 @@ public class AdvertisementListController {
         if (previousKeyWords != null) {
             keyWordSearch = previousKeyWords;
         }
-        modelAndView.addObject("keyWords", keyWordSearch);
 
         List<Advertisement> advertisements = this.advertisementDao.findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(
             this.stringToArray(previousCategory),
@@ -131,6 +131,9 @@ public class AdvertisementListController {
 
 
         this.addPages(modelAndView, currentPage, pageCount);
+        modelAndView.addObject("currentCategory", this.arrayToString(currentCategories));
+        modelAndView.addObject("categories", categoryList);
+        modelAndView.addObject("keyWords", keyWordSearch);
         modelAndView.addObject("advertisements", pageList.getPageList());
         modelAndView.addObject("userAdvertisements", userAdvertisements);
         modelAndView.addObject("pageCount", pageCount);
@@ -188,7 +191,7 @@ public class AdvertisementListController {
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         if (id != null) {
             Advertisement advertisement = this.advertisementDao.findById(id);
-            advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
+            advertisementPlacingForm.setCategory(advertisement.getCategory().getSlug());
             advertisementPlacingForm.setText(advertisement.getText());
             advertisementPlacingForm.setTitle(advertisement.getTitle());
         }
@@ -204,7 +207,7 @@ public class AdvertisementListController {
         modelAndView.addObject("advertisementId", advertisementId);
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
-        advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
+        advertisementPlacingForm.setCategory(advertisement.getCategory().getSlug());
         advertisementPlacingForm.setText(advertisement.getText());
         advertisementPlacingForm.setTitle(advertisement.getTitle());
         advertisementPlacingForm.setTags(getTagsFromAdvertisementByIdAsString(advertisementId));
@@ -544,7 +547,7 @@ public class AdvertisementListController {
         for (int i = 0; i < categoryLength; i++) {
             allCategories[i] = categories.
                     get(i).
-                    getName();
+                    getSlug();
         }
         return allCategories;
     }

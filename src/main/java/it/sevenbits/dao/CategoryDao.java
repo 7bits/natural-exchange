@@ -23,15 +23,19 @@ public interface CategoryDao {
      */
     Category findById(Long id);
 
+    Category findBySlug(final String slug);
+
     Category findByName(final String name);
 
-    CategoryEntity findEntityByName(final String name);
+    CategoryEntity findEntityBySlug(final String name);
 
     /**
      * Return list of categories
      * @return  list
      */
     List<Category> findAll();
+
+    List<Category> findThreeLastCategories();
 
     /**
      * Change category

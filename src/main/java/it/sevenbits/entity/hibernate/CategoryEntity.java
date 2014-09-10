@@ -34,10 +34,10 @@ public class CategoryEntity extends it.sevenbits.entity.Category {
     }
 
     public CategoryEntity(
-            final String name, final String description, final Long updatedDate,
+            final String slug, final String name, final String description, final Long updatedDate,
             final Long createdDate, final Boolean deleted
     ) {
-        super(name, description, updatedDate, createdDate, deleted);
+        super(slug, name, description, updatedDate, createdDate, deleted);
     }
 
     @Id
@@ -49,6 +49,12 @@ public class CategoryEntity extends it.sevenbits.entity.Category {
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    @Column(name = "slug", length = 200, nullable = false)
+    @Override
+    public String getSlug() {
+        return super.getSlug();
     }
 
     @Column(name = "name", length = 200, nullable = false)

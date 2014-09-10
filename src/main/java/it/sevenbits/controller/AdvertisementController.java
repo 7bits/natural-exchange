@@ -476,7 +476,7 @@ public class AdvertisementController {
         advertisementPlacingForm.setCategory("clothes");
         if (id != null) {
             Advertisement advertisement = this.advertisementDao.findById(id);
-            advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
+            advertisementPlacingForm.setCategory(advertisement.getCategory().getSlug());
             advertisementPlacingForm.setText(advertisement.getText());
             advertisementPlacingForm.setTitle(advertisement.getTitle());
         }
@@ -752,7 +752,7 @@ public class AdvertisementController {
         modelAndView.addObject("advertisementId",advertisementId);
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
-        advertisementPlacingForm.setCategory(advertisement.getCategory().getName());
+        advertisementPlacingForm.setCategory(advertisement.getCategory().getSlug());
         advertisementPlacingForm.setText(advertisement.getText());
         advertisementPlacingForm.setTitle(advertisement.getTitle());
         Set<TagEntity> tags = advertisement.getTags();

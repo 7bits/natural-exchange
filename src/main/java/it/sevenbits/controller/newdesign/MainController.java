@@ -59,6 +59,8 @@ public class MainController {
         advertisements = this.advertisementDao.findAdvertisementsWithCategoryAndKeyWords(
             allCategories, null, mainSortOrder, sortBy);
 
+        List<Category> categoryList = categoryDao.findThreeLastCategories();
+
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
         pageList.setPageSize(MAIN_ADVERTISEMENTS);
@@ -69,6 +71,7 @@ public class MainController {
             User user = this.userDao.findUserByEmail(auth.getName());
             userAdvertisements = this.advertisementDao.findAllByEmail(user);
         }
+        modelAndView.addObject("categories", categoryList);
         modelAndView.addObject("advertisements", pageList.getPageList());
         modelAndView.addObject("userAdvertisements", userAdvertisements);
         return modelAndView;
@@ -108,7 +111,7 @@ public class MainController {
         for (int i = 0; i < categoryLength; i++) {
             allCategories[i] = categories.
                     get(i).
-                    getName();
+                    getSlug();
         }
         return allCategories;
     }

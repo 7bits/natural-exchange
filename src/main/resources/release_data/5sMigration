@@ -1,0 +1,5 @@
+ALTER TABLE `Category` CHANGE COLUMN `name` `slug` varchar(200) NOT NULL;
+ALTER TABLE `Category` ADD COLUMN `name` varchar(200) NOT NULL AFTER `is_deleted`;
+UPDATE `Category` SET `name` = "Одежда" WHERE `slug` = "clothes";
+UPDATE `Category` SET `name` = "Не одежда" WHERE `slug` = "notclothes";
+UPDATE `Category` SET `name` = "Игры" WHERE `slug` = "games";

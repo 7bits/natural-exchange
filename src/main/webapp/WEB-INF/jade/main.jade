@@ -8,24 +8,13 @@ block content
     .container.head-things
       p.change-text ЗДЕСЬ ВЫ МОЖЕТЕ ОБМЕНЯТЬ
       .row1
-        .games.col-md-4
-          a.game-link(href='#{uri.uri("/new/advertisement/list.html?currentCategory=games")}')
-            img.games-image(src='/resources/images/bones.png')
-            .games-cover
-              a.category-note(href='#{uri.uri("/new/advertisement/list.html?currentCategory=games")}')
-                | ИГРЫ
-        .clothes.col-md-4
-          a.clothes-link(href='#{uri.uri("/new/advertisement/list.html?currentCategory=clothes")}')
-            img.clothes-image(src='/resources/images/score.png')
-            .clothes-cover
-              a.category-note(href='#{uri.uri("/new/advertisement/list.html?currentCategory=clothes")}')
-                | ОДЕЖДА
-        .no-clothes.col-md-4
-          a.no-clothes-link(href='#{uri.uri("/new/advertisement/list.html?currentCategory=notclothes")}')
-            img.no-clothes-image(src='/resources/images/book.png')
-            .no-clothes-cover
-              a.category-note(href='#{uri.uri("/new/advertisement/list.html?currentCategory=notclothes")}')
-                | НЕ ОДЕЖДА
+        for category in categories
+          .games.col-md-4
+            a.game-link(href='#{uri.uri("/new/advertisement/list.html?currentCategory=" + category.slug)}')
+              img.games-image(src='/resources/images/' + category.slug + ".png")
+              .games-cover
+                a.category-note(href='#{uri.uri("/new/advertisement/list.html?currentCategory=" + category.slug)}')
+                  | #{stringActions.toUpperCase(category.name)}
     .container.main-page
       p.many-other ... И МНОГОЕ ДРУГОЕ!
       .row

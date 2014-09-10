@@ -29,9 +29,6 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import java.util.*;
 
-
-import static it.sevenbits.util.SortOrder.ASCENDING;
-
 /**
  * Class, which implements AdvertisementDao for Hibernate
  */
@@ -70,14 +67,14 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     @Override
     public Advertisement create(final Advertisement advertisement, final String categoryName, final String userName, final Set<Tag> tags) {
         AdvertisementEntity advertisementEntity = toEntity(advertisement);
-        CategoryEntity categoryEntity = this.categoryDao.findEntityByName(categoryName);
+        CategoryEntity categoryEntity = this.categoryDao.findEntityBySlug(categoryName);
         UserEntity userEntity = this.userDao.findEntityByEmail(userName);
         advertisementEntity.setCategoryEntity(categoryEntity);
         advertisementEntity.setUserEntity(userEntity);
         this.translateToTagEntityAndAddIntoDB(tags, advertisementEntity);
         this.hibernateTemplate.save(advertisementEntity);
         try {
-            mailSenderService.sendNotifyToModerator(advertisementEntity.getId(), advertisementEntity.getCategory().getName());
+            mailSenderService.sendNotifyToModerator(advertisementEntity.getId(), advertisementEntity.getCategory().getSlug());
         } catch (MailException ex) {
 //            TODO нужно обработать это исключение
             logger.warn("Notification couldn't been sent");
@@ -191,7 +188,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         advertisementEntity.setText(advertisement.getText());
         advertisementEntity.setIs_deleted(advertisement.getIs_deleted());
         advertisementEntity.setUpdatedDate(TimeManager.getTime());
-        advertisementEntity.setCategoryEntity(this.categoryDao.findEntityByName(categoryName));
+        advertisementEntity.setCategoryEntity(this.categoryDao.findEntityBySlug(categoryName));
 
         this.translateToTagEntityAndAddIntoDB(tags, advertisementEntity);
         hibernateTemplate.update(advertisementEntity);
@@ -262,7 +259,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             criteria.createAlias("categoryEntity", "category");
             Disjunction disjunction = Restrictions.disjunction();
             for (int i = 0; i < categories.length; i++) {
-                disjunction.add(Restrictions.eq("category.name", categories[i]));
+                disjunction.add(Restrictions.eq("category.slug", categories[i]));
             }
             criteria.add(disjunction);
         }

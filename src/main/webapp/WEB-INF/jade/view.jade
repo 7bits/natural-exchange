@@ -9,7 +9,7 @@ block append content
       .information
         .category
           | Категория:
-          a.concrete-category #{category.getReallyName()}
+          a.concrete-category #{stringActions.toUpperCase(category.name)}
         if (tags.size() != 0)
           .tags
             | Теги:
