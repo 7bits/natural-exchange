@@ -242,7 +242,8 @@ public class AdvertisementListController {
             final AdvertisementPlacingForm advertisementPlacingFormParam,
             final BindingResult result,
             final Long editingAdvertisementId,
-            final String advertisementOldImageName
+            final String advertisementOldImageName,
+            final boolean isDeletePhoto
     ) {
         String defaultPhoto = "no_photo.png";
         advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
@@ -254,27 +255,33 @@ public class AdvertisementListController {
         }
         FileManager fileManager = new FileManager();
         String photo = null;
-        if (!(advertisementPlacingFormParam.getImage() == null)) {
-            if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("") && editingAdvertisementId == null) {
-                photo = defaultPhoto;
-            } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) && advertisementOldImageName != null) {
-                // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
-                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
-                if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
-                        advertisementOldImageName.equals("image3.jpg")) {
-                } else {
-                    File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
-                    if (!advertisementOldImageFile.delete()) {
-                        //TODO: logging
-                    }
-                }
-            } else if (advertisementOldImageName != null) {
-                photo = advertisementOldImageName;
+        if (isDeletePhoto) {
+            if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
+                    advertisementOldImageName.equals("image3.jpg") || advertisementOldImageName.equals("no_photo.png")) {
             } else {
-                photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
+                File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
+                if (!advertisementOldImageFile.delete()) {
+                    logger.info("file " + advertisementOldImageName + " has been deleted");
+                }
             }
-        } else {
             photo = defaultPhoto;
+        } else if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("") && editingAdvertisementId == null) {
+            photo = defaultPhoto;
+        } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) && advertisementOldImageName != null) {
+            // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
+            photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
+            if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
+                    advertisementOldImageName.equals("image3.jpg") || advertisementOldImageName.equals("no_photo.png")) {
+            } else {
+                File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
+                if (!advertisementOldImageFile.delete()) {
+                    logger.info("file " + advertisementOldImageName + " has been deleted");
+                }
+            }
+        } else if (advertisementOldImageName != null) {
+            photo = advertisementOldImageName;
+        } else {
+            photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
         }
         Advertisement advertisement = null;
         if (editingAdvertisementId == null) {
@@ -340,6 +347,7 @@ public class AdvertisementListController {
             Map<String, String> letter = UtilsMessage.createLetterForExchange(titleExchangeMessage, exchangeForm.getExchangePropose(), owner.getEmail(),
                 offer.getUsername(), advertisementUrlOwner.toString(), advertisementUrlOffer.toString(), userName);
             mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
+            logger.info("email about exchange sending to " + letter.get("email"));
             map.put("success", true);
         } else {
             map.put("success", false);

@@ -24,7 +24,7 @@ block content
               else
                 option.choosen-category(value='#{category.slug}', name="category") #{category.name}
           div.placing-file-and-tags
-            label.border-file-choose.placing-file-choose
+            label.border-file-choose.placing-file-choose.js-choose-image
               div.file-button-hollow-text.js-image-text Выберите изображение
               input#image(name = "image", type="file").js-image-chosen
             div.choose-tags-and-button
@@ -33,6 +33,9 @@ block content
               input(type='hidden', name="tags", value="#{advertisementPlacingForm.tags}").js-tags-chosen
             if (isEditing)
               a(href='#{imageUrl}').file-current-hollow-text.js-current-image Текущее изображение
+              p.deleting-text
+                input(type='checkbox', name='isDeletePhoto').file-current-hollow-text.js-want-delete-photo
+                Удалить фото
             if (!errors.isEmpty())
               for error in errors
                 div.red-alert-text #{error.getDefaultMessage()}

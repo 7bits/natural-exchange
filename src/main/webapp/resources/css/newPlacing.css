@@ -229,6 +229,14 @@
 .choose-tags-and-button {
     display: inline-block;
     position: relative;
+    float: right;
+}
+
+.deleting-text {
+    font : 18px bold mySans;
+    color : rgb(168, 129, 49);
+
+    padding-left: 17px;
 }
 
 .placing-tag-choose {
