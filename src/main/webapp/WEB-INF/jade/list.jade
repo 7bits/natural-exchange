@@ -39,7 +39,7 @@ block content
       .row
         for advertisement in advertisements
           .advertisement
-            if (advertisement.photoFile != null)
+            if (advertisement.photoFile != "")
               img.adv-image(src='/resources/images/user_images/#{advertisement.photoFile}')
             else
               img.adv-image(src='/resources/images/user_images/no_photo.png')
