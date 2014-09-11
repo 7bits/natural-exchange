@@ -1,0 +1,77 @@
+extends layout/layout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newList.css')
+  link(rel='stylesheet', href='//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css')
+block content
+  .content
+    .container.advertisement-list
+      div
+        form.searching-form(action = '#{uri.uri("/new/moderator/userList.html")}', method = 'get')
+          input.tag-search(type='text', placeholder='Введите параметры поиска', maxlength='50', name='keyWords',
+          value='#{keyWords}')
+          select.category-search(name='isBanned')
+            if (isBanned)
+              option.choosen-category(selected='selected', value='true') Забаненные
+              option.choosen-category(value='false') Не Забаненные
+            else
+              option.choosen-category(value='true') Забаненные
+              option.choosen-category(selected='selected', value='false') Не Забаненные
+          input.current-page(type='hidden', value='#{currentPage}')
+          input.search(type='submit', value='НАЙТИ')
+          p
+          label(for='date-from') С
+          input(type='text', class='date-from', name='dateFrom', value='#{dateFrom}')
+          label(for='date-to') По
+          input(type='text', class='date-to', name='dateTo', value='#{dateTo}')
+          p.date-error #{dateError}
+      .underneath
+      .row
+        for user in users
+          .advertisement
+            if (user.avatar != null)
+              img.adv-image(src='/resources/images/avatars/#{user.avatar}')
+            else
+              img.adv-image(src='/resources/images/avatars/emptyface.png')
+            p.registration-text Зарегистирован с
+            p.date #{user.createdDateFormat}
+            .name-cover
+              a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
+            p.user-email #{user.email}
+            if (!isBanned)
+              a.delete-button.js-admin-action(href='#', data-adv-id='#{user.id}', data-dest-url='#{uri.uri("/new/moderator/banOrUnbanUser.html")}') ЗАБАНИТЬ
+            else
+              a.restore-button.js-admin-action(href='#', data-adv-id='#{user.id}', data-dest-url='#{uri.uri("/new/moderator/banOrUnbanUser.html")}') РАЗБАНИТЬ
+      .pages
+        ul.page-list
+          if (previous == true)
+            li
+              a.trine(href='#{uri.uri("/new/moderator/userList.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&isBanned=" + isBanned) + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo}') <
+          if (pageList.first != null)
+            if (currentPage == pageList.first)
+              li
+                a.page-link.mark(href='#{uri.uri("/new/moderator/userList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isBanned=" + isBanned + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
+            else
+              li
+                a.page-link(href='#{uri.uri("/new/moderator/userList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isBanned=" + isBanned + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
+          if (pageList.second != null)
+            if (currentPage == pageList.second)
+              li
+                a.page-link.mark(href='#{uri.uri("/new/moderator/userList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
+            else
+              li
+                a.page-link(href='#{uri.uri("/new/moderator/userList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
+          if (pageList.third != null)
+            if (currentPage == pageList.third)
+              li
+                a.page-link.mark(href='#{uri.uri("/new/moderator/userList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
+            else
+              li
+                a.page-link(href='#{uri.uri("/new/moderator/userList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
+          if (next == true)
+            li
+              a.trine(href='#{uri.uri("/new/moderator/userList.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') >
+      .low-space
+block append customjs
+  script(src='/resources/js/newAdminActions.js')
+  script(src='/resources/js/calendar.js')
+  script(src='//code.jquery.com/ui/1.11.1/jquery-ui.js')

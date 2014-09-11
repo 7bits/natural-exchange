@@ -5,7 +5,6 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.User;
 import it.sevenbits.security.Role;
 import it.sevenbits.util.SortOrder;
-import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.UserSearchingForm;
 import it.sevenbits.util.form.validator.UserSearchingValidator;
 import org.slf4j.Logger;
@@ -27,7 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -190,7 +188,7 @@ public class ModeratorController {
 
     private List<User> getAllUsersExceptCurrent(String keyWordsFromForm, Long longDateFrom, Long longDateTo,
                                                  boolean isBanned, SortOrder currentSortOrder) {
-        List<User> listUsers = this.userDao.findUsersByKeywordsDateAndBanOrderBy(keyWordsFromForm, longDateFrom, longDateTo,
+        List<User> listUsers = this.userDao.findUsersByKeywordsDateAndBan(keyWordsFromForm, longDateFrom, longDateTo,
                 isBanned, currentSortOrder);
         String email = this.emailFromCurrentUser();
         if (email != null) {

@@ -1,10 +1,14 @@
 package it.sevenbits.controller.newdesign;
 
 import it.sevenbits.dao.AdvertisementDao;
+import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.User;
+import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.util.DatePair;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
+import it.sevenbits.util.form.SearchUserForm;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -12,6 +16,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +33,7 @@ import java.util.*;
 @RequestMapping(value = "new/moderator")
 public class NewModeratorController {
     private static final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
+    private static final int DEFAULT_USERS_PER_LIST = 8;
     private static final long MILLISECONDS_IN_A_DAY = 86400000;
 
     private Logger logger = LoggerFactory.getLogger(NewModeratorController.class);
@@ -35,6 +43,9 @@ public class NewModeratorController {
 
     @Autowired
     private AdvertisementSearchingValidator advertisementSearchingValidator;
+
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping(value = "/advertisementList.html", method = RequestMethod.GET)
     public ModelAndView showAllAdvertisements(
@@ -101,6 +112,85 @@ public class NewModeratorController {
     ) {
         this.advertisementDao.changeDeleted(id);
         return "redirect:new/moderator/advertisementList.html";
+    }
+
+    @RequestMapping(value = "/userList.html", method = RequestMethod.GET)
+    public ModelAndView administrationPage(
+        final SearchUserForm searchUserForm,
+        final BindingResult bindingResult
+    ) {
+        ModelAndView modelAndView = new ModelAndView("administrator.jade");
+        String keyWords = null;
+        if (searchUserForm.getKeyWords() != null) {
+            keyWords = searchUserForm.getKeyWords();
+        }
+        Boolean isBanned = false;
+        if (searchUserForm.getIsBanned() != null) {
+            isBanned = searchUserForm.getIsBanned();
+        }
+        Integer currentPage = 1;
+        if (searchUserForm.getCurrentPage() != null) {
+            currentPage = searchUserForm.getCurrentPage();
+        }
+        String dateFromString = "";
+        if (searchUserForm.getDateFrom() != null) {
+            dateFromString = searchUserForm.getDateFrom();
+        }
+        String dateToString = "";
+        if (searchUserForm.getDateTo() != null) {
+            dateToString = searchUserForm.getDateTo();
+        }
+
+        SortOrder mainSortOrder = SortOrder.DESCENDING;
+
+        DatePair datePair = this.takeAndValidateDate(dateFromString, dateToString, bindingResult, modelAndView);
+        Long dateFrom = datePair.getDateFrom();
+        Long dateTo = datePair.getDateTo();
+
+        List<User> userList = this.getAllUsersExceptCurrent(keyWords, dateFrom, dateTo, isBanned, mainSortOrder);
+
+        PagedListHolder<User> pageList = new PagedListHolder<>();
+        pageList.setSource(userList);
+        pageList.setPageSize(DEFAULT_USERS_PER_LIST);
+
+        int pageCount = pageList.getPageCount();
+        pageList.setPage(currentPage - 1);
+        this.addPages(modelAndView, currentPage, pageCount);
+
+        modelAndView.addObject("users", pageList.getPageList());
+        modelAndView.addObject("pageCount", pageCount);
+        modelAndView.addObject("keyWords", keyWords);
+        modelAndView.addObject("isBanned", isBanned);
+        modelAndView.addObject("currentPage", currentPage);
+        modelAndView.addObject("dateFrom", dateFromString);
+        modelAndView.addObject("dateTo", dateToString);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/banOrUnbanUser.html", method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody String BanOrUnbanUser(@RequestParam(value = "userId", required = true) final Long id) {
+        this.userDao.changeBan(id);
+        return "redirect:new/moderator/userList.html";
+    }
+
+    private List<User> getAllUsersExceptCurrent(String keyWords, Long dateFrom, Long dateTo,
+                                                boolean isBanned, SortOrder currentSortOrder) {
+        List<User> listUsers = this.userDao.findUsersByKeywordsDateAndBan(keyWords, dateFrom, dateTo,
+                isBanned, currentSortOrder);
+        User currentUser = this.getCurrentUser();
+        if (currentUser != null) {
+            listUsers.remove(currentUser);
+        }
+        return listUsers;
+    }
+
+    private UserEntity getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return (UserEntity) auth.getPrincipal();
+        }
+        return null;
     }
 
     private DatePair takeAndValidateDate(String dateFrom, String dateTo, BindingResult bindingResult,

@@ -44,11 +44,13 @@ public interface UserDao {
 
     List<User> findAllNotBannedUsers();
 
-    List<User> findUsersByKeywordsDateAndBanOrderBy(final String keyWords,
-                                                    final Long dateFrom,
-                                                    final Long dateTo,
-                                                    final boolean isBanned,
-                                                    SortOrder sortOrder);
+    List<User> findUsersByKeywordsDateAndBan(final String keyWords,
+                                             final Long dateFrom,
+                                             final Long dateTo,
+                                             final boolean isBanned,
+                                             SortOrder sortOrder);
+
+    void changeBan(Long id);
 
     Boolean isExistUserWithEmail(String email);
     /**

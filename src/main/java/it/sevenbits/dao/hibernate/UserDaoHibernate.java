@@ -103,11 +103,13 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
-    public List<User> findUsersByKeywordsDateAndBanOrderBy(String keyWords,
-                                                           Long dateFrom,
-                                                           Long dateTo,
-                                                           boolean isBanned,
-                                                           SortOrder sortOrder) {
+    public List<User> findUsersByKeywordsDateAndBan(
+        String keyWords,
+        Long dateFrom,
+        Long dateTo,
+        boolean isBanned,
+        SortOrder sortOrder
+    ) {
         String sortByName = "createdDate";
         DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
         switch (sortOrder) {
@@ -150,6 +152,14 @@ public class UserDaoHibernate implements UserDao {
         criteria.add(Restrictions.eq("isBanned", isBanned));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
+    }
+
+    @Override
+    public void changeBan(Long id) {
+        User user = this.findById(id);
+        boolean banFlag = user.getIsBanned();
+        user.setIsBanned(!banFlag);
+        this.hibernateTemplate.update(user);
     }
 
     private List<User> convertEntityList(List entities) {
