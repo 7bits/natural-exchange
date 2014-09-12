@@ -11,9 +11,11 @@ import it.sevenbits.util.DatePair;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.UtilsMessage;
+import it.sevenbits.util.form.AdvertisementEditingForm;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.ExchangeForm;
+import it.sevenbits.util.form.validator.AdvertisementEditingValidator;
 import it.sevenbits.util.form.validator.AdvertisementPlacingValidator;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
 import it.sevenbits.util.form.validator.ExchangeFormValidator;
@@ -60,6 +62,9 @@ public class AdvertisementListController {
 
     @Autowired
     private AdvertisementSearchingValidator advertisementSearchingValidator;
+
+    @Autowired
+    private AdvertisementEditingValidator advertisementEditingValidator;
 
     @Autowired
     private SearchVariantDao searchVariantDao;
@@ -199,7 +204,6 @@ public class AdvertisementListController {
         List<Category> categories =  this.categoryDao.findAll();
         modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
         modelAndView.addObject("categories", categories);
-        modelAndView.addObject("isEditing", false);
         Map<String, String> errors = new HashMap<>();
         modelAndView.addObject("errors", errors);
         return modelAndView;
@@ -207,22 +211,20 @@ public class AdvertisementListController {
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.GET)
     public ModelAndView edit(@RequestParam(value = "id", required = true) final Long advertisementId) {
-        ModelAndView modelAndView =  new ModelAndView("placing");
-        modelAndView.addObject("isEditing", true);
-        modelAndView.addObject("advertisementId", advertisementId);
-        AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
+        ModelAndView modelAndView =  new ModelAndView("edit");
+        AdvertisementEditingForm advertisementEditingForm = new AdvertisementEditingForm();
         AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
-        advertisementPlacingForm.setCategory(advertisement.getCategory().getSlug());
-        advertisementPlacingForm.setText(advertisement.getText());
-        advertisementPlacingForm.setTitle(advertisement.getTitle());
-        advertisementPlacingForm.setTags(getTagsFromAdvertisementByIdAsString(advertisementId));
-        modelAndView.addObject("advertisementPlacingForm",advertisementPlacingForm);
+        advertisementEditingForm.setCategory(advertisement.getCategory().getSlug());
+        advertisementEditingForm.setText(advertisement.getText());
+        advertisementEditingForm.setTitle(advertisement.getTitle());
+        advertisementEditingForm.setTags(getTagsFromAdvertisementByIdAsString(advertisementId));
+        advertisementEditingForm.setAdvertisementId(advertisementId);
+        modelAndView.addObject("advertisementEditingForm", advertisementEditingForm);
         List<Category> categories = this.categoryDao.findAll();
         Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementId);
         List<ObjectError> errors = new ArrayList<>();
         modelAndView.addObject("tags", tags);
         modelAndView.addObject("imageUrl", "/resources/images/user_images/" + advertisement.getPhotoFile());
-        modelAndView.addObject("imageFileName", advertisement.getPhotoFile());
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("errors", errors);
         return modelAndView;
@@ -233,17 +235,12 @@ public class AdvertisementListController {
      *
      * @param advertisementPlacingFormParam parameters from advertisement form
      * @param result
-     * @param editingAdvertisementId        id of advertisement which will
-     *                                      be editing
      * @return ModelAndView object
      */
     @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
     public ModelAndView processPlacingAdvertisement(
             final AdvertisementPlacingForm advertisementPlacingFormParam,
-            final BindingResult result,
-            final Long editingAdvertisementId,
-            final String advertisementOldImageName,
-            final boolean isDeletePhoto
+            final BindingResult result
     ) {
         String defaultPhoto = "no_photo.png";
         advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
@@ -255,44 +252,15 @@ public class AdvertisementListController {
         }
         FileManager fileManager = new FileManager();
         String photo = null;
-        if (isDeletePhoto) {
-            if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
-                    advertisementOldImageName.equals("image3.jpg") || advertisementOldImageName.equals("no_photo.png")) {
-            } else {
-                File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
-                if (!advertisementOldImageFile.delete()) {
-                    logger.info("file " + advertisementOldImageName + " has been deleted");
-                }
-            }
+        if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) {
             photo = defaultPhoto;
-        } else if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("") && editingAdvertisementId == null) {
-            photo = defaultPhoto;
-        } else if (!(advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) && advertisementOldImageName != null) {
-            // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
-            photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
-            if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
-                    advertisementOldImageName.equals("image3.jpg") || advertisementOldImageName.equals("no_photo.png")) {
-            } else {
-                File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
-                if (!advertisementOldImageFile.delete()) {
-                    logger.info("file " + advertisementOldImageName + " has been deleted");
-                }
-            }
-        } else if (advertisementOldImageName != null) {
-            photo = advertisementOldImageName;
         } else {
+            // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
             photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
         }
         Advertisement advertisement = null;
-        if (editingAdvertisementId == null) {
-            advertisement = new Advertisement();
-            advertisement.setPhotoFile(photo);
-        } else {
-            advertisement = advertisementDao.findById(editingAdvertisementId);
-            if (photo != null) {
-                advertisement.setPhotoFile(photo);
-            }
-        }
+        advertisement = new Advertisement();
+        advertisement.setPhotoFile(photo);
         advertisement.setText(advertisementPlacingFormParam.getText());
         advertisement.setTitle(advertisementPlacingFormParam.getTitle());
 
@@ -315,11 +283,74 @@ public class AdvertisementListController {
                 }
             }
         }
-        if (editingAdvertisementId != null) {
-            this.advertisementDao.update(editingAdvertisementId, advertisement, advertisementPlacingFormParam.getCategory(), newTags);
-        } else {
-            this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName, newTags);
+        this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName, newTags);
+        return new ModelAndView("placingRequest");
+    }
+
+    @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
+    public ModelAndView processEditingAdvertisement(
+            final AdvertisementEditingForm advertisementEditingFormParam,
+            final BindingResult result,
+            final boolean isDeletePhoto
+    ) {
+        advertisementEditingValidator.validate(advertisementEditingFormParam, result);
+        if (result.hasErrors()) {
+            List<ObjectError> errors = result.getAllErrors();
+            ModelAndView modelAndView = new ModelAndView("placing");
+            modelAndView.addObject("errors", errors);
+            return modelAndView;
         }
+
+        String defaultPhoto = "no_photo.png";
+        Long editingAdvertisementId = advertisementEditingFormParam.getAdvertisementId();
+        String advertisementOldImageName = this.advertisementDao.findById(editingAdvertisementId).getPhotoFile();
+        FileManager fileManager = new FileManager();
+        String photo = null;
+
+        if (isDeletePhoto) {
+            if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
+                    advertisementOldImageName.equals("image3.jpg") || advertisementOldImageName.equals("no_photo.png")) {
+            } else {
+                File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
+                if (!advertisementOldImageFile.delete()) {
+                    logger.info("file " + advertisementOldImageName + " has been deleted");
+                }
+            }
+            photo = defaultPhoto;
+        } else if (advertisementEditingFormParam.getImage().getOriginalFilename().equals("")) {
+            photo = advertisementOldImageName;
+        } else {
+            // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
+            photo = fileManager.savingFile(advertisementEditingFormParam.getImage(), true);
+            if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
+                    advertisementOldImageName.equals("image3.jpg") || advertisementOldImageName.equals("no_photo.png")) {
+            } else {
+                File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + advertisementOldImageName);
+                if (!advertisementOldImageFile.delete()) {
+                    logger.info("file " + advertisementOldImageName + " has been deleted");
+                }
+            }
+        }
+        Advertisement advertisement = advertisementDao.findById(editingAdvertisementId);
+        if (photo != null) {
+            advertisement.setPhotoFile(photo);
+        }
+        advertisement.setText(advertisementEditingFormParam.getText());
+        advertisement.setTitle(advertisementEditingFormParam.getTitle());
+
+        List<String> tagList = selectTags(advertisementEditingFormParam.getTags());
+        Set<Tag> newTags = null;
+        if (tagList != null) {
+            newTags = new HashSet<Tag>();
+            for (String newTag : tagList) {
+                if (!newTag.equals("")) {
+                    Tag addingTag = new Tag();
+                    addingTag.setName(newTag);
+                    newTags.add(addingTag);
+                }
+            }
+        }
+        this.advertisementDao.update(editingAdvertisementId, advertisement, advertisementEditingFormParam.getCategory(), newTags);
         return new ModelAndView("placingRequest");
     }
 
