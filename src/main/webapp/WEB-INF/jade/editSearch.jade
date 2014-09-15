@@ -1,0 +1,39 @@
+extends layout/layout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newEditSearch.css')
+  link(rel='stylesheet', href='/resources/css/newPlacing.css')
+  link(rel='stylesheet', href='/resources/css/newList.css')
+block content
+  .editingSearch
+    form#edit-search(method='post', action="editSearch.html")
+      div.cabinet-button
+        a(href='#{uri.uri("/new/user/userprofile/searches.html")}').cabinet.edit-search-button ЛИЧНЫЙ КАБИНЕТ
+      div.center-large-text ИЗМЕНИТЬ ПАРАМЕТРЫ ПОИСКА
+      div.title-and-category
+        div.choose-tags-and-button
+          input(type='text', placeholder="Введите параметр поиска").hollow-text.placing-keyword.js-added-keyword
+          a#add-keyword.reg-rounded-button.file-choose.button-keyword-add.js-add-keyword ДОБАВИТЬ
+        select.select-category(name="category")
+          if (allCategoriesSelected)
+            option.choosen-category(value='#{selectedCategory}', selected='selected', name="category") Все категории
+          for category in categories
+            if (category.slug == selectedCategory)
+              option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
+            else
+              option.choosen-category(value='#{category.slug}', name="category") #{category.name}
+      div.chosen-keywords.js-keywords-placing
+        for keyword in keywords
+          div.keyword-and-cross
+            div.chosen-keyword #{keyword}
+            a.cross-circle.js-deleting-keyword
+      input(type='hidden', name="keywords", value="#{searchEditForm.keywords}").js-keywords-chosen
+      if (!errors.isEmpty())
+        for error in errors
+          div.red-alert-text #{error.getDefaultMessage()}
+      input(type="submit", placeholder="ДОБАВИТЬ", value="СОХРАНИТЬ").rounded-button.edit-submit
+      input(type="hidden", name="searchVariantId", value="#{searchEditForm.searchVariantId}")
+block append customjs
+  script(src="/resources/js/badImage.js")
+  script(src="/resources/js/newEditSearch.js")
+
+

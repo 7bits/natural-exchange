@@ -1,11 +1,9 @@
 package it.sevenbits.controller.newdesign;
 
 
-import it.sevenbits.dao.AdvertisementDao;
-import it.sevenbits.dao.SearchVariantDao;
-import it.sevenbits.dao.SubscriberDao;
-import it.sevenbits.dao.UserDao;
+import it.sevenbits.dao.*;
 import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
@@ -15,11 +13,10 @@ import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.TimeManager;
 import it.sevenbits.util.form.EditingUserInfoForm;
+import it.sevenbits.util.form.SearchEditForm;
 import it.sevenbits.util.form.UserEntryForm;
 import it.sevenbits.util.form.UserRegistrationForm;
-import it.sevenbits.util.form.validator.EditingUserInfoFormValidator;
-import it.sevenbits.util.form.validator.UserEntryValidator;
-import it.sevenbits.util.form.validator.UserRegistrationValidator;
+import it.sevenbits.util.form.validator.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +29,10 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -71,6 +70,9 @@ public class UserController {
 
     @Autowired
     private SubscriberDao subscriberDao;
+
+    @Autowired
+    private CategoryDao categoryDao;
 
     @Autowired
     private SearchVariantDao searchVariantDao;
@@ -276,5 +278,52 @@ public class UserController {
         modelAndView.addObject("advertisements", advertisementList);
         modelAndView.addObject("currentUser", currentUser);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.GET)
+    public ModelAndView searchEditing(@RequestParam(value = "id", required = true) final Long id) {
+        ModelAndView modelAndView = new ModelAndView("editSearch");
+        SearchEditForm searchEditForm = new SearchEditForm();
+        if (id != null) {
+            SearchVariant searchVariant = this.searchVariantDao.findById(id);
+            searchEditForm.setCategory(searchVariant.getCategories());
+            searchEditForm.setKeywords(searchVariant.getKeyWords());
+            searchEditForm.setSearchVariantId(id);
+        }
+        List<Category> categories = this.categoryDao.findAll();
+        String[] keywords = StringUtils.split(searchEditForm.getKeywords());
+        String[] searchCategories = StringUtils.split(searchEditForm.getCategory());
+        if (searchCategories.length > 1) {
+            modelAndView.addObject("allCategoriesSelected", true);
+        } else {
+            modelAndView.addObject("allCategoriesSelected", false);
+        }
+        Map<String, String> errors = new HashMap<>();
+        modelAndView.addObject("keywords", keywords);
+        modelAndView.addObject("searchEditForm", searchEditForm);
+        modelAndView.addObject("categories", categories);
+        modelAndView.addObject("errors", errors);
+        modelAndView.addObject("selectedCategory", searchEditForm.getCategory());
+        return modelAndView;
+    }
+
+    @Autowired
+    SearchEditValidator searchEditValidator;
+
+    @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.POST)
+    public ModelAndView searchEditing(
+            final SearchEditForm searchEditForm,
+            final BindingResult result
+    ) {
+        searchEditValidator.validate(searchEditForm, result);
+        if (result.hasErrors()) {
+            List<ObjectError> errors = result.getAllErrors();
+            ModelAndView modelAndView = new ModelAndView("/userprofile/editSearch.html");
+            modelAndView.addObject("errors", errors);
+            return modelAndView;
+        }
+        this.searchVariantDao.update(this.searchVariantDao.findById(searchEditForm.getSearchVariantId()),
+                searchEditForm.getKeywords(), searchEditForm.getCategory());
+        return new ModelAndView("redirect:/new/user/userprofile/searches.html");
     }
 }

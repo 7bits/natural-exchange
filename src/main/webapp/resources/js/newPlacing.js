@@ -15,6 +15,16 @@ $(".js-image-chosen").on('change', function() {
     currentImage.remove();
 });
 
+$(".js-want-delete-photo").on('change', function() {
+    var checkbox = $(".js-want-delete-photo");
+    var chooseImageBlock = $('.js-choose-image');
+    if (checkbox.is(":checked")) {
+        chooseImageBlock.hide();
+    } else {
+        chooseImageBlock.show();
+    }
+});
+
 $("body").on('click', '.js-deleting-tag', function(){
     var currentCrossPressed = $(this);
     var deletedTag = $(".js-deleting-tag").siblings().text();

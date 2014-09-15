@@ -76,6 +76,10 @@
   background-repeat: no-repeat;
 }
 
+.vk-logo:hover {
+    background-image: url("/resources/images/newdesign/vk-hover.png");
+}
+
 .rounded {
   background-color: rgb(248, 184, 50);
   border-top-left-radius: 15px;
