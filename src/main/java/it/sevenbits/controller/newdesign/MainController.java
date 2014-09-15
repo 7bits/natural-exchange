@@ -77,7 +77,7 @@ public class MainController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/main.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/subscribe.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody Map subscribe(@ModelAttribute("email") MailingNewsForm form,
                          final BindingResult bindingResult) {
@@ -109,9 +109,9 @@ public class MainController {
         int categoryLength = categories.size();
         String[] allCategories = new String[categoryLength];
         for (int i = 0; i < categoryLength; i++) {
-            allCategories[i] = categories.
-                    get(i).
-                    getSlug();
+            allCategories[i] = categories
+                    .get(i)
+                    .getSlug();
         }
         return allCategories;
     }

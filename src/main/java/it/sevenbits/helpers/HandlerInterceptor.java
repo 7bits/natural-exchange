@@ -1,6 +1,6 @@
 package it.sevenbits.helpers;
 
-import it.sevenbits.helpers.jadeHelpers.*;
+import it.sevenbits.helpers.helpers.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

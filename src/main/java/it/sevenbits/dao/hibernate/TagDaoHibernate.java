@@ -47,14 +47,4 @@ public class TagDaoHibernate implements TagDao {
     public void update(int id, String name) {
 
     }
-
-    @Override
-    public void setTagByID(int id, String newName) {
-
-    }
-
-    @Override
-    public List<Tag> findByName(String name) {
-        return null;
-    }
 }

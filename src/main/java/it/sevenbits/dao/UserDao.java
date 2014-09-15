@@ -40,10 +40,6 @@ public interface UserDao {
      */
     List<User> find();
 
-    List<User> findAllBannedUsers();
-
-    List<User> findAllNotBannedUsers();
-
     List<User> findUsersByKeywordsDateAndBan(final String keyWords,
                                              final Long dateFrom,
                                              final Long dateTo,
@@ -58,11 +54,6 @@ public interface UserDao {
      * @param user   to change
      */
     void update(User user);
-    /**
-     * update user after registration
-     * @param  user - the user with the confirmed registration
-     */
-    void updateActivationCode(User user) ;
 
     /**
      *
@@ -80,6 +71,4 @@ public interface UserDao {
     List<User> findAllModerators();
 
     void updateData(User user);
-
-    void setBanned(String userEmail);
 }

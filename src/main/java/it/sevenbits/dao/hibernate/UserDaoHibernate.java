@@ -93,16 +93,6 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
-    public List<User> findAllBannedUsers() {
-        return null;
-    }
-
-    @Override
-    public List<User> findAllNotBannedUsers() {
-        return null;
-    }
-
-    @Override
     public List<User> findUsersByKeywordsDateAndBan(
         String keyWords,
         Long dateFrom,
@@ -192,20 +182,6 @@ public class UserDaoHibernate implements UserDao {
         return users.get(0);
     }
 
-
-    @Override
-    public void updateActivationCode(User user) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
-        criteria.add(Restrictions.like("email", user.getEmail()));
-        List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
-        if (users.size() != 1) {
-            throw new UsernameNotFoundException(user.getEmail() + " not found.");
-        }
-        users.get(0).setActivationDate(0L);
-        users.get(0).setActivationCode(null);
-        this.hibernateTemplate.update(users.get(0));
-    }
-
     @Override
     public void update(final User user) {
         this.hibernateTemplate.update(toEntity(user));
@@ -233,13 +209,5 @@ public class UserDaoHibernate implements UserDao {
             updatingUser.setUpdateDate(TimeManager.getTime());
             this.hibernateTemplate.update(updatingUser);
         }
-    }
-
-    @Override
-    public void setBanned(String userEmail) {
-        UserEntity user = (UserEntity) this.findEntityByEmail(userEmail);
-        boolean banned = user.getIsBanned();
-        user.setIsBanned(!banned);
-        this.hibernateTemplate.update(user);
     }
 }

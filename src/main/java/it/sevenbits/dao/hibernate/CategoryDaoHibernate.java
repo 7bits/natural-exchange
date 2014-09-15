@@ -44,19 +44,6 @@ public class CategoryDaoHibernate implements CategoryDao {
     }
 
     @Override
-    public Category findBySlug(final String slug) {
-        return findEntityBySlug(slug);
-    }
-
-    @Override
-    public Category findByName(String name) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(CategoryEntity.class);
-        criteria.add(Restrictions.eq("name", name));
-        List<CategoryEntity> categories = this.hibernateTemplate.findByCriteria(criteria);
-        return categories.get(0);
-    }
-
-    @Override
     public CategoryEntity findEntityBySlug(final String slug) {
         DetachedCriteria criteria = DetachedCriteria.forClass(CategoryEntity.class);
         criteria.add(Restrictions.eq("slug", slug));
