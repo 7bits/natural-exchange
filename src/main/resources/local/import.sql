@@ -4,8 +4,8 @@ INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (2,
 INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (3,'test@gmail.com',1369229028660,'boots','clothes');
 INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (4,'bandit@gmail.com',1369229022460,'skate','games');
 INSERT INTO searchVariant(id,email,created_date,key_words,categories) VALUES (5,'ashaeva73@mail.ru',1369229027460,'bicycle','games clothes notclothes');
-INSERT INTO Category (id,slug,name,description,created_date,is_deleted,updated_date) VALUES (1,'clothes','Музыкальная литература','very good',460,1,461);
-INSERT INTO Category (id,slug,name,description,created_date,is_deleted,updated_date) VALUES (2,'notclothes','Художественная литература','very good',460,1,461);
+INSERT INTO Category (id,slug,name,description,created_date,is_deleted,updated_date) VALUES (1,'music','Музыкальная литература','very good',460,1,461);
+INSERT INTO Category (id,slug,name,description,created_date,is_deleted,updated_date) VALUES (2,'books','Художественная литература','very good',460,1,461);
 INSERT INTO Category (id,slug,name,description,created_date,is_deleted,updated_date) VALUES (3,'games','Игры','very good',460,1,461);
 INSERT INTO user (id,first_name,last_name,created_date,is_banned,updated_date,vk_link,email, password, role,activation_date, avatar) VALUES (1,'Dmitry','Silerd',1407327132000,0,461,'vk.com/322233','test@gmail.com', md5('123'),'ROLE_USER',0,'avatar111.jpg');
 INSERT INTO user (id,first_name,last_name,created_date,is_banned,updated_date,vk_link,email, password, role,activation_date, avatar) VALUES (2,'Sergey','Konskih',460,0,461,'vk.com/325656','bandit@gmail.com', md5('111'),'ROLE_USER',0,NULL);
