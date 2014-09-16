@@ -8,4 +8,7 @@ html
     .error-message
       p.error-code ОШИБКА 404
       p.error-text Такой страницы не существует
+      div.center-link
+        a.return-to-main(href='#{uri.uri("/main.html")}')
+          | Вернуться на главную
 

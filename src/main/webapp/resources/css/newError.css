@@ -16,9 +16,13 @@
   font-family: mySans;
 }
 
+.center-link {
+  text-align: center;
+}
+
 .return-to-main {
   text-decoration: none;
-  color: rgb(255, 255, 255);
+  color: rgb(220, 83, 76);
   font-family: boldSans;
   font-size: 17px;
 }
