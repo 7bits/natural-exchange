@@ -112,6 +112,13 @@ public class AdvertisementListController {
         pageList.setSource(advertisements);
         pageList.setPageSize(DEFAULT_ADVERTISEMENTS_PER_LIST);
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        List<Advertisement> userAdvertisements = new LinkedList<>();
+        if (auth.getPrincipal() instanceof UserDetails) {
+            User user = this.userDao.findUserByEmail(auth.getName());
+            userAdvertisements = this.advertisementDao.findAllByEmail(user);
+        }
+
         int pageCount = pageList.getPageCount();
         int currentPage;
         if (advertisementSearchingForm.getCurrentPage() == null || advertisementSearchingForm.getCurrentPage() > pageCount
@@ -124,6 +131,7 @@ public class AdvertisementListController {
         this.addPages(modelAndView, currentPage, pageCount);
 
         modelAndView.addObject("allCategories", this.arrayToString(allCategories));
+        modelAndView.addObject("userAdvertisements", userAdvertisements);
         modelAndView.addObject("currentCategory", this.arrayToString(currentCategory));
         modelAndView.addObject("categories", categoryList);
         modelAndView.addObject("keyWords", keyWordSearch);
