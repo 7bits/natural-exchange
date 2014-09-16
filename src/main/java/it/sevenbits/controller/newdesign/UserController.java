@@ -2,6 +2,7 @@ package it.sevenbits.controller.newdesign;
 
 
 import it.sevenbits.dao.*;
+import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
@@ -15,10 +16,7 @@ import it.sevenbits.util.form.EditingUserInfoForm;
 import it.sevenbits.util.form.SearchEditForm;
 import it.sevenbits.util.form.UserEntryForm;
 import it.sevenbits.util.form.UserRegistrationForm;
-import it.sevenbits.util.form.validator.EditingUserInfoFormValidator;
-import it.sevenbits.util.form.validator.SearchEditValidator;
-import it.sevenbits.util.form.validator.UserEntryValidator;
-import it.sevenbits.util.form.validator.UserRegistrationValidator;
+import it.sevenbits.util.form.validator.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -191,7 +189,7 @@ public class UserController {
     @RequestMapping(value = "/userprofile/searches.html", method = RequestMethod.GET)
     public ModelAndView showUserProfile() {
         ModelAndView modelAndView = new ModelAndView("userSearch.jade");
-        Long id = this.getCurrentUser();
+        Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
         List<SearchVariant> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
         modelAndView.addObject("currentUser", currentUser);
@@ -200,23 +198,20 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
-    public ModelAndView showUserAdvertisements() {
-        ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
-        Long id = this.getCurrentUser();
-        User currentUser = this.userDao.findById(id);
-        modelAndView.addObject("userPage", "advertisements.html");
-        modelAndView.addObject("currentUser", currentUser);
-        return modelAndView;
-    }
-
-    private Long getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            UserEntity userEntity = (UserEntity) auth.getPrincipal();
-            return userEntity.getId();
+    private Long getCurrentUserId() {
+        UserEntity currentUser = this.getCurrentUser();
+        if (currentUser != null) {
+            return currentUser.getId();
         }
         return (long) 0;
+    }
+
+    private UserEntity getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return (UserEntity) auth.getPrincipal();
+        }
+        return null;
     }
 
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.GET)
@@ -225,11 +220,9 @@ public class UserController {
         @RequestParam(value = "lastNameError", required = false) final String lastNameError
     ) {
         ModelAndView modelAndView = new ModelAndView("editProfile.jade");
-        Long id = this.getCurrentUser();
+        Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
         modelAndView.addObject("currentUser", currentUser);
-        modelAndView.addObject("errorFromFirstName", EncodeDecodeService.decode(firstNameError));
-        modelAndView.addObject("errorFromLastName", EncodeDecodeService.decode(lastNameError));
         modelAndView.addObject("errorFromFirstName", EncodeDecodeService.decode(firstNameError));
         modelAndView.addObject("errorFromLastName", EncodeDecodeService.decode(lastNameError));
         return modelAndView;
@@ -237,7 +230,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.POST)
     public String changeUserInformation(final EditingUserInfoForm editingUserInfoForm, BindingResult bindingResult) {
-        Long id = this.getCurrentUser();
+        Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
         this.editingUserInfoFormValidator.validate(editingUserInfoForm, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -260,7 +253,6 @@ public class UserController {
         MultipartFile avatarFile = editingUserInfoForm.getImage();
         FileManager fileManager = new FileManager();
 
-
         if (editingUserInfoForm.getIsDelete() == null) {
             if (!avatarFile.getOriginalFilename().equals("")) {
                 fileManager.deleteFile(newAvatar, false);
@@ -276,6 +268,16 @@ public class UserController {
         currentUser.setAvatar(newAvatar);
         this.userDao.updateData(currentUser);
         return "redirect:/new/user/userprofile/searches.html";
+    }
+
+    @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
+    public ModelAndView showAdvertisementsOfCurrentUser() {
+        ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
+        User currentUser = this.getCurrentUser();
+        List<Advertisement> advertisementList = advertisementDao.findAllByEmail(currentUser);
+        modelAndView.addObject("advertisements", advertisementList);
+        modelAndView.addObject("currentUser", currentUser);
+        return modelAndView;
     }
 
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.GET)
@@ -321,7 +323,7 @@ public class UserController {
             return modelAndView;
         }
         this.searchVariantDao.update(this.searchVariantDao.findById(searchEditForm.getSearchVariantId()),
-            searchEditForm.getKeywords(), searchEditForm.getCategory());
+                searchEditForm.getKeywords(), searchEditForm.getCategory());
         return new ModelAndView("redirect:/new/user/userprofile/searches.html");
     }
 }

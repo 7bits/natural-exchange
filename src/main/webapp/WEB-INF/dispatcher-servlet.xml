@@ -44,20 +44,22 @@ http://www.springframework.org/schema/p "
 
     <!-- Define jade view resolver -->
 
-    <bean id="jadeResolver" class="it.sevenbits.viewresolver.CustomJadeViewResolver">
-        <property name="configuration" ref="jadeConfiguration"/>
-        <property name="order" value="0"/>
+    <bean id="templateLoader" class="de.neuland.jade4j.spring.template.SpringTemplateLoader">
+        <property name="basePath" value="/WEB-INF/jade/" />
+        <property name="suffix" value=".jade"/>
     </bean>
 
     <bean id="jadeConfiguration" class="de.neuland.jade4j.JadeConfiguration">
-        <property name="caching" value="false"/>
-        <property name="templateLoader" ref="jadeTemplateLoader"/>
+        <property name="prettyPrint" value="false" />
+        <property name="caching" value="false" />
+        <property name="templateLoader" ref="templateLoader" />
     </bean>
 
-    <bean id="jadeTemplateLoader" class="de.neuland.jade4j.spring.template.SpringTemplateLoader">
-        <property name="basePath" value="/WEB-INF/jade/"/>
-        <property name="encoding" value="UTF-8"/>
-        <property name="suffix" value=".jade"/>
+    <bean id="jadeResolver" class="de.neuland.jade4j.spring.view.JadeViewResolver">
+        <property name="configuration" ref="jadeConfiguration" />
+        <property name="order" value="0"/>
+        <!-- rendering nice html formatted error pages for development -->
+        <property name="renderExceptions" value="true" />
     </bean>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">

@@ -20,7 +20,10 @@ block content
       .row
         for advertisement in advertisements
           .advertisement
-            img.adv-image(src='/resources/images/user_images/#{advertisement.photoFile}')
+            if (advertisement.photoFile != "")
+              img.adv-image(src='/resources/images/user_images/#{advertisement.photoFile}')
+            else
+              img.adv-image(src='/resources/images/user_images/no_photo.png')
             p.date #{advertisement.createdDateFormat}
             a.adv-name(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover

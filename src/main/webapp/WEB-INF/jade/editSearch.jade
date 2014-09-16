@@ -15,7 +15,7 @@ block content
           a#add-keyword.reg-rounded-button.file-choose.button-keyword-add.js-add-keyword ДОБАВИТЬ
         select.select-category(name="category")
           if (allCategoriesSelected)
-            option.choosen-category(value='#{searchCategories}', selected='selected', name="category") Все категории
+            option.choosen-category(value='#{selectedCategory}', selected='selected', name="category") Все категории
           for category in categories
             if (category.slug == selectedCategory)
               option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
