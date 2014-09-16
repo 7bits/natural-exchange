@@ -22,10 +22,10 @@ block append content
           | Меняет:
           a.change-user(href='#') #{fullUserName}
         if (auth.isUserModerator())
-            a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
+          a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
         else if (advertisement.getUser() == auth.getCurrentUser())
-            a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
-            a.tag(href='#{uri.uri("/new/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ОБЪЯВЛЕНИЕ
+          a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
+          a.tag(href='#{uri.uri("/new/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ОБЪЯВЛЕНИЕ
       .picture
         img.thing-picture(src='#{filePath.imagesPath}#{advertisement.photoFile}')
     .change-button

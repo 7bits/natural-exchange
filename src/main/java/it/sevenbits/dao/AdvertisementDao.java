@@ -31,14 +31,6 @@ public interface AdvertisementDao {
 
     /**
      *
-     * @param sortOrder - of type SortOrder, it shows the order how to sort list of advertisement
-     * @param sortPropertyName  - the name of field, used in defining of sortOrder
-     * @return sorted list of all advertisement
-     */
-    List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName);
-
-    /**
-     *
      * @param categories  Array of string, that represents categories for sorting
      * @param keyWords    Array of string that we are looking for.
      * @param sortOrder  parameter that defines sort
@@ -80,8 +72,6 @@ public interface AdvertisementDao {
     void delete(Advertisement advertisement);
 
     void changeDeleted(Long id);
-
-    void setTags(List<Tag> tags, int adv_id);
 
     void update(final Long id, final Advertisement advertisement, final String categoryName, Set<Tag> tags);
 

@@ -111,31 +111,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         return this.hibernateTemplate.get(AdvertisementEntity.class, id);
     }
 
-    @SuppressWarnings("incomplete-switch")
-    @Override
-    public List<Advertisement> findAll(final SortOrder sortOrder, final String sortPropertyName) {
-
-        //TODO: Move default sort column to properties
-        String sortByName = (sortPropertyName == null)
-                ? Advertisement.CREATED_DATE_COLUMN_CODE
-                : (Advertisement.TITLE_COLUMN_CODE.equals(sortPropertyName) ? sortPropertyName : Advertisement.CREATED_DATE_COLUMN_CODE)
-        ;
-        DetachedCriteria criteria = DetachedCriteria.forClass(AdvertisementEntity.class);
-        switch (sortOrder) {
-            case ASCENDING :
-                criteria.addOrder(Order.asc(sortByName));
-                break;
-            case DESCENDING :
-                criteria.addOrder(Order.desc(sortByName));
-                break;
-            default:
-                break;
-        }
-        criteria.add(Restrictions.eq("is_deleted", Boolean.FALSE));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        return this.convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
-    }
-
     @Override
     public void update(final Advertisement advertisement) {
         //To change body of implemented methods use File | Settings | File Templates.
@@ -165,18 +140,6 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         boolean deleteState = advertisementEntity.getIs_deleted();
         advertisementEntity.setIs_deleted(!deleteState);
         hibernateTemplate.update(advertisementEntity);
-    }
-
-    @Override
-    public void setTags(List<Tag> tags, int adv_id) {
-        Advertisement advertisement = this.findById((long) adv_id);
-        AdvertisementEntity advertisementEntity = this.toEntity(advertisement);
-        Set<TagEntity> tagsEntity = new HashSet<TagEntity>();
-        for (Tag tag: tags) {
-            TagEntity newTag = new TagEntity();
-            newTag.setName(tag.getName());
-        }
-        advertisementEntity.setTags(tagsEntity);
     }
 
 

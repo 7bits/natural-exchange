@@ -7,7 +7,7 @@ import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
-import it.sevenbits.helpers.jadeHelpers.EncodeDecodeHelper;
+import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
