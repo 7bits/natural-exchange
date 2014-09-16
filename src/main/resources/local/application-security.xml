@@ -9,7 +9,7 @@
                                 http://www.springframework.org/schema/beans/spring-beans.xsd
                                 http://www.springframework.org/schema/security
                                 http://www.springframework.org/schema/security/spring-security-3.1.xsd">
-    <security:http auto-config="true" access-denied-page="/access_denied.jsp" >
+    <security:http auto-config="true" access-denied-page="/accessDenied.jade" >
 
         <security:custom-filter after="PRE_AUTH_FILTER" ref="banFilter"/>
 
