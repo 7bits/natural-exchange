@@ -10,6 +10,4 @@ public interface TagDao {
     Tag findById(int id);
     void delete(Tag tag);
     void update(int id, String name);
-    void setTagByID(int id, String newName);
-    List<Tag> findByName(String name);
 }

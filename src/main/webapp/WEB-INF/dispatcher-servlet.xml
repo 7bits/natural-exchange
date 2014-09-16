@@ -35,31 +35,23 @@ http://www.springframework.org/schema/p "
     <!--<bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/>-->
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
 
-    <!-- Define jsp-files directory -->
-    <bean id="viewResolver1" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-    </bean>
-
 
     <!-- Define jade view resolver -->
 
-    <bean id="templateLoader" class="de.neuland.jade4j.spring.template.SpringTemplateLoader">
-        <property name="basePath" value="/WEB-INF/jade/" />
-        <property name="suffix" value=".jade"/>
+    <bean id="jadeResolver" class="it.sevenbits.viewresolver.CustomJadeViewResolver">
+        <property name="configuration" ref="jadeConfiguration"/>
+        <property name="order" value="0"/>
     </bean>
 
     <bean id="jadeConfiguration" class="de.neuland.jade4j.JadeConfiguration">
-        <property name="prettyPrint" value="false" />
-        <property name="caching" value="false" />
-        <property name="templateLoader" ref="templateLoader" />
+        <property name="caching" value="false"/>
+        <property name="templateLoader" ref="jadeTemplateLoader"/>
     </bean>
 
-    <bean id="jadeResolver" class="de.neuland.jade4j.spring.view.JadeViewResolver">
-        <property name="configuration" ref="jadeConfiguration" />
-        <property name="order" value="0"/>
-        <!-- rendering nice html formatted error pages for development -->
-        <property name="renderExceptions" value="true" />
+    <bean id="jadeTemplateLoader" class="de.neuland.jade4j.spring.template.SpringTemplateLoader">
+        <property name="basePath" value="/WEB-INF/jade/"/>
+        <property name="encoding" value="UTF-8"/>
+        <property name="suffix" value=".jade"/>
     </bean>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
@@ -81,7 +73,6 @@ http://www.springframework.org/schema/p "
         </property>
         <property name="viewResolvers">
             <list>
-                <ref bean="viewResolver1"/>
                 <ref bean="jadeResolver"/>
             </list>
         </property>

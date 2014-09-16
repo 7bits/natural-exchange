@@ -41,8 +41,6 @@ public class SubscriberDaoHibernate implements SubscriberDao {
 
     @Override
     public boolean isExists(final Subscriber subscriber) {
-        //Alex: создает критерий для поиска подписчика по email-у
-        //Alex: Если нашел, то возвращает true
         DetachedCriteria criteria = DetachedCriteria.forClass(SubscriberEntity.class);
         criteria.add(Restrictions.eq("email", subscriber.getEmail()));
         List<SubscriberEntity> subscribers = this.hibernateTemplate.findByCriteria(criteria);

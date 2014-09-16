@@ -23,10 +23,6 @@ public interface CategoryDao {
      */
     Category findById(Long id);
 
-    Category findBySlug(final String slug);
-
-    Category findByName(final String name);
-
     CategoryEntity findEntityBySlug(final String name);
 
     /**
