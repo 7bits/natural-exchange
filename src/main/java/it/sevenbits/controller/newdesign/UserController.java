@@ -280,6 +280,19 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/userprofile/deleteSearch.html", method = RequestMethod.GET)
+    public ModelAndView searchDeleting(@RequestParam(value = "id", required = true) final Long searchVariantId) {
+        ModelAndView modelAndView = new ModelAndView("userSearch.jade");
+        this.searchVariantDao.delete(this.searchVariantDao.findById(searchVariantId));
+        Long id = this.getCurrentUserId();
+        User currentUser = this.userDao.findById(id);
+        List<SearchVariant> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        modelAndView.addObject("currentUser", currentUser);
+        modelAndView.addObject("userPage", "searches.html");
+        modelAndView.addObject("searchVariants", searchVariantList);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.GET)
     public ModelAndView searchEditing(@RequestParam(value = "id", required = true) final Long id) {
         ModelAndView modelAndView = new ModelAndView("editSearch");

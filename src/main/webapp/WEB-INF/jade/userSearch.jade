@@ -5,7 +5,7 @@ block information
   p.saveSearchText СОХРАНЕННЫЕ ПАРАМЕТРЫ ПОИСКА
     for searchVariant in searchVariants
       .savingSearch
-        a.deleteSearch(href='#')
+        a.deleteSearch(href='#{uri.uri("/new/user/userprofile/deleteSearch.html?id=" + searchVariant.id)}')
           img(src='/resources/images/deleteNotActive.png')
         a.editSearch(href='#{uri.uri("/new/user/userprofile/editSearch.html?id=" + searchVariant.id)}')
           img(src='/resources/images/editActive.png')
