@@ -9,7 +9,7 @@ src/main/resources/local/common.properties
 src/main/resources/local/mailSender.properties
 src/main/resources/prod/mailSender.properties
 src/main/resources/local/myImport.sql
-src/main/webapp/resources/images/user_images/
+src/main/webapp/resources/images/user_images/*
 
 # IDE files #
 .idea/
