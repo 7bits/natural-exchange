@@ -4,20 +4,6 @@ package it.sevenbits.entity;
  * Class for cateroty
  */
 public class Category {
-
-    /**
-     * Category name
-    */
-    public static final String NAME_CLOTHES = "clothes";
-    /**
-     * Category name
-    */
-    public static final String NAME_GAMES = "games";
-    /**
-     * Category name
-    */
-    public static final String NAME_NOT_CLOTHES = "notclothes";
-
     private String slug;
     private String name;
     private String description;
@@ -37,21 +23,6 @@ public class Category {
         isDeleted = deleted;
     }
 
-//    public String getReallyName() {
-//        String result;
-//        switch(slug) {
-//            case "games":
-//                result = "Игры";
-//                break;
-//            case "clothes":
-//                result = "Одежда";
-//                break;
-//            default:
-//                result = "Не одежда";
-//                break;
-//        }
-//        return result;
-//    }
 
     public String getSlug() {
         return slug;

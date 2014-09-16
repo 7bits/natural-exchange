@@ -74,75 +74,64 @@ public class AdvertisementListController {
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public ModelAndView list(
-        @RequestParam(value = "currentPage", required = false) final Integer previousPage,
-        @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
-        @RequestParam(value = "currentCategory", required = false) final String previousCategory,
-        @RequestParam(value = "dateFrom", required = false) final String previousDateFrom,
-        @RequestParam(value = "dateTo", required = false) final String previousDateTo,
-        final AdvertisementSearchingForm previousAdvertisementSearchingForm,
+        final AdvertisementSearchingForm advertisementSearchingForm,
         final BindingResult bindingResult
     ) {
         ModelAndView modelAndView = new ModelAndView("list.jade");
-
-        DatePair datePair = this.takeAndValidateDate(previousDateFrom, previousDateTo, bindingResult, modelAndView);
+        DatePair datePair = this.takeAndValidateDate(
+            advertisementSearchingForm.getDateFrom(), advertisementSearchingForm.getDateTo(), bindingResult, modelAndView
+        );
         Long dateFrom = datePair.getDateFrom();
         Long dateTo = datePair.getDateTo();
 
         List<Category> categoryList = categoryDao.findAll();
-        String[] currentCategories = this.getAllCategories();
-        modelAndView.addObject("allCategories", this.arrayToString(currentCategories));
-        if (previousCategory != null) {
-            currentCategories = this.stringToArray(previousCategory);
+        String[] allCategories = this.getAllCategories();
+        String[] currentCategory = allCategories;
+        if (advertisementSearchingForm.getCurrentCategory() != null) {
+            currentCategory = this.stringToArray(advertisementSearchingForm.getCurrentCategory());
         }
 
         SortOrder mainSortOrder = SortOrder.DESCENDING;
         String sortBy = "createdDate";
 
         String keyWordSearch = "";
-        if (previousKeyWords != null) {
-            keyWordSearch = previousKeyWords;
+        if (advertisementSearchingForm.getKeyWords() != null) {
+            keyWordSearch = advertisementSearchingForm.getKeyWords();
         }
 
         List<Advertisement> advertisements = this.advertisementDao.findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(
-            this.stringToArray(previousCategory),
-            this.stringToArray(previousKeyWords),
+            this.stringToArray(advertisementSearchingForm.getCurrentCategory()),
+            this.stringToArray(advertisementSearchingForm.getKeyWords()),
             false,
             mainSortOrder,
             sortBy,
             dateFrom,
             dateTo
         );
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        List<Advertisement> userAdvertisements = new LinkedList<>();
-        if (auth.getPrincipal() instanceof UserDetails) {
-            User user = this.userDao.findUserByEmail(auth.getName());
-            userAdvertisements = this.advertisementDao.findAllByEmail(user);
-        }
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
         pageList.setPageSize(DEFAULT_ADVERTISEMENTS_PER_LIST);
 
         int pageCount = pageList.getPageCount();
         int currentPage;
-        if (previousPage == null || previousPage > pageCount) {
+        if (advertisementSearchingForm.getCurrentPage() == null || advertisementSearchingForm.getCurrentPage() > pageCount
+            || advertisementSearchingForm.getCurrentPage() == 0) {
             currentPage = 1;
         } else {
-            currentPage = previousPage;
+            currentPage = advertisementSearchingForm.getCurrentPage();
         }
         pageList.setPage(currentPage - 1);
-
-
         this.addPages(modelAndView, currentPage, pageCount);
-        modelAndView.addObject("currentCategory", this.arrayToString(currentCategories));
+
+        modelAndView.addObject("allCategories", this.arrayToString(allCategories));
+        modelAndView.addObject("currentCategory", this.arrayToString(currentCategory));
         modelAndView.addObject("categories", categoryList);
         modelAndView.addObject("keyWords", keyWordSearch);
         modelAndView.addObject("advertisements", pageList.getPageList());
-        modelAndView.addObject("userAdvertisements", userAdvertisements);
         modelAndView.addObject("pageCount", pageCount);
         modelAndView.addObject("currentPage", currentPage);
-        modelAndView.addObject("dateFrom", previousDateFrom);
-        modelAndView.addObject("dateTo", previousDateTo);
+        modelAndView.addObject("dateFrom", advertisementSearchingForm.getDateFrom());
+        modelAndView.addObject("dateTo", advertisementSearchingForm.getDateTo());
 
         return modelAndView;
     }
@@ -565,15 +554,13 @@ public class AdvertisementListController {
         if (str == null) {
             return null;
         }
-        StringTokenizer token = new StringTokenizer(str);
-        String[] allCategories = new String[token.countTokens()];
-        for (int i = 0; i < allCategories.length; i++) {
-            allCategories[i] = token.nextToken();
-        }
-        return allCategories;
+        return StringUtils.split(str);
     }
 
     private String arrayToString(String[] strings) {
+        if (strings == null) {
+            return null;
+        }
         String result = "";
         int length = strings.length;
         for (int i = 0; i < length - 1; i++) {
