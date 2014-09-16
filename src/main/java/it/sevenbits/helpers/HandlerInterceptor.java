@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class HandlerInterceptor extends HandlerInterceptorAdapter {
 
-    private final StringService stringService = new StringService();
-    private final EncodeDecodeService encodeDecodeService = new EncodeDecodeService();
-    private final VkAuthService vkAuthService = new VkAuthService();
-    private final AuthService authService = new AuthService();
-    private UrlService urlService = new UrlService();
+    private final StringHelper stringHelper = new StringHelper();
+    private final EncodeDecodeHelper encodeDecodeHelper = new EncodeDecodeHelper();
+    private final VkAuthHelper vkAuthHelper = new VkAuthHelper();
+    private final AuthHelper authHelper = new AuthHelper();
+    private final UrlHelper urlHelper = new UrlHelper();
+    private final FilePathHelper filePathHelper = new FilePathHelper();
 
 
 
@@ -24,11 +25,12 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        modelAndView.addObject("stringActions", stringService);
-        modelAndView.addObject("coder", encodeDecodeService);
-        modelAndView.addObject("vkAuth", vkAuthService);
-        modelAndView.addObject("auth", authService);
-        modelAndView.addObject("uri", urlService);
+        modelAndView.addObject("stringActions", stringHelper);
+        modelAndView.addObject("coder", encodeDecodeHelper);
+        modelAndView.addObject("vkAuth", vkAuthHelper);
+        modelAndView.addObject("auth", authHelper);
+        modelAndView.addObject("uri", urlHelper);
+        modelAndView.addObject("filePath", filePathHelper);
         super.postHandle(request, response, handler, modelAndView);
     }
 }

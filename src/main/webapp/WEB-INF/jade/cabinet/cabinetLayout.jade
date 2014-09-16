@@ -6,7 +6,7 @@ block content
     .user-container
       .user-information
         if (currentUser.getAvatar() != null)
-          img.user-image(src='/resources/images/avatars/' + currentUser.getAvatar())
+          img.user-image(src='#{filePath.avatarsPath}#{currentUser.avatar}')
         p.user-name
           | #{currentUser.firstName}
           br

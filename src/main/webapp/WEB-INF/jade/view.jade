@@ -27,7 +27,7 @@ block append content
             a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
             a.tag(href='#{uri.uri("/new/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ОБЪЯВЛЕНИЕ
       .picture
-        img.thing-picture(src='/resources/images/user_images/#{advertisement.photoFile}')
+        img.thing-picture(src='#{filePath.imagesPath}#{advertisement.photoFile}')
     .change-button
       a.change.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ
     include exchange

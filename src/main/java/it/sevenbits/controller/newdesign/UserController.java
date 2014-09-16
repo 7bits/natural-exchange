@@ -7,7 +7,7 @@ import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
-import it.sevenbits.helpers.jadeHelpers.EncodeDecodeService;
+import it.sevenbits.helpers.jadeHelpers.EncodeDecodeHelper;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
@@ -223,8 +223,8 @@ public class UserController {
         Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
         modelAndView.addObject("currentUser", currentUser);
-        modelAndView.addObject("errorFromFirstName", EncodeDecodeService.decode(firstNameError));
-        modelAndView.addObject("errorFromLastName", EncodeDecodeService.decode(lastNameError));
+        modelAndView.addObject("errorFromFirstName", EncodeDecodeHelper.decode(firstNameError));
+        modelAndView.addObject("errorFromLastName", EncodeDecodeHelper.decode(lastNameError));
         return modelAndView;
     }
 
@@ -237,12 +237,12 @@ public class UserController {
             String redirectAddress = "redirect:/new/user/userprofile/edit.html?firstNameError=";
             FieldError fieldErrorFromFirstName = bindingResult.getFieldError("FirstName");
             if (fieldErrorFromFirstName != null) {
-                redirectAddress += EncodeDecodeService.encode(fieldErrorFromFirstName.getDefaultMessage());
+                redirectAddress += EncodeDecodeHelper.encode(fieldErrorFromFirstName.getDefaultMessage());
             }
             redirectAddress += "&lastNameError=";
             FieldError fieldErrorFromLastName = bindingResult.getFieldError("LastName");
             if (fieldErrorFromLastName != null) {
-                redirectAddress += EncodeDecodeService.encode(fieldErrorFromLastName.getDefaultMessage());
+                redirectAddress += EncodeDecodeHelper.encode(fieldErrorFromLastName.getDefaultMessage());
             }
             return redirectAddress;
         }

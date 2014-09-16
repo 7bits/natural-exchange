@@ -29,9 +29,9 @@ block content
         for user in users
           .advertisement
             if (user.avatar != null)
-              img.adv-image(src='/resources/images/avatars/#{user.avatar}')
+              img.adv-image(src='#{filePath.avatarsPath}#{user.avatar}')
             else
-              img.adv-image(src='/resources/images/avatars/emptyface.png')
+              img.adv-image(src='#{filePath.avatarsPath}emptyface.png')
             p.registration-text Зарегистирован с
             p.date #{user.createdDateFormat}
             .name-cover

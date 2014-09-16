@@ -10,16 +10,16 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-public class UrlService {
+public class UrlHelper {
     public static final String DEFAULT_PAGE = "http://naturalexchange.ru";
     private static final int START_URL_PART = 2;
 
-    private final Logger logger = LoggerFactory.getLogger(UrlService.class);
+    private final Logger logger = LoggerFactory.getLogger(UrlHelper.class);
 
     private String rootPath = "";
     private String afterDomenPath = "";
 
-    public UrlService() {
+    public UrlHelper() {
         rootPath = getRoot();
         afterDomenPath = afterDomen();
     }

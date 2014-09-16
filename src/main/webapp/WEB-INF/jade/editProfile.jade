@@ -15,7 +15,7 @@ block content
           p.error-user-name #{errorFromLastName}
         div.picture-block
           if (currentUser.avatar != null)
-            img.user-avatar(src='/resources/images/avatars/#{currentUser.avatar}')
+            img.user-avatar(src='#{filePath.avatarsPath}#{currentUser.avatar}')
         div.choose-image-block
           label
             .choose-user-photo Выберите другой файл

@@ -7,8 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-public class EncodeDecodeService {
-    private final Logger logger = LoggerFactory.getLogger(EncodeDecodeService.class);
+public class EncodeDecodeHelper {
+    private final Logger logger = LoggerFactory.getLogger(EncodeDecodeHelper.class);
 
     public static String encode(String notEncodeString) {
         if (notEncodeString == null) {

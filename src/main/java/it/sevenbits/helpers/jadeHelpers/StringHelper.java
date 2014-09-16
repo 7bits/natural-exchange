@@ -1,6 +1,6 @@
 package it.sevenbits.helpers.jadeHelpers;
 
-public class StringService {
+public class StringHelper {
     public static String toUpperCase(String src) {
         if (src == null) {
             return "";

@@ -40,9 +40,9 @@ block content
         for advertisement in advertisements
           .advertisement
             if (advertisement.photoFile != "")
-              img.adv-image(src='/resources/images/user_images/#{advertisement.photoFile}')
+              img.adv-image(src='#{filePath.imagesPath}#{advertisement.photoFile}')
             else
-              img.adv-image(src='/resources/images/user_images/no_photo.png')
+              img.adv-image(src='#{filePath.imagesPath}no_photo.png')
             p.date #{advertisement.createdDateFormat}
             a.adv-name(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover

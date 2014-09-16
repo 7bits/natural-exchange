@@ -1,12 +1,12 @@
 package it.sevenbits.helpers.jadeHelpers;
 
-public class VkAuthService {
+public class VkAuthHelper {
     private String redirectUrl = "";
 
-    public VkAuthService() {
-        UrlService urlService = new UrlService();
+    public VkAuthHelper() {
+        UrlHelper urlHelper = new UrlHelper();
         redirectUrl = "https://oauth.vk.com/authorize?client_id=4491913&scope=notify&"
-        + "redirect_uri=" + urlService.uri("/new/VK/auth.html") + "&display=popup&response_type=code";
+        + "redirect_uri=" + urlHelper.uri("/new/VK/auth.html") + "&display=popup&response_type=code";
     }
 
     public String getVkUrl() {

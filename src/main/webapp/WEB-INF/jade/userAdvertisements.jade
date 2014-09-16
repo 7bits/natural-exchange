@@ -5,7 +5,7 @@ block information
   for advertisement in advertisements
     div.advertisement
       div.advertisement-image
-        img.little-image(src='/resources/images/user_images/#{advertisement.photoFile}')
+        img.little-image(src='#{filePath.imagesPath}#{advertisement.photoFile}')
       div.advertisement-information
         div
           p.advertisement-date #{advertisement.createdDateFormat}
