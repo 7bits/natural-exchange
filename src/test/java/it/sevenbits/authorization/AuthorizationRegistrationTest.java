@@ -21,8 +21,8 @@ public class AuthorizationRegistrationTest {
     @Before
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
-        baseUrl = "http://naturalexchange/";
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        baseUrl = "http://naturalexchange.ru/";
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @Test
@@ -81,4 +81,5 @@ public class AuthorizationRegistrationTest {
             acceptNextAlert = true;
         }
     }
+
 }

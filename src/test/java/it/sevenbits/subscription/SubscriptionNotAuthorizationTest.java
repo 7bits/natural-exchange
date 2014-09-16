@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.Select;
  * Created by booktina on 07.08.14.
  */
 public class SubscriptionNotAuthorizationTest {
+   /*
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
@@ -73,4 +74,5 @@ public class SubscriptionNotAuthorizationTest {
             acceptNextAlert = true;
         }
     }
+    */
 }

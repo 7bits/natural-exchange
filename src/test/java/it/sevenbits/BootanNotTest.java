@@ -11,7 +11,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
  * Created by booktina on 01.08.14.
  */
 public class BootanNotTest {
-
+/*
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
@@ -26,7 +26,7 @@ public class BootanNotTest {
 
     @Test
     public void testBootanNot() throws Exception {
-        driver.get(baseUrl + "/");
+        driver.get(baseUrl);
         driver.findElement(By.linkText("вход")).click();
         try {
             assertFalse(isElementPresent(By.id("bootan")));
@@ -76,4 +76,5 @@ public class BootanNotTest {
             acceptNextAlert = true;
         }
     }
+    */
 }

@@ -11,6 +11,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
  * Created by booktina on 07.08.14.
  */
 public class AdsUpdaaateAdTest {
+   /*
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
@@ -84,4 +85,5 @@ public class AdsUpdaaateAdTest {
             acceptNextAlert = true;
         }
     }
+    */
 }

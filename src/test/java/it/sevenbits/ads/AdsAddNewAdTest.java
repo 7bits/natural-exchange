@@ -6,10 +6,14 @@ import static org.junit.Assert.*;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Created by booktina on 01.08.14.
  */
+
 
 public class AdsAddNewAdTest {
     private WebDriver driver;
@@ -21,37 +25,30 @@ public class AdsAddNewAdTest {
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @Test
-    public void testAddAd() throws Exception {
+    public void testAddNewAd() throws Exception {
         driver.get(baseUrl + "/");
-        driver.findElement(By.linkText("вход")).click();
-        driver.findElement(By.name("j_username")).clear();
-        driver.findElement(By.name("j_username")).sendKeys("antonovandrey@ro.ru");
-        driver.findElement(By.name("j_password")).clear();
-        driver.findElement(By.name("j_password")).sendKeys("sevenbits");
-        driver.findElement(By.cssSelector("input.sendOk")).click();
-        driver.findElement(By.linkText("Добавить предложение")).click();
-        driver.findElement(By.id("title")).clear();
-        driver.findElement(By.id("title")).sendKeys("qwer test");
-        driver.findElement(By.id("text")).clear();
-        driver.findElement(By.id("text")).sendKeys("test");
-        driver.findElement(By.id("tags")).clear();
-        driver.findElement(By.id("tags")).sendKeys("#test");
-        driver.findElement(By.cssSelector("input.sendAdv")).click();
-        driver.findElement(By.cssSelector("img[alt=\"ex4ange)\"]")).click();
-        driver.findElement(By.linkText("Добавить")).click();
-        driver.findElement(By.id("title")).clear();
-        driver.findElement(By.id("title")).sendKeys("qwer test");
-        driver.findElement(By.id("text")).clear();
-        driver.findElement(By.id("text")).sendKeys("test");
-        driver.findElement(By.id("tags")).clear();
-        driver.findElement(By.id("tags")).sendKeys("#test");
-        driver.findElement(By.cssSelector("input.sendAdv")).click();
-        driver.findElement(By.cssSelector("img[alt=\"ex4ange)\"]")).click();
-        driver.findElement(By.linkText("выход")).click();
+        driver.findElement(By.linkText("Вход")).click();
+        driver.findElement(By.id("entry-email")).clear();
+        driver.findElement(By.id("entry-email")).sendKeys("antonovandrey@ro.ru");
+        driver.findElement(By.id("entry-pass")).clear();
+        driver.findElement(By.id("entry-pass")).sendKeys("sevenbits");
+        driver.findElement(By.id("entry")).click();
+        driver.findElement(By.linkText("ДОБАВИТЬ ПРЕДЛОЖЕНИЕ")).click();
+        driver.findElement(By.name("title")).clear();
+        driver.findElement(By.name("title")).sendKeys("new ads");
+        new Select(driver.findElement(By.name("category"))).selectByVisibleText("Игры");
+        driver.findElement(By.name("text")).clear();
+        driver.findElement(By.name("text")).sendKeys("newads");
+        driver.findElement(By.xpath("(//input[@type='text'])[2]")).clear();
+        driver.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys("#ads");
+        driver.findElement(By.id("add-tag")).click();
+        driver.findElement(By.xpath("//input[@value='ДОБАВИТЬ']")).click();
+        driver.findElement(By.linkText("НА ГЛАВНУЮ")).click();
+        driver.findElement(By.linkText("Выход")).click();
     }
 
     @After

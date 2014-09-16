@@ -14,6 +14,7 @@ import static org.junit.Assert.fail;
  * Created by booktina on 07.08.14.
  */
 public class AuthorizationLoginLogoutTest {
+   /*
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
@@ -79,4 +80,5 @@ public class AuthorizationLoginLogoutTest {
             acceptNextAlert = true;
         }
     }
+    */
 }
