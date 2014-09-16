@@ -14,7 +14,7 @@ block append content
           .tags
             | Теги:
             for tag in tags
-              a.tag(href='#{uri.uri("/advertisement/list.html?keyWords=" + tag.name)}') #{tag.name}
+              a.tag(href='#{uri.uri("/advertisement/list.html?keyWords=" + coder.encode(tag.name))}') #{tag.name}
         .description
           | Описание:
           p.current-description #{advertisement.text}
