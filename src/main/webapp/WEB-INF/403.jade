@@ -6,4 +6,8 @@ head
   body
     .error-message
       p.error-code ОШИБКА 403
-      p.error-text Такой страницы не существует
+      p.error-text
+        | Доступ к запрашиваемой странице запрещен
+      div.center-link
+        a.return-to-main(href='#{uri.uri("/main.html")}')
+          | Вернуться на главную

@@ -5,11 +5,14 @@ head
   meta(charset='utf-8')
   body
     .error-message
-      p.error-code ОШИБКА 400
+      p.error-code ОШИБКА 500
       p.error-text
         | Что-то пошло не так,
         br
         | но мы даем все возможное,
         br
         | чтобы исправить это
+      div.center-link
+        a.return-to-main(href='#{uri.uri("/main.html")}')
+          | Вернуться на главную
 

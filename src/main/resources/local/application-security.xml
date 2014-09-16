@@ -9,19 +9,16 @@
                                 http://www.springframework.org/schema/beans/spring-beans.xsd
                                 http://www.springframework.org/schema/security
                                 http://www.springframework.org/schema/security/spring-security-3.1.xsd">
-    <security:http auto-config="true" access-denied-page="/access_denied.jsp" >
+    <security:http auto-config="true">
 
         <security:custom-filter after="PRE_AUTH_FILTER" ref="banFilter"/>
 
         <security:intercept-url pattern="/css/**" access="ROLE_ADMIN"/>
         <security:intercept-url pattern='/login.htm*' access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/login.jsp*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <security:intercept-url pattern="/advertisement/post.htm*" access="ROLE_ADMIN"/>
         <security:intercept-url pattern="/advertisement/placing*.*" access="ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR"/>
         <security:intercept-url pattern='/advertisement/view*' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'/>
         <security:intercept-url pattern='/advertisement/list.*' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'/>
         <security:intercept-url pattern='/advertisement/exchange.*' access='ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR'/>
-        <security:intercept-url pattern='/advertisement/moderator/list.*' access='ROLE_MODERATOR, ROLE_ADMIN'/>
         <security:intercept-url pattern='/advertisement/makeCaptcha.html' access='ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY'/>
         <security:intercept-url pattern="/user/auth*" access="ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY"/>
         <security:intercept-url pattern="/user/**" access="ROLE_USER, ROLE_ADMIN, IS_AUTHENTICATED_ANONYMOUSLY"/>
