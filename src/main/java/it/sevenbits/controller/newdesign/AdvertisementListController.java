@@ -5,6 +5,7 @@ import it.sevenbits.entity.*;
 import it.sevenbits.dao.*;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
+import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.Role;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.DatePair;
@@ -96,7 +97,7 @@ public class AdvertisementListController {
 
         String keyWordSearch = "";
         if (advertisementSearchingForm.getKeyWords() != null) {
-            keyWordSearch = advertisementSearchingForm.getKeyWords();
+            keyWordSearch = EncodeDecodeHelper.decode(advertisementSearchingForm.getKeyWords());
         }
 
         List<Advertisement> advertisements = this.advertisementDao.findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(

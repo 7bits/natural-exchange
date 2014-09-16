@@ -1,18 +1,23 @@
 package it.sevenbits.entity;
 
+import it.sevenbits.dao.CategoryDao;
 import it.sevenbits.util.TimeManager;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  *Class, which presents object Advertisement
  */
+@Component
 public class SearchVariant {
+
+    @Autowired
+    private CategoryDao categoryDao;
 
     private String email;
     private String keyWords;
@@ -66,26 +71,6 @@ public class SearchVariant {
         return createdDate;
     }
 
-    public String getRealCategories() {
-        StringTokenizer tokenizer = new StringTokenizer(categories);
-        String result = "";
-        int length = tokenizer.countTokens();
-        for (int i = 0; i < length; i++) {
-            switch (tokenizer.nextToken()) {
-                case "games":
-                    result += "ИГРЫ";
-                    break;
-                case "clothes":
-                    result += "ОДЕЖДА";
-                    break;
-                default:
-                    result += "НЕ ОДЕЖДА";
-                    break;
-            }
-            result += ' ';
-        }
-        return result;
-    }
 
     /**
      * Show advertisement created date for users timezone.
