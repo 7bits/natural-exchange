@@ -1,6 +1,6 @@
 .right-top-links
   if auth.isAuthenticated()
-    a(href='#{uri.uri("/new/user/userprofile/searches.html")}').entire Личный кабинет
+    a(href='#{uri.uri("/user/userprofile/searches.html")}').entire Личный кабинет
     | /
     a(href='#{uri.uri("/user/logout.html")}').registration Выход
   else
@@ -8,9 +8,9 @@
     | /
     a(href='#registration-form').registration.js-registration Регистрация
 .left-top-logo
-  a(href='#{uri.uri("/new/main.html")}')
+  a(href='#{uri.uri("/main.html")}')
     img.top-image(src='/resources/images/logotype.png', align='left')
-  a.n-exchange(href='#{uri.uri("/new/main.html")}')
+  a.n-exchange(href='#{uri.uri("/main.html")}')
     | NATURAL
     br
     | EXCHANGE
@@ -20,18 +20,18 @@
   ul.menu-list
     if (auth.isAuthenticated())
       li
-        a.add-advertisement(href='#{uri.uri("/new/advertisement/placing.html")}') ДОБАВИТЬ ПРЕДЛОЖЕНИЕ
+        a.add-advertisement(href='#{uri.uri("/advertisement/placing.html")}') ДОБАВИТЬ ПРЕДЛОЖЕНИЕ
     else
       li
         a.add-advertisement.js-entry(href='#entry-form') ДОБАВИТЬ ПРЕДЛОЖЕНИЕ
     li
-      a.common-link(href='#{uri.uri("/new/advertisement/list.html")}') ВСЕ ПРЕДЛОЖЕНИЯ
+      a.common-link(href='#{uri.uri("/advertisement/list.html")}') ВСЕ ПРЕДЛОЖЕНИЯ
     li
-      a.common-link(href='#{uri.uri("/new/main.html")}') ГЛАВНАЯ
+      a.common-link(href='#{uri.uri("/main.html")}') ГЛАВНАЯ
   if (auth.isUserModeratorOrAdministrator())
     ul.menu-list
       li
-        a.common-link(href='#{uri.uri("/new/moderator/advertisementList.html")}') Модерирование
+        a.common-link(href='#{uri.uri("/moderator/advertisementList.html")}') Модерирование
       li
-        a.common-link(href='#{uri.uri("/new/moderator/userList.html")}') Администрирование
+        a.common-link(href='#{uri.uri("/moderator/userList.html")}') Администрирование
 

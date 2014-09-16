@@ -28,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.*;
 
 @Controller
-@RequestMapping(value = "new")
 public class MainController {
     private static final int MAIN_ADVERTISEMENTS = 4;
     private Logger logger = LoggerFactory.getLogger(MainController.class);

@@ -14,7 +14,7 @@ block append content
           .tags
             | Теги:
             for tag in tags
-              a.tag(href='#{uri.uri("/new/advertisement/list.html?keyWords=" + tag.name)}') #{tag.name}
+              a.tag(href='#{uri.uri("/advertisement/list.html?keyWords=" + tag.name)}') #{tag.name}
         .description
           | Описание:
           p.current-description #{advertisement.text}
@@ -22,14 +22,17 @@ block append content
           | Меняет:
           a.change-user(href='#') #{fullUserName}
         if (auth.isUserModerator())
-          a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
+          a.tag(href='#{uri.uri("/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
         else if (advertisement.getUser() == auth.getCurrentUser())
-          a.tag(href='#{uri.uri("/new/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
-          a.tag(href='#{uri.uri("/new/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ОБЪЯВЛЕНИЕ
+          a.tag(href='#{uri.uri("/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
+          a.tag(href='#{uri.uri("/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ОБЪЯВЛЕНИЕ
       .picture
         img.thing-picture(src='#{filePath.imagesPath}#{advertisement.photoFile}')
     .change-button
-      a.change.js-newExchange(href='#new-exchange-popup') ОБМЕНЯТЬ
+      if (auth.isAuthenticated())
+        if (advertisement.user != auth.getCurrentUser())
+          a.change.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
+          include exchange
     include exchange
 block append customjs
   script(src="/resources/js/newExchangePopup.js")

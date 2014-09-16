@@ -41,7 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@RequestMapping(value = "new/advertisement")
+@RequestMapping(value = "advertisement")
 public class AdvertisementListController {
     private static final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
     private static final long MILLISECONDS_IN_A_DAY = 86400000;
@@ -364,7 +364,7 @@ public class AdvertisementListController {
             Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOfferAdvertisement());
             User offer = offerAdvertisement.getUser();
             User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
-            String advertisementUrl = mailSenderService.getDomen() + "/new/advertisement/view.html?id=";
+            String advertisementUrl = mailSenderService.getDomen() + "/advertisement/view.html?id=";
             String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
             String titleExchangeMessage = "С вами хотят обменяться!";
             String userName;
@@ -418,7 +418,7 @@ public class AdvertisementListController {
                 mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
             }
         } else {
-            redirectAddress = "redirect:/new/advertisement/list.html";
+            redirectAddress = "redirect:/advertisement/list.html";
             Advertisement advertisement = this.advertisementDao.findById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
             if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {

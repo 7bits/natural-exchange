@@ -5,12 +5,12 @@ block information
   p.saveSearchText СОХРАНЕННЫЕ ПАРАМЕТРЫ ПОИСКА
     for searchVariant in searchVariants
       .savingSearch
-        a.deleteSearch(href='#{uri.uri("/new/user/userprofile/deleteSearch.html?id=" + searchVariant.id)}')
+        a.deleteSearch(href='#{uri.uri("/user/userprofile/deleteSearch.html?id=" + searchVariant.id)}')
           img(src='/resources/images/deleteNotActive.png')
-        a.editSearch(href='#{uri.uri("/new/user/userprofile/editSearch.html?id=" + searchVariant.id)}')
+        a.editSearch(href='#{uri.uri("/user/userprofile/editSearch.html?id=" + searchVariant.id)}')
           img(src='/resources/images/editActive.png')
         .nameAndCategory
-          a.thingName(href='#{uri.uri("/new/advertisement/list.html?keyWords=" + searchVariant.keyWords + "&categories=" + searchVariant.getRealCategories())}') #{searchVariant.keyWords}
+          a.thingName(href='#{uri.uri("/advertisement/list.html?keyWords=" + searchVariant.keyWords + "&categories=" + searchVariant.getRealCategories())}') #{searchVariant.keyWords}
           p.categoryName #{searchVariant.getRealCategories()}
         //a.tag(href='#') инструменты
         //a.tag(href='#') струнные

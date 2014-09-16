@@ -29,11 +29,10 @@
         <security:intercept-url pattern="/moderator/*" access="ROLE_MODERATOR, ROLE_ADMIN"/>
         <security:intercept-url pattern="/new/moderator/*" access="ROLE_MODERATOR, ROLE_ADMIN"/>
 
-        <security:intercept-url pattern="/new/user/editProfile.*" access='ROLE_USER'/>
-        <security:intercept-url pattern="new/advertisement/placing*.*" access="ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR"/>
-        <security:intercept-url pattern="new/advertisement/edit*.*" access="ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR"/>
+        <security:intercept-url pattern="/user/editProfile.*" access='ROLE_USER'/>
+        <security:intercept-url pattern="/advertisement/edit*.*" access="ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR"/>
 
-        <security:form-login login-page='/new/main.html'
+        <security:form-login login-page='/main.html'
                              default-target-url='/advertisement/list.html'
                              authentication-failure-url="/auth_failed.html" />
         <security:logout logout-url="/user/logout.html"/>

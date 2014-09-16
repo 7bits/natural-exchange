@@ -7,7 +7,7 @@ block content
   .content
     .container.advertisement-list
       div
-        form.searching-form(action = '#{uri.uri("/new/advertisement/list.html")}', method = 'get')
+        form.searching-form(action = '#{uri.uri("/advertisement/list.html")}', method = 'get')
           input.tag-search(type='text', placeholder='Введите параметры поиска', maxlength='50', name='keyWords',
           value='#{keyWords}')
           select.category-search(name='currentCategory')
@@ -35,7 +35,7 @@ block content
           | Например:
           a.monopoly(href='#') Монополия
           if (auth.isAuthenticated())
-            a.save-search.js-save-search(href='#', data-url='#{uri.uri("/new/advertisement/list.html")}') СОХРАНИТЬ ПОИСК
+            a.save-search.js-save-search(href='#', data-url='#{uri.uri("/advertisement/list.html")}') СОХРАНИТЬ ПОИСК
       .row
         for advertisement in advertisements
           .advertisement
@@ -44,45 +44,46 @@ block content
             else
               img.adv-image(src='#{filePath.imagesPath}no_photo.png')
             p.date #{advertisement.createdDateFormat}
-            a.adv-name(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
+            a.adv-name(href='#{uri.uri("/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
             if (auth.isAuthenticated())
-              a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
-              include exchange
+              if (advertisement.user != auth.getCurrentUser())
+                a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
+                include exchange
       .pages
         ul.page-list
           if (previous == true)
             li
-              a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') <
+              a.trine(href='#{uri.uri("/advertisement/list.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') <
           if (pageList.first != null)
             if (currentPage == pageList.first)
               li
-                a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
+                a.page-link.mark(href='#{uri.uri("/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
             else
               li
-                a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
+                a.page-link(href='#{uri.uri("/advertisement/list.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
           if (pageList.second != null)
             if (currentPage == pageList.second)
               li
-                a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
+                a.page-link.mark(href='#{uri.uri("/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
             else
               li
-                a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
+                a.page-link(href='#{uri.uri("/advertisement/list.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
           if (pageList.third != null)
             if (currentPage == pageList.third)
               li
-                a.page-link.mark(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
+                a.page-link.mark(href='#{uri.uri("/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
             else
               li
-                a.page-link(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
+                a.page-link(href='#{uri.uri("/advertisement/list.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
           if (next == true)
             li
-              a.trine(href='#{uri.uri("/new/advertisement/list.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') >
+              a.trine(href='#{uri.uri("/advertisement/list.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&currentCategory=" + currentCategory+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') >
       .to-know
         | Узнавайте новости проекта первыми!
       .lower-case
-        form.subscribe-form(data-url='#{uri.uri("/new/subscribe.html")}')
+        form.subscribe-form(data-url='#{uri.uri("/subscribe.html")}')
           input.e-mail-field(type='text', maxlength='50', placeholder='Ваш e-mail')
           input.e-mail-submit(type='submit', value='подписаться')
           p.error-pointer

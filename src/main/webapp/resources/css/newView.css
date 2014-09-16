@@ -2,6 +2,8 @@
   padding-left: 19%;
   padding-right: 19%;
   background-color: rgb(248, 184, 50);
+
+  height: 750px;
 }
 .advertisement-container {
   overflow: hidden;

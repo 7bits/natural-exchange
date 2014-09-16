@@ -14,7 +14,7 @@ block content
         p.user-email-cover
           a.user-email(href='#') #{currentUser.email}
         p.edit-user-cover
-          a.edit-user-profile(href='#{uri.uri("/new/user/userprofile/edit.html")}') Редактировать
+          a.edit-user-profile(href='#{uri.uri("/user/userprofile/edit.html")}') Редактировать
         p.fix-text Дата регистрации:
         p.register-date #{currentUser.getCreatedDateFormat()}
       .right-block
@@ -22,12 +22,12 @@ block content
           ul.pages
             if (userPage == "searches.html")
               li
-                a.inset.substract-inset(href='#{uri.uri("/new/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
+                a.inset.substract-inset(href='#{uri.uri("/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
               li
-                a.inset(href='#{uri.uri("/new/user/userprofile/advertisements.html")}') МОИ ОБЪЯВЛЕНИЯ
+                a.inset(href='#{uri.uri("/user/userprofile/advertisements.html")}') МОИ ОБЪЯВЛЕНИЯ
             else
               li
-                a.inset(href='#{uri.uri("/new/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
+                a.inset(href='#{uri.uri("/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
               li
-                a.inset.substract-inset(href='#{uri.uri("/new/user/userprofile/advertisements.html")}') МОИ ОБЪЯВЛЕНИЯ
+                a.inset.substract-inset(href='#{uri.uri("/user/userprofile/advertisements.html")}') МОИ ОБЪЯВЛЕНИЯ
         block information

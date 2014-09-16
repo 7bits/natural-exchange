@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-@RequestMapping(value = "new/moderator")
+@RequestMapping(value = "moderator")
 public class ModeratorController {
     private static final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
     private static final int DEFAULT_USERS_PER_LIST = 8;

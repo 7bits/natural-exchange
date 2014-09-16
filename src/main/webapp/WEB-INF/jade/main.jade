@@ -10,10 +10,10 @@ block content
       .row1
         for category in categories
           .games.col-md-4
-            a.game-link(href='#{uri.uri("/new/advertisement/list.html?currentCategory=" + category.slug)}')
+            a.game-link(href='#{uri.uri("/advertisement/list.html?currentCategory=" + category.slug)}')
               img.games-image(src='/resources/images/' + category.slug + ".png")
               .games-cover
-                a.category-note(href='#{uri.uri("/new/advertisement/list.html?currentCategory=" + category.slug)}')
+                a.category-note(href='#{uri.uri("/advertisement/list.html?currentCategory=" + category.slug)}')
                   | #{stringActions.toUpperCase(category.name)}
     .container.main-page
       p.many-other ... И МНОГОЕ ДРУГОЕ!
@@ -25,13 +25,14 @@ block content
             else
               img.adv-image(src='#{filePath.imagesPath}no_photo.png')
             p.date #{advertisement.createdDateFormat}
-            a.adv-name(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
+            a.adv-name(href='#{uri.uri("/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
-            if (auth.isAuthenticated())
-              a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
-              include exchange
-      a.show-all(href='#{uri.uri("/new/advertisement/list.html")}') ПОСМОТРЕТЬ ВСЕ ОБЪЯВЛЕНИЯ
+              if (auth.isAuthenticated())
+                if (advertisement.user != auth.getCurrentUser())
+                  a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
+                  include exchange
+      a.show-all(href='#{uri.uri("/advertisement/list.html")}') ПОСМОТРЕТЬ ВСЕ ОБЪЯВЛЕНИЯ
       p.about О ПРОЕКТЕ
       p.text-about
         | У вас много настольных игр, и вам уже надоело играть в одно и то же? Или, может быть, вы хотите поделиться хорошей музыкальной литераурой? А может быть, у вас есть интересные книги, которые вы уже перечитали миллион раз, и хочется чего-то новенького? Тогда вы попали по адресу!
@@ -42,7 +43,7 @@ block content
       p.edification Обменивайтесь, оставляйте пользователям отзывы и оценки, и будет вам счастье!
       p.news УЗНАВАЙТЕ НОВОСТИ ПРОЕКТА ПЕРВЫМИ!
       .subscribe-cover
-        form.subscribe-form(data-url='#{uri.uri("/new/subscribe.html")}')
+        form.subscribe-form(data-url='#{uri.uri("/subscribe.html")}')
           input.for-email(type='text', placeholder='Ваш e-mail')
           input.submit-email(type='submit', value='ПОДПИСАТЬСЯ')
           p.errorLk

@@ -9,11 +9,11 @@ block information
       div.advertisement-information
         div
           p.advertisement-date #{advertisement.createdDateFormat}
-          a.delete-advertisement.js-delete-advertisement(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/new/advertisement/delete.html")}')
+          a.delete-advertisement.js-delete-advertisement(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/advertisement/delete.html")}')
             img(src='/resources/images/orangeRood.png')
-          a.edit-advertisement(href='#{uri.uri("/new/advertisement/edit.html?id=" + advertisement.id)}')
+          a.edit-advertisement(href='#{uri.uri("/advertisement/edit.html?id=" + advertisement.id)}')
             img(src='/resources/images/orangeEdit.png')
         div.advertisement-name
-          a.advertisement-link(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
+          a.advertisement-link(href='#{uri.uri("/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
 block append customjs
   script(src="/resources/js/newDeleteAdvertisement.js")

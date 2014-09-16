@@ -17,7 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "new/VK")
+@RequestMapping(value = "VK")
 public class VKAuthorizationController {
 
     @Autowired
@@ -41,7 +41,7 @@ public class VKAuthorizationController {
             token.setDetails(usrDet);
             SecurityContext context = SecurityContextHolder.getContext();
             context.setAuthentication(token);
-            return "redirect:/new/advertisement/list.html";
+            return "redirect:/advertisement/list.html";
         } else {
             String[] parameters = {"first_name", "last_name"};
             LinkedHashMap<String, Object> vkResponse = vkService.getUserDataById(userId, parameters);

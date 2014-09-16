@@ -4,7 +4,7 @@ block append customcss
 block content
   .content
     .user-container
-      a.back-to-the-cab(href='#{uri.uri("/new/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
+      a.back-to-the-cab(href='#{uri.uri("/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
       p.change-info ИЗМЕНИТЬ ЛИЧНУЮ ИНФОРМАЦИЮ
       form(action = 'edit.html', method = 'post', commandName="editindUserInfoForm", enctype="multipart/form-data")
         div

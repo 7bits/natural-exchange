@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "new/user")
+@RequestMapping(value = "user")
 public class UserController {
 
     public static final int REGISTRATION_PERIOD = 3;
@@ -234,7 +234,7 @@ public class UserController {
         User currentUser = this.userDao.findById(id);
         this.editingUserInfoFormValidator.validate(editingUserInfoForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            String redirectAddress = "redirect:/new/user/userprofile/edit.html?firstNameError=";
+            String redirectAddress = "redirect:/user/userprofile/edit.html?firstNameError=";
             FieldError fieldErrorFromFirstName = bindingResult.getFieldError("FirstName");
             if (fieldErrorFromFirstName != null) {
                 redirectAddress += EncodeDecodeHelper.encode(fieldErrorFromFirstName.getDefaultMessage());
@@ -267,7 +267,7 @@ public class UserController {
         currentUser.setLastName(newLastName);
         currentUser.setAvatar(newAvatar);
         this.userDao.updateData(currentUser);
-        return "redirect:/new/user/userprofile/searches.html";
+        return "redirect:/user/userprofile/searches.html";
     }
 
     @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
@@ -337,6 +337,6 @@ public class UserController {
         }
         this.searchVariantDao.update(this.searchVariantDao.findById(searchEditForm.getSearchVariantId()),
                 searchEditForm.getKeywords(), searchEditForm.getCategory());
-        return new ModelAndView("redirect:/new/user/userprofile/searches.html");
+        return new ModelAndView("redirect:/user/userprofile/searches.html");
     }
 }

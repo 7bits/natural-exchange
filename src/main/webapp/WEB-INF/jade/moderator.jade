@@ -6,7 +6,7 @@ block content
   .content
     .container.advertisement-list
       div
-        form.searching-form(action = '#{uri.uri("/new/moderator/advertisementList.html")}', method = 'get')
+        form.searching-form(action = '#{uri.uri("/moderator/advertisementList.html")}', method = 'get')
           input.tag-search(type='text', placeholder='Введите параметры поиска', maxlength='50', name='keyWords',
           value='#{keyWords}')
           select.category-search(name='isDeleted')
@@ -30,42 +30,42 @@ block content
           .advertisement
             img.adv-image(src='#{filePath.imagesPath}#{advertisement.photoFile}')
             p.date #{advertisement.createdDateFormat}
-            a.adv-name(href='#{uri.uri("/new/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
+            a.adv-name(href='#{uri.uri("/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover
               a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
             if (!isDeleted)
-              a.delete-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/new/moderator/DeleteOrRestoreAdvertisement.html")}') УДАЛИТЬ
+              a.delete-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/moderator/DeleteOrRestoreAdvertisement.html")}') УДАЛИТЬ
             else
-              a.restore-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/new/moderator/DeleteOrRestoreAdvertisement.html")}') ВОССТАНОВИТЬ
+              a.restore-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/moderator/DeleteOrRestoreAdvertisement.html")}') ВОССТАНОВИТЬ
       .pages
         ul.page-list
           if (previous == true)
             li
-              a.trine(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted) + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo}') <
+              a.trine(href='#{uri.uri("/moderator/advertisementList.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted) + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo}') <
           if (pageList.first != null)
             if (currentPage == pageList.first)
               li
-                a.page-link.mark(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
+                a.page-link.mark(href='#{uri.uri("/moderator/advertisementList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
             else
               li
-                a.page-link(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
+                a.page-link(href='#{uri.uri("/moderator/advertisementList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
           if (pageList.second != null)
             if (currentPage == pageList.second)
               li
-                a.page-link.mark(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
+                a.page-link.mark(href='#{uri.uri("/moderator/advertisementList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
             else
               li
-                a.page-link(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
+                a.page-link(href='#{uri.uri("/moderator/advertisementList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
           if (pageList.third != null)
             if (currentPage == pageList.third)
               li
-                a.page-link.mark(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
+                a.page-link.mark(href='#{uri.uri("/moderator/advertisementList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
             else
               li
-                a.page-link(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
+                a.page-link(href='#{uri.uri("/moderator/advertisementList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
           if (next == true)
             li
-              a.trine(href='#{uri.uri("/new/moderator/advertisementList.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') >
+              a.trine(href='#{uri.uri("/moderator/advertisementList.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') >
       .low-space
 block append customjs
   script(src='/resources/js/newModerActions.js')
