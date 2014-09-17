@@ -4,11 +4,11 @@ $(document).ready(function() {
         var id = $(this).data('adv-id');
         var destUrl = $(this).data('dest-url');
         var sendingData = {
-            advertisementId: id
+            id: id
         };
         $.ajax({
             url: destUrl,
-            type: 'POST',
+            type: 'GET',
             data: sendingData,
             success: function(result) {
                 document.location.reload();// = destUrl;
