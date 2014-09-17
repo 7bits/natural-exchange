@@ -28,7 +28,7 @@ public class AdvertisementPlacingValidator implements Validator {
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(
-                errors, "text", "text.empty", "Информация не должна быть пуста."
+                errors, "text", "text.empty", "Описание не должно быть пустым."
         );
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "category", "category.empty", "Выберите категорию.");

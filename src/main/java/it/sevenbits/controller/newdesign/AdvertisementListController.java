@@ -246,6 +246,8 @@ public class AdvertisementListController {
             List<ObjectError> errors = result.getAllErrors();
             ModelAndView modelAndView = new ModelAndView("placing");
             modelAndView.addObject("errors", errors);
+            List<Category> categories =  this.categoryDao.findAll();
+            modelAndView.addObject("categories", categories);
             return modelAndView;
         }
         FileManager fileManager = new FileManager();
@@ -571,13 +573,7 @@ public class AdvertisementListController {
         if (strings == null) {
             return null;
         }
-        String result = "";
-        int length = strings.length;
-        for (int i = 0; i < length - 1; i++) {
-            result += strings[i] + ' ';
-        }
-        result += strings[length - 1];
-        return result;
+        return StringUtils.join(strings, ' ');
     }
 
     private String[] getAllCategories() {
