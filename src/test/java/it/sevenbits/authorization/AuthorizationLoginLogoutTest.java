@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
@@ -14,8 +15,7 @@ import static org.junit.Assert.fail;
  * Created by booktina on 07.08.14.
  */
 public class AuthorizationLoginLogoutTest {
-   /*
-    private WebDriver driver;
+   /* private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
@@ -28,15 +28,15 @@ public class AuthorizationLoginLogoutTest {
     }
 
     @Test
-    public void testAddAd() throws Exception {
+    public void testAuthorization() throws Exception {
         driver.get(baseUrl + "/");
-        driver.findElement(By.linkText("вход")).click();
-        driver.findElement(By.name("j_username")).clear();
-        driver.findElement(By.name("j_username")).sendKeys("antonovandrey@ro.ru");
-        driver.findElement(By.name("j_password")).clear();
-        driver.findElement(By.name("j_password")).sendKeys("sevenbits");
-        driver.findElement(By.cssSelector("input.sendOk")).click();
-        driver.findElement(By.linkText("выйти")).click();
+        driver.findElement(By.linkText("Вход")).click();
+        driver.findElement(By.id("entry-email")).clear();
+        driver.findElement(By.id("entry-email")).sendKeys("antonovandrey@ro.ru");
+        driver.findElement(By.id("entry-pass")).clear();
+        driver.findElement(By.id("entry-pass")).sendKeys("sevenbits");
+        driver.findElement(By.linkText("ВОЙТИ")).click();
+        driver.findElement(By.linkText("Выход")).click();
     }
 
     @After
@@ -79,6 +79,5 @@ public class AuthorizationLoginLogoutTest {
         } finally {
             acceptNextAlert = true;
         }
-    }
-    */
+    }*/
 }
