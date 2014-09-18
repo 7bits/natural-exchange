@@ -71,7 +71,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         UserEntity userEntity = this.userDao.findEntityByEmail(userName);
         advertisementEntity.setCategoryEntity(categoryEntity);
         advertisementEntity.setUserEntity(userEntity);
-        this.translateToTagEntityAndAddIntoDB(tags, advertisementEntity);
+        this.translateIntoTagEntityAndUpdateAdvertisement(tags, advertisementEntity);
         this.hibernateTemplate.save(advertisementEntity);
         try {
             mailSenderService.sendNotifyToModerator(advertisementEntity.getId(), advertisementEntity.getCategory().getSlug());
@@ -82,7 +82,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         return  advertisementEntity;
     }
 
-    private void translateToTagEntityAndAddIntoDB(Set<Tag> tags, AdvertisementEntity advertisementEntity) {
+    private void translateIntoTagEntityAndUpdateAdvertisement(Set<Tag> tags, AdvertisementEntity advertisementEntity) {
         if (tags != null) {
             if (!tags.isEmpty()) {
                 Set<TagEntity> newTags = new HashSet<TagEntity>();
@@ -102,6 +102,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
             }
         }
     }
+
 
     /**
     * Creates and returns the ad. Works with no database.
@@ -153,7 +154,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
         advertisementEntity.setUpdatedDate(TimeManager.getTime());
         advertisementEntity.setCategoryEntity(this.categoryDao.findEntityBySlug(categoryName));
 
-        this.translateToTagEntityAndAddIntoDB(tags, advertisementEntity);
+        this.translateIntoTagEntityAndUpdateAdvertisement(tags, advertisementEntity);
         hibernateTemplate.update(advertisementEntity);
     }
 

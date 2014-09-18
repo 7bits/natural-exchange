@@ -1,9 +1,14 @@
 package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.SearchVariantDao;
+import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
+import it.sevenbits.entity.Tag;
+import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
+import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.util.TimeManager;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -15,7 +20,9 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Тестовая имплементация интерфейса UserDao
@@ -31,14 +38,22 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
     }
 
 
-    public void create(final SearchVariant searchVariant) {
-        SearchVariantEntity tmp = new SearchVariantEntity(searchVariant.getEmail(), searchVariant.getKeyWords(),
-                searchVariant.getCategories());
+    public void create(final SearchVariant searchVariant, final Set<CategoryEntity> categories) {
+        SearchVariantEntity tmp = this.toEntity(searchVariant);
+        tmp.setCategories(categories);
         this.hibernateTemplate.save(tmp);
     }
 
+    private SearchVariantEntity toEntity(SearchVariant searchVariant) {
+        SearchVariantEntity result = new SearchVariantEntity();
+        result.setKeyWords(searchVariant.getKeyWords());
+        result.setEmail(searchVariant.getEmail());
+        result.setCreatedDate(searchVariant.getCreatedDate());
+        return result;
+    }
+
     @Override
-    public SearchVariant findById(final Long id) {
+    public SearchVariantEntity findById(final Long id) {
         return this.hibernateTemplate.get(SearchVariantEntity.class, id);
     }
 
@@ -54,30 +69,33 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
         DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
         criteria.add(Restrictions.eq("email", searchVariant.getEmail()));
         criteria.add(Restrictions.eq("keyWords", searchVariant.getKeyWords()));
-        criteria.add(Restrictions.eq("categories", searchVariant.getCategories()));
+//        criteria.add(Restrictions.eq("categories", searchVariant.getCategories()));
         List<SearchVariantEntity> entities = this.hibernateTemplate.findByCriteria(criteria);
         SearchVariantEntity searchVar = entities.get(0);
-        searchVar.setCategories(categoriesParam);
+//        searchVar.setCategories(categoriesParam);
         searchVar.setKeyWords(keyWordsParam);
         this.hibernateTemplate.update(searchVar);
     }
 
-    public void delete(final SearchVariant searchVariant) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
-        criteria.add(Restrictions.eq("email", searchVariant.getEmail()));
-        criteria.add(Restrictions.eq("keyWords", searchVariant.getKeyWords()));
-        criteria.add(Restrictions.eq("categories", searchVariant.getCategories()));
-        List<SearchVariantEntity> entities = this.hibernateTemplate.findByCriteria(criteria);
-        for (SearchVariantEntity tmp: entities) {
-            this.hibernateTemplate.delete(tmp);
-        }
+    public void delete(final SearchVariantEntity searchVariant) {
+//        DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
+////        criteria.add(Restrictions.eq("email", searchVariant.getEmail()));
+////        criteria.add(Restrictions.eq("keyWords", searchVariant.getKeyWords()));
+//        criteria.add((Restrictions.eq("id", searchVariant.getId())));
+//        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+//        List<SearchVariantEntity> entities = this.hibernateTemplate.findByCriteria(criteria);
+//        for (SearchVariantEntity tmp: entities) {
+//            this.hibernateTemplate.delete(tmp);
+//        }
+        this.hibernateTemplate.delete(searchVariant);
     }
 
     @Override
-    public List<SearchVariant> findByEmail(final String email) {
+    public List<SearchVariantEntity> findByEmail(final String email) {
         DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
         criteria.add(Restrictions.eq("email", email));
-        return convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return this.hibernateTemplate.findByCriteria(criteria);
     }
 
     private List<SearchVariant> convertEntityList(final List entities) {
@@ -110,7 +128,7 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
 
         List<SearchVariantEntity> searchVariantEntities = this.hibernateTemplate.findByCriteria(criteria);
         SearchVariantEntity entity = searchVariantEntities.get(0);
-        entity.setCategories(categories);
+//        entity.setCategories(categories);
         entity.setKeyWords(keyWords);
         entity.setCreatedDate(TimeManager.getTime());
         this.hibernateTemplate.update(entity);
@@ -120,7 +138,7 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
         DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
         criteria.add(Restrictions.like("email", searchVariant.getEmail()));
         criteria.add(Restrictions.like("keyWords", searchVariant.getKeyWords()));
-        criteria.add(Restrictions.like("categories", searchVariant.getCategories()));
+//        criteria.add(Restrictions.like("categories", searchVariant.getCategories()));
 
         List<SearchVariantEntity> searchVariantEntities = this.hibernateTemplate.findByCriteria(criteria);
         System.out.println("searchVatEntities is empty =  " + searchVariantEntities.isEmpty() + " = !res");

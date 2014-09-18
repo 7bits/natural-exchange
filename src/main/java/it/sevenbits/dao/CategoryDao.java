@@ -4,6 +4,7 @@ import it.sevenbits.entity.Category;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  *Interface
@@ -24,6 +25,13 @@ public interface CategoryDao {
     Category findById(Long id);
 
     CategoryEntity findEntityBySlug(final String name);
+
+    /**
+     * Search categories by slugs.
+     * @param slugs
+     * @return
+     */
+    Set<CategoryEntity> findBySlugs(final String[] slugs);
 
     /**
      * Return list of categories

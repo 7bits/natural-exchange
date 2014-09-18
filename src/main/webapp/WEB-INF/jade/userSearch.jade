@@ -10,8 +10,8 @@ block information
         a.editSearch(href='#{uri.uri("/user/userprofile/editSearch.html?id=" + searchVariant.id)}')
           img(src='/resources/images/editActive.png')
         .nameAndCategory
-          a.thingName(href='#{uri.uri("/advertisement/list.html?keyWords=" + coder.encode(searchVariant.keyWords) + "&categories=" + searchVariant.getCategories())}') #{searchVariant.keyWords}
-          p.categoryName #{searchVariant.getCategories()}
+          a.thingName(href='#{uri.uri("/advertisement/list.html?keyWords=" + coder.encode(searchVariant.keyWords) + "&currentCategory=" + searchVariant.stringOfCategorySlugs())}') #{searchVariant.keyWords}
+          p.categoryName #{stringActions.toUpperCase(searchVariant.stringOfCategoryNames())}
       p.spacer
         | ___________________________________________________________________________________________
 

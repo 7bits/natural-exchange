@@ -1,11 +1,6 @@
 package it.sevenbits.entity;
 
-import it.sevenbits.dao.CategoryDao;
 import it.sevenbits.util.TimeManager;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -13,15 +8,10 @@ import java.util.*;
 /**
  *Class, which presents object Advertisement
  */
-@Component
 public class SearchVariant {
-
-    @Autowired
-    private CategoryDao categoryDao;
 
     private String email;
     private String keyWords;
-    private String categories;
     private Long createdDate;
     /**
      * Constructor by default
@@ -30,10 +20,9 @@ public class SearchVariant {
         createdDate = TimeManager.getTime();
     }
 
-    public SearchVariant(final String email, final String keyWords, final String categories) {
+    public SearchVariant(final String email, final String keyWords) {
         this.email = email;
         this.keyWords = keyWords;
-        this.categories = categories;
         TimeZone timeZone = TimeZone.getDefault();
         Calendar calendar = new GregorianCalendar(timeZone);
         createdDate = calendar.getTimeInMillis();
@@ -53,14 +42,6 @@ public class SearchVariant {
 
     public void setKeyWords(final String keyWords) {
         this.keyWords = keyWords;
-    }
-
-    public String getCategories() {
-        return categories;
-    }
-
-    public void setCategories(final String categories) {
-        this.categories = categories;
     }
 
     public void setCreatedDate(final Long createdDate) {
@@ -97,9 +78,9 @@ public class SearchVariant {
 
         SearchVariant that = (SearchVariant) o;
 
-        if (!categories.equals(that.categories)) {
-            return false;
-        }
+//        if (!categories.equals(that.categories)) {
+//            return false;
+//        }
         if (!createdDate.equals(that.createdDate)) {
             return false;
         }
@@ -117,7 +98,7 @@ public class SearchVariant {
     public int hashCode() {
         int result = email.hashCode();
         result = 31 * result + keyWords.hashCode();
-        result = 31 * result + categories.hashCode();
+//        result = 31 * result + categories.hashCode();
         result = 31 * result + createdDate.hashCode();
         return result;
     }

@@ -1,8 +1,12 @@
 package it.sevenbits.dao;
 
+import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
+import it.sevenbits.entity.hibernate.CategoryEntity;
+import it.sevenbits.entity.hibernate.SearchVariantEntity;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  *Интерфейс
@@ -10,10 +14,10 @@ import java.util.List;
 public interface SearchVariantDao {
 
     /**
-     * create variant of search and add it to DB
+     * create variant of search, assign to it categories and add it to DB
      * @param searchVariant  search variant
      */
-    void create(SearchVariant searchVariant);
+    void create(SearchVariant searchVariant, final Set<CategoryEntity> categories);
 
     /**
      *
@@ -28,7 +32,7 @@ public interface SearchVariantDao {
      * @param id - id of entity
      * @return SearchVar of SearchVarEntity(id)
      */
-    SearchVariant findById(Long id);
+    SearchVariantEntity findById(Long id);
 
     /**
      * возвращает  список всех подписчиков
@@ -40,14 +44,14 @@ public interface SearchVariantDao {
      * удалить вариант поиска
      * @param searchVariant to delete
      */
-    void delete(SearchVariant searchVariant);
+    void delete(SearchVariantEntity searchVariant);
 
     /**
      * Returns the list of all searching variant for user with e-mail
      * @param email  user's e-mail
      * @return list of search..var.s
      */
-    List<SearchVariant> findByEmail(final String email);
+    List<SearchVariantEntity> findByEmail(final String email);
 
 
     void updateAdvertSearch(String email, String oldKeyWordsParam, String oldCategoriesParam, String keyWords, String categories);

@@ -71,8 +71,8 @@ public class MailSenderService {
         MailSenderService mailService = getMailService();
         List<SearchVariant> searchVariants = this.searchVariantDao.find();
         for (SearchVariant entity : searchVariants) {
-            String url = generateSearchVariantUrl(entity.getCategories(), entity.getKeyWords());
-            mailService.sendMail(SERVICE_MAILBOX, entity.getEmail(), "Ваши варианты поиска", url);
+//            String url = generateSearchVariantUrl(entity.getCategories(), entity.getKeyWords());
+//            mailService.sendMail(SERVICE_MAILBOX, entity.getEmail(), "Ваши варианты поиска", url);
         }
     }
 

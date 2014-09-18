@@ -6,6 +6,7 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
+import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.MyUserDetailsService;
@@ -110,12 +111,6 @@ public class UserController {
                 user.setUpdateDate(TimeManager.getTime());
                 user.setCreatedDate(TimeManager.getTime());
                 user.setRole("ROLE_USER");
-////            if (userRegistrationFormParam.getIsReceiveNews()) {
-////                Subscriber subscriber = new Subscriber(userRegistrationFormParam.getEmail());
-////                if (!this.subscriberDao.isExists(subscriber)) {
-////                    this.subscriberDao.create(subscriber);
-////                }
-////            }
                 user.setActivationDate(TimeManager.addDate(REGISTRATION_PERIOD));
                 String code = md5encoder.encodePassword(user.getPassword(), user.getEmail());
                 user.setActivationCode(code);
@@ -191,7 +186,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("userSearch.jade");
         Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
-        List<SearchVariant> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        List<SearchVariantEntity> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("userPage", "searches.html");
         modelAndView.addObject("searchVariants", searchVariantList);
@@ -286,7 +281,7 @@ public class UserController {
         this.searchVariantDao.delete(this.searchVariantDao.findById(searchVariantId));
         Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
-        List<SearchVariant> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        List<SearchVariantEntity> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("userPage", "searches.html");
         modelAndView.addObject("searchVariants", searchVariantList);
@@ -298,8 +293,8 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("editSearch");
         SearchEditForm searchEditForm = new SearchEditForm();
         if (id != null) {
-            SearchVariant searchVariant = this.searchVariantDao.findById(id);
-            searchEditForm.setCategory(searchVariant.getCategories());
+            SearchVariantEntity searchVariant = this.searchVariantDao.findById(id);
+//            searchEditForm.setCategory(searchVariant.getCategories());
             searchEditForm.setKeywords(searchVariant.getKeyWords());
             searchEditForm.setSearchVariantId(id);
         }
