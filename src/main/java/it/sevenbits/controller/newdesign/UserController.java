@@ -267,7 +267,8 @@ public class UserController {
     @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
     public ModelAndView showAdvertisementsOfCurrentUser() {
         ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
-        User currentUser = this.getCurrentUser();
+        Long id = this.getCurrentUserId();
+        User currentUser = this.userDao.findById(id);
         List<Advertisement> advertisementList = advertisementDao.findAllByEmail(currentUser);
         modelAndView.addObject("advertisements", advertisementList);
         modelAndView.addObject("currentUser", currentUser);

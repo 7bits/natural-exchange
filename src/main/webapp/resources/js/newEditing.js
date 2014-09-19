@@ -27,7 +27,7 @@ $(".js-want-delete-photo").on('change', function() {
 
 $("body").on('click', '.js-deleting-tag', function(){
     var currentCrossPressed = $(this);
-    var deletedTag = $(".js-deleting-tag").siblings().text();
+    var deletedTag = $(this).siblings().text();
     var tags = $('.js-tags-chosen');
     var currentTags = tags.val();
     currentTags = currentTags.replace(deletedTag, "");
