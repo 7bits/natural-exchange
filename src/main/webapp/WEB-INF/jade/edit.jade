@@ -11,7 +11,7 @@ block content
           input(type='text', placeholder="Заголовок", name="title", value="#{advertisementEditingForm.title}").form-rounded-button.hollow-text.advertisement-title
           select.select-category(name="category")
             for category in categories
-              if (category.name == advertisementEditingForm.category)
+              if (category.slug == advertisementEditingForm.category)
                 option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
               else
                 option.choosen-category(value='#{category.slug}', name="category") #{category.name}
