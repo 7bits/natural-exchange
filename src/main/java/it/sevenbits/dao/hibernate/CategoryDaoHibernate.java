@@ -67,6 +67,11 @@ public class CategoryDaoHibernate implements CategoryDao {
     }
 
     @Override
+    public int categoryCount() {
+        return this.findAll().size();
+    }
+
+    @Override
     public List<Category> findAll() {
         DetachedCriteria criteria = DetachedCriteria.forClass(CategoryEntity.class);
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);

@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Set;
@@ -22,12 +21,11 @@ public class SearchVariantEntity extends SearchVariant {
 
     Set<CategoryEntity> categories;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name = "searchVariant_category", joinColumns = {
             @JoinColumn(name = "search_variant_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "category_id",
                     nullable = false, updatable = false) })
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.DELETE, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     @Fetch(FetchMode.JOIN)
     public Set<CategoryEntity> getCategories() {
         return categories;

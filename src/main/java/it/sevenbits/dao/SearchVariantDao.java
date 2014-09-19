@@ -23,9 +23,9 @@ public interface SearchVariantDao {
      *
      * @param searchVariant old searchVar to change
      * @param keyWordsParam new value for field keyWords
-     * @param categoriesParam  new value for field categories
+     * @param categories  new value for field categories
      */
-    void update(final SearchVariant searchVariant, final String keyWordsParam, final String categoriesParam);
+    void update(final SearchVariantEntity searchVariant, final String keyWordsParam, final Set<CategoryEntity> categories);
 
     /**
      *  id

@@ -33,6 +33,8 @@ public interface CategoryDao {
      */
     Set<CategoryEntity> findBySlugs(final String[] slugs);
 
+    int categoryCount();
+
     /**
      * Return list of categories
      * @return  list

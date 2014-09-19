@@ -63,30 +63,25 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
        return convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
 
-    public void update(final SearchVariant searchVariant, final String keyWordsParam,
-                       final String categoriesParam
+    public void update(final SearchVariantEntity searchVariant, final String keyWordsParam,
+                       final Set<CategoryEntity> newCategories
     ) {
         DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
         criteria.add(Restrictions.eq("email", searchVariant.getEmail()));
         criteria.add(Restrictions.eq("keyWords", searchVariant.getKeyWords()));
-//        criteria.add(Restrictions.eq("categories", searchVariant.getCategories()));
         List<SearchVariantEntity> entities = this.hibernateTemplate.findByCriteria(criteria);
-        SearchVariantEntity searchVar = entities.get(0);
-//        searchVar.setCategories(categoriesParam);
-        searchVar.setKeyWords(keyWordsParam);
-        this.hibernateTemplate.update(searchVar);
+        for (SearchVariantEntity tmp: entities) {
+            if (tmp.getCategories().equals(searchVariant.getCategories())) {
+                tmp.setKeyWords(keyWordsParam);
+                tmp.setCategories(newCategories);
+                this.hibernateTemplate.update(tmp);
+                break;
+            }
+        }
+
     }
 
     public void delete(final SearchVariantEntity searchVariant) {
-//        DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
-////        criteria.add(Restrictions.eq("email", searchVariant.getEmail()));
-////        criteria.add(Restrictions.eq("keyWords", searchVariant.getKeyWords()));
-//        criteria.add((Restrictions.eq("id", searchVariant.getId())));
-//        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-//        List<SearchVariantEntity> entities = this.hibernateTemplate.findByCriteria(criteria);
-//        for (SearchVariantEntity tmp: entities) {
-//            this.hibernateTemplate.delete(tmp);
-//        }
         this.hibernateTemplate.delete(searchVariant);
     }
 

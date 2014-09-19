@@ -26,12 +26,12 @@ block content
           div.keyword-and-cross
             div.chosen-keyword #{keyword}
             a.cross-circle.js-deleting-keyword
-      input(type='hidden', name="keywords", value="#{searchEditForm.keywords}").js-keywords-chosen
+      input(type='hidden', name="keywords", value="#{currentSearchForm.keywords}").js-keywords-chosen
       if (!errors.isEmpty())
         for error in errors
           div.red-alert-text #{error.getDefaultMessage()}
       input(type="submit", placeholder="ДОБАВИТЬ", value="СОХРАНИТЬ").rounded-button.edit-submit
-      input(type="hidden", name="searchVariantId", value="#{searchEditForm.searchVariantId}")
+      input(type="hidden", name="searchVariantId", value="#{currentSearchForm.searchVariantId}")
 block append customjs
   script(src="/resources/js/badImage.js")
   script(src="/resources/js/newEditSearch.js")
