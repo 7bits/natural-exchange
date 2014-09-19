@@ -38,7 +38,7 @@ public interface SearchVariantDao {
      * возвращает  список всех подписчиков
      * @return list
      */
-    List<SearchVariant> find();
+    List<SearchVariant> findAll();
 
     /**
      * удалить вариант поиска
@@ -52,9 +52,4 @@ public interface SearchVariantDao {
      * @return list of search..var.s
      */
     List<SearchVariantEntity> findByEmail(final String email);
-
-
-    void updateAdvertSearch(String email, String oldKeyWordsParam, String oldCategoriesParam, String keyWords, String categories);
-
-    public boolean isExist(final SearchVariant searchVariant);
 }

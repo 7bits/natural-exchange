@@ -58,7 +58,7 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
     }
 
     @Override
-    public List<SearchVariant> find() {
+    public List<SearchVariant> findAll() {
         DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
        return convertEntityList(this.hibernateTemplate.findByCriteria(criteria));
     }
@@ -102,42 +102,6 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
             }
         }
         return sList;
-    }
-
-    @Override
-    /**
-     * Updates entity fields to new values if there is not exist another
-     * entity with new-values. If there is - do nothing.--
-     */
-    public void updateAdvertSearch(final String email, final String oldKeyWordsParam, final String oldCategoriesParam,
-                                   final String keyWords, final String categories
-    ){
-
-        logger.debug("oldValues"+oldKeyWordsParam+" "+oldCategoriesParam);
-        logger.debug("newValues"+keyWords+" "+categories);
-
-        DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
-        criteria.add(Restrictions.like("email", email));
-        criteria.add(Restrictions.like("keyWords", oldKeyWordsParam));
-        criteria.add(Restrictions.like("categories", oldCategoriesParam));
-
-        List<SearchVariantEntity> searchVariantEntities = this.hibernateTemplate.findByCriteria(criteria);
-        SearchVariantEntity entity = searchVariantEntities.get(0);
-//        entity.setCategories(categories);
-        entity.setKeyWords(keyWords);
-        entity.setCreatedDate(TimeManager.getTime());
-        this.hibernateTemplate.update(entity);
-    }
-
-    public boolean isExist(final SearchVariant searchVariant) {
-        DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
-        criteria.add(Restrictions.like("email", searchVariant.getEmail()));
-        criteria.add(Restrictions.like("keyWords", searchVariant.getKeyWords()));
-//        criteria.add(Restrictions.like("categories", searchVariant.getCategories()));
-
-        List<SearchVariantEntity> searchVariantEntities = this.hibernateTemplate.findByCriteria(criteria);
-        System.out.println("searchVatEntities is empty =  " + searchVariantEntities.isEmpty() + " = !res");
-        return (!searchVariantEntities.isEmpty());
     }
 
 }

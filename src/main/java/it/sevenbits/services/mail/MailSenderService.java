@@ -6,6 +6,7 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
+import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -67,9 +68,10 @@ public class MailSenderService {
         return (MailSenderService) context.getBean("mailService");
     }
 
+    //не используется, зачем нужен?
     public void sendSearchVariants() {
         MailSenderService mailService = getMailService();
-        List<SearchVariant> searchVariants = this.searchVariantDao.find();
+        List<SearchVariant> searchVariants = this.searchVariantDao.findAll();
         for (SearchVariant entity : searchVariants) {
 //            String url = generateSearchVariantUrl(entity.getCategories(), entity.getKeyWords());
 //            mailService.sendMail(SERVICE_MAILBOX, entity.getEmail(), "Ваши варианты поиска", url);

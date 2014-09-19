@@ -78,9 +78,6 @@ public class SearchVariant {
 
         SearchVariant that = (SearchVariant) o;
 
-//        if (!categories.equals(that.categories)) {
-//            return false;
-//        }
         if (!createdDate.equals(that.createdDate)) {
             return false;
         }
@@ -98,7 +95,6 @@ public class SearchVariant {
     public int hashCode() {
         int result = email.hashCode();
         result = 31 * result + keyWords.hashCode();
-//        result = 31 * result + categories.hashCode();
         result = 31 * result + createdDate.hashCode();
         return result;
     }
