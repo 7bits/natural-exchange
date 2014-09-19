@@ -16,7 +16,7 @@ $(".js-image-chosen").on('change', function() {
 });
 
 $(".js-want-delete-photo").on('change', function() {
-    var checkbox = $(".js-want-delete-photo");
+    var checkbox = $(this);
     var chooseImageBlock = $('.js-choose-image');
     if (checkbox.is(":checked")) {
         chooseImageBlock.hide();

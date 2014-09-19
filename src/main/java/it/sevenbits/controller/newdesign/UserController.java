@@ -292,6 +292,7 @@ public class UserController {
     public ModelAndView searchEditing(@RequestParam(value = "id", required = true) final Long id) {
         ModelAndView modelAndView = new ModelAndView("editSearch");
         CurrentSearchForm currentSearchForm = new CurrentSearchForm();
+        Map<String, String> errors = new HashMap<>();
         if (id != null) {
             SearchVariantEntity searchVariant = this.searchVariantDao.findById(id);
             currentSearchForm.setCategory(searchVariant.getCategories());
@@ -299,18 +300,21 @@ public class UserController {
             currentSearchForm.setSearchVariantId(id);
         }
         List<Category> categories = this.categoryDao.findAll();
+        String allCategories = this.arrayToString(this.getAllCategories());
         String[] keywords = StringUtils.split(currentSearchForm.getKeywords());
         boolean isAllCategories = false;
         if (currentSearchForm.getCategory().size() == this.categoryDao.categoryCount()) {
             isAllCategories = true;
+            modelAndView.addObject("selectedCategory", allCategories);
+        } else {
+            modelAndView.addObject("selectedCategory", currentSearchForm.getCategory().toArray()[0]);
         }
         modelAndView.addObject("allCategoriesSelected", isAllCategories);
-        Map<String, String> errors = new HashMap<>();
+        modelAndView.addObject("allCategories", allCategories);
         modelAndView.addObject("keywords", keywords);
         modelAndView.addObject("currentSearchForm", currentSearchForm);
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("errors", errors);
-        modelAndView.addObject("selectedCategory", currentSearchForm.getCategory());
         return modelAndView;
     }
 
@@ -331,5 +335,24 @@ public class UserController {
         this.searchVariantDao.update(this.searchVariantDao.findById(searchEditForm.getSearchVariantId()),
             searchEditForm.getKeywords(), categories);
         return new ModelAndView("redirect:/user/userprofile/searches.html");
+    }
+
+    private String[] getAllCategories() {
+        List<Category> categories = this.categoryDao.findAll();
+        int categoryLength = categories.size();
+        String[] allCategories = new String[categoryLength];
+        for (int i = 0; i < categoryLength; i++) {
+            allCategories[i] = categories.
+                    get(i).
+                    getSlug();
+        }
+        return allCategories;
+    }
+
+    private String arrayToString(String[] strings) {
+        if (strings == null) {
+            return null;
+        }
+        return StringUtils.join(strings, ' ');
     }
 }
