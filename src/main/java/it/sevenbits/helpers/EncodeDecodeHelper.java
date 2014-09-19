@@ -15,6 +15,7 @@ public class EncodeDecodeHelper {
             return "";
         }
         try {
+            String str = URLEncoder.encode(notEncodeString, "UTF-8");
             return URLEncoder.encode(notEncodeString, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             //TODO: нужно или как-то залоггировать, или пробросить сообщение

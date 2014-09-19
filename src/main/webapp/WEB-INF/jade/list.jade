@@ -13,7 +13,7 @@ block content
           select.category-search(name='currentCategory')
 
             option(selected='selected', disabled='disabled') Выберите Категорию
-            if (currentCategory == allCategories)
+            if (stringActions.isEqualStringWithSpaceSeparator(currentCategory, allCategories))
               option.choosen-category(selected='selected', value='#{allCategories}') Все категории
             else
               option.choosen-category(value='#{allCategories}') Все категории

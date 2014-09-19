@@ -4,6 +4,8 @@ package it.sevenbits.controller.newdesign;
 import it.sevenbits.entity.*;
 import it.sevenbits.dao.*;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
+import it.sevenbits.entity.hibernate.CategoryEntity;
+import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.Role;
@@ -86,10 +88,10 @@ public class AdvertisementListController {
         Long dateTo = datePair.getDateTo();
 
         List<Category> categoryList = categoryDao.findAll();
-        String[] allCategories = this.getAllCategories();
-        String[] currentCategory = allCategories;
+        String allCategories = this.arrayToString(getAllCategories());
+        String currentCategory = allCategories;
         if (advertisementSearchingForm.getCurrentCategory() != null) {
-            currentCategory = this.stringToArray(advertisementSearchingForm.getCurrentCategory());
+            currentCategory = advertisementSearchingForm.getCurrentCategory();
         }
 
         SortOrder mainSortOrder = SortOrder.DESCENDING;
@@ -131,9 +133,9 @@ public class AdvertisementListController {
         pageList.setPage(currentPage - 1);
         this.addPages(modelAndView, currentPage, pageCount);
 
-        modelAndView.addObject("allCategories", this.arrayToString(allCategories));
+        modelAndView.addObject("allCategories", allCategories);
         modelAndView.addObject("userAdvertisements", userAdvertisements);
-        modelAndView.addObject("currentCategory", this.arrayToString(currentCategory));
+        modelAndView.addObject("currentCategory", currentCategory);
         modelAndView.addObject("categories", categoryList);
         modelAndView.addObject("keyWords", keyWordSearch);
         modelAndView.addObject("advertisements", pageList.getPageList());
@@ -159,8 +161,10 @@ public class AdvertisementListController {
         if (principal instanceof UserDetails) {
             UserDetails user = (UserDetails) principal;
             String email = user.getUsername();
-            SearchVariant searchVariant = new SearchVariant(email, previousKeyWords, previousCategory);
-            searchVariantDao.create(searchVariant);
+            SearchVariantEntity searchVariantEntity = new SearchVariantEntity(email, previousKeyWords, null);
+            String[] categorySlugs = this.stringToArray(previousCategory);
+            Set<CategoryEntity> categoryEntities = this.categoryDao.findBySlugs(categorySlugs);
+            searchVariantDao.create(searchVariantEntity, categoryEntities);
         }
         return map;
     }
@@ -255,7 +259,6 @@ public class AdvertisementListController {
         if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) {
             photo = defaultPhoto;
         } else {
-            // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
             photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
         }
         Advertisement advertisement = null;
@@ -266,7 +269,7 @@ public class AdvertisementListController {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName;
-        if (principal instanceof UserDetails) {//Alex: что это черт возьми???
+        if (principal instanceof UserDetails) {
             userName = ((UserDetails) principal).getUsername();
         } else {
             userName = principal.toString();
@@ -320,7 +323,6 @@ public class AdvertisementListController {
         } else if (advertisementEditingFormParam.getImage().getOriginalFilename().equals("")) {
             photo = advertisementOldImageName;
         } else {
-            // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
             photo = fileManager.savingFile(advertisementEditingFormParam.getImage(), true);
             if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
                     advertisementOldImageName.equals("image3.jpg") || advertisementOldImageName.equals("no_photo.png")) {

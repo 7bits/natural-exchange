@@ -1,13 +1,10 @@
 package it.sevenbits.entity.hibernate;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 import java.util.Set;
 
 /**
@@ -19,6 +16,16 @@ public class CategoryEntity extends it.sevenbits.entity.Category {
 
     private Long id;
     private Set<AdvertisementEntity> advertisements;
+//    private Set<SearchVariantEntity> searches;
+//
+//    public Set<SearchVariantEntity> getSearches() {
+//        return searches;
+//    }
+//
+//    public void setSearches(Set<SearchVariantEntity> searches) {
+//        this.searches = searches;
+//    }
+
 
     @OneToMany(mappedBy = "categoryEntity", cascade = CascadeType.ALL)
     public Set<AdvertisementEntity> getAdvertisements() {
