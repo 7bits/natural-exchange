@@ -256,6 +256,7 @@ public class AdvertisementListController {
             List<ObjectError> errors = result.getAllErrors();
             ModelAndView modelAndView = new ModelAndView("placing");
             modelAndView.addObject("errors", errors);
+            modelAndView.addObject("advertisementPlacingForm", advertisementPlacingFormParam);
             List<Category> categories =  this.categoryDao.findAll();
             modelAndView.addObject("categories", categories);
             return modelAndView;
@@ -305,8 +306,14 @@ public class AdvertisementListController {
         advertisementEditingValidator.validate(advertisementEditingFormParam, result);
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
-            ModelAndView modelAndView = new ModelAndView("placing");
+            ModelAndView modelAndView = new ModelAndView("edit");
+            modelAndView.addObject("advertisementEditingForm", advertisementEditingFormParam);
             modelAndView.addObject("errors", errors);
+            List<Category> categories = this.categoryDao.findAll();
+            Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementEditingFormParam.getAdvertisementId());
+            modelAndView.addObject("tags", tags);
+            modelAndView.addObject("advertisementPhotoName", this.advertisementDao.findById(advertisementEditingFormParam.getAdvertisementId()).getPhotoFile());
+            modelAndView.addObject("categories", categories);
             return modelAndView;
         }
 
@@ -359,7 +366,7 @@ public class AdvertisementListController {
             }
         }
         this.advertisementDao.update(editingAdvertisementId, advertisement, advertisementEditingFormParam.getCategory(), newTags);
-        return new ModelAndView("placingRequest");
+        return new ModelAndView("redirect:/advertisement/view.html?id=" + advertisementEditingFormParam.getAdvertisementId());
     }
 
     @RequestMapping(value = "/exchange.html", method = RequestMethod.POST)

@@ -2,6 +2,10 @@
     height: 700px;
 }
 
+.editing-advert {
+    height: 800px;
+}
+
 .head-text {
     font: 22px boldSans;
     padding-left: 15px;
