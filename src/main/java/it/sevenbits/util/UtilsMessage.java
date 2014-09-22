@@ -12,7 +12,9 @@ public class UtilsMessage {
         message.append(offerEmail);
         message.append("\nХочет обменяться с вами на вашу вещь : \n");
         message.append(advertisementUrlOwner);
+        message.append("\nИ предлагает вам взамен : \n");
         message.append(advertisementUrlOffer);
+        message.append("\nПрилагается сообщение : \n");
         message.append(text);
         message.append("\n Уважаемый ");
         message.append(ownerName);
