@@ -193,6 +193,19 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
+    public void updateActivationCode(User user) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
+        criteria.add(Restrictions.like("email", user.getEmail()));
+        List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
+        if (users.size() != 1) {
+            throw new UsernameNotFoundException(user.getEmail() + " not found.");
+        }
+        users.get(0).setActivationDate(0L);
+        users.get(0).setActivationCode(null);
+        this.hibernateTemplate.update(users.get(0));
+    }
+
+    @Override
     public List<User> findAllModerators() {
         DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
         criteria.add(Restrictions.like("role", "ROLE_MODERATOR"));

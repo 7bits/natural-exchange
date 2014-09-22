@@ -180,6 +180,49 @@ public class UserController {
         return map;
     }
 
+    boolean checkRegistrationLink(final User user, final  String code) {
+        if (user == null) {
+            return false;
+        }
+        if (TimeManager.getTime() >  user.getActivationDate()) {
+            return false;
+        }
+        if (!code.equals(user.getActivationCode())) {
+            logger.info("check not passed: code not equals");
+            return  false;
+        }
+        return true;
+    }
+
+
+    @RequestMapping(value = "/magic.html", method = RequestMethod.GET)
+    public ModelAndView magicPage(@RequestParam(value = "code", required = true) final String codeParam,
+                                  @RequestParam(value = "mail", required = true) final String mailParam) {
+        User user = this.userDao.findUserByEmail(mailParam);
+        if (user == null) {
+            return new ModelAndView("conf_failed");
+        }
+        if (user.getActivationDate() == 0) {
+            return new ModelAndView("registrationResult");
+        }
+        if (checkRegistrationLink(user, codeParam)) {
+            this.userDao.updateActivationCode(user);
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
+            token.setDetails(usrDet);
+            SecurityContext context = SecurityContextHolder.getContext();
+            context.setAuthentication(token);
+            return new ModelAndView("registrationResult");
+        } else {
+            return new ModelAndView("conf_failed");
+        }
+    }
+
+    @RequestMapping(value = "/conf_failed.html", method = RequestMethod.GET)
+    public ModelAndView confirmProfileFailed() {
+        return new ModelAndView("user/conf_failed");
+    }
+
     @RequestMapping(value = "/userprofile/searches.html", method = RequestMethod.GET)
     public ModelAndView showUserProfile() {
         ModelAndView modelAndView = new ModelAndView("userSearch.jade");
