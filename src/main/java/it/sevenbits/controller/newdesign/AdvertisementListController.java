@@ -8,6 +8,7 @@ import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.helpers.EncodeDecodeHelper;
+import it.sevenbits.helpers.FilePathHelper;
 import it.sevenbits.security.Role;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.DatePair;
@@ -226,7 +227,7 @@ public class AdvertisementListController {
         Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementId);
         List<ObjectError> errors = new ArrayList<>();
         modelAndView.addObject("tags", tags);
-        modelAndView.addObject("imageUrl", "/resources/images/user_images/" + advertisement.getPhotoFile());
+        modelAndView.addObject("advertisementPhotoName", advertisement.getPhotoFile());
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("errors", errors);
         return modelAndView;

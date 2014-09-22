@@ -16,12 +16,14 @@ block content
         div.picture-block
           if (currentUser.avatar != null)
             img.user-avatar(src='#{filePath.avatarsPath}#{currentUser.avatar}')
-        div.choose-image-block
+        div.choose-image-block.js-choose-avatar
           label
-            .choose-user-photo Выберите другой файл
-            input#image.hide-file(type='file', name='image')
+            .choose-user-photo.js-image-text Выберите другой файл
+            input#image.hide-file.js-avatar-chosen(type='file', name='image')
         div.delete-avatar-block
-          input.delete-checkbox(type='checkbox', name = 'isDelete')
+          input.delete-checkbox.js-want-delete-avatar(type='checkbox', name = 'isDelete')
           p.checkbox-text УДАЛИТЬ АВАТАР
         div
           input.change-information(type='submit', value='СОХРАНИТЬ')
+block append customjs
+  script(src="/resources/js/newProfileEditing.js")

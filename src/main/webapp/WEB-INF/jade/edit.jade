@@ -11,22 +11,23 @@ block content
           input(type='text', placeholder="Заголовок", name="title", value="#{advertisementEditingForm.title}").form-rounded-button.hollow-text.advertisement-title
           select.select-category(name="category")
             for category in categories
-              if (category.name == advertisementEditingForm.category)
+              if (category.slug == advertisementEditingForm.category)
                 option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
               else
                 option.choosen-category(value='#{category.slug}', name="category") #{category.name}
           div.placing-file-and-tags
             label.border-file-choose.placing-file-choose.js-choose-image
-              div.file-button-hollow-text.js-image-text Выберите изображение
+              div.file-button-hollow-text.js-image-text Выберите новое изображение
               input#image(name = "image", type="file").js-image-chosen
             div.choose-tags-and-button
               input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
               a#add-tag.reg-rounded-button.file-choose.placing-tag-add.js-add-tag ДОБАВИТЬ
               input(type='hidden', name="tags", value="#{advertisementEditingForm.tags}").js-tags-chosen
-            a(href='#{imageUrl}').file-current-hollow-text.js-current-image Текущее изображение
-            p.deleting-text
-              input(type='checkbox', name='isDeletePhoto').file-current-hollow-text.js-want-delete-photo
-              Удалить фото
+            div.image-and-delete-photo
+              img.advert-photo.js-advert-photo(src='#{filePath.imagesPath}#{advertisementPhotoName}')
+              p.deleting-text
+                input(type='checkbox', name='isDeletePhoto').file-current-hollow-text.js-want-delete-photo
+                Удалить фото
             if (!errors.isEmpty())
               for error in errors
                 div.red-alert-text #{error.getDefaultMessage()}
@@ -42,5 +43,4 @@ block content
             input(type="submit", placeholder="РЕДАКТИРОВАТЬ", value="ИЗМЕНИТЬ").rounded-button.adding-advert.small-tab-text
             input(type="hidden", name="advertisementId", value="#{advertisementEditingForm.advertisementId}")
 block append customjs
-  script(src="/resources/js/badImage.js")
   script(src="/resources/js/newEditing.js")

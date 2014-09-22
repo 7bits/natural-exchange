@@ -15,12 +15,14 @@ block content
           a#add-keyword.reg-rounded-button.file-choose.button-keyword-add.js-add-keyword ДОБАВИТЬ
         select.select-category(name="category")
           if (allCategoriesSelected)
-            option.choosen-category(value='#{selectedCategory}', selected='selected', name="category") Все категории
+            option.choosen-category(value='#{selectedCategory.slug}', selected='selected', name="category") Все категории
+          else
+            option.choosen-category(value='#{selectedCategory.slug}', selected='selected', name="category") #{selectedCategory.name}
           for category in categories
-            if (category.slug == selectedCategory)
-              option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
-            else
+            if (category.slug != selectedCategory.slug)
               option.choosen-category(value='#{category.slug}', name="category") #{category.name}
+          if (!allCategoriesSelected)
+            option.choosen-category(value='#{allCategories}', name="category") Все категории
       div.chosen-keywords.js-keywords-placing
         for keyword in keywords
           div.keyword-and-cross
@@ -33,7 +35,6 @@ block content
       input(type="submit", placeholder="ДОБАВИТЬ", value="СОХРАНИТЬ").rounded-button.edit-submit
       input(type="hidden", name="searchVariantId", value="#{currentSearchForm.searchVariantId}")
 block append customjs
-  script(src="/resources/js/badImage.js")
   script(src="/resources/js/newEditSearch.js")
 
 
