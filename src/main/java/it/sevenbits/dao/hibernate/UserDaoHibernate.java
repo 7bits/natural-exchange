@@ -145,8 +145,8 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
-    public void changeBan(Long id) {
-        User user = this.findById(id);
+    public void changeBan(Long userId) {
+        User user = this.findById(userId);
         boolean banFlag = user.getIsBanned();
         user.setIsBanned(!banFlag);
         this.hibernateTemplate.update(user);

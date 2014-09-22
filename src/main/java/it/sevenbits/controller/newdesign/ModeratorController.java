@@ -5,8 +5,10 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
+import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.DatePair;
 import it.sevenbits.util.SortOrder;
+import it.sevenbits.util.UtilsMessage;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
 import it.sevenbits.util.form.SearchUserForm;
 import it.sevenbits.util.form.validator.AdvertisementSearchingValidator;
@@ -46,6 +48,9 @@ public class ModeratorController {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private MailSenderService mailSenderService;
 
     @RequestMapping(value = "/advertisementList.html", method = RequestMethod.GET)
     public ModelAndView showAllAdvertisements(
@@ -170,6 +175,16 @@ public class ModeratorController {
     @RequestMapping(value = "/banOrUnbanUser.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody String BanOrUnbanUser(@RequestParam(value = "userId", required = true) final Long id) {
+        User user = this.userDao.findById(id);
+        String message;
+        if (user.getIsBanned()) {
+            message = "Поздравляем, вы разбанены и можете снова посещать наш сайт со своей учетной записи :-)";
+        } else {
+            message = "Вы забанены модератором";
+        }
+        Map<String, String> letter = UtilsMessage.createLetterForBannedUser(
+                user.getEmail(), user.getFirstName(), "Уведомление о бане", message);
+        mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
         this.userDao.changeBan(id);
         return "redirect:new/moderator/userList.html";
     }

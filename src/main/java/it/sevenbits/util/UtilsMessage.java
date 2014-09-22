@@ -40,4 +40,17 @@ public class UtilsMessage {
         response.put("text", message.toString());
         return response;
     }
+
+    public static Map<String, String> createLetterForBannedUser(
+            final String address, final String userName, final String messageTitle, final String banMessage
+    ) {
+        Map<String, String> letterParams = new HashMap<>();
+        StringBuilder message = new StringBuilder("Уведомления пользователя: " + userName + '\n');
+        message.append(banMessage + '\n');
+        message.append("Всего хорошего");
+        letterParams.put("email", address);
+        letterParams.put("title", messageTitle);
+        letterParams.put("text", message.toString());
+        return letterParams;
+    }
 }
