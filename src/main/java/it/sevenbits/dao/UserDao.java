@@ -46,7 +46,7 @@ public interface UserDao {
                                              final boolean isBanned,
                                              SortOrder sortOrder);
 
-    void changeBan(Long id);
+    void changeBan(Long userId);
 
     Boolean isExistUserWithEmail(String email);
     /**
