@@ -8,3 +8,5 @@ CREATE TABLE `searchVariant_category` (
   CONSTRAINT `FK63F2FD4092505F06` FOREIGN KEY (`category_id`) REFERENCES `Category` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `searchVariant` DROP `categories`;
+
