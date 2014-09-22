@@ -7,6 +7,7 @@ import it.sevenbits.entity.Tag;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
+import it.sevenbits.helpers.AuthHelper;
 import it.sevenbits.util.TimeManager;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -39,6 +40,16 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
 
 
     public void create(final SearchVariant searchVariant, final Set<CategoryEntity> categories) {
+        String userEmail;
+        if ((userEmail = AuthHelper.getCurrentUserEmail()).equals("")) {
+            return;
+        }
+        List<SearchVariantEntity> searchVariants = this.findByEmail(userEmail);
+        for (SearchVariantEntity search: searchVariants) {
+            if (search.getKeyWords().equals(searchVariant.getKeyWords()) && search.getCategories().equals(categories)) {
+                return;
+            }
+        }
         SearchVariantEntity tmp = this.toEntity(searchVariant);
         tmp.setCategories(categories);
         this.hibernateTemplate.save(tmp);

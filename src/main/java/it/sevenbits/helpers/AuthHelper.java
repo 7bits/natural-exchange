@@ -13,13 +13,22 @@ public class AuthHelper {
         return (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserDetails);
     }
 
-    public Long getCurrentUserID() {
+    public static Long getCurrentUserID() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             UserEntity userEntity = (UserEntity) auth.getPrincipal();
             return userEntity.getId();
         }
-        return (long) 0;
+        return (long) -1;
+    }
+
+    public static String getCurrentUserEmail() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            UserEntity userEntity = (UserEntity) auth.getPrincipal();
+            return userEntity.getEmail();
+        }
+        return "";
     }
 
     public User getCurrentUser() {

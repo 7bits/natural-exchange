@@ -1,14 +1,19 @@
 package it.sevenbits.controller.newdesign;
 
 
-import it.sevenbits.entity.*;
-import it.sevenbits.dao.*;
+import it.sevenbits.dao.AdvertisementDao;
+import it.sevenbits.dao.CategoryDao;
+import it.sevenbits.dao.SearchVariantDao;
+import it.sevenbits.dao.UserDao;
+import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.Category;
+import it.sevenbits.entity.Tag;
+import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.helpers.EncodeDecodeHelper;
-import it.sevenbits.helpers.FilePathHelper;
 import it.sevenbits.security.Role;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.DatePair;
@@ -148,7 +153,7 @@ public class AdvertisementListController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/saveSearch.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody Map saveSearch(
             @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
@@ -162,7 +167,7 @@ public class AdvertisementListController {
         if (principal instanceof UserDetails) {
             UserDetails user = (UserDetails) principal;
             String email = user.getUsername();
-            SearchVariantEntity searchVariantEntity = new SearchVariantEntity(email, previousKeyWords, null);
+            SearchVariantEntity searchVariantEntity = new SearchVariantEntity(email, StringUtils.trim(previousKeyWords), null);
             String[] categorySlugs = this.stringToArray(previousCategory);
             Set<CategoryEntity> categoryEntities = this.categoryDao.findBySlugs(categorySlugs);
             searchVariantDao.create(searchVariantEntity, categoryEntities);
