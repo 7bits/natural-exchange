@@ -383,11 +383,10 @@ public class AdvertisementListController {
             User offer = offerAdvertisement.getUser();
             User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
             String advertisementUrl = mailSenderService.getDomen() + "/advertisement/view.html?id=";
-//            String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
             String titleExchangeMessage = "С вами хотят обменяться!";
             String userName;
-            StringBuilder advertisementUrlOwner = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement());// + advertisementUrlResidue);
-            StringBuilder advertisementUrlOffer = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement());// + advertisementUrlResidue);
+            StringBuilder advertisementUrlOwner = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement());
+            StringBuilder advertisementUrlOffer = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement());
             if (owner.getLastName().equals("")) {
                 userName = "владелец вещи";
             } else {
