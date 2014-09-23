@@ -5,6 +5,7 @@ import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
+import it.sevenbits.services.authentication.AuthService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.DatePair;
 import it.sevenbits.util.SortOrder;
@@ -193,19 +194,11 @@ public class ModeratorController {
                                                 boolean isBanned, SortOrder currentSortOrder) {
         List<User> listUsers = this.userDao.findUsersByKeywordsDateAndBan(keyWords, dateFrom, dateTo,
                 isBanned, currentSortOrder);
-        User currentUser = this.getCurrentUser();
+        User currentUser = AuthService.getUser();
         if (currentUser != null) {
             listUsers.remove(currentUser);
         }
         return listUsers;
-    }
-
-    private UserEntity getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            return (UserEntity) auth.getPrincipal();
-        }
-        return null;
     }
 
     private DatePair takeAndValidateDate(String dateFrom, String dateTo, BindingResult bindingResult,

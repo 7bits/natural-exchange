@@ -8,6 +8,7 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
 import it.sevenbits.entity.Subscriber;
 import it.sevenbits.entity.User;
+import it.sevenbits.services.authentication.AuthService;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.form.MailingNewsForm;
 import it.sevenbits.util.form.validator.MailingNewsValidator;
@@ -64,10 +65,9 @@ public class MainController {
         pageList.setSource(advertisements);
         pageList.setPageSize(MAIN_ADVERTISEMENTS);
         pageList.setPage(0);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         List<Advertisement> userAdvertisements = new LinkedList<>();
-        if (auth.getPrincipal() instanceof UserDetails) {
-            User user = this.userDao.findUserByEmail(auth.getName());
+        User user = AuthService.getUser();
+        if (user != null) {
             userAdvertisements = this.advertisementDao.findAllByEmail(user);
         }
         modelAndView.addObject("categories", categoryList);

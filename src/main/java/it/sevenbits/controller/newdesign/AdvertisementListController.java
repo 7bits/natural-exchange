@@ -15,6 +15,7 @@ import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.Role;
+import it.sevenbits.services.authentication.AuthService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.DatePair;
 import it.sevenbits.util.FileManager;
@@ -120,11 +121,10 @@ public class AdvertisementListController {
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
         pageList.setPageSize(DEFAULT_ADVERTISEMENTS_PER_LIST);
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         List<Advertisement> userAdvertisements = new LinkedList<>();
-        if (auth.getPrincipal() instanceof UserDetails) {
-            User user = this.userDao.findUserByEmail(auth.getName());
+
+        User user = AuthService.getUser();
+        if (user != null) {
             userAdvertisements = this.advertisementDao.findAllByEmail(user);
         }
 
@@ -164,9 +164,8 @@ public class AdvertisementListController {
         map.put("currentCategory", previousCategory);
         map.put("currentPage", previousPage);
         map.put("keyWords", previousKeyWords);
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            UserDetails user = (UserDetails) principal;
+        User user = AuthService.getUser();
+        if (user != null) {
             String email = user.getUsername();
             SearchVariantEntity searchVariantEntity = new SearchVariantEntity(email, StringUtils.trim(previousKeyWords), null);
             String[] categorySlugs = this.stringToArray(previousCategory);
@@ -186,10 +185,9 @@ public class AdvertisementListController {
         modelAndView.addObject("advertisement", advertisement);
         modelAndView.addObject("category", category);
         Set<TagEntity> tagsSet = this.getTagsFromAdvertisementById(id);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         List<Advertisement> userAdvertisements = new LinkedList<>();
-        if (auth.getPrincipal() instanceof UserDetails) {
-            user = this.userDao.findUserByEmail(auth.getName());
+        User currentUser = AuthService.getUser();
+        if (currentUser != null) {
             userAdvertisements = this.advertisementDao.findAllByEmail(user);
         }
         modelAndView.addObject("tags", tagsSet);
@@ -201,15 +199,9 @@ public class AdvertisementListController {
     private AdvertisementPlacingValidator advertisementPlacingValidator;
 
     @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
-    public ModelAndView placingAdvertisement(@RequestParam(value = "id", required = false) final Long id) {
+    public ModelAndView placingAdvertisement() {
         ModelAndView modelAndView = new ModelAndView("placing");
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
-        if (id != null) {
-            Advertisement advertisement = this.advertisementDao.findById(id);
-            advertisementPlacingForm.setCategory(advertisement.getCategory().getSlug());
-            advertisementPlacingForm.setText(advertisement.getText());
-            advertisementPlacingForm.setTitle(advertisement.getTitle());
-        }
         List<Category> categories =  this.categoryDao.findAll();
         modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
         modelAndView.addObject("categories", categories);
@@ -274,18 +266,15 @@ public class AdvertisementListController {
         advertisement.setPhotoFile(photo);
         advertisement.setText(advertisementPlacingFormParam.getText());
         advertisement.setTitle(advertisementPlacingFormParam.getTitle());
-
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String userName;
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails) principal).getUsername();
-        } else {
-            userName = principal.toString();
+        User user = AuthService.getUser();
+        String userName = "";
+        if (user != null) {
+            userName = user.getUsername();
         }
         List<String> tagList = selectTags(advertisementPlacingFormParam.getTags());
         Set<Tag> newTags = null;
         if (tagList != null) {
-            newTags = new HashSet<Tag>();
+            newTags = new HashSet<>();
             for (String newTag : tagList) {
                 if (!newTag.equals("")) {
                     Tag addingTag = new Tag();
@@ -317,13 +306,11 @@ public class AdvertisementListController {
             modelAndView.addObject("categories", categories);
             return modelAndView;
         }
-
         String defaultPhoto = "no_photo.png";
         Long editingAdvertisementId = advertisementEditingFormParam.getAdvertisementId();
         String advertisementOldImageName = this.advertisementDao.findById(editingAdvertisementId).getPhotoFile();
         FileManager fileManager = new FileManager();
         String photo = null;
-
         if (isDeletePhoto) {
             if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
                     advertisementOldImageName.equals("image3.jpg") || advertisementOldImageName.equals("no_photo.png")) {
@@ -353,11 +340,10 @@ public class AdvertisementListController {
         }
         advertisement.setText(advertisementEditingFormParam.getText());
         advertisement.setTitle(advertisementEditingFormParam.getTitle());
-
         List<String> tagList = selectTags(advertisementEditingFormParam.getTags());
         Set<Tag> newTags = null;
         if (tagList != null) {
-            newTags = new HashSet<Tag>();
+            newTags = new HashSet<>();
             for (String newTag : tagList) {
                 if (!newTag.equals("")) {
                     Tag addingTag = new Tag();
@@ -410,15 +396,12 @@ public class AdvertisementListController {
     @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails;
+        User user = AuthService.getUser();
         String redirectAddress = "redirect:/advertisement/moderator/list.html";
-        if (principal instanceof UserDetails) {
-            userDetails = (UserDetails) principal;
-        } else {
+        if (user == null) {
             return redirectAddress;
         }
-        User user = (User) userDetails;
+        UserDetails userDetails = AuthService.getUserDetails();
         if (user.getRole().equals("ROLE_MODERATOR")) {
             Advertisement advertisement = this.advertisementDao.findById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
@@ -430,7 +413,6 @@ public class AdvertisementListController {
             } else {
                 userName = "Уважаемый, " + advertisement.getUser().getLastName();
             }
-
             if (this.advertisementDao.findById(advertisementId).getIs_deleted()) {
                 title = "Ваше объявление восстановлено";
                 moderAction = "Было восстановлено. Теперь его снова можно увидеть на списке объявлений";
