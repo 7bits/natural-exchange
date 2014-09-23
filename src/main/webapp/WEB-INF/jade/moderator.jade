@@ -19,9 +19,9 @@ block content
           input.current-page(type='hidden', value='#{currentPage}')
           input.search(type='submit', value='НАЙТИ')
           p
-          label(for='date-from') С
+          label(for='date-from') Объявления, размещенные с
           input(type='text', class='date-from', name='dateFrom', value='#{dateFrom}')
-          label(for='date-to') По
+          label(for='date-to') и до
           input(type='text', class='date-to', name='dateTo', value='#{dateTo}')
           p.date-error #{dateError}
       .underneath

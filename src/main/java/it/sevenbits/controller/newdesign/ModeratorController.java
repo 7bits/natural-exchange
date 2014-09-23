@@ -113,7 +113,7 @@ public class ModeratorController {
     @RequestMapping(value = "/DeleteOrRestoreAdvertisement.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody String deleteOrRestoreAdvertisement(
-            @RequestParam(value = "advertisementId", required = true) final Long id
+        @RequestParam(value = "advertisementId", required = true) final Long id
     ) {
         this.advertisementDao.changeDeleted(id);
         return "redirect:new/moderator/advertisementList.html";

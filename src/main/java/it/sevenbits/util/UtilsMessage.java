@@ -28,15 +28,17 @@ public class UtilsMessage {
         return response;
     }
 
-    public static Map<String, String> createLetterForDeleteAdvertisementByModerator(final String advertisementTitle,
-        final String receiverEmail, final String advertisementText, final String userName, final String emailTitle) {
+    public static Map<String, String> createLetterToUserFromModerator(
+        final String advertisementTitle, final String receiverEmail, final String moderatorAction,
+        final String advertisementText, final String userName, final String emailTitle
+    ) {
         Map<String, String> response = new HashMap<>();
         StringBuilder message = new StringBuilder(userName);
         message.append("\nВаше объявление с заголовком : ");
         message.append(advertisementTitle);
         message.append("\nС описанием : ");
-        message.append(advertisementText);
-        message.append("\nБыло удалено модератором");
+        message.append(advertisementText + '\n');
+        message.append(moderatorAction);
         response.put("email", receiverEmail);
         response.put("title", emailTitle);
         response.put("text", message.toString());
