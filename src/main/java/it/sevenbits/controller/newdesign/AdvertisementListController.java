@@ -156,9 +156,10 @@ public class AdvertisementListController {
     @RequestMapping(value = "/saveSearch.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody Map saveSearch(
-            @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
-            @RequestParam(value = "currentCategory", required = false) final String previousCategory,
-            @RequestParam(value = "currentPage", required = false) final Integer previousPage) {
+        @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
+        @RequestParam(value = "currentCategory", required = false) final String previousCategory,
+        @RequestParam(value = "currentPage", required = false) final Integer previousPage
+    ) {
         Map map = new HashMap<>();
         map.put("currentCategory", previousCategory);
         map.put("currentPage", previousPage);
@@ -247,8 +248,8 @@ public class AdvertisementListController {
      */
     @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
     public ModelAndView processPlacingAdvertisement(
-            final AdvertisementPlacingForm advertisementPlacingFormParam,
-            final BindingResult result
+        final AdvertisementPlacingForm advertisementPlacingFormParam,
+        final BindingResult result
     ) {
         String defaultPhoto = "no_photo.png";
         advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
@@ -299,9 +300,9 @@ public class AdvertisementListController {
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
     public ModelAndView processEditingAdvertisement(
-            final AdvertisementEditingForm advertisementEditingFormParam,
-            final BindingResult result,
-            final boolean isDeletePhoto
+        final AdvertisementEditingForm advertisementEditingFormParam,
+        final BindingResult result,
+        final boolean isDeletePhoto
     ) {
         advertisementEditingValidator.validate(advertisementEditingFormParam, result);
         if (result.hasErrors()) {
@@ -371,8 +372,10 @@ public class AdvertisementListController {
 
     @RequestMapping(value = "/exchange.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody Map submitExchange(@ModelAttribute("email") ExchangeForm exchangeForm,
-                                            final BindingResult bindingResult) {
+    public @ResponseBody Map submitExchange(
+        @ModelAttribute("email") ExchangeForm exchangeForm,
+        final BindingResult bindingResult
+    ) {
         Map map = new HashMap();
         exchangeFormValidator.validate(exchangeForm, bindingResult);
         if (!bindingResult.hasErrors()) {
@@ -380,11 +383,11 @@ public class AdvertisementListController {
             User offer = offerAdvertisement.getUser();
             User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
             String advertisementUrl = mailSenderService.getDomen() + "/advertisement/view.html?id=";
-            String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
+//            String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
             String titleExchangeMessage = "С вами хотят обменяться!";
             String userName;
-            StringBuilder advertisementUrlOwner = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue);
-            StringBuilder advertisementUrlOffer = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement() + advertisementUrlResidue);
+            StringBuilder advertisementUrlOwner = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement());// + advertisementUrlResidue);
+            StringBuilder advertisementUrlOffer = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement());// + advertisementUrlResidue);
             if (owner.getLastName().equals("")) {
                 userName = "владелец вещи";
             } else {
