@@ -422,15 +422,24 @@ public class AdvertisementListController {
         if (user.getRole().equals("ROLE_MODERATOR")) {
             Advertisement advertisement = this.advertisementDao.findById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
-            String title = "Ваше объявление удалено модератором";
+            String title;
             String userName;
+            String moderAction;
             if (advertisement.getUser().getLastName().equals("")) {
                 userName = "Уважаемый пользователь";
             } else {
                 userName = "Уважаемый, " + advertisement.getUser().getLastName();
             }
-            Map<String, String> letter = UtilsMessage.createLetterForDeleteAdvertisementByModerator(advertisement.getTitle(),
-                userEmail, advertisement.getText(), userName, title);
+
+            if (this.advertisementDao.findById(advertisementId).getIs_deleted()) {
+                title = "Ваше объявление восстановлено";
+                moderAction = "Было восстановлено. Теперь его снова можно увидеть на списке объявлений";
+            } else {
+                title = "Ваше объявление удалено модератором";
+                moderAction = "Было удалено модератором";
+            }
+            Map<String, String> letter = UtilsMessage.createLetterToUserFromModerator(advertisement.getTitle(),
+                    userEmail, moderAction, advertisement.getText(), userName, title);
             if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
                 this.advertisementDao.changeDeleted(advertisementId);
                 mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
