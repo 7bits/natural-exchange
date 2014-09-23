@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.scheduling.annotation.Async;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -54,6 +55,7 @@ public class MailSenderService {
         this.mailSender = mailSender;
     }
 
+    @Async
     private void sendMail(final String from, final String to, final String subject, final String msg) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
@@ -97,11 +99,13 @@ public class MailSenderService {
         }
     }
 
+    @Async
     public void sendMail(final String email, final String title, final String text) {
         MailSenderService mailService = getMailService();
         mailService.sendMail(SERVICE_MAILBOX, email, title, text);
     }
 
+    @Async
     public void sendRegisterMail(final String to, final String code) {
         MailSenderService mailService = getMailService();
         String link = getDomen() + "/user/magic.html?code=" + code + "&mail=" + to;
@@ -110,6 +114,7 @@ public class MailSenderService {
         mailService.sendMail(SERVICE_MAILBOX, to, title, text);
     }
 
+    @Async
     public void sendNotifyToModerator(final Long id, final String category) {
         MailSenderService mailService = getMailService();
         String link = getDomen() + "/advertisement/view.html?id=" + id + "&currentCategory=" + category;

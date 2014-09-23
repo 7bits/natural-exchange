@@ -5,4 +5,5 @@ block append customcss
 block content
   .registrationResult
     div.center-text Вы успешно зарегистрировались на нашем сайте. Мы очень Вам рады!
-    a(href='#{uri.uri("/main.html")}').to-main-button НА ГЛАВНУЮ
+    div.button-goto-main
+      a(href='#{uri.uri("/main.html")}').to-main-button НА ГЛАВНУЮ

@@ -95,6 +95,10 @@
   border: none;
   border-radius: 100px;
 }
+
+.change-information:hover {
+  background-color: rgb(223, 83, 70);
+}
 .picture-block, .choose-image-block {
   display: inline-block;
 }

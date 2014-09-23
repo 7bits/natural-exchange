@@ -57,6 +57,10 @@
     background-color: rgb(255, 255, 255);
 }
 
+.placing-tag-form-rounded-button:hover {
+    border: 2px solid rgb(26, 178, 175);
+}
+
 .chosen-tags {
     /*padding-left: 650px;*/
     float: right;
@@ -166,6 +170,11 @@
     font-family: mySans;
 }
 
+.select-category:hover {
+  border: 2px solid rgb(26, 178, 175);
+    background-image: url("/resources/images/newdesign/blue-arrow.png");
+}
+
 .choose-tags {
 }
 
@@ -234,9 +243,13 @@
     height: 40px;
     text-decoration: none;
 
-    background-image: url("/resources/images/newdesign/accept.png");
+    background-image: url("/resources/images/newdesign/circle-accept.png");
     background-repeat: no-repeat;
     background-position: 16px 9px;
+}
+
+.adding-advert:hover {
+    background-color: rgb(223, 83, 70);
 }
 
 .choose-tags-and-button {

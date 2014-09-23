@@ -44,6 +44,8 @@
 }
 .category-search:hover, .category-search:active {
   outline: 0;
+    border: 2px solid rgb(26, 178, 175);
+    background-image: url('../images/newdesign/blue-arrow.png');
 }
 .choosen-category {
   color: rgb(0, 0, 0);
@@ -93,6 +95,10 @@
   background-color: rgb(243, 152, 34);
   border: none;
   border-radius: 100px;
+}
+
+.save-search:hover {
+  background-color: rgb(223, 83, 70);
 }
 .row {
   overflow: hidden;
@@ -285,6 +291,10 @@ select {
   border-radius: 100px;
   background-color: rgb(243, 152, 34);
   border: none;
+}
+
+.e-mail-submit:hover {
+  background-color: rgb(223, 83, 70);
 }
 .error-pointer {
   color: red;
