@@ -37,3 +37,7 @@
   margin-right: 900px;
   text-decoration: none;
 }
+
+.red-alert-text {
+  color: red;
+}

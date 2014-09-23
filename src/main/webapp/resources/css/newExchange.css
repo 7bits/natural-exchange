@@ -25,7 +25,7 @@
 }
 
 .exchange-button {
-  margin-left: 70px;
+  margin-left: 100px;
 
 
   padding-top: 13px;
@@ -43,6 +43,10 @@
   background-repeat: no-repeat;
   border-radius: 100px;
   outline: 0;
+}
+
+.exchange-button:hover {
+  background-color: rgb(223, 83, 70);
 }
 
 .offer-message {

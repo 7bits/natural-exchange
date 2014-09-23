@@ -13,7 +13,7 @@ block content
           select.category-search(name='currentCategory')
 
             option(selected='selected', disabled='disabled') Выберите Категорию
-            if (currentCategory == allCategories)
+            if (stringActions.isEqualStringWithSpaceSeparator(currentCategory, allCategories))
               option.choosen-category(selected='selected', value='#{allCategories}') Все категории
             else
               option.choosen-category(value='#{allCategories}') Все категории
@@ -25,9 +25,9 @@ block content
           input.current-page(type='hidden', value='#{currentPage}')
           input.search(type='submit', value='НАЙТИ')
           p
-            label(for='date-from') С
+            label(for='date-from') Объявления, размещенные с
             input(type='text', class='date-from', name='dateFrom', value='#{dateFrom}')
-            label(for='date-to') По
+            label(for='date-to') и до 
             input(type='text', class='date-to', name='dateTo', value='#{dateTo}')
           p.date-error #{dateError}
       .underneath
@@ -35,7 +35,7 @@ block content
           | Например:
           a.monopoly(href='#') Монополия
           if (auth.isAuthenticated())
-            a.save-search.js-save-search(href='#', data-url='#{uri.uri("/advertisement/list.html")}') СОХРАНИТЬ ПОИСК
+            a.save-search.js-save-search(href='#', data-url='#{uri.uri("/advertisement/saveSearch.html")}') СОХРАНИТЬ ПОИСК
       .row
         for advertisement in advertisements
           .advertisement

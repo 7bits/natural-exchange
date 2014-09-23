@@ -2,6 +2,10 @@
     height: 700px;
 }
 
+.editing-advert {
+    height: 800px;
+}
+
 .head-text {
     font: 22px boldSans;
     padding-left: 15px;
@@ -51,6 +55,10 @@
 
     border: 2px solid rgb(243, 152, 34);
     background-color: rgb(255, 255, 255);
+}
+
+.placing-tag-form-rounded-button:hover {
+    border: 2px solid rgb(26, 178, 175);
 }
 
 .chosen-tags {
@@ -115,6 +123,15 @@
     color: red;
 }
 
+.advert-photo {
+  display: inline-block;
+
+  max-height: 100px;
+  max-width: 100px;
+  border-radius: 100px;
+  border: 3px solid rgb(26, 178, 175);
+}
+
 .tags-and-cross {
     display: inline-block;
 }
@@ -151,6 +168,11 @@
 
     font-size: 18px;
     font-family: mySans;
+}
+
+.select-category:hover {
+  border: 2px solid rgb(26, 178, 175);
+    background-image: url("/resources/images/newdesign/blue-arrow.png");
 }
 
 .choose-tags {
@@ -221,9 +243,13 @@
     height: 40px;
     text-decoration: none;
 
-    background-image: url("/resources/images/newdesign/accept.png");
+    background-image: url("/resources/images/newdesign/circle-accept.png");
     background-repeat: no-repeat;
     background-position: 16px 9px;
+}
+
+.adding-advert:hover {
+    background-color: rgb(223, 83, 70);
 }
 
 .choose-tags-and-button {
@@ -233,6 +259,8 @@
 }
 
 .deleting-text {
+    display: inline-block;
+
     font : 18px bold mySans;
     color : rgb(168, 129, 49);
 

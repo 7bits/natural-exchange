@@ -3,6 +3,7 @@ package it.sevenbits.dao.hibernate;
 import it.sevenbits.dao.CategoryDao;
 import it.sevenbits.entity.Category;
 import it.sevenbits.entity.hibernate.CategoryEntity;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * CategoryDao implementation
@@ -52,8 +55,26 @@ public class CategoryDaoHibernate implements CategoryDao {
     }
 
     @Override
+    public Set<CategoryEntity> findBySlugs(String[] slugs) {
+        if (slugs == null) {
+            return null;
+        }
+        Set<CategoryEntity> categoryEntities = new HashSet<>();
+        for (String slug: slugs) {
+            categoryEntities.add(this.findEntityBySlug(slug));
+        }
+        return categoryEntities;
+    }
+
+    @Override
+    public int categoryCount() {
+        return this.findAll().size();
+    }
+
+    @Override
     public List<Category> findAll() {
         DetachedCriteria criteria = DetachedCriteria.forClass(CategoryEntity.class);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return this.hibernateTemplate.findByCriteria(criteria);
     }
 

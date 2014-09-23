@@ -145,8 +145,8 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
-    public void changeBan(Long id) {
-        User user = this.findById(id);
+    public void changeBan(Long userId) {
+        User user = this.findById(userId);
         boolean banFlag = user.getIsBanned();
         user.setIsBanned(!banFlag);
         this.hibernateTemplate.update(user);
@@ -190,6 +190,19 @@ public class UserDaoHibernate implements UserDao {
     @Override
     public void delete(final User user) {
         this.hibernateTemplate.delete(toEntity(user));
+    }
+
+    @Override
+    public void updateActivationCode(User user) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(UserEntity.class);
+        criteria.add(Restrictions.like("email", user.getEmail()));
+        List<UserEntity> users = this.hibernateTemplate.findByCriteria(criteria);
+        if (users.size() != 1) {
+            throw new UsernameNotFoundException(user.getEmail() + " not found.");
+        }
+        users.get(0).setActivationDate(0L);
+        users.get(0).setActivationCode(null);
+        this.hibernateTemplate.update(users.get(0));
     }
 
     @Override

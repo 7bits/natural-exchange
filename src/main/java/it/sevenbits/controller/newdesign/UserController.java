@@ -6,16 +6,15 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
+import it.sevenbits.entity.hibernate.CategoryEntity;
+import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.TimeManager;
-import it.sevenbits.util.form.EditingUserInfoForm;
-import it.sevenbits.util.form.SearchEditForm;
-import it.sevenbits.util.form.UserEntryForm;
-import it.sevenbits.util.form.UserRegistrationForm;
+import it.sevenbits.util.form.*;
 import it.sevenbits.util.form.validator.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "user")
@@ -69,9 +69,6 @@ public class UserController {
     private AdvertisementDao advertisementDao;
 
     @Autowired
-    private SubscriberDao subscriberDao;
-
-    @Autowired
     private CategoryDao categoryDao;
 
     @Autowired
@@ -85,6 +82,9 @@ public class UserController {
 
     @Autowired
     private UserEntryValidator userEntryValidator;
+
+    @Autowired
+    SearchEditValidator searchEditValidator;
 
     @RequestMapping(value = "/registration.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
@@ -110,12 +110,6 @@ public class UserController {
                 user.setUpdateDate(TimeManager.getTime());
                 user.setCreatedDate(TimeManager.getTime());
                 user.setRole("ROLE_USER");
-////            if (userRegistrationFormParam.getIsReceiveNews()) {
-////                Subscriber subscriber = new Subscriber(userRegistrationFormParam.getEmail());
-////                if (!this.subscriberDao.isExists(subscriber)) {
-////                    this.subscriberDao.create(subscriber);
-////                }
-////            }
                 user.setActivationDate(TimeManager.addDate(REGISTRATION_PERIOD));
                 String code = md5encoder.encodePassword(user.getPassword(), user.getEmail());
                 user.setActivationCode(code);
@@ -186,12 +180,55 @@ public class UserController {
         return map;
     }
 
+    boolean checkRegistrationLink(final User user, final  String code) {
+        if (user == null) {
+            return false;
+        }
+        if (TimeManager.getTime() >  user.getActivationDate()) {
+            return false;
+        }
+        if (!code.equals(user.getActivationCode())) {
+            logger.info("check not passed: code not equals");
+            return  false;
+        }
+        return true;
+    }
+
+
+    @RequestMapping(value = "/magic.html", method = RequestMethod.GET)
+    public ModelAndView magicPage(@RequestParam(value = "code", required = true) final String codeParam,
+                                  @RequestParam(value = "mail", required = true) final String mailParam) {
+        User user = this.userDao.findUserByEmail(mailParam);
+        if (user == null) {
+            return new ModelAndView("conf_failed");
+        }
+        if (user.getActivationDate() == 0) {
+            return new ModelAndView("registrationResult");
+        }
+        if (checkRegistrationLink(user, codeParam)) {
+            this.userDao.updateActivationCode(user);
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
+            token.setDetails(usrDet);
+            SecurityContext context = SecurityContextHolder.getContext();
+            context.setAuthentication(token);
+            return new ModelAndView("registrationResult");
+        } else {
+            return new ModelAndView("conf_failed");
+        }
+    }
+
+    @RequestMapping(value = "/conf_failed.html", method = RequestMethod.GET)
+    public ModelAndView confirmProfileFailed() {
+        return new ModelAndView("user/conf_failed");
+    }
+
     @RequestMapping(value = "/userprofile/searches.html", method = RequestMethod.GET)
     public ModelAndView showUserProfile() {
         ModelAndView modelAndView = new ModelAndView("userSearch.jade");
         Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
-        List<SearchVariant> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        List<SearchVariantEntity> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("userPage", "searches.html");
         modelAndView.addObject("searchVariants", searchVariantList);
@@ -273,7 +310,8 @@ public class UserController {
     @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
     public ModelAndView showAdvertisementsOfCurrentUser() {
         ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
-        User currentUser = this.getCurrentUser();
+        Long id = this.getCurrentUserId();
+        User currentUser = this.userDao.findById(id);
         List<Advertisement> advertisementList = advertisementDao.findAllByEmail(currentUser);
         modelAndView.addObject("advertisements", advertisementList);
         modelAndView.addObject("currentUser", currentUser);
@@ -286,7 +324,7 @@ public class UserController {
         this.searchVariantDao.delete(this.searchVariantDao.findById(searchVariantId));
         Long id = this.getCurrentUserId();
         User currentUser = this.userDao.findById(id);
-        List<SearchVariant> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        List<SearchVariantEntity> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("userPage", "searches.html");
         modelAndView.addObject("searchVariants", searchVariantList);
@@ -296,32 +334,32 @@ public class UserController {
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.GET)
     public ModelAndView searchEditing(@RequestParam(value = "id", required = true) final Long id) {
         ModelAndView modelAndView = new ModelAndView("editSearch");
-        SearchEditForm searchEditForm = new SearchEditForm();
+        CurrentSearchForm currentSearchForm = new CurrentSearchForm();
+        Map<String, String> errors = new HashMap<>();
         if (id != null) {
-            SearchVariant searchVariant = this.searchVariantDao.findById(id);
-            searchEditForm.setCategory(searchVariant.getCategories());
-            searchEditForm.setKeywords(searchVariant.getKeyWords());
-            searchEditForm.setSearchVariantId(id);
+            SearchVariantEntity searchVariant = this.searchVariantDao.findById(id);
+            currentSearchForm.setCategory(searchVariant.getCategories());
+            currentSearchForm.setKeywords(searchVariant.getKeyWords());
+            currentSearchForm.setSearchVariantId(id);
         }
         List<Category> categories = this.categoryDao.findAll();
-        String[] keywords = StringUtils.split(searchEditForm.getKeywords());
-        String[] searchCategories = StringUtils.split(searchEditForm.getCategory());
-        if (searchCategories.length > 1) {
-            modelAndView.addObject("allCategoriesSelected", true);
+        String allCategories = this.arrayToString(this.getAllCategories());
+        String[] keywords = StringUtils.split(currentSearchForm.getKeywords());
+        boolean isAllCategories = false;
+        if (currentSearchForm.getCategory().size() == this.categoryDao.categoryCount()) {
+            isAllCategories = true;
+            modelAndView.addObject("selectedCategory", allCategories);
         } else {
-            modelAndView.addObject("allCategoriesSelected", false);
+            modelAndView.addObject("selectedCategory", currentSearchForm.getCategory().toArray()[0]);
         }
-        Map<String, String> errors = new HashMap<>();
+        modelAndView.addObject("allCategoriesSelected", isAllCategories);
+        modelAndView.addObject("allCategories", allCategories);
         modelAndView.addObject("keywords", keywords);
-        modelAndView.addObject("searchEditForm", searchEditForm);
+        modelAndView.addObject("currentSearchForm", currentSearchForm);
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("errors", errors);
-        modelAndView.addObject("selectedCategory", searchEditForm.getCategory());
         return modelAndView;
     }
-
-    @Autowired
-    SearchEditValidator searchEditValidator;
 
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.POST)
     public ModelAndView searchEditing(
@@ -335,8 +373,29 @@ public class UserController {
             modelAndView.addObject("errors", errors);
             return modelAndView;
         }
+        String[] separateCategories = StringUtils.split(searchEditForm.getCategory());
+        Set<CategoryEntity> categories = this.categoryDao.findBySlugs(separateCategories);
         this.searchVariantDao.update(this.searchVariantDao.findById(searchEditForm.getSearchVariantId()),
-                searchEditForm.getKeywords(), searchEditForm.getCategory());
+            searchEditForm.getKeywords(), categories);
         return new ModelAndView("redirect:/user/userprofile/searches.html");
+    }
+
+    private String[] getAllCategories() {
+        List<Category> categories = this.categoryDao.findAll();
+        int categoryLength = categories.size();
+        String[] allCategories = new String[categoryLength];
+        for (int i = 0; i < categoryLength; i++) {
+            allCategories[i] = categories.
+                    get(i).
+                    getSlug();
+        }
+        return allCategories;
+    }
+
+    private String arrayToString(String[] strings) {
+        if (strings == null) {
+            return null;
+        }
+        return StringUtils.join(strings, ' ');
     }
 }

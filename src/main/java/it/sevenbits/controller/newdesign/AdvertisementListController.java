@@ -1,9 +1,17 @@
 package it.sevenbits.controller.newdesign;
 
 
-import it.sevenbits.entity.*;
-import it.sevenbits.dao.*;
+import it.sevenbits.dao.AdvertisementDao;
+import it.sevenbits.dao.CategoryDao;
+import it.sevenbits.dao.SearchVariantDao;
+import it.sevenbits.dao.UserDao;
+import it.sevenbits.entity.Advertisement;
+import it.sevenbits.entity.Category;
+import it.sevenbits.entity.Tag;
+import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.AdvertisementEntity;
+import it.sevenbits.entity.hibernate.CategoryEntity;
+import it.sevenbits.entity.hibernate.SearchVariantEntity;
 import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.Role;
@@ -86,10 +94,10 @@ public class AdvertisementListController {
         Long dateTo = datePair.getDateTo();
 
         List<Category> categoryList = categoryDao.findAll();
-        String[] allCategories = this.getAllCategories();
-        String[] currentCategory = allCategories;
+        String allCategories = this.arrayToString(getAllCategories());
+        String currentCategory = allCategories;
         if (advertisementSearchingForm.getCurrentCategory() != null) {
-            currentCategory = this.stringToArray(advertisementSearchingForm.getCurrentCategory());
+            currentCategory = advertisementSearchingForm.getCurrentCategory();
         }
 
         SortOrder mainSortOrder = SortOrder.DESCENDING;
@@ -131,9 +139,9 @@ public class AdvertisementListController {
         pageList.setPage(currentPage - 1);
         this.addPages(modelAndView, currentPage, pageCount);
 
-        modelAndView.addObject("allCategories", this.arrayToString(allCategories));
+        modelAndView.addObject("allCategories", allCategories);
         modelAndView.addObject("userAdvertisements", userAdvertisements);
-        modelAndView.addObject("currentCategory", this.arrayToString(currentCategory));
+        modelAndView.addObject("currentCategory", currentCategory);
         modelAndView.addObject("categories", categoryList);
         modelAndView.addObject("keyWords", keyWordSearch);
         modelAndView.addObject("advertisements", pageList.getPageList());
@@ -145,12 +153,13 @@ public class AdvertisementListController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/list.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/saveSearch.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody Map saveSearch(
-            @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
-            @RequestParam(value = "currentCategory", required = false) final String previousCategory,
-            @RequestParam(value = "currentPage", required = false) final Integer previousPage) {
+        @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
+        @RequestParam(value = "currentCategory", required = false) final String previousCategory,
+        @RequestParam(value = "currentPage", required = false) final Integer previousPage
+    ) {
         Map map = new HashMap<>();
         map.put("currentCategory", previousCategory);
         map.put("currentPage", previousPage);
@@ -159,8 +168,10 @@ public class AdvertisementListController {
         if (principal instanceof UserDetails) {
             UserDetails user = (UserDetails) principal;
             String email = user.getUsername();
-            SearchVariant searchVariant = new SearchVariant(email, previousKeyWords, previousCategory);
-            searchVariantDao.create(searchVariant);
+            SearchVariantEntity searchVariantEntity = new SearchVariantEntity(email, StringUtils.trim(previousKeyWords), null);
+            String[] categorySlugs = this.stringToArray(previousCategory);
+            Set<CategoryEntity> categoryEntities = this.categoryDao.findBySlugs(categorySlugs);
+            searchVariantDao.create(searchVariantEntity, categoryEntities);
         }
         return map;
     }
@@ -222,7 +233,7 @@ public class AdvertisementListController {
         Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementId);
         List<ObjectError> errors = new ArrayList<>();
         modelAndView.addObject("tags", tags);
-        modelAndView.addObject("imageUrl", "/resources/images/user_images/" + advertisement.getPhotoFile());
+        modelAndView.addObject("advertisementPhotoName", advertisement.getPhotoFile());
         modelAndView.addObject("categories", categories);
         modelAndView.addObject("errors", errors);
         return modelAndView;
@@ -237,8 +248,8 @@ public class AdvertisementListController {
      */
     @RequestMapping(value = "/placing.html", method = RequestMethod.POST)
     public ModelAndView processPlacingAdvertisement(
-            final AdvertisementPlacingForm advertisementPlacingFormParam,
-            final BindingResult result
+        final AdvertisementPlacingForm advertisementPlacingFormParam,
+        final BindingResult result
     ) {
         String defaultPhoto = "no_photo.png";
         advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
@@ -246,6 +257,9 @@ public class AdvertisementListController {
             List<ObjectError> errors = result.getAllErrors();
             ModelAndView modelAndView = new ModelAndView("placing");
             modelAndView.addObject("errors", errors);
+            modelAndView.addObject("advertisementPlacingForm", advertisementPlacingFormParam);
+            List<Category> categories =  this.categoryDao.findAll();
+            modelAndView.addObject("categories", categories);
             return modelAndView;
         }
         FileManager fileManager = new FileManager();
@@ -253,7 +267,6 @@ public class AdvertisementListController {
         if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) {
             photo = defaultPhoto;
         } else {
-            // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
             photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
         }
         Advertisement advertisement = null;
@@ -264,7 +277,7 @@ public class AdvertisementListController {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName;
-        if (principal instanceof UserDetails) {//Alex: что это черт возьми???
+        if (principal instanceof UserDetails) {
             userName = ((UserDetails) principal).getUsername();
         } else {
             userName = principal.toString();
@@ -287,15 +300,21 @@ public class AdvertisementListController {
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
     public ModelAndView processEditingAdvertisement(
-            final AdvertisementEditingForm advertisementEditingFormParam,
-            final BindingResult result,
-            final boolean isDeletePhoto
+        final AdvertisementEditingForm advertisementEditingFormParam,
+        final BindingResult result,
+        final boolean isDeletePhoto
     ) {
         advertisementEditingValidator.validate(advertisementEditingFormParam, result);
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
-            ModelAndView modelAndView = new ModelAndView("placing");
+            ModelAndView modelAndView = new ModelAndView("edit");
+            modelAndView.addObject("advertisementEditingForm", advertisementEditingFormParam);
             modelAndView.addObject("errors", errors);
+            List<Category> categories = this.categoryDao.findAll();
+            Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementEditingFormParam.getAdvertisementId());
+            modelAndView.addObject("tags", tags);
+            modelAndView.addObject("advertisementPhotoName", this.advertisementDao.findById(advertisementEditingFormParam.getAdvertisementId()).getPhotoFile());
+            modelAndView.addObject("categories", categories);
             return modelAndView;
         }
 
@@ -318,7 +337,6 @@ public class AdvertisementListController {
         } else if (advertisementEditingFormParam.getImage().getOriginalFilename().equals("")) {
             photo = advertisementOldImageName;
         } else {
-            // photo downloaded new and editing, we must delete old photo, but if old photo is default, we don't delete him.
             photo = fileManager.savingFile(advertisementEditingFormParam.getImage(), true);
             if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
                     advertisementOldImageName.equals("image3.jpg") || advertisementOldImageName.equals("no_photo.png")) {
@@ -349,13 +367,15 @@ public class AdvertisementListController {
             }
         }
         this.advertisementDao.update(editingAdvertisementId, advertisement, advertisementEditingFormParam.getCategory(), newTags);
-        return new ModelAndView("placingRequest");
+        return new ModelAndView("redirect:/advertisement/view.html?id=" + advertisementEditingFormParam.getAdvertisementId());
     }
 
     @RequestMapping(value = "/exchange.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody Map submitExchange(@ModelAttribute("email") ExchangeForm exchangeForm,
-                                            final BindingResult bindingResult) {
+    public @ResponseBody Map submitExchange(
+        @ModelAttribute("email") ExchangeForm exchangeForm,
+        final BindingResult bindingResult
+    ) {
         Map map = new HashMap();
         exchangeFormValidator.validate(exchangeForm, bindingResult);
         if (!bindingResult.hasErrors()) {
@@ -363,11 +383,10 @@ public class AdvertisementListController {
             User offer = offerAdvertisement.getUser();
             User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
             String advertisementUrl = mailSenderService.getDomen() + "/advertisement/view.html?id=";
-            String advertisementUrlResidue = "&currentCategory=+clothes+games+notclothes+";
             String titleExchangeMessage = "С вами хотят обменяться!";
             String userName;
-            StringBuilder advertisementUrlOwner = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement() + advertisementUrlResidue);
-            StringBuilder advertisementUrlOffer = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement() + advertisementUrlResidue);
+            StringBuilder advertisementUrlOwner = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement());
+            StringBuilder advertisementUrlOffer = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement());
             if (owner.getLastName().equals("")) {
                 userName = "владелец вещи";
             } else {
@@ -389,7 +408,8 @@ public class AdvertisementListController {
     }
 
     @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
-    public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails;
         String redirectAddress = "redirect:/advertisement/moderator/list.html";
@@ -402,15 +422,24 @@ public class AdvertisementListController {
         if (user.getRole().equals("ROLE_MODERATOR")) {
             Advertisement advertisement = this.advertisementDao.findById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
-            String title = "Ваше объявление удалено модератором";
+            String title;
             String userName;
+            String moderAction;
             if (advertisement.getUser().getLastName().equals("")) {
                 userName = "Уважаемый пользователь";
             } else {
                 userName = "Уважаемый, " + advertisement.getUser().getLastName();
             }
-            Map<String, String> letter = UtilsMessage.createLetterForDeleteAdvertisementByModerator(advertisement.getTitle(),
-                userEmail, advertisement.getText(), userName, title);
+
+            if (this.advertisementDao.findById(advertisementId).getIs_deleted()) {
+                title = "Ваше объявление восстановлено";
+                moderAction = "Было восстановлено. Теперь его снова можно увидеть на списке объявлений";
+            } else {
+                title = "Ваше объявление удалено модератором";
+                moderAction = "Было удалено модератором";
+            }
+            Map<String, String> letter = UtilsMessage.createLetterToUserFromModerator(advertisement.getTitle(),
+                    userEmail, moderAction, advertisement.getText(), userName, title);
             if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
                 this.advertisementDao.changeDeleted(advertisementId);
                 mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
@@ -570,13 +599,7 @@ public class AdvertisementListController {
         if (strings == null) {
             return null;
         }
-        String result = "";
-        int length = strings.length;
-        for (int i = 0; i < length - 1; i++) {
-            result += strings[i] + ' ';
-        }
-        result += strings[length - 1];
-        return result;
+        return StringUtils.join(strings, ' ');
     }
 
     private String[] getAllCategories() {

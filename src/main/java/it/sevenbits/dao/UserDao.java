@@ -46,7 +46,7 @@ public interface UserDao {
                                              final boolean isBanned,
                                              SortOrder sortOrder);
 
-    void changeBan(Long id);
+    void changeBan(Long userId);
 
     Boolean isExistUserWithEmail(String email);
     /**
@@ -54,6 +54,12 @@ public interface UserDao {
      * @param user   to change
      */
     void update(User user);
+
+    /**
+     * update user after registration
+     * @param  user - the user with the confirmed registration
+     */
+    void updateActivationCode(User user) ;
 
     /**
      *

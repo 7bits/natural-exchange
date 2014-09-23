@@ -1,6 +1,6 @@
 #registration-form {
   margin: auto;
-  height: 520px;
+  height: 480px;
   width: 405px;
 }
 
@@ -47,7 +47,7 @@
   padding-top: 10px;
   text-decoration: none;
 
-  background-image: url("/resources/images/newdesign/accept.png");
+  background-image: url("/resources/images/newdesign/circle-accept.png");
   background-repeat: no-repeat;
   background-position: 16px 9px;
 

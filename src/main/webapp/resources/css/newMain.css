@@ -143,8 +143,7 @@
   font-size: 18px;
 }
 .for-email:hover {
-  border: 2px solid rgb(255, 255, 255);
-  background-color: rgb(243, 152, 34);
+    border: 2px solid rgb(26, 178, 175);
 }
 .submit-email {
   padding-top: 10px;
@@ -162,6 +161,10 @@
   background-image: url('../images/okImg.png');
   background-repeat: no-repeat;
   background-position: 10px 9px;
+}
+
+.submit-email:hover {
+    background-color: rgb(223, 83, 70);
 }
 
 @font-face {

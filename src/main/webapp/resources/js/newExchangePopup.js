@@ -15,6 +15,12 @@ $(document).ready(function() {
         hiddenId.val(offerAdvId);
     });
 
+    $(".offer-message").change(function() {
+        var offerMsg = $(this);
+        var hiddenMsg = $('.js-exchange-propose');
+        hiddenMsg.val(offerMsg.val());
+    });
+
 
     $(".js-newExchange").fancybox({
         "width" : 600,
@@ -42,7 +48,7 @@ $(document).ready(function() {
         var acceptString = $('.reg-accepting');
         var ownerAdvId = $(".hiddenOwnerAdvId").val();
         var offerAdvId = $(".hiddenOfferAdvId").val();
-        var exchangePropose = $(".offer-message").val();
+        var exchangePropose = $(".js-exchange-propose").val();
         var redirectUrl = $('.js-exchange-form').data("url");
         var mainUrl = $('.js-exchange-form').data("mainurl");
         var dataJson = {

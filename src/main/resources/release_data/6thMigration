@@ -1,0 +1,12 @@
+CREATE TABLE `searchVariant_category` (
+  `search_variant_id` bigint(20) NOT NULL,
+  `category_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`search_variant_id`,`category_id`),
+  KEY `FK63F2FD4092505F06` (`category_id`),
+  KEY `FK63F2FD405BDD2323` (`search_variant_id`),
+  CONSTRAINT `FK63F2FD405BDD2323` FOREIGN KEY (`search_variant_id`) REFERENCES `searchVariant` (`id`),
+  CONSTRAINT `FK63F2FD4092505F06` FOREIGN KEY (`category_id`) REFERENCES `Category` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `searchVariant` DROP `categories`;
+

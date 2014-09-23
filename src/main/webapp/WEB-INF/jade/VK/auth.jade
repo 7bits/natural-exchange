@@ -5,6 +5,9 @@ block content
   .auth-content
     form(method='post', commandName="vkEntryEmailForm", action="auth.html")
       div Введите свой e-mail, и Ваша регистрация будет завершена.
+      if (!errors.isEmpty())
+        for error in errors
+          div.red-alert-text #{error.getDefaultMessage()}
       input(type='email', name='email').form-rounded-button.hollow-text
       div.button-and-reject
         input(type='submit', value='Готово').rounded-button.auth-complete.small-tab-text
