@@ -26,18 +26,13 @@ public class AdsAddNewAdTest {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        authorizationLogin();
+
     }
 
     @Test
-    public void testAddNewAd() throws Exception {
-        driver.get(baseUrl + "/");
-        driver.findElement(By.linkText("Вход")).click();
-        driver.findElement(By.id("entry-email")).clear();
-        driver.findElement(By.id("entry-email")).sendKeys("antonovandrey@ro.ru");
-        driver.findElement(By.id("entry-pass")).clear();
-        driver.findElement(By.id("entry-pass")).sendKeys("sevenbits");
-        driver.findElement(By.id("entry")).click();
-        driver.findElement(By.linkText("ДОБАВИТЬ ПРЕДЛОЖЕНИЕ")).click();
+    public void testAddNewAds() throws Exception {
+        driver.findElement(By.cssSelector("html body div.head-component div.header.admin-size div.main-links ul.menu-list li a.add-advertisement")).click();
         driver.findElement(By.name("title")).clear();
         driver.findElement(By.name("title")).sendKeys("new ads");
         new Select(driver.findElement(By.name("category"))).selectByVisibleText("Игры");
@@ -58,6 +53,16 @@ public class AdsAddNewAdTest {
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
         }
+    }
+
+    public void authorizationLogin() throws Exception {
+        driver.get(baseUrl + "/");
+        driver.findElement(By.linkText("Вход")).click();
+        driver.findElement(By.id("entry-email")).clear();
+        driver.findElement(By.id("entry-email")).sendKeys("bookatina@gmail.com");
+        driver.findElement(By.id("entry-pass")).clear();
+        driver.findElement(By.id("entry-pass")).sendKeys("111");
+        driver.findElement(By.id("entry")).click();
     }
 
     private boolean isElementPresent(By by) {

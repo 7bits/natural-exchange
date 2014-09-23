@@ -38,6 +38,14 @@ public class AuthorizationRegistrationTest {
         driver.findElement(By.id("reg-pass")).clear();
         driver.findElement(By.id("reg-pass")).sendKeys("sevenbits");
         driver.findElement(By.id("registr")).click();
+        TimeUnit.SECONDS.sleep(5);
+        if (isElementPresent(By.xpath("/html/body/div[8]/div/div[9]/div/div/form/div[2]/p[1]"))) {
+            Assert.assertFalse("Test error!", false);
+        }
+        else {
+            Assert.assertTrue("Test true", true);
+        }
+        //TimeUnit.SECONDS.sleep(5);
     }
 
     @After
