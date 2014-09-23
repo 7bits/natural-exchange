@@ -258,7 +258,7 @@ public class AdvertisementListController {
             ModelAndView modelAndView = new ModelAndView("placing");
             modelAndView.addObject("errors", errors);
             modelAndView.addObject("advertisementPlacingForm", advertisementPlacingFormParam);
-            List<Category> categories =  this.categoryDao.findAll();
+            List<Category> categories = this.categoryDao.findAll();
             modelAndView.addObject("categories", categories);
             return modelAndView;
         }
@@ -295,7 +295,7 @@ public class AdvertisementListController {
             }
         }
         this.advertisementDao.create(advertisement, advertisementPlacingFormParam.getCategory(), userName, newTags);
-        return new ModelAndView("placingRequest");
+        return new ModelAndView("redirect:/advertisement/list.html");
     }
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.POST)
@@ -432,10 +432,10 @@ public class AdvertisementListController {
             }
 
             if (this.advertisementDao.findById(advertisementId).getIs_deleted()) {
-                title = "Ваше объявление восстановлено";
+                title = "Ваше предложение восстановлено";
                 moderAction = "Было восстановлено. Теперь его снова можно увидеть на списке объявлений";
             } else {
-                title = "Ваше объявление удалено модератором";
+                title = "Ваше предложение удалено модератором";
                 moderAction = "Было удалено модератором";
             }
             Map<String, String> letter = UtilsMessage.createLetterToUserFromModerator(advertisement.getTitle(),

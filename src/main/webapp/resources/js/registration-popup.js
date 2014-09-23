@@ -54,10 +54,14 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
                     errorString.text("");
+                    acceptString.show();
+                    errorString.hide();
                     acceptString.text("Вы зарегистрированы! На ваш email выслано подтверждение вашего аккаунта.");
                 } else {
-                    var errorVariant = data.errors;
+                    errorString.show();
                     acceptString.text("");
+                    acceptString.hide();
+                    var errorVariant = data.errors;
                     if(errorVariant.exist) {
                         errorString.text(data.errors.exist);
                     } else if (errorVariant.wrong) {

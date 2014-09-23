@@ -24,12 +24,11 @@ $(document).ready(function() {
         acceptString.text("");
         $.fancybox.close();
     });
-    $("js-registration").click( function(){
+    $('.js-registration').click( function(){
         var errorString = $('.reg-error');
         var acceptString = $('.reg-accepting');
         errorString.text("");
         acceptString.text("");
-        $.fancybox.close();
     });
     $('.js-entry-complete').click(function(e) {
         e.preventDefault();
@@ -51,9 +50,14 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
                     window.location.href = redirectUrl;
+                    errorString.text("");
+                    acceptString.show();
+                    errorString.hide();
                 } else {
                     var errorVariant = data.errors;
+                    errorString.show();
                     acceptString.text("");
+                    acceptString.hide();
                     if(errorVariant.notExist) {
                         errorString.text(data.errors.notExist);
                     } else if (errorVariant.wrong) {

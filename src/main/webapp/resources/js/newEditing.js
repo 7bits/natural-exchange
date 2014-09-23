@@ -6,6 +6,7 @@ $("#add-tag").on('click', function() {
     $('.js-tags-placing').append("<div class='tags-and-cross'><div class='chosen-tag'>" + tagText + "</div><a class='cross-circle js-deleting-tag'></a></div>");
     var currentTags = previousTags.concat(tagText);
     tags.val(currentTags);
+    currentTag.val("");
 });
 
 $(".js-image-chosen").on('change', function() {

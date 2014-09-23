@@ -18,8 +18,8 @@ block content
                 option.choosen-category(value='#{category.slug}', name="category") #{category.name}
           div.placing-file-and-tags
             label.border-file-choose.placing-file-choose.js-choose-image
-              div.file-button-hollow-text.js-image-text Выберите изображение
-              input#image(name = "image", type="file").js-image-chosen
+              div.file-button-hollow-text.js-image-text Выберите изображение в формате .jpeg или .png
+              input#image(name = "image", type="file", accept="image/jpeg,image/png").js-image-chosen
             div.choose-tags-and-button
               input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
               a#add-tag.reg-rounded-button.file-choose.placing-tag-add.js-add-tag ДОБАВИТЬ

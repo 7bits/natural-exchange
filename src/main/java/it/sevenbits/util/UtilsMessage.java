@@ -20,7 +20,7 @@ public class UtilsMessage {
         message.append(ownerName);
         message.append("\nПока что наш сервис находится в разработке, так что мы оставляем за вами ");
         message.append("право связаться с заинтересованным пользователем на вашу вещь.\n");
-        message.append("\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши объявления с нашего сервиса.\n");
+        message.append("\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши предложения с нашего сервиса.\n");
         message.append("Спасибо!");
         response.put("email", receiverEmail);
         response.put("title", title);
@@ -34,7 +34,7 @@ public class UtilsMessage {
     ) {
         Map<String, String> response = new HashMap<>();
         StringBuilder message = new StringBuilder(userName);
-        message.append("\nВаше объявление с заголовком : ");
+        message.append("\nВаше предложение с заголовком : ");
         message.append(advertisementTitle);
         message.append("\nС описанием : ");
         message.append(advertisementText + '\n');

@@ -10,6 +10,7 @@ $("#add-keyword").on('click', function() {
     $('.js-keywords-placing').append("<div class='keyword-and-cross'><div class='chosen-keyword'>" + tagText + "</div><a class='cross-circle js-deleting-keyword'></a></div>");
     var currentTags = previousKeywords.concat(tagText);
     keywords.val(currentTags);
+    currentKeyword.val("");
 });
 
 $("body").on('click', '.js-deleting-keyword', function(){
