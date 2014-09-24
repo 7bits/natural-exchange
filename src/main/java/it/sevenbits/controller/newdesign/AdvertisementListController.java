@@ -408,8 +408,7 @@ public class AdvertisementListController {
     }
 
     @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
+    public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails;
         String redirectAddress = "redirect:/moderator/advertisementList.html";

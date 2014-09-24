@@ -43,6 +43,8 @@
   width: 270px;
   height: 42px;
   margin-left: 15px;
+  margin-top: 20px;
+
   padding-left: 35px;
   padding-top: 10px;
   text-decoration: none;
@@ -130,6 +132,5 @@
 }
 
 .logo-pos {
-  margin-top: 10px;
   margin-right: 20px;
 }
