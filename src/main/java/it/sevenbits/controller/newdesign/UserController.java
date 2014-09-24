@@ -91,7 +91,7 @@ public class UserController {
     public
     @ResponseBody
     Map registrationRequest(@ModelAttribute("email") UserRegistrationForm form,
-                            final BindingResult bindingResult
+        final BindingResult bindingResult
     ) {
         Map map = new HashMap();
         userRegistrationValidator.validate(form, bindingResult);

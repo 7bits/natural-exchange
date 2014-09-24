@@ -50,6 +50,10 @@
   border: 2px solid rgb(26, 178, 175);
 }
 
+.placeholder-text {
+
+}
+
 .user-avatar {
   max-height: 100px;
   max-width: 100px;

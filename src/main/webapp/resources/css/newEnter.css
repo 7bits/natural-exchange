@@ -40,7 +40,7 @@
 
 #entry-form {
   margin: auto;
-  height: 350px;
+  height: 400px;
   width: 405px;
   background: transparent;
 }
@@ -78,6 +78,10 @@
 
 .vk-logo:hover {
     background-image: url("/resources/images/newdesign/vk-hover.png");
+}
+
+.vk-cross-circle:hover {
+    background-image: url("/resources/images/newdesign/circle-cross-selected.png");
 }
 
 .rounded {
@@ -165,7 +169,7 @@
 
 .entry-form {
   padding-top: 20px;
-  height: 320px;
+  height: 310px;
 }
 
 .end-form {
@@ -226,7 +230,7 @@
   padding-left: 6px;
 
   color: red;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .reg-accepting {
@@ -234,7 +238,7 @@
   padding-left: 6px;
 
   color: green;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .text-and-logo {

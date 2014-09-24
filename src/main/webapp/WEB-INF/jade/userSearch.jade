@@ -2,7 +2,8 @@ extends cabinet/cabinetLayout
 block append customcss
   link(rel='stylesheet', href='/resources/css/newSearches.css')
 block information
-  p.saveSearchText СОХРАНЕННЫЕ ПАРАМЕТРЫ ПОИСКА
+  if (searchVariants.size() > 0)
+    p.saveSearchText СОХРАНЕННЫЕ ПАРАМЕТРЫ ПОИСКА
     for searchVariant in searchVariants
       .savingSearch
         a.deleteSearch(href='#{uri.uri("/user/userprofile/deleteSearch.html?id=" + searchVariant.id)}')

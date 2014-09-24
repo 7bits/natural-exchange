@@ -78,6 +78,7 @@
   background-position: 10px 10px;
   border: none;
   border-radius: 100px;
+    outline: 0;
 }
 .search:hover {
   background-color: rgb(223, 83, 70);
@@ -141,10 +142,11 @@
   font-size: 15px;
   font-family: mySans;
   background-image: url('../images/changeUser.png');
-  background-repeat: no-repeat
+  background-repeat: no-repeat;
+  background-position: left top;
 }
 .adv-owner:hover {
-  text-decoration: underline;
+  /*text-decoration: underline;*/
 }
 .adv-name {
   margin-left: auto;
@@ -167,8 +169,10 @@
 .adv-image {
   display: block;
 /*  margin-left: auto;*/
-  max-width: 198px;
-  max-height: 137px;
+  min-width: 80px;
+  min-height: 80px;
+  max-width: 80px;
+  max-height: 80px;
   margin:auto;
 /*  height: 137px;
   width: 198px;

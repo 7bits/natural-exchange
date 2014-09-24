@@ -8,18 +8,18 @@ block content
       p.change-info ИЗМЕНИТЬ ЛИЧНУЮ ИНФОРМАЦИЮ
       form(action = 'edit.html', method = 'post', commandName="editindUserInfoForm", enctype="multipart/form-data")
         div
-          input.first-name-field(type='text', value='#{currentUser.firstName}', name='firstName')
+          input.first-name-field.placeholder-text(type='text', value='#{currentUser.firstName}', name='firstName', placeholder='Введите свое имя')
           p.error-user-name #{errorFromFirstName}
         div
-          input.last-name-field(type='text', value='#{currentUser.lastName}', name='lastName')
+          input.last-name-field.placeholder-text(type='text', value='#{currentUser.lastName}', name='lastName', placeholder='Введите свою фамилию')
           p.error-user-name #{errorFromLastName}
         div.picture-block
           if (currentUser.avatar != null)
             img.user-avatar(src='#{filePath.avatarsPath}#{currentUser.avatar}')
         div.choose-image-block.js-choose-avatar
           label
-            .choose-user-photo.js-image-text Выберите другой файл
-            input#image.hide-file.js-avatar-chosen(type='file', name='image')
+            .choose-user-photo.js-image-text Выберите аватар в формате .jpeg или .png
+            input#image.hide-file.js-avatar-chosen(type='file', name='image', accept='image/jpeg,image/png')
         div.delete-avatar-block
           input.delete-checkbox.js-want-delete-avatar(type='checkbox', name = 'isDelete')
           p.checkbox-text УДАЛИТЬ АВАТАР

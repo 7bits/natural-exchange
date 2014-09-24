@@ -120,7 +120,7 @@ public class MailSenderService {
         String link = getDomen() + "/advertisement/view.html?id=" + id + "&currentCategory=" + category;
         List<User> moderators = this.userDao.findAllModerators();
         for(User user:moderators) {
-            mailService.sendMail(SERVICE_MAILBOX, user.getEmail(), "Новое объявление", link);
+            mailService.sendMail(SERVICE_MAILBOX, user.getEmail(), "Новое предложение", link);
         }
     }
 

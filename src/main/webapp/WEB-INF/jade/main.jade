@@ -27,7 +27,7 @@ block content
             p.date #{advertisement.createdDateFormat}
             a.adv-name(href='#{uri.uri("/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover
-              a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
+              div.adv-owner #{advertisement.user.firstName} #{advertisement.user.lastName}
               if (auth.isAuthenticated())
                 if (advertisement.user != auth.getCurrentUser())
                   a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
