@@ -11,7 +11,9 @@ import org.openqa.selenium.support.ui.Select;
  * Created by booktina on 07.08.14.
  */
 public class AuthorizationRegistrationMailTest {
-  /* private WebDriver driver;
+  /*Узнать про генерацию ссылки для завершения регистрации через e-mail
+
+  private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
