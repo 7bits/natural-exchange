@@ -390,7 +390,7 @@ public class AdvertisementListController {
             if (owner.getLastName().equals("")) {
                 userName = "владелец вещи";
             } else {
-                userName = owner.getLastName();
+                userName = owner.getFirstName();
             }
             Map<String, String> letter = UtilsMessage.createLetterForExchange(titleExchangeMessage, exchangeForm.getExchangePropose(), owner.getEmail(),
                 offer.getUsername(), advertisementUrlOwner.toString(), advertisementUrlOffer.toString(), userName);
@@ -412,7 +412,7 @@ public class AdvertisementListController {
     public @ResponseBody String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails;
-        String redirectAddress = "redirect:/advertisement/moderator/list.html";
+        String redirectAddress = "redirect:/moderator/advertisementList.html";
         if (principal instanceof UserDetails) {
             userDetails = (UserDetails) principal;
         } else {

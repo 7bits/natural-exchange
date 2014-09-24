@@ -51,8 +51,8 @@
   color: rgb(0, 0, 0);
 }
 .underneath {
-  margin-top: 30px;
-  margin-bottom: 40px;
+    padding-top: 10px;
+  float: right;
 }
 .example {
   line-height: 20px;
@@ -83,6 +83,10 @@
 .search:hover {
   background-color: rgb(223, 83, 70);
 }
+.position-data {
+    padding-top: 10px;
+    display: inline-block;
+}
 .save-search {
   padding-top: 6px;
   padding-bottom: 6px;
@@ -102,6 +106,7 @@
   background-color: rgb(223, 83, 70);
 }
 .row {
+    padding-top: 20px;
   overflow: hidden;
 }
 
@@ -226,7 +231,8 @@ select {
 }
 .pages {
   text-align: center;
-  margin-top: 60px;
+  margin-top: 30px;
+  padding-right: 50px;
 }
 .pages li {
   display: inline-block;
@@ -262,8 +268,8 @@ select {
 .to-know {
   margin-top: 35px;
   margin-bottom: 15px;
-  font-family: mySans;
-  font-size: 14px;
+  font-family: boldSans;
+  font-size: 16px;
 }
 .low-space {
   height: 50px;
@@ -271,7 +277,8 @@ select {
 .e-mail-field {
   outline: 0;
   margin-bottom: 20px;
-  height: 24px;
+  height: 40px;
+  width: 25%;
   padding-left: 15px;
   box-sizing: border-box;
   background-color: rgb(255, 255, 255);

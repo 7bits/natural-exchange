@@ -16,10 +16,10 @@ public class UtilsMessage {
         message.append(advertisementUrlOffer);
         message.append("\nПрилагается сообщение : \n");
         message.append(text);
-        message.append("\n Уважаемый ");
+        message.append("\n Уважаемый(ая) ");
         message.append(ownerName);
-        message.append("\nПока что наш сервис находится в разработке, так что мы оставляем за вами ");
-        message.append("право связаться с заинтересованным пользователем на вашу вещь.\n");
+        message.append("\nВ данный момент наш сервис находится в разработке, так что мы оставляем за вами ");
+        message.append("право связаться с пользователем, заинтересовавшимся в вашей вещи.\n");
         message.append("\nЕсли ваш обмен состоится, то, пожалуйста, удалите ваши предложения с нашего сервиса.\n");
         message.append("Спасибо!");
         response.put("email", receiverEmail);
@@ -51,7 +51,6 @@ public class UtilsMessage {
         Map<String, String> letterParams = new HashMap<>();
         StringBuilder message = new StringBuilder("Уведомления пользователя: " + userName + '\n');
         message.append(banMessage + '\n');
-        message.append("Всего хорошего");
         letterParams.put("email", address);
         letterParams.put("title", messageTitle);
         letterParams.put("text", message.toString());

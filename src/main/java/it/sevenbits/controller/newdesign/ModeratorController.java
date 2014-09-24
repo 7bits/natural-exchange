@@ -178,9 +178,9 @@ public class ModeratorController {
         User user = this.userDao.findById(id);
         String message;
         if (user.getIsBanned()) {
-            message = "Поздравляем, вы разбанены и можете снова посещать наш сайт со своей учетной записи :-)";
+            message = "Вы были разбанены и можете снова посещать наш сайт со своей учетной записи";
         } else {
-            message = "Вы забанены модератором";
+            message = "Вы были забанены модератором";
         }
         Map<String, String> letter = UtilsMessage.createLetterForBannedUser(
                 user.getEmail(), user.getFirstName(), "Уведомление о бане", message);
