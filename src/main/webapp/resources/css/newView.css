@@ -6,13 +6,18 @@
   height: 750px;
 }
 .advertisement-container {
+  display: inline-block;
 }
 .information {
+  display: inline-block;
   width: 50%;
-  float: left;
+}
+.position-tags {
+  font-size: 18px;
+  font-family: boldSans;
+  width: 250px;
 }
 .picture {
-  width: 50%;
   float:right;
 }
 .title {
@@ -26,6 +31,7 @@
   line-height: 60px;
 }
 .description {
+  width: 400px;
   font-size: 18px;
   font-family: boldSans;
 }
@@ -33,7 +39,7 @@
   margin-left: 10px;
   color: rgb(223, 83, 70);
 }
-.tag {
+.spectag {
   margin-left: 10px;
   font-size: 13px;
   text-decoration: none;
@@ -56,11 +62,13 @@
   font-size: 13px;
 }
 .current-description {
+  width: 300px;
+
   margin-left: 10px;
   font-family: "PS Sans";
   font-weight: normal;
   font-size: 18px;
-  display: inline;
+  /*display: inline;*/
 }
 .thing-picture {
   max-width: 300px;
@@ -85,6 +93,10 @@
   background-color: rgb(26, 178, 175);
   background-repeat: no-repeat;
   border-radius: 100px;
+}
+
+.change:hover {
+  background-color: rgb(223, 83, 70);
 }
 
 @font-face {
