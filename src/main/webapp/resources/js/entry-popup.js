@@ -59,15 +59,40 @@ $(document).ready(function() {
                     acceptString.text("");
                     acceptString.hide();
                     if(errorVariant.notExist) {
-                        errorString.text(data.errors.notExist);
+//                        errorString.text(data.errors.notExist);
+                        $.gritter.add({
+                            title:'Ошибка при авторизации.',
+                            text:data.errors.notExist,
+                            sticky:true
+                        });
                     } else if (errorVariant.wrong) {
-                        errorString.text(data.errors.wrong);
+//                        errorString.text(data.errors.wrong);
+                        $.gritter.add({
+                            title:'Ошибка при авторизации.',
+                            text:data.errors.wrong,
+                            sticky:true
+                        });
                     } else if (errorVariant.wrongPassword) {
-                        errorString.text(data.errors.wrongPassword);
+//                        errorString.text(data.errors.wrongPassword);
+                        $.gritter.add({
+                            title:'Ошибка при авторизации.',
+                            text:data.errors.wrongPassword,
+                            sticky:true
+                        });
                     } else if (errorVariant.notRegistrationComplete) {
-                        errorString.text(data.errors.notRegistrationComplete);
+//                        errorString.text(data.errors.notRegistrationComplete);
+                        $.gritter.add({
+                            title:'Ошибка при авторизации.',
+                            text: data.errors.notRegistrationComplete,
+                            sticky:true
+                        });
                     } else if (errorVariant.userIsBanned) {
-                        errorString.text(data.errors.userIsBanned);
+//                        errorString.text(data.errors.userIsBanned);
+                        $.gritter.add({
+                            title:'Ошибка при авторизации.',
+                            text:data.errors.userIsBanned,
+                            sticky:true
+                        });
                     }
                 }
             },
