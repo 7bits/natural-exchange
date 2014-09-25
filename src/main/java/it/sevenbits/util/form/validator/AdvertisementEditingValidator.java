@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 @Component
 public class AdvertisementEditingValidator implements Validator {
     private final static int maxTitleLength = 16;
+    private final static int maxAdvertisementTextLength = 100;
 
     @Override
     public boolean supports(final Class<?> clazz) {
@@ -23,12 +24,16 @@ public class AdvertisementEditingValidator implements Validator {
         AdvertisementEditingForm advertisementEditingForm = (AdvertisementEditingForm) target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty", "Заполните поле заголовка.");
         String title = advertisementEditingForm.getTitle();
+        String text = advertisementEditingForm.getText();
         if ((title.length()) > maxTitleLength) {
-            errors.rejectValue("title", "title.tooLong", "Недопустимо больше 16 знаков.");
+            errors.rejectValue("title", "title.tooLong", "Недопустимо больше 16 знаков в заголовке.");
+        }
+        if ((text.length()) > maxAdvertisementTextLength) {
+            errors.rejectValue("text", "text.tooLong", "Недопустимо больше 100 знаков в описании.");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(
-                errors, "text", "text.empty", "Информация не должна быть пуста."
+                errors, "text", "text.empty", "Описание не должно быть пустым."
         );
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "category", "category.empty", "Выберите категорию.");
