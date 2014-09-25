@@ -432,7 +432,7 @@ public class AdvertisementListController {
 
             if (this.advertisementDao.findById(advertisementId).getIs_deleted()) {
                 title = "Ваше предложение восстановлено";
-                moderAction = "Было восстановлено. Теперь его снова можно увидеть на списке объявлений";
+                moderAction = "Было восстановлено. Теперь его снова можно увидеть на списке предложений";
             } else {
                 title = "Ваше предложение удалено модератором";
                 moderAction = "Было удалено модератором";

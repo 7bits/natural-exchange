@@ -133,26 +133,29 @@ public class UserController {
 
     @RequestMapping(value = "/entry.html", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public
-    @ResponseBody
-    Map entryRequest(@ModelAttribute("email") UserEntryForm form,
-                     final BindingResult bindingResult
+    public @ResponseBody Map entryRequest(
+        @ModelAttribute("email") UserEntryForm form, final BindingResult bindingResult
     ) {
         Map map = new HashMap();
+        Map errors = new HashMap();
         userEntryValidator.validate(form, bindingResult);
         if (!bindingResult.hasErrors()) {
             if (!userDao.isExistUserWithEmail(form.getEmail())) {
                 map.put("success", false);
-                Map errors = new HashMap();
                 errors.put("notExist", "Вы еще не зарегистрированы.");
                 map.put("errors", errors);
             } else {
                 Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
                 User user = userDao.findUserByEmail(form.getEmail());
+                if (user.getIsBanned()) {
+                    map.put("success", false);
+                    errors.put("userIsBanned", "Данный пользователь забанен администрацией");
+                    map.put("errors", errors);
+                    return map;
+                }
                 if (user.getPassword().equals(md5PasswordEncoder.encodePassword(form.getPassword(), ""))) {
                     if (user.getActivationDate() != 0L) {
                         map.put("success", false);
-                        Map errors = new HashMap();
                         errors.put("notRegistrationComplete", "Вы не активировали свой аккаунт.");
                         map.put("errors", errors);
                     } else {
@@ -165,7 +168,6 @@ public class UserController {
                     }
                 } else {
                     map.put("success", false);
-                    Map errors = new HashMap();
                     errors.put("wrongPassword", "Вы ввели неверный пароль.");
                     map.put("errors", errors);
                 }
@@ -173,7 +175,6 @@ public class UserController {
         } else {
             map.put("success", false);
             String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
-            Map errors = new HashMap();
             errors.put("wrong", errorMessage);
             map.put("errors", errors);
         }

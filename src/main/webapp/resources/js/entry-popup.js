@@ -66,6 +66,8 @@ $(document).ready(function() {
                         errorString.text(data.errors.wrongPassword);
                     } else if (errorVariant.notRegistrationComplete) {
                         errorString.text(data.errors.notRegistrationComplete);
+                    } else if (errorVariant.userIsBanned) {
+                        errorString.text(data.errors.userIsBanned);
                     }
                 }
             },
