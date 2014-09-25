@@ -22,10 +22,10 @@ block append content
           | Меняет:
           a.change-user(href='#') #{fullUserName}
         if (advertisement.getUser() == auth.getCurrentUser())
-          a.tag(href='#{uri.uri("/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
-          a.tag(href='#{uri.uri("/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ОБЪЯВЛЕНИЕ
+          a.tag(href='#{uri.uri("/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ПРЕДЛОЖЕНИЕ
+          a.tag(href='#{uri.uri("/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ПРЕДЛОЖЕНИЕ
         else if (auth.isUserModerator())
-          a.tag(href='#{uri.uri("/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
+          a.tag(href='#{uri.uri("/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ПРЕДЛОЖЕНИЕ
       .picture
         img.thing-picture(src='#{filePath.imagesPath}#{advertisement.photoFile}')
     .change-button
@@ -33,7 +33,6 @@ block append content
         if (advertisement.user != auth.getCurrentUser())
           a.change.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
           include exchange
-    include exchange
 block append customjs
   script(src="/resources/js/newExchangePopup.js")
 

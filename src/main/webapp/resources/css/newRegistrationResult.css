@@ -5,12 +5,13 @@
 
 .button-goto-main {
     padding-top: 15px;
+    text-align: center;
 }
 
-.center {
+.center-text {
   text-align: center;
 
-  font: 14px mySans;
+  font: 18px mySans;
 }
 
 .to-main-button {

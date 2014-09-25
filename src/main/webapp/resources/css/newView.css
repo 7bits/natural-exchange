@@ -6,7 +6,6 @@
   height: 750px;
 }
 .advertisement-container {
-  overflow: hidden;
 }
 .information {
   width: 50%;
@@ -64,7 +63,8 @@
   display: inline;
 }
 .thing-picture {
-  max-width: 100%;
+  max-width: 300px;
+  max-height: 300px;
   float: left;
 }
 .change-button {

@@ -11,11 +11,11 @@ $(document).ready(function() {
             type: 'GET',
             data: sendingData,
             success: function(result) {
-                alert("Объявление успешно удалено");
+                alert("Предложение успешно удалено");
                 document.location.reload();
             },
             error: function() {
-                alert("Объявление не удалено, пожалуйста, повторите попытку позже");
+                alert("Предложение не удалено, пожалуйста, повторите попытку позже");
             }
         })
     });

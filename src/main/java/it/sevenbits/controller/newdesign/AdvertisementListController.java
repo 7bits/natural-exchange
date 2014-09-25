@@ -390,7 +390,7 @@ public class AdvertisementListController {
             if (owner.getLastName().equals("")) {
                 userName = "владелец вещи";
             } else {
-                userName = owner.getLastName();
+                userName = owner.getFirstName();
             }
             Map<String, String> letter = UtilsMessage.createLetterForExchange(titleExchangeMessage, exchangeForm.getExchangePropose(), owner.getEmail(),
                 offer.getUsername(), advertisementUrlOwner.toString(), advertisementUrlOffer.toString(), userName);
@@ -408,11 +408,10 @@ public class AdvertisementListController {
     }
 
     @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
+    public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails;
-        String redirectAddress = "redirect:/advertisement/moderator/list.html";
+        String redirectAddress = "redirect:/moderator/advertisementList.html";
         if (principal instanceof UserDetails) {
             userDetails = (UserDetails) principal;
         } else {
@@ -433,7 +432,7 @@ public class AdvertisementListController {
 
             if (this.advertisementDao.findById(advertisementId).getIs_deleted()) {
                 title = "Ваше предложение восстановлено";
-                moderAction = "Было восстановлено. Теперь его снова можно увидеть на списке объявлений";
+                moderAction = "Было восстановлено. Теперь его снова можно увидеть на списке предложений";
             } else {
                 title = "Ваше предложение удалено модератором";
                 moderAction = "Было удалено модератором";
