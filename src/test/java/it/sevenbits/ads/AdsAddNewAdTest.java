@@ -26,12 +26,29 @@ public class AdsAddNewAdTest {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        authorizationLogin();
 
     }
 
+
+
     @Test
     public void testAddNewAds() throws Exception {
+
+        driver.get(baseUrl + "/");
+        driver.findElement(By.linkText("Вход")).click();
+        driver.findElement(By.id("entry-email")).clear();
+        driver.findElement(By.id("entry-email")).sendKeys("bookatina@gmail.com");
+        driver.findElement(By.id("entry-pass")).clear();
+        driver.findElement(By.id("entry-pass")).sendKeys("111");
+        driver.findElement(By.id("entry")).click();
+        TimeUnit.SECONDS.sleep(5);
+
+        if (driver.findElement(By.xpath("/html/body/div[8]/div/div[9]/div/div/form/div[2]/p[1]")).getText().matches("Вы ввели неверный пароль."))
+        {
+            driver.quit();
+            fail("Password incorrect!");
+        }
+
         driver.findElement(By.cssSelector("html body div.head-component div.header.admin-size div.main-links ul.menu-list li a.add-advertisement")).click();
         driver.findElement(By.name("title")).clear();
         driver.findElement(By.name("title")).sendKeys("new ads");
@@ -42,7 +59,6 @@ public class AdsAddNewAdTest {
         driver.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys("#ads");
         driver.findElement(By.id("add-tag")).click();
         driver.findElement(By.xpath("//input[@value='ДОБАВИТЬ']")).click();
-        driver.findElement(By.linkText("НА ГЛАВНУЮ")).click();
         driver.findElement(By.linkText("Выход")).click();
     }
 
@@ -55,14 +71,14 @@ public class AdsAddNewAdTest {
         }
     }
 
-    public void authorizationLogin() throws Exception {
-        driver.get(baseUrl + "/");
-        driver.findElement(By.linkText("Вход")).click();
-        driver.findElement(By.id("entry-email")).clear();
-        driver.findElement(By.id("entry-email")).sendKeys("bookatina@gmail.com");
-        driver.findElement(By.id("entry-pass")).clear();
-        driver.findElement(By.id("entry-pass")).sendKeys("111");
-        driver.findElement(By.id("entry")).click();
+
+
+    private WebElement findElementIfPresent(WebDriver driver, By by){
+        try {
+            return driver.findElement(by);
+        } catch (NoSuchElementException e) {
+            return null;
+        }
     }
 
     private boolean isElementPresent(By by) {

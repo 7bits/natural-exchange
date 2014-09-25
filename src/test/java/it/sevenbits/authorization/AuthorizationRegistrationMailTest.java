@@ -1,5 +1,8 @@
 package it.sevenbits.authorization;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -7,10 +10,14 @@ import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+
 /**
  * Created by booktina on 07.08.14.
  */
 public class AuthorizationRegistrationMailTest {
+
+
   /*Узнать про генерацию ссылки для завершения регистрации через e-mail
 
   private WebDriver driver;

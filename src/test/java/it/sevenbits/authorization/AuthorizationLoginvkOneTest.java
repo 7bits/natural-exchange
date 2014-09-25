@@ -1,18 +1,19 @@
 package it.sevenbits.authorization;
 
-import java.util.regex.Pattern;
-import java.util.concurrent.TimeUnit;
-import org.junit.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
+
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.fail;
 
 /**
- * Created by booktina on 05.08.14.
+ * Created by sevenbits on 25.09.14.
  */
-public class AuthorizationRegistrationTest {
+public class AuthorizationLoginvkOneTest {
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
@@ -23,29 +24,28 @@ public class AuthorizationRegistrationTest {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
     }
 
+
+
     @Test
-    public void testAuthorization() throws Exception {
+    public void testAddNewAds() throws Exception {
         driver.get(baseUrl + "/");
-        driver.findElement(By.linkText("Регистрация")).click();
-        driver.findElement(By.id("reg-email")).clear();
-        driver.findElement(By.id("reg-email")).sendKeys("antonovandrey1@ro.ru");
-        driver.findElement(By.id("reg-first-name")).clear();
-        driver.findElement(By.id("reg-first-name")).sendKeys("Andrey");
-        driver.findElement(By.id("reg-last-name")).clear();
-        driver.findElement(By.id("reg-last-name")).sendKeys("Antonov");
-        driver.findElement(By.id("reg-pass")).clear();
-        driver.findElement(By.id("reg-pass")).sendKeys("sevenbits");
-        driver.findElement(By.id("registr")).click();
-        TimeUnit.SECONDS.sleep(5);
-
-        if (driver.findElement(By.xpath("/html/body/div[8]/div/div[9]/div/div/form/div[2]/p[1]")).getText().matches("Пользователь с таким e-mail существует.")) {
-            driver.quit();
-            fail("Account is registered");
-        }
-
-
+        driver.findElement(By.linkText("Вход")).click();
+        driver.findElement(By.cssSelector("a.vk-logo.js-vk-entry-complete")).click();
+        driver.findElement(By.name("email")).clear();
+        driver.findElement(By.name("email")).sendKeys("+79069915343");
+        driver.findElement(By.name("pass")).clear();
+        driver.findElement(By.name("pass")).sendKeys("Sevenbits");
+        driver.findElement(By.id("install_allow")).click();
+        driver.findElement(By.name("email")).clear();
+        driver.findElement(By.name("email")).sendKeys("antonovandrey@ro.ru");
+        driver.findElement(By.xpath("//input[@value='Готово']")).click();
+        driver.findElement(By.linkText("НА ГЛАВНУЮ")).click();
+        String link =  "http://naturalexchange.ru/user/magic.html?code=3d6e8fe0d67fded046fc67b1f51ca6fa&mail=antonovandrey@ro.ru";
+        driver.get(link);
+        driver.findElement(By.linkText("Выход")).click();
     }
 
     @After
@@ -54,6 +54,16 @@ public class AuthorizationRegistrationTest {
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
+        }
+    }
+
+
+
+    private WebElement findElementIfPresent(WebDriver driver, By by){
+        try {
+            return driver.findElement(by);
+        } catch (NoSuchElementException e) {
+            return null;
         }
     }
 
@@ -89,5 +99,4 @@ public class AuthorizationRegistrationTest {
             acceptNextAlert = true;
         }
     }
-
 }
