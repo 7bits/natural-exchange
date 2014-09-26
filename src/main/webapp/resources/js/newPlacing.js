@@ -26,7 +26,7 @@ $(document).ready(function() {
         var errorField = $(".error-image");
         if (image[0].files[0]) {
             if (image[0].files[0].size > 3 * 1024 * 1024) {
-                errorField.text("Размер файла не должен превышать 3 мегобайт");
+                errorField.text("Размер файла не должен превышать 3 мегабайт");
                 return false;
             }
         }

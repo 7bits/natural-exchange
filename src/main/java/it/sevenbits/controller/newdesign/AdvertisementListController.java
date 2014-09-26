@@ -13,10 +13,7 @@ import it.sevenbits.entity.hibernate.*;
 import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.Role;
 import it.sevenbits.services.mail.MailSenderService;
-import it.sevenbits.util.DatePair;
-import it.sevenbits.util.FileManager;
-import it.sevenbits.util.SortOrder;
-import it.sevenbits.util.UtilsMessage;
+import it.sevenbits.util.*;
 import it.sevenbits.util.form.AdvertisementEditingForm;
 import it.sevenbits.util.form.AdvertisementPlacingForm;
 import it.sevenbits.util.form.AdvertisementSearchingForm;
@@ -211,8 +208,6 @@ public class AdvertisementListController {
         List<Category> categories =  this.categoryDao.findAll();
         modelAndView.addObject("advertisementPlacingForm", advertisementPlacingForm);
         modelAndView.addObject("categories", categories);
-        Map<String, String> errors = new HashMap<>();
-        modelAndView.addObject("errors", errors);
         return modelAndView;
     }
 
@@ -252,9 +247,11 @@ public class AdvertisementListController {
         String defaultPhoto = "no_photo.png";
         advertisementPlacingValidator.validate(advertisementPlacingFormParam, result);
         if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
             ModelAndView modelAndView = new ModelAndView("placing");
-            modelAndView.addObject("errors", errors);
+            Map<String, String> errorMessages = ErrorMessages.getFieldsErrorMessages(result);
+            modelAndView.addObject("titleError", errorMessages.get("title"));
+            modelAndView.addObject("categoryError", errorMessages.get("category"));
+            modelAndView.addObject("textError", errorMessages.get("text"));
             modelAndView.addObject("advertisementPlacingForm", advertisementPlacingFormParam);
             List<Category> categories = this.categoryDao.findAll();
             modelAndView.addObject("categories", categories);
@@ -304,10 +301,12 @@ public class AdvertisementListController {
     ) {
         advertisementEditingValidator.validate(advertisementEditingFormParam, result);
         if (result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
             ModelAndView modelAndView = new ModelAndView("edit");
             modelAndView.addObject("advertisementEditingForm", advertisementEditingFormParam);
-            modelAndView.addObject("errors", errors);
+            Map<String, String> errorMessages = ErrorMessages.getFieldsErrorMessages(result);
+            modelAndView.addObject("titleError", errorMessages.get("title"));
+            modelAndView.addObject("categoryError", errorMessages.get("category"));
+            modelAndView.addObject("textError", errorMessages.get("text"));
             List<Category> categories = this.categoryDao.findAll();
             Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementEditingFormParam.getAdvertisementId());
             modelAndView.addObject("tags", tags);

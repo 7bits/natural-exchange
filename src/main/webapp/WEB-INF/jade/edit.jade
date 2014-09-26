@@ -8,13 +8,19 @@ block content
       div.head-text РЕДАКТИРОВАНИЕ ПРЕДЛОЖЕНИЯ
       div.form-placing
         form#placing-advert(method='post', action="edit.html", enctype="multipart/form-data")
-          input(type='text', placeholder="Заголовок", name="title", value="#{advertisementEditingForm.title}").form-rounded-button.hollow-text.advertisement-title
-          select.select-category(name="category")
-            for category in categories
-              if (category.slug == advertisementEditingForm.category)
-                option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
-              else
-                option.choosen-category(value='#{category.slug}', name="category") #{category.name}
+          div.title-and-error
+            input(type='text', placeholder="Заголовок", name="title", value="#{advertisementEditingForm.title}").form-rounded-button.hollow-text.advertisement-title
+            if locals.titleError
+                div.red-alert-text #{titleError}
+          div.category-and-error
+            select.select-category(name="category")
+              for category in categories
+                if (category.slug == advertisementEditingForm.category)
+                  option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
+                else
+                  option.choosen-category(value='#{category.slug}', name="category") #{category.name}
+            if locals.categoryError
+              div.red-alert-text-category #{categoryError}
           div.placing-file-and-tags
             label.border-file-choose.placing-file-choose.js-choose-image
               div.file-button-hollow-text.js-image-text Выберите новое изображение в формате .jpeg или .png
@@ -29,9 +35,6 @@ block content
               p.deleting-text
                 input(type='checkbox', name='isDeletePhoto').file-current-hollow-text.js-want-delete-photo
                 | Удалить фото
-            if (!errors.isEmpty())
-              for error in errors
-                div.red-alert-text #{error.getDefaultMessage()}
             div.tags-and-textarea
               textarea(placeholder="Описание", name="text", value="#{advertisementEditingForm.text}").form-rounded-button.hollow-text.placing-textarea
                 | #{advertisementEditingForm.text}
@@ -40,6 +43,8 @@ block content
                   div.tags-and-cross
                     div.chosen-tag #{tag.name}
                     a.cross-circle.js-deleting-tag
+              if locals.textError
+                div.red-alert-text-textError #{textError}
           div.placing-end-button
             input(type="submit", placeholder="РЕДАКТИРОВАТЬ", value="ИЗМЕНИТЬ").rounded-button.adding-advert.small-tab-text
             input(type="hidden", name="advertisementId", value="#{advertisementEditingForm.advertisementId}")

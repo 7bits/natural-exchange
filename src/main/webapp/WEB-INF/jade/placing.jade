@@ -8,28 +8,33 @@ block content
       div.head-text ДОБАВЛЕНИЕ ПРЕДЛОЖЕНИЯ
       div.form-placing
         form#placing-advert(method='post', action="placing.html", enctype="multipart/form-data")
-          input(type='text', placeholder="Заголовок", name="title").form-rounded-button.hollow-text.advertisement-title
-          select.select-category(name="category")
-            option(selected='selected', disabled='disabled') Выберите категорию
-            for category in categories
-              if (category.name == advertisementPlacingForm.category)
-                option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
-              else
-                option.choosen-category(value='#{category.slug}', name="category") #{category.name}
+          div.title-and-error
+            input(type='text', placeholder="Заголовок", name="title").form-rounded-button.hollow-text.advertisement-title
+            if locals.titleError
+              div.red-alert-text #{titleError}
+          div.category-and-error
+            select.select-category(name="category")
+              option(selected='selected', disabled='disabled') Выберите категорию
+              for category in categories
+                if (category.name == advertisementPlacingForm.category)
+                  option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
+                else
+                  option.choosen-category(value='#{category.slug}', name="category") #{category.name}
+            if locals.categoryError
+              div.red-alert-text-category #{categoryError}
           div.placing-file-and-tags
             label.border-file-choose.placing-file-choose.js-choose-image
               div.file-button-hollow-text.js-image-text Выберите изображение в формате .jpeg или .png
               input#image(name = "image", type="file", accept="image/jpeg,image/png").js-image-chosen
-              p.error-image
+              div.red-alert-text.error-image
             div.choose-tags-and-button
               input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
               a#add-tag.reg-rounded-button.file-choose.placing-tag-add.js-add-tag ДОБАВИТЬ
               input(type='hidden', name="tags", value="#{advertisementPlacingForm.tags}").js-tags-chosen
-            if (!errors.isEmpty())
-              for error in errors
-                div.red-alert-text #{error.getDefaultMessage()}
             div.tags-and-textarea
               textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.text}").form-rounded-button.hollow-text.placing-textarea
+              if locals.textError
+                div.red-alert-text #{textError}
               div.chosen-tags.js-tags-placing
           div.placing-end-button
             input(type="submit", placeholder="ДОБАВИТЬ", value="ДОБАВИТЬ").rounded-button.adding-advert.small-tab-text

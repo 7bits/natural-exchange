@@ -125,7 +125,30 @@
 
 
 .red-alert-text {
+    width: 300px;
+
     color: red;
+    font-size: 18px;
+    padding-left: 15px;
+}
+
+.red-alert-text-category {
+    width: 300px;
+
+    color: red;
+    font-size: 18px;
+}
+
+.red-alert-text-textError {
+    width: 300px;
+
+    color: red;
+    font-size: 18px;
+    padding-left: 15px;
+}
+
+.category-and-error {
+    float: right;
 }
 
 .advert-photo {
@@ -153,13 +176,16 @@
     padding-top: 40px;
 }
 
+.title-and-error {
+    display: inline-block;
+}
+
 .select-category {
     outline: 0;
     margin-top: 15px;
     width: 384px;
     height: 40px;
     padding-left: 20px;
-    float: right;
 
     box-sizing: border-box;
     border-radius: 100px;
