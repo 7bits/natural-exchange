@@ -111,6 +111,11 @@
   font-size: 12px;
   color: rgb(255, 0, 0);
 }
+.error-user-photo {
+  font-size: 12px;
+  color: rgb(255, 0, 0);
+}
+
 .hide-file {
   padding-top: 7px;
   margin-left: 10px;

@@ -6,7 +6,7 @@ block content
     .user-container
       a.back-to-the-cab(href='#{uri.uri("/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
       p.change-info ИЗМЕНИТЬ ЛИЧНУЮ ИНФОРМАЦИЮ
-      form(action = 'edit.html', method = 'post', commandName="editindUserInfoForm", enctype="multipart/form-data")
+      form.js-edit-form(action = 'edit.html', method = 'post', commandName="editindUserInfoForm", enctype="multipart/form-data")
         div
           input.first-name-field.placeholder-text(type='text', value='#{currentUser.firstName}', name='firstName', placeholder='Введите свое имя')
           p.error-user-name #{errorFromFirstName}
@@ -20,10 +20,11 @@ block content
           label
             .choose-user-photo.js-image-text Выберите аватар в формате .jpeg или .png
             input#image.hide-file.js-avatar-chosen(type='file', name='image', accept='image/jpeg,image/png')
+            p.error-user-photo #{errorFromPhotoFile}
         div.delete-avatar-block
-          input.delete-checkbox.js-want-delete-avatar(type='checkbox', name = 'isDelete')
+          input.delete-checkbox.js-want-delete-avatar(type='checkbox', name = 'isDelete', data-action = '#{uri.uri("/user/userprofile/edit.html")}')
           p.checkbox-text УДАЛИТЬ АВАТАР
         div
-          input.change-information(type='submit', value='СОХРАНИТЬ')
+          input.change-information.js-accept-edit(type='submit', value='СОХРАНИТЬ')
 block append customjs
   script(src="/resources/js/newProfileEditing.js")

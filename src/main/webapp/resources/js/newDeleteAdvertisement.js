@@ -11,7 +11,6 @@ $(document).ready(function() {
             type: 'GET',
             data: sendingData,
             success: function(result) {
-                alert("Предложение успешно удалено");
                 document.location.reload();
             },
             error: function() {
