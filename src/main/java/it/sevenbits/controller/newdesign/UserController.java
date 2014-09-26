@@ -4,7 +4,6 @@ package it.sevenbits.controller.newdesign;
 import it.sevenbits.dao.*;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
-import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
@@ -255,7 +254,8 @@ public class UserController {
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.GET)
     public ModelAndView editProfile(
         @RequestParam(value = "firstNameError", required = false) final String firstNameError,
-        @RequestParam(value = "lastNameError", required = false) final String lastNameError
+        @RequestParam(value = "lastNameError", required = false) final String lastNameError,
+        @RequestParam(value = "photoFileError", required = false) final String photoFileError
     ) {
         ModelAndView modelAndView = new ModelAndView("editProfile.jade");
         Long id = this.getCurrentUserId();
@@ -263,6 +263,7 @@ public class UserController {
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("errorFromFirstName", EncodeDecodeHelper.decode(firstNameError));
         modelAndView.addObject("errorFromLastName", EncodeDecodeHelper.decode(lastNameError));
+        modelAndView.addObject("errorFromPhotoFile", EncodeDecodeHelper.decode(photoFileError));
         return modelAndView;
     }
 
@@ -282,6 +283,11 @@ public class UserController {
             if (fieldErrorFromLastName != null) {
                 redirectAddress += EncodeDecodeHelper.encode(fieldErrorFromLastName.getDefaultMessage());
             }
+            redirectAddress += "&photoFileError=";
+            FieldError fieldPhotoFile = bindingResult.getFieldError("image");
+            if (fieldPhotoFile != null) {
+                redirectAddress += EncodeDecodeHelper.encode(fieldPhotoFile.getDefaultMessage());
+            }
             return redirectAddress;
         }
 
@@ -294,7 +300,7 @@ public class UserController {
         if (editingUserInfoForm.getIsDelete() == null) {
             if (!avatarFile.getOriginalFilename().equals("")) {
                 fileManager.deleteFile(newAvatar, false);
-                newAvatar = fileManager.savingFile(avatarFile, false);
+                newAvatar = fileManager.savePhotoFile(avatarFile, false);
             }
         } else {
             fileManager.deleteFile(newAvatar, false);

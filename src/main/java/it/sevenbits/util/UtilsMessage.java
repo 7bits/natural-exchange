@@ -5,8 +5,10 @@ import java.util.Map;
 
 public class UtilsMessage {
 
-    public static Map<String, String> createLetterForExchange(final String title, final String text, final String receiverEmail, final String offerEmail,
-        final String advertisementUrlOwner, final String advertisementUrlOffer, final String ownerName) {
+    public static Map<String, String> createLetterForExchange(
+        final String title, final String text, final String receiverEmail, final String offerEmail,
+        final String advertisementUrlOwner, final String advertisementUrlOffer, final String ownerName
+    ) {
         Map<String, String> response = new HashMap<>();
         StringBuilder message = new StringBuilder("Пользователь с email'ом : ");
         message.append(offerEmail);
@@ -24,6 +26,15 @@ public class UtilsMessage {
         message.append("Спасибо!");
         response.put("email", receiverEmail);
         response.put("title", title);
+        response.put("text", message.toString());
+        return response;
+    }
+
+    public static Map<String, String> createLetterToThingWanter() {
+        Map<String, String> response = new HashMap<>();
+        StringBuilder message = new StringBuilder("Мы послали сообщение об обмене владельцу заинтересовавшей вас вещи\n");
+        message.append("и надеемся, что в скорем времени он(она) с вами свяжется :-)");
+        response.put("title", "Уведомление об обмене");
         response.put("text", message.toString());
         return response;
     }

@@ -12,6 +12,11 @@
     padding-top: 3%;
 }
 
+.error-image {
+  color: rgb(255, 0, 0);
+  font-size: 15px;
+}
+
 .main-content {
     max-width: 1000px;
     margin: 0 auto;

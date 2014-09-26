@@ -9,10 +9,7 @@ import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
 import it.sevenbits.entity.Tag;
 import it.sevenbits.entity.User;
-import it.sevenbits.entity.hibernate.AdvertisementEntity;
-import it.sevenbits.entity.hibernate.CategoryEntity;
-import it.sevenbits.entity.hibernate.SearchVariantEntity;
-import it.sevenbits.entity.hibernate.TagEntity;
+import it.sevenbits.entity.hibernate.*;
 import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.Role;
 import it.sevenbits.services.mail.MailSenderService;
@@ -34,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -267,7 +265,7 @@ public class AdvertisementListController {
         if (advertisementPlacingFormParam.getImage().getOriginalFilename().equals("")) {
             photo = defaultPhoto;
         } else {
-            photo = fileManager.savingFile(advertisementPlacingFormParam.getImage(), true);
+            photo = fileManager.savePhotoFile(advertisementPlacingFormParam.getImage(), true);
         }
         Advertisement advertisement = null;
         advertisement = new Advertisement();
@@ -337,7 +335,7 @@ public class AdvertisementListController {
         } else if (advertisementEditingFormParam.getImage().getOriginalFilename().equals("")) {
             photo = advertisementOldImageName;
         } else {
-            photo = fileManager.savingFile(advertisementEditingFormParam.getImage(), true);
+            photo = fileManager.savePhotoFile(advertisementEditingFormParam.getImage(), true);
             if (advertisementOldImageName.equals("image1.jpg") || advertisementOldImageName.equals("image2.jpg") ||
                     advertisementOldImageName.equals("image3.jpg") || advertisementOldImageName.equals("no_photo.png")) {
             } else {
@@ -392,10 +390,12 @@ public class AdvertisementListController {
             } else {
                 userName = owner.getFirstName();
             }
-            Map<String, String> letter = UtilsMessage.createLetterForExchange(titleExchangeMessage, exchangeForm.getExchangePropose(), owner.getEmail(),
-                offer.getUsername(), advertisementUrlOwner.toString(), advertisementUrlOffer.toString(), userName);
-            mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
-            logger.info("email about exchange sending to " + letter.get("email"));
+            Map<String, String> letterToOwner = UtilsMessage.createLetterForExchange(
+                    titleExchangeMessage, exchangeForm.getExchangePropose(), owner.getEmail(), offer.getUsername(),
+                    advertisementUrlOwner.toString(), advertisementUrlOffer.toString(), userName
+            );
+            mailSenderService.sendMail(letterToOwner.get("email"), letterToOwner.get("title"), letterToOwner.get("text"));
+            logger.info("email about exchange sending to " + letterToOwner.get("email"));
             map.put("success", true);
         } else {
             map.put("success", false);
@@ -405,6 +405,14 @@ public class AdvertisementListController {
             map.put("errors", errors);
         }
         return map;
+    }
+
+    private UserEntity getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return (UserEntity) auth.getPrincipal();
+        }
+        return null;
     }
 
     @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
