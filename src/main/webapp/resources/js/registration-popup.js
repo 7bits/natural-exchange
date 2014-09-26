@@ -18,26 +18,30 @@ $(document).ready(function() {
     $.fancybox.resize();
     $("#registration-form").submit(function() { return false; });
     $("#reg-reject").click( function(){
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
-        errorString.text("");
-        acceptString.text("");
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
+        emailError.text("");
+        passError.text("");
         $.fancybox.close();
     });
     $(".js-entry").click( function(){
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
-        errorString.text("");
-        acceptString.text("");
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
+        emailError.text("");
+        passError.text("");
         $.fancybox.close();
     });
     $('.js-registration-complete').click(function(e) {
         e.preventDefault();
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
         var email = $("#reg-email").val();
         var firstName = $("#reg-first-name").val();
         var lastName = $("#reg-last-name").val();
         var password = $("#reg-pass").val();
         var sendingUrl = $(".js-registration-form").data("url");
+        emailError.text("");
+        passError.text("");
         var dataJson = {
             email: email,
             firstName: firstName,
@@ -64,10 +68,12 @@ $(document).ready(function() {
                             image:"/resources/images/newdesign/logo.png"
                         });
                     } else if (errorVariant.wrong) {
-                        $.gritter.add({
-                            title:data.errors.wrong,
-                            image:"/resources/images/newdesign/logo.png"
-                        });
+                        if (errorVariant.wrong.email) {
+                            emailError.text(errorVariant.wrong.email);
+                        }
+                        if (errorVariant.wrong.password) {
+                            passError.text(errorVariant.wrong.password);
+                        }
                     }
                 }
             },

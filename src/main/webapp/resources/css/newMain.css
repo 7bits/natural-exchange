@@ -127,8 +127,11 @@
   margin-bottom: 50px;
 }
 .errorLk {
+    width: 300px;
+    padding-left: 225px;
+
   color: red;
-  font-size: 14px;
+  font-size: 18px;
 }
 .for-email {
   outline: 0;
@@ -161,6 +164,7 @@
   background-image: url('../images/okImg.png');
   background-repeat: no-repeat;
   background-position: 10px 9px;
+  outline: 0;
 }
 
 .submit-email:hover {

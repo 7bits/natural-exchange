@@ -46,7 +46,7 @@ block content
         form.subscribe-form(data-url='#{uri.uri("/subscribe.html")}')
           input.for-email(type='text', placeholder='Ваш e-mail')
           input.submit-email(type='submit', value='ПОДПИСАТЬСЯ')
-          p.errorLk
+          div.errorLk.js-subscribe-error
 block append customjs
   script(src="/resources/js/newExchangePopup.js")
   script(src="/resources/js/newSubscribe.js")

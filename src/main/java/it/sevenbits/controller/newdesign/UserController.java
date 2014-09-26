@@ -11,6 +11,7 @@ import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.services.mail.MailSenderService;
+import it.sevenbits.util.ErrorMessages;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.TimeManager;
 import it.sevenbits.util.form.*;
@@ -35,10 +36,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "user")
@@ -122,9 +120,8 @@ public class UserController {
             }
         } else {
             map.put("success", false);
-            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
             Map errors = new HashMap();
-            errors.put("wrong", errorMessage);
+            errors.put("wrong", ErrorMessages.getFieldsErrorMessages(bindingResult));
             map.put("errors", errors);
         }
         return map;
@@ -173,8 +170,7 @@ public class UserController {
             }
         } else {
             map.put("success", false);
-            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
-            errors.put("wrong", errorMessage);
+            errors.put("wrong", ErrorMessages.getFieldsErrorMessages(bindingResult));
             map.put("errors", errors);
         }
         return map;

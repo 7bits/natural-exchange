@@ -2,13 +2,14 @@ $(document).ready(function() {
     "use strict";
     $('.submit-email').click(function(e) {
         e.preventDefault();
+        var subscribeError = $('.js-subscribe-error');
         var emailString = $('.for-email');
         var sendingUrl = $('.subscribe-form').data("url");
         var dataJson = {
             email: emailString.val(),
             errors: null
         };
-
+        subscribeError.text("");
         $.ajax({
             type: 'POST',
             url: sendingUrl,
@@ -27,12 +28,8 @@ $(document).ready(function() {
                             title:data.errors.exist,
                             image:"/resources/images/newdesign/logo.png"
                         });
-                        emailString.val(data.errors.exist);
                     } else if (errorVariant.wrong) {
-                        $.gritter.add({
-                            title:data.errors.wrong,
-                            image:"/resources/images/newdesign/logo.png"
-                        });
+                        subscribeError.text(data.errors.wrong);
                     }
                 }
             },
@@ -46,13 +43,14 @@ $(document).ready(function() {
     });
     $('.e-mail-submit').click(function(e) {
         e.preventDefault();
+        var subscribeError = $('.js-subscribe-error');
         var emailString = $('.e-mail-field');
         var sendingUrl = $('.subscribe-form').data("url");
         var dataJson = {
             email: emailString.val(),
             errors: null
         };
-
+        subscribeError.text("");
         $.ajax({
             type: 'POST',
             url: sendingUrl,
@@ -67,17 +65,12 @@ $(document).ready(function() {
                 } else {
                     var errorVariant = data.errors;
                     if(errorVariant.exist) {
-                        emailString.val(data.errors.exist);
                         $.gritter.add({
                             title:data.errors.exist,
                             image:"/resources/images/newdesign/logo.png"
                         });
                     } else if (errorVariant.wrong) {
-                        errorString.text(data.errors.wrong);
-                        $.gritter.add({
-                            title:data.errors.wrong,
-                            image:"/resources/images/newdesign/logo.png"
-                        });
+                        subscribeError.text(data.errors.wrong);
                     }
                 }
             },

@@ -241,6 +241,12 @@
   font-size: 18px;
 }
 
+.error-msg {
+    padding-left: 15px;
+    color: red;
+    font-size: 18px;
+}
+
 .text-and-logo {
   padding-top: 20px;
   padding-right: 20px;

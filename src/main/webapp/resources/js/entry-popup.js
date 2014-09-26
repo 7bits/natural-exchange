@@ -18,24 +18,28 @@ $(document).ready(function() {
     $.fancybox.resize();
     $("#entry-form").submit(function() { return false; });
     $("#entry-reject").click( function(){
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
-        errorString.text("");
-        acceptString.text("");
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
+        emailError.text("");
+        passError.text("");
         $.fancybox.close();
     });
     $('.js-registration').click( function(){
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
-        errorString.text("");
-        acceptString.text("");
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
+        emailError.text("");
+        passError.text("");
     });
     $('.js-entry-complete').click(function(e) {
         e.preventDefault();
         var email = $("#entry-email").val();
         var password = $("#entry-pass").val();
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
         var redirectUrl = $('.js-entry-form').data("url");
         var mainUrl = $('.js-entry-form').data("mainurl");
+        emailError.text("");
+        passError.text("");
         var dataJson = {
             email: email,
             password: password,
@@ -56,15 +60,14 @@ $(document).ready(function() {
                             image:"/resources/images/newdesign/logo.png"
                         });
                     } else if (errorVariant.wrong) {
-                        $.gritter.add({
-                            title:data.errors.wrong,
-                            image:"/resources/images/newdesign/logo.png"
-                        });
+                        if (errorVariant.wrong.email) {
+                            emailError.text(errorVariant.wrong.email);
+                        }
+                        if (errorVariant.wrong.password) {
+                            passError.text(errorVariant.wrong.password);
+                        }
                     } else if (errorVariant.wrongPassword) {
-                        $.gritter.add({
-                            title:data.errors.wrongPassword,
-                            image:"/resources/images/newdesign/logo.png"
-                        });
+                        passError.text(errorVariant.wrongPassword);
                     } else if (errorVariant.notRegistrationComplete) {
                         $.gritter.add({
                             title: data.errors.notRegistrationComplete,
