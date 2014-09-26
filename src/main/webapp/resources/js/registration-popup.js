@@ -33,8 +33,6 @@ $(document).ready(function() {
     });
     $('.js-registration-complete').click(function(e) {
         e.preventDefault();
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
         var email = $("#reg-email").val();
         var firstName = $("#reg-first-name").val();
         var lastName = $("#reg-last-name").val();
@@ -53,25 +51,32 @@ $(document).ready(function() {
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
-                    errorString.text("");
-                    acceptString.show();
-                    errorString.hide();
-                    acceptString.text("Вы зарегистрированы! На ваш email выслано подтверждение вашего аккаунта.");
+                    $.gritter.add({
+                        title:"Вы зарегистрированы!",
+                        text:"На ваш email выслано подтверждение вашего аккаунта.",
+                        image:"/resources/images/newdesign/logo.png"
+                    });
                 } else {
-                    errorString.show();
-                    acceptString.text("");
-                    acceptString.hide();
                     var errorVariant = data.errors;
                     if(errorVariant.exist) {
-                        errorString.text(data.errors.exist);
+                        $.gritter.add({
+                            title:data.errors.exist,
+                            image:"/resources/images/newdesign/logo.png"
+                        });
                     } else if (errorVariant.wrong) {
-                        errorString.text(data.errors.wrong);
+                        $.gritter.add({
+                            title:data.errors.wrong,
+                            image:"/resources/images/newdesign/logo.png"
+                        });
                     }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if(jqXHR.status==404) {
-                    alert(errorThrown);
+                    $.gritter.add({
+                        title:errorThrown,
+                        image:"/resources/images/newdesign/logo.png"
+                    });
                 }
             }
         })

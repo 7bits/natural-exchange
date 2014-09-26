@@ -32,8 +32,6 @@ $(document).ready(function() {
     });
     $('.js-entry-complete').click(function(e) {
         e.preventDefault();
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
         var email = $("#entry-email").val();
         var password = $("#entry-pass").val();
         var redirectUrl = $('.js-entry-form').data("url");
@@ -50,56 +48,46 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
                     window.location.href = redirectUrl;
-                    errorString.text("");
-                    acceptString.show();
-                    errorString.hide();
                 } else {
                     var errorVariant = data.errors;
-                    errorString.show();
-                    acceptString.text("");
-                    acceptString.hide();
                     if(errorVariant.notExist) {
-//                        errorString.text(data.errors.notExist);
                         $.gritter.add({
-                            title:'Ошибка при авторизации.',
-                            text:data.errors.notExist,
-                            sticky:true
+                            title:data.errors.notExist,
+                            image:"/resources/images/newdesign/logo.png"
                         });
                     } else if (errorVariant.wrong) {
-//                        errorString.text(data.errors.wrong);
                         $.gritter.add({
-                            title:'Ошибка при авторизации.',
-                            text:data.errors.wrong,
-                            sticky:true
+                            title:data.errors.wrong,
+                            image:"/resources/images/newdesign/logo.png"
                         });
                     } else if (errorVariant.wrongPassword) {
-//                        errorString.text(data.errors.wrongPassword);
                         $.gritter.add({
-                            title:'Ошибка при авторизации.',
-                            text:data.errors.wrongPassword,
-                            sticky:true
+                            title:data.errors.wrongPassword,
+                            image:"/resources/images/newdesign/logo.png"
                         });
                     } else if (errorVariant.notRegistrationComplete) {
-//                        errorString.text(data.errors.notRegistrationComplete);
                         $.gritter.add({
-                            title:'Ошибка при авторизации.',
-                            text: data.errors.notRegistrationComplete,
-                            sticky:true
+                            title: data.errors.notRegistrationComplete,
+                            image:"/resources/images/newdesign/logo.png"
                         });
                     } else if (errorVariant.userIsBanned) {
-//                        errorString.text(data.errors.userIsBanned);
                         $.gritter.add({
-                            title:'Ошибка при авторизации.',
-                            text:data.errors.userIsBanned,
-                            sticky:true
+                            title:data.errors.userIsBanned,
+                            image:"/resources/images/newdesign/logo.png"
                         });
                     }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                errorString.text("Активируйте свой аккаунт прежде чем войти.");
+                $.gritter.add({
+                    title:"Активируйте свой аккаунт прежде чем войти.",
+                    image:"/resources/images/newdesign/logo.png"
+                });
                 if(jqXHR.status==404) {
-//                    alert(errorThrown);
+                    $.gritter.add({
+                        title:errorThrown,
+                        image:"/resources/images/newdesign/logo.png"
+                    });
                 }
             }
         })

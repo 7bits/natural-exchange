@@ -44,8 +44,6 @@ $(document).ready(function() {
     });
     $('.js-exchange-complete').click(function(e) {
         e.preventDefault();
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
         var ownerAdvId = $(".hiddenOwnerAdvId").val();
         var offerAdvId = $(".hiddenOfferAdvId").val();
         var exchangePropose = $(".js-exchange-propose").val();
@@ -64,22 +62,22 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
                     window.location.href = redirectUrl;
+                    $.gritter.add({
+                        title:"Вы совершили обмен!",
+                        text:"Пожалуйста, дождитесь ответа от владельца вещи о возможном обмене. Ответ придет на ваш e-mail.",
+                        image:"/resources/images/newdesign/logo.png"
+                    });
                 } else {
                     var errorVariant = data.errors;
-                    acceptString.text("");
-                    if(errorVariant.notExist) {
-                        errorString.text(data.errors.notExist);
-                    } else if (errorVariant.wrong) {
-                        errorString.text(data.errors.wrong);
-                    } else if (errorVariant.wrongPassword) {
-                        errorString.text(data.errors.wrongPassword);
-                    } else if (errorVariant.notRegistrationComplete) {
-                        errorString.text(data.errors.notRegistrationComplete);
+                    if (errorVariant.wrong) {
+                        $.gritter.add({
+                            title:errorVariant.wrong,
+                            image:"/resources/images/newdesign/logo.png"
+                        });
                     }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                errorString.text("Активируйте свой аккаунт прежде чем войти.");
                 if(jqXHR.status==404) {
 //                    alert(errorThrown);
                 }

@@ -11,11 +11,17 @@ $(document).ready(function() {
             type: 'GET',
             data: sendingData,
             success: function(result) {
-                alert("Предложение успешно удалено");
+                $.gritter.add({
+                    title:"Предложение успешно удалено.",
+                    image:"/resources/images/newdesign/logo.png"
+                });
                 document.location.reload();
             },
             error: function() {
-                alert("Предложение не удалено, пожалуйста, повторите попытку позже");
+                $.gritter.add({
+                    title:"Предложение не удалено. Пожалуйста, повторите попытку позже.",
+                    image:"/resources/images/newdesign/logo.png"
+                });
             }
         })
     });
