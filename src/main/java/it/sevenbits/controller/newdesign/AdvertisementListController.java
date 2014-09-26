@@ -377,22 +377,19 @@ public class AdvertisementListController {
         Map map = new HashMap();
         exchangeFormValidator.validate(exchangeForm, bindingResult);
         if (!bindingResult.hasErrors()) {
-            Advertisement offerAdvertisement = this.advertisementDao.findById(exchangeForm.getIdExchangeOfferAdvertisement());
-            User offer = offerAdvertisement.getUser();
+            User offer = this.getCurrentUser();
             User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
             String advertisementUrl = mailSenderService.getDomen() + "/advertisement/view.html?id=";
-            String titleExchangeMessage = "С вами хотят обменяться!";
-            String userName;
+            String titleExchangeMessage = "Уведомление об обмене";
+            String ownerName;
+            String offerName;
             StringBuilder advertisementUrlOwner = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement());
             StringBuilder advertisementUrlOffer = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement());
-            if (owner.getLastName().equals("")) {
-                userName = "владелец вещи";
-            } else {
-                userName = owner.getFirstName();
-            }
+            ownerName = this.getUserName(owner);
+            offerName = this.getUserName(offer);
             Map<String, String> letterToOwner = UtilsMessage.createLetterForExchange(
-                    titleExchangeMessage, exchangeForm.getExchangePropose(), owner.getEmail(), offer.getUsername(),
-                    advertisementUrlOwner.toString(), advertisementUrlOffer.toString(), userName
+                titleExchangeMessage, exchangeForm.getExchangePropose(), owner.getEmail(), offer.getUsername(),
+                advertisementUrlOwner.toString(), advertisementUrlOffer.toString(), ownerName, offerName
             );
             mailSenderService.sendMail(letterToOwner.get("email"), letterToOwner.get("title"), letterToOwner.get("text"));
             logger.info("email about exchange sending to " + letterToOwner.get("email"));
@@ -460,6 +457,16 @@ public class AdvertisementListController {
             }
         }
         return redirectAddress;
+    }
+
+    private String getUserName(User user) {
+        if (!user.getFirstName().equals("")) {
+            return user.getFirstName();
+        }
+        if (!user.getLastName().equals("")) {
+            return user.getLastName();
+        }
+        return "Безымянный";
     }
 
     private DatePair takeAndValidateDate(String dateFrom, String dateTo, BindingResult bindingResult,

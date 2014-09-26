@@ -63,8 +63,6 @@ $(document).ready(function() {
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
-                    alert("Мы послали сообщение об обмене владельцу заинтересовавшей вас вещи" +
-                        "и надеемся, что в скорем времени он(она) с вами свяжется :-)");
                     window.location.href = redirectUrl;
                 } else {
                     var errorVariant = data.errors;
