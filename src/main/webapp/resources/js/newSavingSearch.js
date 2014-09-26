@@ -26,10 +26,16 @@ $(document).ready(function() {
             url: url,
             data: sendingData,
             success: function(data, textStatus, jqXHR) {
-                alert("Поиск успешно сохранен");
+                $.gritter.add({
+                    title:"Поиск успешно сохранен",
+                    image:"/resources/images/newdesign/logo.png"
+                });
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                alert("Извините, что-то пошло не так");
+                $.gritter.add({
+                    title:"Произошел сбой в системе. Повторите попытку позднее.",
+                    image:"/resources/images/newdesign/logo.png"
+                });
             }
         })
     })

@@ -4,7 +4,6 @@
 .advertisement-list {
   margin: 0 auto;
   width: 1050px;
-  overflow: hidden;
 }
 .searching-form {
   padding-top: 40px;
@@ -51,7 +50,6 @@
   color: rgb(0, 0, 0);
 }
 .underneath {
-    padding-top: 10px;
   float: right;
 }
 .example {
