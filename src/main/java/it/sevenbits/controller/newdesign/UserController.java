@@ -4,6 +4,7 @@ package it.sevenbits.controller.newdesign;
 import it.sevenbits.dao.*;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
+import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
@@ -351,7 +352,9 @@ public class UserController {
         boolean isAllCategories = false;
         if (currentSearchForm.getCategory().size() == this.categoryDao.categoryCount()) {
             isAllCategories = true;
-            modelAndView.addObject("selectedCategory", allCategories);
+            CategoryEntity allCategoriesEntity = new CategoryEntity();
+            allCategoriesEntity.setSlug(this.allCategoriesSlug());
+            modelAndView.addObject("selectedCategory", allCategoriesEntity);
         } else {
             modelAndView.addObject("selectedCategory", currentSearchForm.getCategory().toArray()[0]);
         }
@@ -365,7 +368,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.POST)
-    public ModelAndView searchEditing(final SearchEditForm searchEditForm,final BindingResult result) {
+    public ModelAndView searchEditing(final SearchEditForm searchEditForm, final BindingResult result) {
         searchEditValidator.validate(searchEditForm, result);
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
@@ -390,6 +393,15 @@ public class UserController {
                     getSlug();
         }
         return allCategories;
+    }
+
+    private String allCategoriesSlug() {
+        List<Category> allCategories = this.categoryDao.findAll();
+        String result = "";
+        for (Category currentCategory: allCategories) {
+            result += currentCategory.getSlug() + " ";
+        }
+        return StringUtils.trim(result);
     }
 
     private String arrayToString(String[] strings) {
