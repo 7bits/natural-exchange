@@ -18,7 +18,7 @@ public class UtilsMessage {
         message.append(offerName);
         message.append(" предлагает вам обмен вещи ");
         message.append(advertisementUrlOwner);
-        message.append(" на");
+        message.append(" на ");
         message.append(advertisementUrlOffer);
         if (!text.equals("")) {
             message.append(" с подписью \"");
