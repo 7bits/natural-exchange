@@ -365,10 +365,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.POST)
-    public ModelAndView searchEditing(
-            final SearchEditForm searchEditForm,
-            final BindingResult result
-    ) {
+    public ModelAndView searchEditing(final SearchEditForm searchEditForm,final BindingResult result) {
         searchEditValidator.validate(searchEditForm, result);
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
