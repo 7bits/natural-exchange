@@ -46,6 +46,9 @@
   background-image: url('../images/orangeEdit.png');
   background-repeat: no-repeat;
 }
+.edit-user-profile:hover {
+  color: white;
+}
 .register-date {
   margin-top: -14px;
 }

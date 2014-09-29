@@ -6,13 +6,15 @@ block information
     p.saveSearchText СОХРАНЕННЫЕ ПАРАМЕТРЫ ПОИСКА
     for searchVariant in searchVariants
       .savingSearch
-        a.deleteSearch(href='#{uri.uri("/user/userprofile/deleteSearch.html?id=" + searchVariant.id)}')
+        a.deleteSearch.js-delete-search(href='#', data-adv-id='#{searchVariant.id}', data-dest-url='#{uri.uri("/user/userprofile/deleteSearch.html")}')
           img(src='/resources/images/deleteNotActive.png')
         a.editSearch(href='#{uri.uri("/user/userprofile/editSearch.html?id=" + searchVariant.id)}')
           img(src='/resources/images/editActive.png')
         .nameAndCategory
           a.thingName(href='#{uri.uri("/advertisement/list.html?keyWords=" + coder.encode(searchVariant.keyWords) + "&currentCategory=" + searchVariant.stringOfCategorySlugs())}') #{searchVariant.keyWords}
           p.categoryName #{stringActions.toUpperCase(searchVariant.stringOfCategoryNames())}
-      p.spacer
-        | ___________________________________________________________________________________________
+        p.spacer
+          | ___________________________________________________________________________________________
+block append customjs
+  script(src="/resources/js/newDeleteSearch.js")
 
