@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ssh root@178.62.39.63 -A '
+ssh n-exchange@178.62.39.63 -A '
 cd /home/n-exchange/www
 git pull origin master
 mvn clean package -Dserver=prod -Dmaven.test.skip=true
