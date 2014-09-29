@@ -305,9 +305,12 @@ select {
 .e-mail-submit:hover {
   background-color: rgb(223, 83, 70);
 }
-.error-pointer {
+
+.errorLk-list {
+  width: 300px;
+
   color: red;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 @font-face {

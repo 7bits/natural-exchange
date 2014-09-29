@@ -35,6 +35,8 @@ $(document).ready(function() {
         e.preventDefault();
         var emailError = $('.js-email-error');
         var passError = $('.js-pass-error');
+        var firstNameError = $('.js-firstname-error');
+        var lastNameError = $('.js-lastname-error');
         var email = $("#reg-email").val();
         var firstName = $("#reg-first-name").val();
         var lastName = $("#reg-last-name").val();
@@ -73,6 +75,12 @@ $(document).ready(function() {
                         }
                         if (errorVariant.wrong.password) {
                             passError.text(errorVariant.wrong.password);
+                        }
+                        if (errorVariant.wrong.firstName) {
+                            firstNameError.text(errorVariant.wrong.firstName);
+                        }
+                        if (errorVariant.wrong.lastName) {
+                            lastNameError.text(errorVariant.wrong.lastName);
                         }
                     }
                 }

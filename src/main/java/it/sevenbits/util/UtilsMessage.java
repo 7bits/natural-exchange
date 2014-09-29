@@ -11,7 +11,7 @@ public class UtilsMessage {
         final String offerName
     ) {
         Map<String, String> response = new HashMap<>();
-        StringBuilder message = new StringBuilder("Здравствуйте, уважаемый пользователь, ");
+        StringBuilder message = new StringBuilder("Здравствуйте, уважаемый пользователь ");
         message.append(ownerName);
         message.append("!\n");
         message.append("Пользователь ");
@@ -27,8 +27,8 @@ public class UtilsMessage {
         }
         message.append(". Если вас заинтересовало это предложение, то вы можете связаться с данным пользователем по email-у: ");
         message.append(offerEmail);
-        message.append(".\nМы расчитываем на вашу порядочность в том, что, при совершении обмена, вы удалите ваше предложение с сайта самостоятельно :-)\n");
-        message.append("С наилучшими поделаниями, администрация проекта naturalexchange.ru");
+        message.append(".\nМы расчитываем на вашу порядочность в том, что, при совершении обмена, вы удалите ваше предложение с сайта самостоятельно\n");
+        message.append("С наилучшими пожеланиями, администрация проекта naturalexchange.ru");
         response.put("email", receiverEmail);
         response.put("title", title);
         response.put("text", message.toString());

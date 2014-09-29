@@ -62,7 +62,8 @@
 }
 
 .text-center {
-  padding-left: 20px;
+  padding-left: 15px;
+  font: 14px boldSans;
 }
 
 .vk-cross-circle {
@@ -134,7 +135,7 @@
 }
 
 .rounded-button:hover {
-    background-color: rgb(223, 83, 70);
+  background-color: rgb(223, 83, 70);
 }
 
 .form-rounded-button {

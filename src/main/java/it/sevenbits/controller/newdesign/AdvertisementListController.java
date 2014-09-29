@@ -252,7 +252,9 @@ public class AdvertisementListController {
             modelAndView.addObject("titleError", errorMessages.get("title"));
             modelAndView.addObject("categoryError", errorMessages.get("category"));
             modelAndView.addObject("textError", errorMessages.get("text"));
+            modelAndView.addObject("tagsError", errorMessages.get("tags"));
             modelAndView.addObject("advertisementPlacingForm", advertisementPlacingFormParam);
+            modelAndView.addObject("tags", StringUtils.split(advertisementPlacingFormParam.getTags()));
             List<Category> categories = this.categoryDao.findAll();
             modelAndView.addObject("categories", categories);
             return modelAndView;
@@ -307,9 +309,9 @@ public class AdvertisementListController {
             modelAndView.addObject("titleError", errorMessages.get("title"));
             modelAndView.addObject("categoryError", errorMessages.get("category"));
             modelAndView.addObject("textError", errorMessages.get("text"));
+            modelAndView.addObject("tagsError", errorMessages.get("tags"));
             List<Category> categories = this.categoryDao.findAll();
-            Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementEditingFormParam.getAdvertisementId());
-            modelAndView.addObject("tags", tags);
+            modelAndView.addObject("tags", this.getTagsFromAdvertisementById(advertisementEditingFormParam.getAdvertisementId()));
             modelAndView.addObject("advertisementPhotoName", this.advertisementDao.findById(advertisementEditingFormParam.getAdvertisementId()).getPhotoFile());
             modelAndView.addObject("categories", categories);
             return modelAndView;
@@ -394,11 +396,9 @@ public class AdvertisementListController {
             logger.info("email about exchange sending to " + letterToOwner.get("email"));
             map.put("success", true);
         } else {
+            Map<String, String> errorMessages = ErrorMessages.getFieldsErrorMessages(bindingResult);
             map.put("success", false);
-            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
-            Map errors = new HashMap();
-            errors.put("wrong", errorMessage);
-            map.put("errors", errors);
+            map.put("errors", errorMessages);
         }
         return map;
     }

@@ -6,6 +6,10 @@ $(document).ready(function() {
         var ownerAdvId = exchButton.data('adv-id');
         var hiddenId = $('.hiddenOwnerAdvId');
         hiddenId.val(ownerAdvId);
+        var exchangeAdvName = $('.js-exchange-adv');
+        var advDiv = $(this).parent();
+        var advName = advDiv.find('.adv-name');
+        exchangeAdvName.text((advName).text());
     });
 
     $(".chosen-advert").click(function() {
@@ -41,14 +45,16 @@ $(document).ready(function() {
     $("#new-exchange-popup").submit(function() { return false; });
     $("#exchange-reject").click( function(){
         $.fancybox.close();
+        var exchangeAdvError = $('.js-advert-error');
+        exchangeAdvError.text("");
     });
     $('.js-exchange-complete').click(function(e) {
         e.preventDefault();
         var ownerAdvId = $(".hiddenOwnerAdvId").val();
         var offerAdvId = $(".hiddenOfferAdvId").val();
         var exchangePropose = $(".js-exchange-propose").val();
-        var redirectUrl = $('.js-exchange-form').data("url");
         var mainUrl = $('.js-exchange-form').data("mainurl");
+        var exchangeAdvError = $('.js-advert-error');
         var dataJson = {
             idExchangeOwnerAdvertisement: ownerAdvId,
             idExchangeOfferAdvertisement: offerAdvId,
@@ -61,19 +67,16 @@ $(document).ready(function() {
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
-                    window.location.href = redirectUrl;
                     $.gritter.add({
                         title:"Вы совершили обмен!",
                         text:"Пожалуйста, дождитесь ответа от владельца вещи о возможном обмене. Ответ придет на ваш e-mail.",
                         image:"/resources/images/newdesign/logo.png"
                     });
+                    $.fancybox.close();
                 } else {
                     var errorVariant = data.errors;
-                    if (errorVariant.wrong) {
-                        $.gritter.add({
-                            title:errorVariant.wrong,
-                            image:"/resources/images/newdesign/logo.png"
-                        });
+                    if (errorVariant.idExchangeOfferAdvertisement) {
+                        exchangeAdvError.text(errorVariant.idExchangeOfferAdvertisement);
                     }
                 }
             },

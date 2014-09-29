@@ -9,14 +9,14 @@ block content
       div.form-placing
         form#placing-advert(method='post', action="placing.html", enctype="multipart/form-data")
           div.title-and-error
-            input(type='text', placeholder="Заголовок", name="title").form-rounded-button.hollow-text.advertisement-title
+            input(type='text', placeholder="Заголовок", name="title", value="#{advertisementPlacingForm.title}").form-rounded-button.hollow-text.advertisement-title
             if locals.titleError
               div.red-alert-text #{titleError}
           div.category-and-error
             select.select-category(name="category")
               option(selected='selected', disabled='disabled') Выберите категорию
               for category in categories
-                if (category.name == advertisementPlacingForm.category)
+                if (category.slug == advertisementPlacingForm.category)
                   option.choosen-category(value='#{category.slug}', selected='selected', name="category") #{category.name}
                 else
                   option.choosen-category(value='#{category.slug}', name="category") #{category.name}
@@ -33,10 +33,18 @@ block content
               input(type='hidden', name="tags", value="#{advertisementPlacingForm.tags}").js-tags-chosen
             div.tags-and-textarea
               textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.text}").form-rounded-button.hollow-text.placing-textarea
+                | #{advertisementPlacingForm.text}
+              div.chosen-tags.js-tags-placing
+                if locals.tags
+                  for tag in tags
+                    div.tags-and-cross
+                      div.chosen-tag #{tag}
+                      a.cross-circle.js-deleting-tag
               if locals.textError
                 div.red-alert-text #{textError}
-              div.chosen-tags.js-tags-placing
+              if locals.tagsError
+                div.red-alert-text-tags #{tagsError}
           div.placing-end-button
-            input(type="submit", placeholder="ДОБАВИТЬ", value="ДОБАВИТЬ").rounded-button.adding-advert.small-tab-text
+            input(type="submit", placeholder="ДОБАВИТЬ", value="ДОБАВИТЬ").rounded-button.adding-advert.small-tab-text.js-placing
 block append customjs
   script(src="/resources/js/newPlacing.js")

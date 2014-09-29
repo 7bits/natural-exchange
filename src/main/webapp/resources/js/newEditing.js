@@ -2,11 +2,13 @@ $("#add-tag").on('click', function() {
     var tags = $('.js-tags-chosen');
     var previousTags = tags.val();
     var currentTag = $('.js-added-tag');
-    var tagText = currentTag.val() + " ";
-    $('.js-tags-placing').append("<div class='tags-and-cross'><div class='chosen-tag'>" + tagText + "</div><a class='cross-circle js-deleting-tag'></a></div>");
-    var currentTags = previousTags.concat(tagText);
-    tags.val(currentTags);
-    currentTag.val("");
+    if (currentTag.val().length > 0) {
+        var tagText = currentTag.val() + " ";
+        $('.js-tags-placing').append("<div class='tags-and-cross'><div class='chosen-tag'>" + tagText + "</div><a class='cross-circle js-deleting-tag'></a></div>");
+        var currentTags = previousTags.concat(tagText);
+        tags.val(currentTags);
+        currentTag.val("");
+    }
 });
 
 $(".js-image-chosen").on('change', function() {

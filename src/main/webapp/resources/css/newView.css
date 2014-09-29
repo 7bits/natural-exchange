@@ -20,14 +20,22 @@
   font-family: boldSans;
   line-height: 120px;
 }
-.category, .tags, .who-change {
+.category, .who-change {
   font-size: 18px;
   font-family: boldSans;
   line-height: 60px;
 }
+.tags {
+  font-size: 18px;
+  font-family: boldSans;
+  /*line-height: 60px;*/
+  width: 500px;
+}
 .description {
   font-size: 18px;
   font-family: boldSans;
+
+  width: 500px;
 }
 .concrete-category {
   margin-left: 10px;
@@ -35,6 +43,7 @@
 }
 .tag {
   margin-left: 10px;
+  margin-top: 5px;
   font-size: 13px;
   text-decoration: none;
   padding-left: 10px;
@@ -44,6 +53,7 @@
   background-color: rgb(223, 83, 70);
   color: rgb(255, 255, 255);
   border-radius: 100px;
+  display: inline-block;
 }
 .change-user {
   margin-left: 10px;
@@ -60,7 +70,7 @@
   font-family: "PS Sans";
   font-weight: normal;
   font-size: 18px;
-  display: inline;
+  display: inline-block;
 }
 .thing-picture {
   max-width: 300px;
