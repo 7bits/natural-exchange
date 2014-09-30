@@ -45,8 +45,7 @@ block content
                     a.cross-circle.js-deleting-tag
               if locals.textError
                 div.red-alert-text-textError #{textError}
-              if locals.tagsError
-                div.red-alert-text-tags #{tagsError}
+              div.red-alert-text-tags.js-tags-error
           div.placing-end-button
             input(type="submit", placeholder="РЕДАКТИРОВАТЬ", value="ИЗМЕНИТЬ").rounded-button.adding-advert.small-tab-text
             input(type="hidden", name="advertisementId", value="#{advertisementEditingForm.advertisementId}")
