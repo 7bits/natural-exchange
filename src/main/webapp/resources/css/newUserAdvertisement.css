@@ -14,13 +14,13 @@
 .advertisement-information {
   position: absolute;
   padding-left: 18px;
-  width: 85%;
+  width: 78%;
   display: inline-block;
 }
 
 .little-image {
-  max-width: 102px;
-  max-height: 70px;
+  width: 102px;
+  height: 70px;
 }
 
 .advertisement-date {
