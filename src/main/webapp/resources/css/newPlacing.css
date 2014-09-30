@@ -176,6 +176,14 @@
     padding-top: 40px;
 }
 
+.red-alert-text-tags {
+  color: red;
+  font-size: 18px;
+
+  width: 300px;
+  padding-left: 60%;
+}
+
 .title-and-error {
     display: inline-block;
 }

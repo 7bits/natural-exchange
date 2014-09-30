@@ -17,7 +17,7 @@ block append content
               a.tag(href='#{uri.uri("/advertisement/list.html?keyWords=" + coder.encode(tag.name))}') #{tag.name}
         .description
           | Описание:
-          p.current-description #{advertisement.text}
+          div.current-description #{advertisement.text}
         .who-change
           | Меняет:
           a.change-user(href='#') #{fullUserName}

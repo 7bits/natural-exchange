@@ -1,13 +1,15 @@
 div.hidden
   div#new-exchange-popup
-    form#exchange-form(method='get', action="exchange.html", commandName="exchangeForm").js-exchange-form(data-url='#{uri.uri("/advertisement/list.html")}', data-mainurl='#{uri.uri("/advertisement/exchange.html")}')
+    form#exchange-form(method='get', action="exchange.html", commandName="exchangeForm").js-exchange-form(data-mainurl='#{uri.uri("/advertisement/exchange.html")}')
       input(type='hidden', name="idExchangeOwnerAdvertisement").hiddenOwnerAdvId
       input(type='hidden', name="idExchangeOfferAdvertisement").hiddenOfferAdvId
       input(type='hidden', name="exchangePropose").js-exchange-propose
       div.enter-head
         a#exchange-reject.vk-cross-circle
       div.exchange-form.nexchange-mainbg
-        div.header-text ОБМЕНЯТЬ НА
+        div.text-center Вы хотите получить :
+        div.text-advert.js-exchange-adv
+        div.header-text В обмен на :
         div.user-adverts-table
           table
             tbody
@@ -20,8 +22,7 @@ div.hidden
                       div.offer-advert-text #{advertisement.title}
                   td
                     img.exchange-adv-image(src='#{filePath.imagesPath}#{advertisement.photoFile}')
-        div.text-center.advert-chosen-text Вы выбрали:
-        div.text-advert #{advertisement.title}
+        div.red-alert-text-exchange.js-advert-error
         textarea(placeholder="Ваше сообщение владельцу", name="exchangePropose").form-rounded-button.hollow-text.offer-message
         div.end-form
           a(href="#").exchange-button.js-exchange-complete ОБМЕНЯТЬ

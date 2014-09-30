@@ -27,7 +27,7 @@ $(document).ready(function() {
             data: sendingData,
             success: function(data, textStatus, jqXHR) {
                 $.gritter.add({
-                    title:"Поиск успешно сохранен",
+                    title:"Поиск успешно сохранен.",
                     image:"/resources/images/newdesign/logo.png"
                 });
             },

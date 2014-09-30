@@ -37,6 +37,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -252,7 +253,9 @@ public class AdvertisementListController {
             modelAndView.addObject("titleError", errorMessages.get("title"));
             modelAndView.addObject("categoryError", errorMessages.get("category"));
             modelAndView.addObject("textError", errorMessages.get("text"));
+            modelAndView.addObject("tagsError", errorMessages.get("tags"));
             modelAndView.addObject("advertisementPlacingForm", advertisementPlacingFormParam);
+            modelAndView.addObject("tags", StringUtils.split(advertisementPlacingFormParam.getTags()));
             List<Category> categories = this.categoryDao.findAll();
             modelAndView.addObject("categories", categories);
             return modelAndView;
@@ -307,9 +310,9 @@ public class AdvertisementListController {
             modelAndView.addObject("titleError", errorMessages.get("title"));
             modelAndView.addObject("categoryError", errorMessages.get("category"));
             modelAndView.addObject("textError", errorMessages.get("text"));
+            modelAndView.addObject("tagsError", errorMessages.get("tags"));
             List<Category> categories = this.categoryDao.findAll();
-            Set<TagEntity> tags = this.getTagsFromAdvertisementById(advertisementEditingFormParam.getAdvertisementId());
-            modelAndView.addObject("tags", tags);
+            modelAndView.addObject("tags", this.getTagsFromAdvertisementById(advertisementEditingFormParam.getAdvertisementId()));
             modelAndView.addObject("advertisementPhotoName", this.advertisementDao.findById(advertisementEditingFormParam.getAdvertisementId()).getPhotoFile());
             modelAndView.addObject("categories", categories);
             return modelAndView;
@@ -394,11 +397,9 @@ public class AdvertisementListController {
             logger.info("email about exchange sending to " + letterToOwner.get("email"));
             map.put("success", true);
         } else {
+            Map<String, String> errorMessages = ErrorMessages.getFieldsErrorMessages(bindingResult);
             map.put("success", false);
-            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
-            Map errors = new HashMap();
-            errors.put("wrong", errorMessage);
-            map.put("errors", errors);
+            map.put("errors", errorMessages);
         }
         return map;
     }
@@ -412,7 +413,8 @@ public class AdvertisementListController {
     }
 
     @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
-    public String delete(@RequestParam(value = "id", required = true) final Long advertisementId) {
+    public String delete(@RequestParam(value = "id", required = true) final Long advertisementId,
+            final RedirectAttributes redirectAttributes) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails;
         String redirectAddress = "redirect:/moderator/advertisementList.html";
@@ -454,6 +456,7 @@ public class AdvertisementListController {
             if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
                 this.advertisementDao.changeDeleted(advertisementId);
             }
+            redirectAttributes.addFlashAttribute("deleteAdvertisementMessage", "Ваше предложение удалено");
         }
         return redirectAddress;
     }

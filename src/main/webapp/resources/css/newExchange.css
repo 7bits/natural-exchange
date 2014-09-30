@@ -10,7 +10,7 @@
 .header-text {
   font: 18px boldSans;
   margin-left: 15px;
-  padding-top: 30px;
+  padding-top: 15px;
 }
 
 .placing-textarea {
@@ -24,9 +24,13 @@
   resize: none;
 }
 
+.red-alert-text-exchange {
+  color: red;
+  padding-left: 10px;
+}
+
 .exchange-button {
   margin-left: 100px;
-
 
   padding-top: 13px;
   padding-bottom: 13px;
@@ -104,7 +108,7 @@
 .offer-advert-text {
   margin-top: 8px;
   width: 200px;
-  font : 15px boldSans;
+  font: 15px boldSans;
 }
 
 .chosen-advert {
