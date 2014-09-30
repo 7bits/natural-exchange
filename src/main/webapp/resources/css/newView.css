@@ -97,6 +97,10 @@
   border-radius: 100px;
 }
 
+.change:hover {
+  background-color: rgb(223, 83, 70);
+}
+
 @font-face {
   font-family: boldSans;
   src: url('../fonts/Prosto.ttf');

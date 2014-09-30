@@ -4,7 +4,7 @@ block append customcss
   link(rel='stylesheet', href='/resources/css/newExchange.css')
 block append content
   .content
-    .title #{advertisement.title}
+    .title.adv-name #{advertisement.title}
     .advertisement-container
       .information
         .category
@@ -31,8 +31,9 @@ block append content
     .change-button
       if (auth.isAuthenticated())
         if (advertisement.user != auth.getCurrentUser())
-          a.change.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
+          a.change.js-newExchange.js-who-owner-view(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
           include exchange
 block append customjs
   script(src="/resources/js/newExchangePopup.js")
+  script(src="/resources/js/newView.js")
 

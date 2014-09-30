@@ -7,8 +7,7 @@ $(document).ready(function() {
         var hiddenId = $('.hiddenOwnerAdvId');
         hiddenId.val(ownerAdvId);
         var exchangeAdvName = $('.js-exchange-adv');
-        var advDiv = $(this).parent();
-        var advName = advDiv.find('.adv-name');
+        var advName = $(this).parent().find('.adv-name');
         exchangeAdvName.text((advName).text());
     });
 
