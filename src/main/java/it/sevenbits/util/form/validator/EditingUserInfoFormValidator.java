@@ -15,7 +15,7 @@ import java.util.Set;
 public class EditingUserInfoFormValidator implements Validator {
     private final int MAX_LENGTH = 20;
 
-    private final static int MAX_FILE_SIZE = 3072;
+    private final static int MAX_FILE_SIZE = 3 * 1024 * 1024;
 
     private Set<String> photoFileTypes;
 
