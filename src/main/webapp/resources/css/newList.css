@@ -272,6 +272,9 @@ select {
 .low-space {
   height: 50px;
 }
+.lower-case {
+  overflow: hidden;
+}
 .e-mail-field {
   outline: 0;
   margin-bottom: 20px;
