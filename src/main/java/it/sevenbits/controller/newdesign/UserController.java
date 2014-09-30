@@ -4,7 +4,6 @@ package it.sevenbits.controller.newdesign;
 import it.sevenbits.dao.*;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
-import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
@@ -222,10 +221,13 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/searches.html", method = RequestMethod.GET)
     public ModelAndView showUserProfile() {
-        ModelAndView modelAndView = new ModelAndView("userSearch.jade");
         Long id = this.getCurrentUserId();
+        if (id == 0) {
+            return new ModelAndView("redirect:/main.html");
+        }
         User currentUser = this.userDao.findById(id);
         List<SearchVariantEntity> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        ModelAndView modelAndView = new ModelAndView("userSearch.jade");
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("userPage", "searches.html");
         modelAndView.addObject("searchVariants", searchVariantList);
@@ -254,9 +256,12 @@ public class UserController {
         @RequestParam(value = "lastNameError", required = false) final String lastNameError,
         @RequestParam(value = "photoFileError", required = false) final String photoFileError
     ) {
-        ModelAndView modelAndView = new ModelAndView("editProfile.jade");
         Long id = this.getCurrentUserId();
+        if (id == 0) {
+            return new ModelAndView("redirect:/main.html");
+        }
         User currentUser = this.userDao.findById(id);
+        ModelAndView modelAndView = new ModelAndView("editProfile.jade");
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("errorFromFirstName", EncodeDecodeHelper.decode(firstNameError));
         modelAndView.addObject("errorFromLastName", EncodeDecodeHelper.decode(lastNameError));
@@ -313,10 +318,13 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
     public ModelAndView showAdvertisementsOfCurrentUser() {
-        ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
         Long id = this.getCurrentUserId();
+        if (id == 0) {
+            return new ModelAndView("redirect:/main.html");
+        }
         User currentUser = this.userDao.findById(id);
         List<Advertisement> advertisementList = advertisementDao.findAllByEmail(currentUser);
+        ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
         modelAndView.addObject("advertisements", advertisementList);
         modelAndView.addObject("currentUser", currentUser);
         return modelAndView;
@@ -324,11 +332,14 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/deleteSearch.html", method = RequestMethod.GET)
     public ModelAndView searchDeleting(@RequestParam(value = "id", required = true) final Long searchVariantId) {
-        ModelAndView modelAndView = new ModelAndView("userSearch.jade");
-        this.searchVariantDao.delete(this.searchVariantDao.findById(searchVariantId));
         Long id = this.getCurrentUserId();
+        if (id == 0) {
+            return new ModelAndView("redirect:/main.html");
+        }
         User currentUser = this.userDao.findById(id);
         List<SearchVariantEntity> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        ModelAndView modelAndView = new ModelAndView("userSearch.jade");
+        this.searchVariantDao.delete(this.searchVariantDao.findById(searchVariantId));
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("userPage", "searches.html");
         modelAndView.addObject("searchVariants", searchVariantList);
@@ -337,8 +348,11 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.GET)
     public ModelAndView searchEditing(@RequestParam(value = "id", required = true) final Long id) {
+        if (this.getCurrentUserId() == 0) {
+            return new ModelAndView("redirect:/main.html");
+        }
         ModelAndView modelAndView = new ModelAndView("editSearch");
-        CurrentSearchForm currentSearchForm = new CurrentSearchForm();
+        CurrentSearchVariantForm currentSearchForm = new CurrentSearchVariantForm();
         Map<String, String> errors = new HashMap<>();
         if (id != null) {
             SearchVariantEntity searchVariant = this.searchVariantDao.findById(id);

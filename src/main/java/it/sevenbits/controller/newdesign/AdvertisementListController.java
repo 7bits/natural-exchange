@@ -198,6 +198,10 @@ public class AdvertisementListController {
 
     @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
     public ModelAndView placingAdvertisement(@RequestParam(value = "id", required = false) final Long id) {
+        if (this.getCurrentUser() == null) {
+            return new ModelAndView("redirect:/main.html");
+        }
+
         ModelAndView modelAndView = new ModelAndView("placing");
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         if (id != null) {
@@ -214,9 +218,17 @@ public class AdvertisementListController {
 
     @RequestMapping(value = "/edit.html", method = RequestMethod.GET)
     public ModelAndView edit(@RequestParam(value = "id", required = true) final Long advertisementId) {
+        AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
+        String userEmail = advertisement.getUser().getEmail();
+        User user = this.getCurrentUser();
+        if (user != null) {
+            if (!user.getEmail().equals(userEmail)) {
+                return new ModelAndView("redirect:/main.html");
+            }
+        }
+
         ModelAndView modelAndView =  new ModelAndView("edit");
         AdvertisementEditingForm advertisementEditingForm = new AdvertisementEditingForm();
-        AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
         advertisementEditingForm.setCategory(advertisement.getCategory().getSlug());
         advertisementEditingForm.setText(advertisement.getText());
         advertisementEditingForm.setTitle(advertisement.getTitle());
@@ -424,7 +436,7 @@ public class AdvertisementListController {
             return redirectAddress;
         }
         User user = (User) userDetails;
-        if (user.getRole().equals("ROLE_MODERATOR")) {
+        if (user.getRole().equals("ROLE_MODERATOR") || user.getRole().equals("ROLE_ADMIN")) {
             Advertisement advertisement = this.advertisementDao.findById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
             String title;
@@ -445,18 +457,17 @@ public class AdvertisementListController {
             }
             Map<String, String> letter = UtilsMessage.createLetterToUserFromModerator(advertisement.getTitle(),
                     userEmail, moderAction, advertisement.getText(), userName, title);
-            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
-                this.advertisementDao.changeDeleted(advertisementId);
-                mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
-            }
+            this.advertisementDao.changeDeleted(advertisementId);
+            mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
+            redirectAttributes.addFlashAttribute("deleteAdvertisementMessage", "Вы удалили предложение");
         } else {
             redirectAddress = "redirect:/advertisement/list.html";
             Advertisement advertisement = this.advertisementDao.findById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
-            if(userDetails.getAuthorities().contains(Role.createModeratorRole()) || userDetails.getUsername().equals(userEmail)) {
+            if(userDetails.getUsername().equals(userEmail)) {
                 this.advertisementDao.changeDeleted(advertisementId);
+                redirectAttributes.addFlashAttribute("deleteAdvertisementMessage", "Ваше предложение удалено");
             }
-            redirectAttributes.addFlashAttribute("deleteAdvertisementMessage", "Ваше предложение удалено");
         }
         return redirectAddress;
     }
