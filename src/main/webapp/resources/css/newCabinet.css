@@ -30,6 +30,7 @@
 }
 .user-email {
   margin-top: 12px;
+  text-decoration: underline;
   color: rgb(0, 0, 0);
 }
 .edit-user-cover {
@@ -48,6 +49,7 @@
 }
 .edit-user-profile:hover {
   color: white;
+  background-image: url('../images/whiteEdit.png');
 }
 .register-date {
   margin-top: -14px;
