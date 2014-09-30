@@ -96,3 +96,11 @@ $(document).ready(function() {
         })
     })
 });
+
+$(document).bind('keydown', function() {
+    if ((event.keyCode == 13) && ($(".js-entry-form").is(":visible"))) {
+        var entry = $('.js-entry-complete');
+        entry.click();
+    }
+});
+

@@ -96,3 +96,10 @@ $(document).ready(function() {
         })
     })
 });
+
+$(document).bind('keydown', function() {
+    if ((event.keyCode == 13) && ($(".js-registration-form").is(":visible"))) {
+        var entry = $('.js-registration-complete');
+        entry.click();
+    }
+});
