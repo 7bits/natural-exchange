@@ -12,7 +12,6 @@ block content
           input.tag-search(type='text', placeholder='Введите параметры поиска', maxlength='50', name='keyWords',
           value='#{keyWords}')
           select.category-search(name='currentCategory')
-
             option(selected='selected', disabled='disabled') Выберите Категорию
             if (stringActions.isEqualStringWithSpaceSeparator(currentCategory, allCategories))
               option.choosen-category(selected='selected', value='#{allCategories}') Все категории
@@ -27,7 +26,7 @@ block content
           input.search(type='submit', value='НАЙТИ')
           .example
             | Например:
-            a.monopoly(href='#') Монополия
+            a.monopoly(href='#{uri.uri("/advertisement/list.html?keyWords=" + coder.encode("Монополия"))}') Монополия
           div.data-and-save-search
             div.position-data
               label(for='date-from') Предложения, размещенные с
