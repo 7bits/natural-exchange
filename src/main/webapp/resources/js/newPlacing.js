@@ -3,7 +3,7 @@ $("#add-tag").on('click', function() {
     var previousTags = tags.val();
     var currentTag = $('.js-added-tag');
     if (currentTag.val().length > 0) {
-        if ((previousTags.length + currentTag.val().length) > 160) {
+        if ((previousTags.length + currentTag.val().length) > 130) {
             var tagsError = $('.js-tags-error');
             tagsError.text("Слишком много тегов у объявления. Пожалуйста, уберите несколько тегов.");
             currentTag.val("");
