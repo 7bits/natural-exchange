@@ -30,7 +30,7 @@ public class AuthorizationRegistrationTest {
         driver.get(baseUrl + "/");
         driver.findElement(By.linkText("Регистрация")).click();
         driver.findElement(By.id("reg-email")).clear();
-        driver.findElement(By.id("reg-email")).sendKeys("antonovandrey1@ro.ru");
+        driver.findElement(By.id("reg-email")).sendKeys("andrey-antonoff@list.ru");
         driver.findElement(By.id("reg-first-name")).clear();
         driver.findElement(By.id("reg-first-name")).sendKeys("Andrey");
         driver.findElement(By.id("reg-last-name")).clear();
@@ -40,7 +40,7 @@ public class AuthorizationRegistrationTest {
         driver.findElement(By.id("registr")).click();
         TimeUnit.SECONDS.sleep(5);
 
-        if (driver.findElement(By.xpath("/html/body/div[8]/div/div[9]/div/div/form/div[2]/p[1]")).getText().matches("Пользователь с таким e-mail существует.")) {
+        if (driver.findElement(By.xpath("/html/body/div[9]/div/div[2]/div[1]/span")).getText().matches("Пользователь с таким e-mail существует.")) {
             driver.quit();
             fail("Account is registered");
         }

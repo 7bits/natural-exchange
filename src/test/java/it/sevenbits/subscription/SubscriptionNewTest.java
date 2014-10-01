@@ -11,8 +11,8 @@ import org.openqa.selenium.support.ui.Select;
 /**
  * Created by booktina on 07.08.14.
  */
-public class SubscriptionAuthorizationTest {
-    /*
+public class SubscriptionNewTest {
+
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
@@ -27,20 +27,22 @@ public class SubscriptionAuthorizationTest {
 
     @Test
     public void testSubscriptionAuth() throws Exception {
-        driver.get(baseUrl + "/advertisement/list.html?emailNews=antonoff%40mail.com&id=&currentCategory=+clothes+games+notclothes+");
-        driver.findElement(By.linkText("вход на сайт")).click();
-        driver.findElement(By.name("j_username")).clear();
-        driver.findElement(By.name("j_username")).sendKeys("antonovandrey@ro.ru");
-        driver.findElement(By.name("j_password")).clear();
-        driver.findElement(By.name("j_password")).sendKeys("sevenbits");
-        driver.findElement(By.cssSelector("input.sendOk")).click();
-        driver.findElement(By.cssSelector("input.send")).click();
-        driver.findElement(By.linkText("выйти")).click();
+        driver.get(baseUrl + "/");
+        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/input[1]")).sendKeys("andrey-antonoff@list.ru");
+        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/input[2]")).click();
+        TimeUnit.SECONDS.sleep(5);
+        if (driver.findElement(By.xpath("/html/body/div[9]/div/div[2]/div[1]/span")).getText().matches("Вы уже подписаны.")) {
+            driver.quit();
+            fail("You are  subscription!");
+        }
+        if (driver.findElement(By.xpath("/html/body/div[9]/div/div[2]/div[1]/span")).getText().matches("Вы подписались на наш проект!")) {
+            driver.quit();
+
+        }
     }
 
     @After
     public void tearDown() throws Exception {
-        driver.quit();
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
@@ -79,5 +81,5 @@ public class SubscriptionAuthorizationTest {
             acceptNextAlert = true;
         }
     }
-    */
+
 }

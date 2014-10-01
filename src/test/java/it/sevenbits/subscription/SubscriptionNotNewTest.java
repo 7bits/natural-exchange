@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.Select;
 /**
  * Created by booktina on 07.08.14.
  */
-public class SubscriptionNotAuthorizationTest {
+public class SubscriptionNotNewTest {
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
@@ -28,26 +28,24 @@ public class SubscriptionNotAuthorizationTest {
     @Test
     public void testSubscription() throws Exception {
         driver.get(baseUrl + "/");
-        driver.findElement(By.cssSelector("input.for-email")).clear();
-        driver.findElement(By.cssSelector("input.for-email")).sendKeys("antonoff@mail.com");
-        driver.findElement(By.cssSelector("input.submit-email")).click();
-       // driver.findElement(By.cssSelector("input.for-emqil").name("Ваш e-mail добавлен."));
-        //driver.findElement(By.cssSelector("input.for-emqil").name("Вы уже подписаны"));
-       // driver.findElement(By.)
+        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/input[1]")).sendKeys("andrey-antonoff@list.ru");
+        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/input[2]")).click();
 
-        if (isElementPresent(By.xpath("Вы уже подписаны."))) {
-            Assert.assertTrue(rezult);
+        TimeUnit.SECONDS.sleep(5);
+        if (driver.findElement(By.xpath("/html/body/div[9]/div/div[2]/div[1]/span")).getText().matches("Вы подписались на наш проект!")) {
+            driver.quit();
+            fail("You are new subscription!");
         }
-        else {
-            rezult = false;
-            Assert.assertFalse(rezult);
+        if (driver.findElement(By.xpath("/html/body/div[9]/div/div[2]/div[1]/span")).getText().matches("Вы уже подписаны.")) {
+            driver.quit();
+
         }
-        TimeUnit.SECONDS.sleep(3);
+
     }
 
     @After
     public void tearDown() throws Exception {
-        driver.quit();
+       // driver.quit();
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
