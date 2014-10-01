@@ -62,7 +62,8 @@
 }
 
 .text-center {
-  padding-left: 20px;
+  padding-left: 15px;
+  font: 14px boldSans;
 }
 
 .vk-cross-circle {
@@ -70,6 +71,7 @@
 
   width: 26px;
   height: 37px;
+  cursor: pointer;
 
   background-position: right top;
   background-image: url("/resources/images/newdesign/circle-cross.png");
@@ -81,7 +83,6 @@
 }
 
 .vk-cross-circle:hover {
-    background-image: url("/resources/images/newdesign/circle-cross-selected.png");
 }
 
 .rounded {
@@ -134,7 +135,7 @@
 }
 
 .rounded-button:hover {
-    background-color: rgb(223, 83, 70);
+  background-color: rgb(223, 83, 70);
 }
 
 .form-rounded-button {
@@ -239,6 +240,12 @@
 
   color: green;
   font-size: 18px;
+}
+
+.error-msg {
+    padding-left: 15px;
+    color: red;
+    font-size: 18px;
 }
 
 .text-and-logo {

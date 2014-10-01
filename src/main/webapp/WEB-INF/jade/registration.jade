@@ -10,9 +10,13 @@ div.hidden
         div.text-center.entry-text Чтобы обмениваться и размещать свои
         div.text-center.entry-text предложения, войдите или зарегистрируйтесь
         input#reg-email(type='email', placeholder='Ваш e-mail').form-rounded-button.hollow-text
+        div.error-msg.js-email-error
         input#reg-first-name(type='text', placeholder='Ваше имя').form-rounded-button.hollow-text
+        div.error-msg.js-firstname-error
         input#reg-last-name(type='text', placeholder='Ваша фамилия').form-rounded-button.hollow-text
+        div.error-msg.js-lastname-error
         input#reg-pass(type='password', placeholder='Пароль').form-rounded-button.hollow-text
+        div.error-msg.js-pass-error
         //div.border-file-choose
           div.file-hollow-text
             | Фотография
@@ -20,6 +24,4 @@ div.hidden
         div.reg-and-logo
           a#registr(href='').reg.reg-rounded-button.small-tab-text.js-registration-complete ЗАРЕГИСТРИРОВАТЬСЯ
           a(href='https://oauth.vk.com/authorize?client_id=4491913&scope=notify&redirect_uri=' + locals.uri.uri("/VK/auth.html") + '&display=popup&response_type=code').vk-logo.logo-pos.js-vk-entry
-        p.reg-error
-        p.reg-accepting
 

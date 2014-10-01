@@ -12,7 +12,7 @@ import it.sevenbits.util.form.AdvertisementPlacingForm;
 @Component
 public class AdvertisementPlacingValidator implements Validator {
     private final static int maxTitleLength = 16;
-    private final static int maxAdvertisementTextLength = 100;
+    private final static int maxAdvertisementTextLength = 200;
 
     @Override
     public boolean supports(final Class<?> clazz) {
@@ -29,9 +29,8 @@ public class AdvertisementPlacingValidator implements Validator {
             errors.rejectValue("title", "title.tooLong", "Недопустимо больше 16 знаков в заголовке.");
         }
         if ((text.length()) > maxAdvertisementTextLength) {
-            errors.rejectValue("text", "text.tooLong", "Недопустимо больше 100 знаков в описании.");
+            errors.rejectValue("text", "text.tooLong", "Недопустимо больше 200 знаков в описании.");
         }
-
         ValidationUtils.rejectIfEmptyOrWhitespace(
                 errors, "text", "text.empty", "Описание не должно быть пустым."
         );

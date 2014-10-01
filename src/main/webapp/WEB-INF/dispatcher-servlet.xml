@@ -40,6 +40,7 @@ http://www.springframework.org/schema/p "
 
     <bean id="jadeResolver" class="it.sevenbits.viewresolver.CustomJadeViewResolver">
         <property name="configuration" ref="jadeConfiguration"/>
+        <!--<property name="renderExceptions" value="true"/>-->
         <property name="order" value="0"/>
     </bean>
 

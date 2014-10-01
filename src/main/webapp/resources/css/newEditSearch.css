@@ -1,7 +1,11 @@
+.container {
+  background: rgb(248, 184, 50);
+}
 .editingSearch {
-    background-color: rgb(248, 184, 50);
-
-    height: 845px;
+  width: 900px;
+  height: 845px;
+  margin: 0 auto;
+  background-color: rgb(248, 184, 50);
 }
 .cabinet-button {
     padding-top: 20px;
@@ -40,7 +44,7 @@
 }
 
 .placing-keyword {
-    width: 700px;
+    width: 485px;
 
     outline: 0;
     border-top-left-radius: 50px;
@@ -69,9 +73,35 @@
     margin-left: 15px;
 }
 
+.select-category-edit-search {
+  outline: 0;
+  margin-top: 15px;
+  width: 336px;
+  height: 40px;
+  padding-left: 20px;
+
+  box-sizing: border-box;
+  border-radius: 100px;
+  border: 2px solid rgb(243, 152, 34);
+
+  color: rgb(173, 173, 173);
+  background-color: rgb(255, 255, 255);
+  background-image: url("/resources/images/newdesign/arrow.1.png");
+  background-repeat: no-repeat;
+  background-position: 95% 50%;
+
+  font-size: 18px;
+  font-family: mySans;
+}
+
+.select-category-edit-search:hover {
+  border: 2px solid rgb(26, 178, 175);
+  background-image: url("/resources/images/newdesign/blue-arrow.png");
+}
+
 .button-keyword-add {
     position: absolute;
-    left: 530px;
+    left: 319px;
     bottom: 5px;
     padding-left: 50px;
     padding-top: 7px;

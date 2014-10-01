@@ -62,7 +62,7 @@
 }
 .choose-user-photo {
   position: absolute;
-  width: 29%;
+  width: 421px;
   height: 38px;
   min-width: 300px;
   margin-bottom: 10px;
@@ -108,9 +108,14 @@
 }
 .error-user-name {
   margin-top: 0px;
+  font-size: 18px;
+  color: rgb(255, 0, 0);
+}
+.error-user-photo {
   font-size: 12px;
   color: rgb(255, 0, 0);
 }
+
 .hide-file {
   padding-top: 7px;
   margin-left: 10px;

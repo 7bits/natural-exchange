@@ -4,7 +4,6 @@ package it.sevenbits.controller.newdesign;
 import it.sevenbits.dao.*;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
-import it.sevenbits.entity.SearchVariant;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
@@ -12,6 +11,7 @@ import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.services.mail.MailSenderService;
+import it.sevenbits.util.ErrorMessages;
 import it.sevenbits.util.FileManager;
 import it.sevenbits.util.TimeManager;
 import it.sevenbits.util.form.*;
@@ -36,10 +36,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "user")
@@ -123,9 +120,8 @@ public class UserController {
             }
         } else {
             map.put("success", false);
-            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
             Map errors = new HashMap();
-            errors.put("wrong", errorMessage);
+            errors.put("wrong", ErrorMessages.getFieldsErrorMessages(bindingResult));
             map.put("errors", errors);
         }
         return map;
@@ -174,8 +170,7 @@ public class UserController {
             }
         } else {
             map.put("success", false);
-            String errorMessage = bindingResult.getAllErrors().get(0).getDefaultMessage();
-            errors.put("wrong", errorMessage);
+            errors.put("wrong", ErrorMessages.getFieldsErrorMessages(bindingResult));
             map.put("errors", errors);
         }
         return map;
@@ -226,10 +221,13 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/searches.html", method = RequestMethod.GET)
     public ModelAndView showUserProfile() {
-        ModelAndView modelAndView = new ModelAndView("userSearch.jade");
         Long id = this.getCurrentUserId();
+        if (id == 0) {
+            return new ModelAndView("redirect:/main.html");
+        }
         User currentUser = this.userDao.findById(id);
         List<SearchVariantEntity> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        ModelAndView modelAndView = new ModelAndView("userSearch.jade");
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("userPage", "searches.html");
         modelAndView.addObject("searchVariants", searchVariantList);
@@ -255,14 +253,19 @@ public class UserController {
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.GET)
     public ModelAndView editProfile(
         @RequestParam(value = "firstNameError", required = false) final String firstNameError,
-        @RequestParam(value = "lastNameError", required = false) final String lastNameError
+        @RequestParam(value = "lastNameError", required = false) final String lastNameError,
+        @RequestParam(value = "photoFileError", required = false) final String photoFileError
     ) {
-        ModelAndView modelAndView = new ModelAndView("editProfile.jade");
         Long id = this.getCurrentUserId();
+        if (id == 0) {
+            return new ModelAndView("redirect:/main.html");
+        }
         User currentUser = this.userDao.findById(id);
+        ModelAndView modelAndView = new ModelAndView("editProfile.jade");
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("errorFromFirstName", EncodeDecodeHelper.decode(firstNameError));
         modelAndView.addObject("errorFromLastName", EncodeDecodeHelper.decode(lastNameError));
+        modelAndView.addObject("errorFromPhotoFile", EncodeDecodeHelper.decode(photoFileError));
         return modelAndView;
     }
 
@@ -282,6 +285,11 @@ public class UserController {
             if (fieldErrorFromLastName != null) {
                 redirectAddress += EncodeDecodeHelper.encode(fieldErrorFromLastName.getDefaultMessage());
             }
+            redirectAddress += "&photoFileError=";
+            FieldError fieldPhotoFile = bindingResult.getFieldError("image");
+            if (fieldPhotoFile != null) {
+                redirectAddress += EncodeDecodeHelper.encode(fieldPhotoFile.getDefaultMessage());
+            }
             return redirectAddress;
         }
 
@@ -294,7 +302,7 @@ public class UserController {
         if (editingUserInfoForm.getIsDelete() == null) {
             if (!avatarFile.getOriginalFilename().equals("")) {
                 fileManager.deleteFile(newAvatar, false);
-                newAvatar = fileManager.savingFile(avatarFile, false);
+                newAvatar = fileManager.savePhotoFile(avatarFile, false);
             }
         } else {
             fileManager.deleteFile(newAvatar, false);
@@ -310,10 +318,13 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
     public ModelAndView showAdvertisementsOfCurrentUser() {
-        ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
         Long id = this.getCurrentUserId();
+        if (id == 0) {
+            return new ModelAndView("redirect:/main.html");
+        }
         User currentUser = this.userDao.findById(id);
         List<Advertisement> advertisementList = advertisementDao.findAllByEmail(currentUser);
+        ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
         modelAndView.addObject("advertisements", advertisementList);
         modelAndView.addObject("currentUser", currentUser);
         return modelAndView;
@@ -321,11 +332,14 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/deleteSearch.html", method = RequestMethod.GET)
     public ModelAndView searchDeleting(@RequestParam(value = "id", required = true) final Long searchVariantId) {
-        ModelAndView modelAndView = new ModelAndView("userSearch.jade");
-        this.searchVariantDao.delete(this.searchVariantDao.findById(searchVariantId));
         Long id = this.getCurrentUserId();
+        if (id == 0) {
+            return new ModelAndView("redirect:/main.html");
+        }
         User currentUser = this.userDao.findById(id);
         List<SearchVariantEntity> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        ModelAndView modelAndView = new ModelAndView("userSearch.jade");
+        this.searchVariantDao.delete(this.searchVariantDao.findById(searchVariantId));
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("userPage", "searches.html");
         modelAndView.addObject("searchVariants", searchVariantList);
@@ -334,8 +348,11 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.GET)
     public ModelAndView searchEditing(@RequestParam(value = "id", required = true) final Long id) {
+        if (this.getCurrentUserId() == 0) {
+            return new ModelAndView("redirect:/main.html");
+        }
         ModelAndView modelAndView = new ModelAndView("editSearch");
-        CurrentSearchForm currentSearchForm = new CurrentSearchForm();
+        CurrentSearchVariantForm currentSearchForm = new CurrentSearchVariantForm();
         Map<String, String> errors = new HashMap<>();
         if (id != null) {
             SearchVariantEntity searchVariant = this.searchVariantDao.findById(id);
@@ -349,7 +366,9 @@ public class UserController {
         boolean isAllCategories = false;
         if (currentSearchForm.getCategory().size() == this.categoryDao.categoryCount()) {
             isAllCategories = true;
-            modelAndView.addObject("selectedCategory", allCategories);
+            CategoryEntity allCategoriesEntity = new CategoryEntity();
+            allCategoriesEntity.setSlug(this.allCategoriesSlug());
+            modelAndView.addObject("selectedCategory", allCategoriesEntity);
         } else {
             modelAndView.addObject("selectedCategory", currentSearchForm.getCategory().toArray()[0]);
         }
@@ -363,10 +382,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.POST)
-    public ModelAndView searchEditing(
-            final SearchEditForm searchEditForm,
-            final BindingResult result
-    ) {
+    public ModelAndView searchEditing(final SearchEditForm searchEditForm, final BindingResult result) {
         searchEditValidator.validate(searchEditForm, result);
         if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
@@ -391,6 +407,15 @@ public class UserController {
                     getSlug();
         }
         return allCategories;
+    }
+
+    private String allCategoriesSlug() {
+        List<Category> allCategories = this.categoryDao.findAll();
+        String result = "";
+        for (Category currentCategory: allCategories) {
+            result += currentCategory.getSlug() + " ";
+        }
+        return StringUtils.trim(result);
     }
 
     private String arrayToString(String[] strings) {

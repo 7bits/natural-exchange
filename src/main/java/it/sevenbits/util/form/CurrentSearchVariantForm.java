@@ -4,7 +4,7 @@ import it.sevenbits.entity.hibernate.CategoryEntity;
 
 import java.util.Set;
 
-public class CurrentSearchForm {
+public class CurrentSearchVariantForm {
     private String keywords;
     private Set<CategoryEntity> category;
     private Long searchVariantId;

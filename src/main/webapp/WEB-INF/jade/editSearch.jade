@@ -13,7 +13,7 @@ block content
         div.choose-tags-and-button
           input(type='text', placeholder="Введите параметр поиска").hollow-text.placing-keyword.js-added-keyword
           a#add-keyword.reg-rounded-button.file-choose.button-keyword-add.js-add-keyword ДОБАВИТЬ
-        select.select-category(name="category")
+        select.select-category-edit-search(name="category")
           if (allCategoriesSelected)
             option.choosen-category(value='#{selectedCategory.slug}', selected='selected', name="category") Все категории
           else

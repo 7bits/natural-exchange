@@ -10,12 +10,12 @@ div.hidden
         div.text-center.entry-text Чтобы обмениваться и размещать свои
         div.text-center.entry-text предложения, войдите или зарегистрируйтесь
         input#entry-email(type='email', placeholder='Ваш e-mail').form-rounded-button.hollow-text
+        div.error-msg.js-email-error
         input#entry-pass(type='password', placeholder='Пароль').form-rounded-button.hollow-text
+        div.error-msg.js-pass-error
         div.end-form
           a#entry(href='').rounded-button.entry.small-tab-text.js-entry-complete ВОЙТИ
           div.text-and-logo
             div.entry-text.vk-logo-text Или войдите через
             a(href='https://oauth.vk.com/authorize?client_id=4491913&scope=notify&redirect_uri=' + locals.uri.uri("/VK/auth.html") + '&display=popup&response_type=code').vk-logo.js-vk-entry-complete
-        p.reg-error
-        p.reg-accepting
 

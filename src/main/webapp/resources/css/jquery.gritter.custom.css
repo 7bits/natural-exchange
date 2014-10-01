@@ -1,0 +1,18 @@
+.gritter-close {
+    display:none;
+    position:absolute;
+    top:5px;
+    left:270px;
+    background:url(../images/gritter.png) no-repeat left top;
+    cursor:pointer;
+    width:30px;
+    height:30px;
+    text-indent:-9999em;
+    outline: 0;
+}
+
+.gritter-with-image {
+    width:200px;
+    float:right;
+    padding-right: 15px;
+}

@@ -18,26 +18,28 @@ $(document).ready(function() {
     $.fancybox.resize();
     $("#entry-form").submit(function() { return false; });
     $("#entry-reject").click( function(){
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
-        errorString.text("");
-        acceptString.text("");
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
+        emailError.text("");
+        passError.text("");
         $.fancybox.close();
     });
     $('.js-registration').click( function(){
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
-        errorString.text("");
-        acceptString.text("");
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
+        emailError.text("");
+        passError.text("");
     });
     $('.js-entry-complete').click(function(e) {
         e.preventDefault();
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
         var email = $("#entry-email").val();
         var password = $("#entry-pass").val();
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
         var redirectUrl = $('.js-entry-form').data("url");
         var mainUrl = $('.js-entry-form').data("mainurl");
+        emailError.text("");
+        passError.text("");
         var dataJson = {
             email: email,
             password: password,
@@ -50,33 +52,55 @@ $(document).ready(function() {
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
                     window.location.href = redirectUrl;
-                    errorString.text("");
-                    acceptString.show();
-                    errorString.hide();
                 } else {
                     var errorVariant = data.errors;
-                    errorString.show();
-                    acceptString.text("");
-                    acceptString.hide();
                     if(errorVariant.notExist) {
-                        errorString.text(data.errors.notExist);
+                        $.gritter.add({
+                            title:data.errors.notExist,
+                            image:"/resources/images/newdesign/logo.png"
+                        });
                     } else if (errorVariant.wrong) {
-                        errorString.text(data.errors.wrong);
+                        if (errorVariant.wrong.email) {
+                            emailError.text(errorVariant.wrong.email);
+                        }
+                        if (errorVariant.wrong.password) {
+                            passError.text(errorVariant.wrong.password);
+                        }
                     } else if (errorVariant.wrongPassword) {
-                        errorString.text(data.errors.wrongPassword);
+                        passError.text(errorVariant.wrongPassword);
                     } else if (errorVariant.notRegistrationComplete) {
-                        errorString.text(data.errors.notRegistrationComplete);
+                        $.gritter.add({
+                            title: data.errors.notRegistrationComplete,
+                            image:"/resources/images/newdesign/logo.png"
+                        });
                     } else if (errorVariant.userIsBanned) {
-                        errorString.text(data.errors.userIsBanned);
+                        $.gritter.add({
+                            title:data.errors.userIsBanned,
+                            image:"/resources/images/newdesign/logo.png"
+                        });
                     }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                errorString.text("Активируйте свой аккаунт прежде чем войти.");
+                $.gritter.add({
+                    title:"Активируйте свой аккаунт прежде чем войти.",
+                    image:"/resources/images/newdesign/logo.png"
+                });
                 if(jqXHR.status==404) {
-//                    alert(errorThrown);
+                    $.gritter.add({
+                        title:errorThrown,
+                        image:"/resources/images/newdesign/logo.png"
+                    });
                 }
             }
         })
     })
 });
+
+$(document).bind('keydown', function() {
+    if ((event.keyCode == 13) && ($(".js-entry-form").is(":visible"))) {
+        var entry = $('.js-entry-complete');
+        entry.click();
+    }
+});
+

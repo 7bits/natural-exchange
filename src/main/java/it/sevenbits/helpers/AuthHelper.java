@@ -52,7 +52,7 @@ public class AuthHelper {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User user = (User) auth.getPrincipal();
-            return (user.getRole().equals("ROLE_MODERATOR") || user.getRole().equals("ROLE_ADMINISTRATOR"));
+            return (user.getRole().equals("ROLE_MODERATOR") || user.getRole().equals("ROLE_ADMIN"));
         }
         return false;
     }

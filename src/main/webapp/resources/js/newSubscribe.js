@@ -2,29 +2,34 @@ $(document).ready(function() {
     "use strict";
     $('.submit-email').click(function(e) {
         e.preventDefault();
+        var subscribeError = $('.js-subscribe-error');
         var emailString = $('.for-email');
-        var errorString = $('.errorLk');
         var sendingUrl = $('.subscribe-form').data("url");
         var dataJson = {
             email: emailString.val(),
             errors: null
         };
-
+        subscribeError.text("");
         $.ajax({
             type: 'POST',
             url: sendingUrl,
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
-                    errorString.text("");
-                    emailString.val("Ваш e-mail добавлен.");
+                    $.gritter.add({
+                        title:"Вы подписались на наш проект!",
+                        text:"На ваш email будут приходить новости, обновления и другие нововведения проекта.",
+                        image:"/resources/images/newdesign/logo.png"
+                    });
                 } else {
                     var errorVariant = data.errors;
                     if(errorVariant.exist) {
-                        emailString.val(data.errors.exist);
-                        errorString.text("");
+                        $.gritter.add({
+                            title:data.errors.exist,
+                            image:"/resources/images/newdesign/logo.png"
+                        });
                     } else if (errorVariant.wrong) {
-                        errorString.text(data.errors.wrong);
+                        subscribeError.text(data.errors.wrong);
                     }
                 }
             },
@@ -38,29 +43,34 @@ $(document).ready(function() {
     });
     $('.e-mail-submit').click(function(e) {
         e.preventDefault();
+        var subscribeError = $('.js-subscribe-error');
         var emailString = $('.e-mail-field');
-        var errorString = $('.error-pointer');
         var sendingUrl = $('.subscribe-form').data("url");
         var dataJson = {
             email: emailString.val(),
             errors: null
         };
-
+        subscribeError.text("");
         $.ajax({
             type: 'POST',
             url: sendingUrl,
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
-                    errorString.text("");
-                    emailString.val("Ваш e-mail добавлен.");
+                    $.gritter.add({
+                        title:"Вы подписались на наш проект!",
+                        text:"На ваш email будут приходить новости, обновления и другие нововведения проекта.",
+                        image:"/resources/images/newdesign/logo.png"
+                    });
                 } else {
                     var errorVariant = data.errors;
                     if(errorVariant.exist) {
-                        emailString.val(data.errors.exist);
-                        errorString.text("");
+                        $.gritter.add({
+                            title:data.errors.exist,
+                            image:"/resources/images/newdesign/logo.png"
+                        });
                     } else if (errorVariant.wrong) {
-                        errorString.text(data.errors.wrong);
+                        subscribeError.text(data.errors.wrong);
                     }
                 }
             },

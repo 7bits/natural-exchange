@@ -177,16 +177,28 @@ public class ModeratorController {
     public @ResponseBody String BanOrUnbanUser(@RequestParam(value = "userId", required = true) final Long id) {
         User user = this.userDao.findById(id);
         String message;
+        String title;
+        String userName = this.getUserName(user);
         if (user.getIsBanned()) {
-            message = "Вы были разбанены и можете снова посещать наш сайт со своей учетной записи";
+            message = UtilsMessage.createLetterToUnbannedUser(userName);
+            title = "Уведомление о снятии бана";
         } else {
-            message = "Вы были забанены модератором";
+            message = UtilsMessage.createLetterToBannedUser(userName);
+            title = "Уведомление о бане";
         }
-        Map<String, String> letter = UtilsMessage.createLetterForBannedUser(
-                user.getEmail(), user.getFirstName(), "Уведомление о бане", message);
-        mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
+        mailSenderService.sendMail(user.getEmail(), title, message);
         this.userDao.changeBan(id);
         return "redirect:new/moderator/userList.html";
+    }
+
+    private String getUserName(User user) {
+        if (!user.getFirstName().equals("")) {
+            return user.getFirstName();
+        }
+        if (!user.getLastName().equals("")) {
+            return user.getLastName();
+        }
+        return "Безымянный";
     }
 
     private List<User> getAllUsersExceptCurrent(String keyWords, Long dateFrom, Long dateTo,

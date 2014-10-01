@@ -1,4 +1,6 @@
 .footer {
+  width: 900px;
+  margin: 0 auto;
   background: rgb(47,47,47);
 }
 
@@ -9,7 +11,7 @@
 }
 
 .subtext {
-  padding-left: 10%;
+  /*padding-left: 10%;*/
   float: left;
   width: 185px;
 }
@@ -40,6 +42,10 @@
 
 .hidden {
   display: none;
+}
+
+footer {
+  background: rgb(47, 47, 47);
 }
 
 @font-face {
