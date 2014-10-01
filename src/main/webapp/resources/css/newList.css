@@ -134,6 +134,9 @@
 .name-cover {
   margin-top: 20px;
 }
+.date-from, .date-to {
+  width: 141px;
+}
 .adv-owner {
   /*  line-height: 60px;*/
   margin-bottom: 50px;
