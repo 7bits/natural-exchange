@@ -4,12 +4,14 @@
   background: url(../images/mainBackground.png) no-repeat;
   background-position: center;
 }
+
 .row1 {
   width: 774px;
   display: block;
   margin: 0 auto;
 }
-.games{
+
+.games {
   position: relative;
   padding-left: 35px;
   padding-right: 20px;
@@ -37,14 +39,17 @@
   font-family: boldSans;
   font-size: 17px;
 }
+
 .category-note:hover {
   text-decoration: none;
   color: rgb(26, 178, 175);
 }
+
 .no-clothes-image, .bones-image, .clothes-image {
   display: block;
   margin: 0 auto;
 }
+
 .game-link:hover, .clothes-link:hover, .no-clothes-link:hover {
   color: rgb(58, 184, 184);
 }
@@ -55,6 +60,7 @@
   overflow: hidden;
   background-color: rgb(248, 184, 50);
 }
+
 .change-text {
   margin-top: 5%;
   text-align: center;
@@ -62,15 +68,18 @@
   font-family: boldSans;
   font-size: 30px;
 }
+
 .many-other {
   line-height: 95px;
   text-align: center;
   font-family: boldSans;
   font-size: 18px;
 }
-.show-all {
-  line-height: 100px;
-  margin-left: 36%;
+
+.show-all {  
+  width: 300px;
+  margin: 45px auto auto auto;
+  display: block;
   padding-top: 6px;
   padding-bottom: 6px;
   padding-left: 20px;
@@ -84,15 +93,18 @@
   border: none;
   border-radius: 100px;
 }
+
 .show-all:hover {
   background-color: rgb(223, 83, 70);
 }
+
 .about {
   line-height: 150px;
   text-align: center;
   font-family: boldSans;
   font-size: 30px;
 }
+
 .exchange-block {
   display: inline;
 }
@@ -102,37 +114,44 @@
   font-family: mySans;
   font-size: 19px;
 }
+
 .project {
   display: inherit;
   color: rgb(223, 83, 70);
   font-family: boldSans;
   font-size: 19px;
 }
+
 .edification {
-  line-height: 50px;
   font-family: boldSans;
   font-size: 19px;
+  /* line-height: 50px; */
 }
+
 .news {
   text-align: center;
   margin-top: 85px;
   font-family: boldSans;
   font-size: 22px;
 }
+
 .subscribe-cover {
   text-align: center;
 }
+
 .subscribe-form {
   margin: 0 auto;
   margin-bottom: 50px;
 }
+
 .errorLk {
-    width: 300px;
-    padding-left: 225px;
+  width: 300px;
+  padding-left: 150px;
 
   color: red;
   font-size: 18px;
 }
+
 .for-email {
   outline: 0;
   width: 370px;
@@ -145,9 +164,11 @@
   border-radius: 100px;
   font-size: 18px;
 }
+
 .for-email:hover {
-    border: 2px solid rgb(26, 178, 175);
+  border: 2px solid rgb(26, 178, 175);
 }
+
 .submit-email {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -168,12 +189,12 @@
 }
 
 .submit-email:hover {
-    background-color: rgb(223, 83, 70);
+  background-color: rgb(223, 83, 70);
 }
 
 @font-face {
   font-family: mySans;
-  src:  url('../fonts/pt-sans.regular.ttf');
+  src: url('../fonts/pt-sans.regular.ttf');
 }
 
 @font-face {

@@ -79,7 +79,7 @@
 }
 
 .vk-logo:hover {
-    background-image: url("/resources/images/newdesign/vk-hover.png");
+  background-image: url("/resources/images/newdesign/vk-hover.png");
 }
 
 .vk-cross-circle:hover {
@@ -243,9 +243,11 @@
 }
 
 .error-msg {
-    padding-left: 15px;
-    color: red;
-    font-size: 18px;
+  padding-left: 15px;
+  color: red;
+  font-size: 18px;
+
+  height: 20px;
 }
 
 .text-and-logo {

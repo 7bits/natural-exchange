@@ -24,9 +24,7 @@ block content
                 option.choosen-category(value='#{category.slug}') #{category.name}
           input.current-page(type='hidden', value='#{currentPage}')
           input.search(type='submit', value='НАЙТИ')
-          .example
-            | Например:
-            a.monopoly(href='#{uri.uri("/advertisement/list.html?keyWords=" + coder.encode("Монополия"))}') Монополия
+          div.red-alert-text-savesearch.js-search-error
           div.data-and-save-search
             div.position-data
               label(for='date-from') Предложения, размещенные с
@@ -86,7 +84,7 @@ block content
       .lower-case
         form.subscribe-form(data-url='#{uri.uri("/subscribe.html")}')
           input.for-email(type='text', maxlength='50', placeholder='Ваш e-mail')
-          input.submit-email(type='submit', value='подписаться')
+          input.submit-email-list.js-submit-email(type='submit', value='ПОДПИСАТЬСЯ')
           div.errorLk-list.js-subscribe-error
       if locals.deleteAdvertisementMessage
         input.js-deleted-advertisement(type='hidden', value='#{deleteAdvertisementMessage}')

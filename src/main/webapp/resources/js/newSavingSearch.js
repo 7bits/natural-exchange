@@ -1,10 +1,13 @@
-$(document).ready(function() {
+$(document).ready(function () {
     "use strict";
-    $('.js-save-search').click(function(e) {
+    var searchError = $('.js-search-error');
+    searchError.text("");
+    $('.js-save-search').click(function (e) {
         e.preventDefault();
         var url = $('.js-save-search').data('url');
         var currentPage = $('.current-page');
         var categories = $('.choosen-category');
+        var searchError = $('.js-search-error');
         var category;
         for (var i = 0; i < categories.length; i++) {
             if (categories[i].selected) {
@@ -21,22 +24,31 @@ $(document).ready(function() {
             currentCategory: category,
             currentPage: currentPage[0].value
         };
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: sendingData,
-            success: function(data, textStatus, jqXHR) {
-                $.gritter.add({
-                    title:"Поиск успешно сохранен.",
-                    image:"/resources/images/newdesign/logo.png"
-                });
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                $.gritter.add({
-                    title:"Произошел сбой в системе. Повторите попытку позднее.",
-                    image:"/resources/images/newdesign/logo.png"
-                });
-            }
-        })
-    })
+        searchError.text("");
+        if (keyWords.val().length > 0) {
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: sendingData,
+                success: function (data, textStatus, jqXHR) {
+                    $.gritter.add({
+                        title: "Поиск успешно сохранен.",
+                        image: "/resources/images/newdesign/logo.png"
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $.gritter.add({
+                        title: "Произошел сбой в системе. Повторите попытку позднее.",
+                        image: "/resources/images/newdesign/logo.png"
+                    });
+                }
+            })
+        } else {
+            searchError.text("Введите параметр поиска");
+        }
+    });
+    $('.tag-search').click(function(e) {
+        var searchError = $('.js-search-error');
+        searchError.text("");
+    });
 });
