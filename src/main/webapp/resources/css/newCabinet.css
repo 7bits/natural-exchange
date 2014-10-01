@@ -5,13 +5,13 @@
 .user-container {
   padding-top: 50px;
   margin: 0 auto;
-  width: 1050px;
+  width: 900px;
   overflow: hidden;
 }
 .user-information {
   margin-right: 20px;
   text-align: center;
-  width: 300px;
+  width: 228px;
   overflow: hidden;
   float: left;
 }
@@ -64,7 +64,7 @@
 }
 .right-block {
   float: right;
-  width: 730px;
+  width: 651px;
 }
 .pages {
   margin-top: 10px;

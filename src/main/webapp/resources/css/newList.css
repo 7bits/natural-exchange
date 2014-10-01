@@ -3,14 +3,14 @@
 }
 .advertisement-list {
   margin: 0 auto;
-  width: 1050px;
+  width: 900px;
 }
 .searching-form {
   padding-top: 40px;
 }
 .tag-search {
   outline: 0;
-  width: 45%;
+  width: 43%;
   height: 38px;
   padding-left: 20px;
   box-sizing: border-box;
@@ -65,7 +65,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 35px;
-  padding-right: 25px;
+  padding-right: 22px;
   float: right;
   font-family: boldSans;
   font-size: 15px;
@@ -112,7 +112,7 @@
   position: relative;
   float: left;
   width: 20%;
-  padding: 18px;
+  padding: 15px;
   height: 328px;
   margin-right: 15px;
   margin-bottom: 15px;
@@ -172,8 +172,8 @@
 .adv-image {
   display: block;
 /*  margin-left: auto;*/
-  min-width: 80px;
-  min-height: 80px;
+  /*min-width: 80px;*/
+  /*min-height: 80px;*/
   max-width: 80px;
   max-height: 80px;
   margin:auto;
@@ -186,7 +186,7 @@
   bottom: 10px;
   display: block;
   width: 100px;
-  margin-left: 10%;
+  margin-left: 6%;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 35px;
@@ -209,7 +209,7 @@
   bottom: 10px;
   display: block;
   width: 135px;
-  margin-left: 10%;
+  margin-left: 5%;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 15px;
@@ -274,6 +274,9 @@ select {
 }
 .lower-case {
   overflow: hidden;
+}
+.for-email {
+    margin-right: 11px;
 }
 .e-mail-field {
   outline: 0;

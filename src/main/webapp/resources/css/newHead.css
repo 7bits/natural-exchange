@@ -4,7 +4,7 @@
 
 .header {
   margin: 0 auto;
-  width: 1050px;
+  width: 900px;
   min-width: 945px;
   overflow: hidden;
   background-color: rgb(47, 47, 47);
@@ -101,7 +101,7 @@
 }
 .menu-list li {
   float: right;
-  margin-left: 20px;
+  margin-left: 13px;
   font-size: 20px;
   display: inline;
 }

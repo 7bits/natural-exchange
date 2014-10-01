@@ -9,7 +9,7 @@ block content
       div.form-placing
         form#placing-advert(method='post', action="edit.html", enctype="multipart/form-data")
           div.title-and-error
-            input(type='text', placeholder="Заголовок", name="title", value="#{advertisementEditingForm.title}").form-rounded-button.hollow-text.advertisement-title
+            input(type='text', placeholder="Заголовок", name="title", value="#{advertisementEditingForm.title}").form-text-button.hollow-text.advertisement-title
             if locals.titleError
                 div.red-alert-text #{titleError}
           div.category-and-error
@@ -22,13 +22,13 @@ block content
             if locals.categoryError
               div.red-alert-text-category #{categoryError}
           div.placing-file-and-tags
-            label.border-file-choose.placing-file-choose.js-choose-image
+            label.placing-file-choose.js-choose-image
               div.file-button-hollow-text.js-image-text Выберите новое изображение в формате .jpeg или .png
               input#image(name = "image", type="file", accept="image/jpeg,image/png").js-image-chosen
               p.error-image
             div.choose-tags-and-button
               input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
-              a#add-tag.reg-rounded-button.file-choose.placing-tag-add.js-add-tag ДОБАВИТЬ
+              a#add-tag.reg-rounded-button.file-choose-placing.placing-tag-add.js-add-tag ДОБАВИТЬ
               input(type='hidden', name="tags", value="#{advertisementEditingForm.tags}").js-tags-chosen
             div.image-and-delete-photo
               img.advert-photo.js-advert-photo(src='#{filePath.imagesPath}#{advertisementPhotoName}')
@@ -36,7 +36,7 @@ block content
                 input(type='checkbox', name='isDeletePhoto').file-current-hollow-text.js-want-delete-photo
                 | Удалить фото
             div.tags-and-textarea
-              textarea(placeholder="Описание", name="text", value="#{advertisementEditingForm.text}").form-rounded-button.hollow-text.placing-textarea
+              textarea(placeholder="Описание", name="text", value="#{advertisementEditingForm.text}").form-text-button.hollow-text.placing-textarea
                 | #{advertisementEditingForm.text}
               div.chosen-tags.js-tags-placing
                 for tag in tags

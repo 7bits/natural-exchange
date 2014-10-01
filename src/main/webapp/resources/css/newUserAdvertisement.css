@@ -38,6 +38,7 @@
 
 .delete-advertisement {
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .edit-advertisement:hover, .delete-advertisement:hover {
