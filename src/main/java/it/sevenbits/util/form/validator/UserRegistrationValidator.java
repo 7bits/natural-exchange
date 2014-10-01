@@ -19,6 +19,9 @@ import javax.annotation.Resource;
  */
 @Component
 public class UserRegistrationValidator implements Validator {
+
+    private static final int MAX_NAME_SIZE = 20;
+
     @Resource(name = "userDao")
     private UserDao userDao;
 
@@ -33,15 +36,21 @@ public class UserRegistrationValidator implements Validator {
         UserRegistrationForm userRegistrationForm = (it.sevenbits.util.form.UserRegistrationForm) target;
         String password = userRegistrationForm.getPassword();
         String email = userRegistrationForm.getEmail();
+        String firstName = userRegistrationForm.getFirstName();
+        String lastName = userRegistrationForm.getLastName();
         if (!EmailValidator.getInstance().isValid(((UserRegistrationForm) target).getEmail())) {
             errors.rejectValue("email", "email.not.correct", "Введите корректный e-mail адрес.");
+        }
+        if (firstName.length() > 20) {
+            errors.rejectValue("firstName", "firstName.too.long", "Допускается не более 20 символов.");
+        }
+        if (lastName.length() > 20) {
+            errors.rejectValue("lastName", "lastName.too.long", "Допускается не более 20 символов.");
         }
         if (this.userDao.isExistUserWithEmail(email)) {
             errors.rejectValue("email", "email.user.exists", "Пользователь с таким e-mail существует.");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty", "Пароль не может быть пустым.");
-      //  ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "firstName.not.empty", "Введите Ваше имя.");
-       // ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "lastName.not.empty", "Введите Вашу фамилию.");
     }
 }
 

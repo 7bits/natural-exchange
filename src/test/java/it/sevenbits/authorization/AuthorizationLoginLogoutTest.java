@@ -15,7 +15,7 @@ import static org.junit.Assert.fail;
  * Created by booktina on 07.08.14.
  */
 public class AuthorizationLoginLogoutTest {
-   /* private WebDriver driver;
+    private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
@@ -32,10 +32,18 @@ public class AuthorizationLoginLogoutTest {
         driver.get(baseUrl + "/");
         driver.findElement(By.linkText("Вход")).click();
         driver.findElement(By.id("entry-email")).clear();
-        driver.findElement(By.id("entry-email")).sendKeys("antonovandrey@ro.ru");
+        driver.findElement(By.id("entry-email")).sendKeys("bookatina@gmail.com");
         driver.findElement(By.id("entry-pass")).clear();
-        driver.findElement(By.id("entry-pass")).sendKeys("sevenbits");
-        driver.findElement(By.linkText("ВОЙТИ")).click();
+        driver.findElement(By.id("entry-pass")).sendKeys("111");
+        driver.findElement(By.id("entry")).click();
+         TimeUnit.SECONDS.sleep(5);
+
+        if (driver.findElement(By.xpath("/html/body/div[8]/div/div[9]/div/div/form/div[2]/p[1]")).getText().matches("Вы ввели неверный пароль."))
+        {
+            driver.quit();
+            fail("Password incorrect!");
+        }
+
         driver.findElement(By.linkText("Выход")).click();
     }
 
@@ -79,5 +87,5 @@ public class AuthorizationLoginLogoutTest {
         } finally {
             acceptNextAlert = true;
         }
-    }*/
+    }
 }

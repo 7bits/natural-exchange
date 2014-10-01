@@ -81,6 +81,10 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
         criteria.add(Restrictions.eq("email", searchVariant.getEmail()));
         criteria.add(Restrictions.eq("keyWords", searchVariant.getKeyWords()));
         List<SearchVariantEntity> entities = this.hibernateTemplate.findByCriteria(criteria);
+        if (!this.notDuplicate(searchVariant, keyWordsParam, newCategories)) {
+            this.delete(searchVariant);
+            return;
+        }
         for (SearchVariantEntity tmp: entities) {
             if (tmp.getCategories().equals(searchVariant.getCategories())) {
                 tmp.setKeyWords(keyWordsParam);
@@ -89,7 +93,22 @@ public class SearchVariantDaoHibernate implements SearchVariantDao {
                 break;
             }
         }
+    }
 
+    private boolean notDuplicate(SearchVariantEntity searchVariant, String keyWords, Set<CategoryEntity> categories) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(SearchVariantEntity.class);
+        criteria.add(Restrictions.eq("email", searchVariant.getEmail()));
+        criteria.add(Restrictions.eq("keyWords", keyWords));
+        List<SearchVariantEntity> list = this.hibernateTemplate.findByCriteria(criteria);
+        for (SearchVariantEntity tmp: list) {
+            if (tmp.getId().equals(searchVariant.getId())) {
+                break;
+            }
+            if (tmp.getCategories().equals(categories)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void delete(final SearchVariantEntity searchVariant) {

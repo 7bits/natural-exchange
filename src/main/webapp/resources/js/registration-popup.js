@@ -18,28 +18,32 @@ $(document).ready(function() {
     $.fancybox.resize();
     $("#registration-form").submit(function() { return false; });
     $("#reg-reject").click( function(){
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
-        errorString.text("");
-        acceptString.text("");
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
+        emailError.text("");
+        passError.text("");
         $.fancybox.close();
     });
     $(".js-entry").click( function(){
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
-        errorString.text("");
-        acceptString.text("");
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
+        emailError.text("");
+        passError.text("");
         $.fancybox.close();
     });
     $('.js-registration-complete').click(function(e) {
         e.preventDefault();
-        var errorString = $('.reg-error');
-        var acceptString = $('.reg-accepting');
+        var emailError = $('.js-email-error');
+        var passError = $('.js-pass-error');
+        var firstNameError = $('.js-firstname-error');
+        var lastNameError = $('.js-lastname-error');
         var email = $("#reg-email").val();
         var firstName = $("#reg-first-name").val();
         var lastName = $("#reg-last-name").val();
         var password = $("#reg-pass").val();
         var sendingUrl = $(".js-registration-form").data("url");
+        emailError.text("");
+        passError.text("");
         var dataJson = {
             email: email,
             firstName: firstName,
@@ -53,23 +57,49 @@ $(document).ready(function() {
             data: dataJson,
             success: function(data, textStatus, jqXHR) {
                 if (data.success == true) {
-                    errorString.text("");
-                    acceptString.text("Вы зарегистрированы! На ваш email выслано подтверждение вашего аккаунта.");
+                    $.gritter.add({
+                        title:"Вы зарегистрированы!",
+                        text:"На ваш email выслано подтверждение вашего аккаунта.",
+                        image:"/resources/images/newdesign/logo.png"
+                    });
                 } else {
                     var errorVariant = data.errors;
-                    acceptString.text("");
                     if(errorVariant.exist) {
-                        errorString.text(data.errors.exist);
+                        $.gritter.add({
+                            title:data.errors.exist,
+                            image:"/resources/images/newdesign/logo.png"
+                        });
                     } else if (errorVariant.wrong) {
-                        errorString.text(data.errors.wrong);
+                        if (errorVariant.wrong.email) {
+                            emailError.text(errorVariant.wrong.email);
+                        }
+                        if (errorVariant.wrong.password) {
+                            passError.text(errorVariant.wrong.password);
+                        }
+                        if (errorVariant.wrong.firstName) {
+                            firstNameError.text(errorVariant.wrong.firstName);
+                        }
+                        if (errorVariant.wrong.lastName) {
+                            lastNameError.text(errorVariant.wrong.lastName);
+                        }
                     }
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if(jqXHR.status==404) {
-                    alert(errorThrown);
+                    $.gritter.add({
+                        title:errorThrown,
+                        image:"/resources/images/newdesign/logo.png"
+                    });
                 }
             }
         })
     })
+});
+
+$(document).bind('keydown', function() {
+    if ((event.keyCode == 13) && ($(".js-registration-form").is(":visible"))) {
+        var entry = $('.js-registration-complete');
+        entry.click();
+    }
 });

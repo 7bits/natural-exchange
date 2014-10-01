@@ -5,16 +5,17 @@
 
 .button-goto-main {
     padding-top: 15px;
+    text-align: center;
 }
 
-.center {
+.center-text {
   text-align: center;
-
-  font: 14px mySans;
+  padding-right: 100px;
+  font: 18px mySans;
 }
 
 .to-main-button {
-  margin-left: 30px;
+  margin-right: 150px;
   margin-top: 60px;
 
   padding-top: 6px;
@@ -29,4 +30,8 @@
   background-color: rgb(243, 152, 34);
   border: none;
   border-radius: 100px;
+}
+
+.to-main-button:hover {
+  background-color: rgb(223, 83, 70);
 }

@@ -6,6 +6,11 @@
 .button-and-reject {
 }
 
+.text-email-confirm {
+  font: 15px mySans;
+  padding-left: 20px;
+}
+
 .auth-complete {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -23,19 +28,36 @@
   height: 40px;
   text-decoration: none;
 
-  background-image: url("/resources/images/newdesign/accept.png");
+  background-image: url("/resources/images/newdesign/circle-accept.png");
   background-repeat: no-repeat;
   background-position: 16px 9px;
 }
-
 .auth-reject {
   float: right;
 
-  padding-left: 40px;
-  padding-top: 7px;
+  box-sizing: border-box;
+  -moz-box-sizing : border-box;
+  -webkit-box-sizing : border-box;
+
+  background-color: rgb(243, 152, 34);
+  border: none;
+
+  font-family: boldSans;
+  font-size: 15px;
+  color: rgb(255, 255, 255);
+
+  width: 200px;
+  height: 40px;
+
+  padding-left: 70px;
+  padding-top: 10px;
   margin-top: 40px;
   margin-right: 900px;
   text-decoration: none;
+}
+
+.auth-reject:hover {
+  background-color: rgb(223, 83, 70);
 }
 
 .red-alert-text {

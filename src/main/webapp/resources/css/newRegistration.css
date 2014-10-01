@@ -1,6 +1,6 @@
 #registration-form {
   margin: auto;
-  height: 480px;
+  height: 500px;
   width: 405px;
 }
 
@@ -43,6 +43,8 @@
   width: 270px;
   height: 42px;
   margin-left: 15px;
+  margin-top: 20px;
+
   padding-left: 35px;
   padding-top: 10px;
   text-decoration: none;
@@ -111,6 +113,10 @@
   margin-left: 20px;
 }
 
+.reg-rounded-button:hover {
+  background-color: rgb(223, 83, 70);
+}
+
 .file-hollow-text {
   width: 124px;
   float: left;
@@ -126,6 +132,5 @@
 }
 
 .logo-pos {
-  margin-top: 10px;
   margin-right: 20px;
 }

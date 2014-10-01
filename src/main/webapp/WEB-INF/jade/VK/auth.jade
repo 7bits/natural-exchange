@@ -4,14 +4,14 @@ block append customcss
 block content
   .auth-content
     form(method='post', commandName="vkEntryEmailForm", action="auth.html")
-      div Введите свой e-mail, и Ваша регистрация будет завершена.
+      div.text-email-confirm Введите свой e-mail, и Ваша регистрация будет завершена.
+      input(type='email', name='email').form-rounded-button.hollow-text
       if (!errors.isEmpty())
         for error in errors
           div.red-alert-text #{error.getDefaultMessage()}
-      input(type='email', name='email').form-rounded-button.hollow-text
       div.button-and-reject
         input(type='submit', value='Готово').rounded-button.auth-complete.small-tab-text
-        a(href='#{uri.uri("/advertisement/list.html")}').reg-rounded-button.file-choose.auth-reject Отмена
+        a(href='#{uri.uri("/advertisement/list.html")}').reg-rounded-button.auth-reject Отмена
       input(type='hidden', name='first_name', value='#{first_name}')
       input(type='hidden', name='last_name', value='#{last_name}')
       input(type='hidden', name='vk_link', value='#{vk_link}')

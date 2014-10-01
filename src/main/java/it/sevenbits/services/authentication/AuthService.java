@@ -1,10 +1,8 @@
 package it.sevenbits.services.authentication;
 
 import it.sevenbits.dao.UserDao;
-import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -15,10 +13,10 @@ public class AuthService {
     @Autowired
     static UserDao userDao;
 
-    public static User getUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth instanceof UserEntity) {
-            return userDao.findUserByEmail(auth.getName());
+    public static UserEntity getUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserEntity) {
+            return ((UserEntity) principal);
         } else return null;
     }
 
@@ -27,5 +25,13 @@ public class AuthService {
         if (principal instanceof UserEntity) {
             return (UserDetails) principal;
         } else return null;
+    }
+
+    public static Long getUserId() {
+        UserEntity currentUser = getUser();
+        if (currentUser != null) {
+            return currentUser.getId();
+        }
+        return (long) 0;
     }
 }

@@ -12,7 +12,7 @@ block content
           br
           | #{currentUser.lastName}
         p.user-email-cover
-          a.user-email(href='#') #{currentUser.email}
+          a.user-email #{currentUser.email}
         p.edit-user-cover
           a.edit-user-profile(href='#{uri.uri("/user/userprofile/edit.html")}') Редактировать
         p.fix-text Дата регистрации:
@@ -24,10 +24,10 @@ block content
               li
                 a.inset.substract-inset(href='#{uri.uri("/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
               li
-                a.inset(href='#{uri.uri("/user/userprofile/advertisements.html")}') МОИ ОБЪЯВЛЕНИЯ
+                a.inset(href='#{uri.uri("/user/userprofile/advertisements.html")}') МОИ ПРЕДЛОЖЕНИЯ
             else
               li
                 a.inset(href='#{uri.uri("/user/userprofile/searches.html")}') ЛИЧНЫЙ КАБИНЕТ
               li
-                a.inset.substract-inset(href='#{uri.uri("/user/userprofile/advertisements.html")}') МОИ ОБЪЯВЛЕНИЯ
+                a.inset.substract-inset(href='#{uri.uri("/user/userprofile/advertisements.html")}') МОИ ПРЕДЛОЖЕНИЯ
         block information

@@ -12,14 +12,20 @@
     padding-top: 3%;
 }
 
+.error-image {
+  color: rgb(255, 0, 0);
+  font-size: 15px;
+}
+
 .main-content {
-    max-width: 1000px;
-    margin: 0 auto;
+  /*max-width: 1000px;*/
+  width: 900px;
+  margin: 0 auto;
 }
 
 .file-button-hollow-text {
     color: rgb(168, 129, 49);
-    font: 18px bold mySans;
+    font: 17px bold mySans;
 
     padding-top: 7px;
 }
@@ -64,10 +70,14 @@
 .chosen-tags {
     /*padding-left: 650px;*/
     float: right;
-    padding-left: 100px;
+    padding-left: 73px;
 
     width: 384px;
 }
+
+/*.chosen-tags, .placing-textarea {*/
+  /*margin-top: 40px;*/
+/*}*/
 
 .tag {
     margin-left: 650px;
@@ -120,7 +130,30 @@
 
 
 .red-alert-text {
+    width: 300px;
+
     color: red;
+    font-size: 18px;
+    padding-left: 15px;
+}
+
+.red-alert-text-category {
+    width: 300px;
+
+    color: red;
+    font-size: 18px;
+}
+
+.red-alert-text-textError {
+    width: 300px;
+
+    color: red;
+    font-size: 18px;
+    padding-left: 15px;
+}
+
+.category-and-error {
+    float: right;
 }
 
 .advert-photo {
@@ -140,21 +173,78 @@
     padding-top: 30px;
 }
 
-.advertisement-title {
-    width: 500px;
+.form-text-button {
+  outline: 0;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+
+  width: 370px;
+  height: 40px;
+
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  margin-top: 15px;;
+  padding-left: 30px;
+
+  border: 2px solid rgb(243, 152, 34);
+  background-color: rgb(255, 255, 255);
 }
+.form-text-button:hover {
+  outline: 0;
+  border: 2px solid rgb(26, 178, 175);
+}
+
+.advertisement-title {
+    width: 438px;
+}
+
+.placing-file-choose {
+  outline: 0;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+
+  width: 438px;
+  height: 40px;
+  display: inline-block;
+
+
+  box-sizing: border-box;
+  -moz-box-sizing : border-box;
+  -webkit-box-sizing : border-box;
+  margin-top: 15px;
+  padding-left: 30px;
+
+  border: 3px solid rgb(243, 152, 34);
+}
+
 
 .placing-file-and-tags {
     padding-top: 40px;
 }
 
+.red-alert-text-tags {
+  color: red;
+  font-size: 18px;
+
+  width: 300px;
+  padding-left: 60%;
+}
+
+.title-and-error {
+    display: inline-block;
+}
+
 .select-category {
     outline: 0;
     margin-top: 15px;
-    width: 384px;
+    width: 360px;
     height: 40px;
     padding-left: 20px;
-    float: right;
 
     box-sizing: border-box;
     border-radius: 100px;
@@ -172,7 +262,7 @@
 
 .select-category:hover {
   border: 2px solid rgb(26, 178, 175);
-    background-image: url("/resources/images/newdesign/blue-arrow.png");
+  background-image: url("/resources/images/newdesign/blue-arrow.png");
 }
 
 .choose-tags {
@@ -187,14 +277,9 @@
     border-bottom-right-radius: 20px;
 
     padding-top: 20px;
-    margin-top: 40px;
     height: 200px;
-    width: 500px;
+    width: 438px;
     resize: none;
-}
-
-.placing-file-choose {
-    width: 500px;
 }
 
 .placing-file-choose:hover {
@@ -235,11 +320,11 @@
     border: none;
     float: left;
 
-    padding-left: 20px;
-    margin-left: 15px;
+    padding-left: 37px;
+    /*margin-left: 15px;*/
     margin-top: 40px;
 
-    width: 200px;
+    width: 167px;
     height: 40px;
     text-decoration: none;
 
@@ -268,7 +353,7 @@
 }
 
 .placing-tag-choose {
-    width: 384px;
+    width: 360px;
     margin-left: 101px;
 }
 
@@ -278,9 +363,9 @@
 
 .placing-tag-add {
     position: absolute;
-    left: 280px;
+    left: 276px;
     bottom: 5px;
-    padding-left: 50px;
+    padding-left: 45px;
     padding-top: 7px;
 
     background-image: url(/resources/images/newdesign/plus-circle.png);
@@ -288,6 +373,22 @@
     background-position: 15px 6px;
 }
 
-.placing-end-button {
+.file-choose-placing {
+  box-sizing: border-box;
+  -moz-box-sizing : border-box;
+  -webkit-box-sizing : border-box;
+
+  background-color: rgb(243, 152, 34);
+  border: none;
+
+  width: 157px;
+  height: 30px;
+  font-family: boldSans;
+  font-size: 13px;
+  /*font: 13px normal boldSans;*/
+  color: rgb(255, 255, 255);
 }
 
+.file-choose-placing:hover {
+  background-color: rgb(223, 83, 70);
+}

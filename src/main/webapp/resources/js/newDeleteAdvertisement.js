@@ -3,6 +3,7 @@ $(document).ready(function() {
         e.preventDefault();
         var id = $(this).data('adv-id');
         var destUrl = $(this).data('dest-url');
+        var advertisement = $(this).closest('.advertisement');
         var sendingData = {
             id: id
         };
@@ -11,11 +12,17 @@ $(document).ready(function() {
             type: 'GET',
             data: sendingData,
             success: function(result) {
-                alert("Объявление успешно удалено");
-                document.location.reload();
+                $.gritter.add({
+                    title:"Ваше предложение удалено.",
+                    image:"/resources/images/newdesign/logo.png"
+                });
+                advertisement.hide();
             },
             error: function() {
-                alert("Объявление не удалено, пожалуйста, повторите попытку позже");
+                $.gritter.add({
+                    title:"Предложение не удалено. Пожалуйста, повторите попытку позже.",
+                    image:"/resources/images/newdesign/logo.png"
+                });
             }
         })
     });

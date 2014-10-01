@@ -1,5 +1,8 @@
 package it.sevenbits.authorization;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -7,12 +10,17 @@ import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+
 /**
  * Created by booktina on 07.08.14.
  */
 public class AuthorizationRegistrationMailTest {
-/*
-    private WebDriver driver;
+
+
+  /*Узнать про генерацию ссылки для завершения регистрации через e-mail
+
+  private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
@@ -26,16 +34,7 @@ public class AuthorizationRegistrationMailTest {
 
     @Test
     public void testPegistrationpart2() throws Exception {
-        driver.get(baseUrl + "/#/folder/INBOX/");
-        driver.findElement(By.id("login")).clear();
-        driver.findElement(By.id("login")).sendKeys("antonovandrey");
-        driver.findElement(By.cssSelector("b.uiDropdownText")).click();
-        new Select(driver.findElement(By.id("domain"))).selectByVisibleText("@ro.ru");
-        driver.findElement(By.id("password")).clear();
-        driver.findElement(By.id("password")).sendKeys("sevenbits7bits");
-        driver.findElement(By.name("profile.send")).click();
-        driver.findElement(By.name("регистрация на сайте")).click();
-        driver.findElement(By.name("http://naturalexchange.ru/user/magic.html?code=c7c09fe78178e311862141b7bdf19bc8&mail=antonovandrey@ro.ru")).click();
+       // driver.findElement(By.name("http://naturalexchange.ru/user/magic.html?code=c7c09fe78178e311862141b7bdf19bc8&mail=antonovandrey@ro.ru")).click();
     }
 
     @After
@@ -79,5 +78,5 @@ public class AuthorizationRegistrationMailTest {
             acceptNextAlert = true;
         }
     }
-    */
+*/
 }

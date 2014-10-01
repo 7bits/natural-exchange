@@ -4,7 +4,7 @@ block append customcss
   link(rel='stylesheet', href='/resources/css/newExchange.css')
 block append content
   .content
-    .title #{advertisement.title}
+    .title.adv-name #{advertisement.title}
     .advertisement-container
       .information
         .category
@@ -22,18 +22,18 @@ block append content
           | Меняет:
           a.change-user(href='#') #{fullUserName}
         if (advertisement.getUser() == auth.getCurrentUser())
-          a.tag(href='#{uri.uri("/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
-          a.tag(href='#{uri.uri("/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ОБЪЯВЛЕНИЕ
+          a.tag(href='#{uri.uri("/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ПРЕДЛОЖЕНИЕ
+          a.tag(href='#{uri.uri("/advertisement/edit.html?id=" + advertisement.id)}') РЕДАКТИРОВАТЬ ПРЕДЛОЖЕНИЕ
         else if (auth.isUserModerator())
-          a.tag(href='#{uri.uri("/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ОБЪЯВЛЕНИЕ
+          a.tag(href='#{uri.uri("/advertisement/delete.html?id=" + advertisement.id)}') УДАЛИТЬ ПРЕДЛОЖЕНИЕ
       .picture
         img.thing-picture(src='#{filePath.imagesPath}#{advertisement.photoFile}')
     .change-button
       if (auth.isAuthenticated())
         if (advertisement.user != auth.getCurrentUser())
-          a.change.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
+          a.change.js-newExchange.js-who-owner-view(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
           include exchange
-    include exchange
 block append customjs
   script(src="/resources/js/newExchangePopup.js")
+  script(src="/resources/js/newView.js")
 

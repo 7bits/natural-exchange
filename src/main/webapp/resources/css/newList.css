@@ -3,15 +3,14 @@
 }
 .advertisement-list {
   margin: 0 auto;
-  width: 1050px;
-  overflow: hidden;
+  width: 900px;
 }
 .searching-form {
   padding-top: 40px;
 }
 .tag-search {
   outline: 0;
-  width: 45%;
+  width: 43%;
   height: 38px;
   padding-left: 20px;
   box-sizing: border-box;
@@ -51,8 +50,7 @@
   color: rgb(0, 0, 0);
 }
 .underneath {
-  margin-top: 30px;
-  margin-bottom: 40px;
+  float: right;
 }
 .example {
   line-height: 20px;
@@ -67,7 +65,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 35px;
-  padding-right: 25px;
+  padding-right: 22px;
   float: right;
   font-family: boldSans;
   font-size: 15px;
@@ -78,9 +76,14 @@
   background-position: 10px 10px;
   border: none;
   border-radius: 100px;
+    outline: 0;
 }
 .search:hover {
   background-color: rgb(223, 83, 70);
+}
+.position-data {
+    padding-top: 10px;
+    display: inline-block;
 }
 .save-search {
   padding-top: 6px;
@@ -101,6 +104,7 @@
   background-color: rgb(223, 83, 70);
 }
 .row {
+    padding-top: 20px;
   overflow: hidden;
 }
 
@@ -108,7 +112,7 @@
   position: relative;
   float: left;
   width: 20%;
-  padding: 18px;
+  padding: 15px;
   height: 328px;
   margin-right: 15px;
   margin-bottom: 15px;
@@ -130,6 +134,9 @@
 .name-cover {
   margin-top: 20px;
 }
+.date-from, .date-to {
+  width: 141px;
+}
 .adv-owner {
   /*  line-height: 60px;*/
   margin-bottom: 50px;
@@ -141,10 +148,11 @@
   font-size: 15px;
   font-family: mySans;
   background-image: url('../images/changeUser.png');
-  background-repeat: no-repeat
+  background-repeat: no-repeat;
+  background-position: left top;
 }
 .adv-owner:hover {
-  text-decoration: underline;
+  /*text-decoration: underline;*/
 }
 .adv-name {
   margin-left: auto;
@@ -167,8 +175,10 @@
 .adv-image {
   display: block;
 /*  margin-left: auto;*/
-  max-width: 198px;
-  max-height: 137px;
+  /*min-width: 80px;*/
+  /*min-height: 80px;*/
+  max-width: 80px;
+  max-height: 80px;
   margin:auto;
 /*  height: 137px;
   width: 198px;
@@ -179,7 +189,7 @@
   bottom: 10px;
   display: block;
   width: 100px;
-  margin-left: 8%;
+  margin-left: 6%;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 35px;
@@ -202,7 +212,7 @@
   bottom: 10px;
   display: block;
   width: 135px;
-  margin-left: 12%;
+  margin-left: 5%;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 15px;
@@ -222,7 +232,8 @@ select {
 }
 .pages {
   text-align: center;
-  margin-top: 60px;
+  margin-top: 30px;
+  padding-right: 50px;
 }
 .pages li {
   display: inline-block;
@@ -258,16 +269,23 @@ select {
 .to-know {
   margin-top: 35px;
   margin-bottom: 15px;
-  font-family: mySans;
-  font-size: 14px;
+  font-family: boldSans;
+  font-size: 16px;
 }
 .low-space {
   height: 50px;
 }
+.lower-case {
+  overflow: hidden;
+}
+.for-email {
+    margin-right: 11px;
+}
 .e-mail-field {
   outline: 0;
   margin-bottom: 20px;
-  height: 24px;
+  height: 40px;
+  width: 25%;
   padding-left: 15px;
   box-sizing: border-box;
   background-color: rgb(255, 255, 255);
@@ -296,9 +314,12 @@ select {
 .e-mail-submit:hover {
   background-color: rgb(223, 83, 70);
 }
-.error-pointer {
+
+.errorLk-list {
+  width: 300px;
+
   color: red;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 @font-face {

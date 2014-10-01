@@ -4,7 +4,6 @@ import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.User;
-import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.services.authentication.AuthService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.DatePair;
@@ -19,9 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -178,16 +174,28 @@ public class ModeratorController {
     public @ResponseBody String BanOrUnbanUser(@RequestParam(value = "userId", required = true) final Long id) {
         User user = this.userDao.findById(id);
         String message;
+        String title;
+        String userName = this.getUserName(user);
         if (user.getIsBanned()) {
-            message = "Поздравляем, вы разбанены и можете снова посещать наш сайт со своей учетной записи :-)";
+            message = UtilsMessage.createLetterToUnbannedUser(userName);
+            title = "Уведомление о снятии бана";
         } else {
-            message = "Вы забанены модератором";
+            message = UtilsMessage.createLetterToBannedUser(userName);
+            title = "Уведомление о бане";
         }
-        Map<String, String> letter = UtilsMessage.createLetterForBannedUser(
-                user.getEmail(), user.getFirstName(), "Уведомление о бане", message);
-        mailSenderService.sendMail(letter.get("email"), letter.get("title"), letter.get("text"));
+        mailSenderService.sendMail(user.getEmail(), title, message);
         this.userDao.changeBan(id);
         return "redirect:new/moderator/userList.html";
+    }
+
+    private String getUserName(User user) {
+        if (!user.getFirstName().equals("")) {
+            return user.getFirstName();
+        }
+        if (!user.getLastName().equals("")) {
+            return user.getLastName();
+        }
+        return "Безымянный";
     }
 
     private List<User> getAllUsersExceptCurrent(String keyWords, Long dateFrom, Long dateTo,

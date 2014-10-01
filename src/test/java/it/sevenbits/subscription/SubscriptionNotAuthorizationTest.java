@@ -12,11 +12,11 @@ import org.openqa.selenium.support.ui.Select;
  * Created by booktina on 07.08.14.
  */
 public class SubscriptionNotAuthorizationTest {
-   /*
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
+    private boolean rezult = true;
 
     @Before
     public void setUp() throws Exception {
@@ -26,11 +26,23 @@ public class SubscriptionNotAuthorizationTest {
     }
 
     @Test
-    public void testSubscriptionNotAuth() throws Exception {
-        driver.get(baseUrl + "/advertisement/list.html");
-        driver.findElement(By.id("emailNews")).clear();
-        driver.findElement(By.id("emailNews")).sendKeys("antonoff@mail.com");
-        driver.findElement(By.cssSelector("input.send")).click();
+    public void testSubscription() throws Exception {
+        driver.get(baseUrl + "/");
+        driver.findElement(By.cssSelector("input.for-email")).clear();
+        driver.findElement(By.cssSelector("input.for-email")).sendKeys("antonoff@mail.com");
+        driver.findElement(By.cssSelector("input.submit-email")).click();
+       // driver.findElement(By.cssSelector("input.for-emqil").name("Ваш e-mail добавлен."));
+        //driver.findElement(By.cssSelector("input.for-emqil").name("Вы уже подписаны"));
+       // driver.findElement(By.)
+
+        if (isElementPresent(By.xpath("Вы уже подписаны."))) {
+            Assert.assertTrue(rezult);
+        }
+        else {
+            rezult = false;
+            Assert.assertFalse(rezult);
+        }
+        TimeUnit.SECONDS.sleep(3);
     }
 
     @After
@@ -74,5 +86,4 @@ public class SubscriptionNotAuthorizationTest {
             acceptNextAlert = true;
         }
     }
-    */
 }

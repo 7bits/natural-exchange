@@ -19,7 +19,7 @@ block content
           input.current-page(type='hidden', value='#{currentPage}')
           input.search(type='submit', value='НАЙТИ')
           p
-          label(for='date-from') Объявления, размещенные с
+          label(for='date-from') Предложения, размещенные с
           input(type='text', class='date-from', name='dateFrom', value='#{dateFrom}')
           label(for='date-to') и до
           input(type='text', class='date-to', name='dateTo', value='#{dateTo}')
@@ -32,7 +32,7 @@ block content
             p.date #{advertisement.createdDateFormat}
             a.adv-name(href='#{uri.uri("/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover
-              a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
+              a.adv-owner #{advertisement.user.firstName} #{advertisement.user.lastName}
             if (!isDeleted)
               a.delete-button.js-moder-action(href='#', data-adv-id='#{advertisement.id}', data-dest-url='#{uri.uri("/advertisement/delete.html")}') УДАЛИТЬ
             else

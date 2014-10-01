@@ -2,6 +2,7 @@ extends layout/layout
 block append customcss
   link(rel='stylesheet', href='/resources/css/newList.css')
   link(rel='stylesheet', href='/resources/css/newExchange.css')
+  link(rel='stylesheet', href='/resources/css/newMain.css')
   link(rel='stylesheet', href='//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css')
 block content
   .content
@@ -11,7 +12,6 @@ block content
           input.tag-search(type='text', placeholder='Введите параметры поиска', maxlength='50', name='keyWords',
           value='#{keyWords}')
           select.category-search(name='currentCategory')
-
             option(selected='selected', disabled='disabled') Выберите Категорию
             if (stringActions.isEqualStringWithSpaceSeparator(currentCategory, allCategories))
               option.choosen-category(selected='selected', value='#{allCategories}') Все категории
@@ -24,18 +24,19 @@ block content
                 option.choosen-category(value='#{category.slug}') #{category.name}
           input.current-page(type='hidden', value='#{currentPage}')
           input.search(type='submit', value='НАЙТИ')
-          p
-            label(for='date-from') Объявления, размещенные с
-            input(type='text', class='date-from', name='dateFrom', value='#{dateFrom}')
-            label(for='date-to') и до 
-            input(type='text', class='date-to', name='dateTo', value='#{dateTo}')
+          .example
+            | Например:
+            a.monopoly(href='#{uri.uri("/advertisement/list.html?keyWords=" + coder.encode("Монополия"))}') Монополия
+          div.data-and-save-search
+            div.position-data
+              label(for='date-from') Предложения, размещенные с
+              input(type='text', class='date-from', name='dateFrom', value='#{dateFrom}')
+              label(for='date-to') и до
+              input(type='text', class='date-to', name='dateTo', value='#{dateTo}')
+            if (auth.isAuthenticated())
+              .underneath
+                a.save-search.js-save-search(href='#', data-url='#{uri.uri("/advertisement/saveSearch.html")}') СОХРАНИТЬ ПОИСК
           p.date-error #{dateError}
-      .underneath
-        .example
-          | Например:
-          a.monopoly(href='#') Монополия
-          if (auth.isAuthenticated())
-            a.save-search.js-save-search(href='#', data-url='#{uri.uri("/advertisement/saveSearch.html")}') СОХРАНИТЬ ПОИСК
       .row
         for advertisement in advertisements
           .advertisement
@@ -46,7 +47,7 @@ block content
             p.date #{advertisement.createdDateFormat}
             a.adv-name(href='#{uri.uri("/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
             .name-cover
-              a.adv-owner(href='#') #{advertisement.user.firstName} #{advertisement.user.lastName}
+              a.adv-owner #{advertisement.user.firstName} #{advertisement.user.lastName}
             if (auth.isAuthenticated())
               if (advertisement.user != auth.getCurrentUser())
                 a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
@@ -84,12 +85,15 @@ block content
         | Узнавайте новости проекта первыми!
       .lower-case
         form.subscribe-form(data-url='#{uri.uri("/subscribe.html")}')
-          input.e-mail-field(type='text', maxlength='50', placeholder='Ваш e-mail')
-          input.e-mail-submit(type='submit', value='подписаться')
-          p.error-pointer
+          input.for-email(type='text', maxlength='50', placeholder='Ваш e-mail')
+          input.submit-email(type='submit', value='подписаться')
+          div.errorLk-list.js-subscribe-error
+      if locals.deleteAdvertisementMessage
+        input.js-deleted-advertisement(type='hidden', value='#{deleteAdvertisementMessage}')
 block append customjs
   script(src="/resources/js/newExchangePopup.js")
   script(src="/resources/js/newSubscribe.js")
   script(src="/resources/js/newSavingSearch.js")
   script(src='/resources/js/calendar.js')
   script(src='//code.jquery.com/ui/1.11.1/jquery-ui.js')
+  script(src='/resources/js/newList.js')

@@ -12,7 +12,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
  * Created by booktina on 07.08.14.
  */
 public class AdsDeleteAdTest {
-/*
+
     private WebDriver driver;
     private String baseUrl;
     private boolean acceptNextAlert = true;
@@ -22,21 +22,19 @@ public class AdsDeleteAdTest {
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        authorizationLogin();
+        TimeUnit.SECONDS.sleep(5);
+
     }
 
     @Test
     public void testDeleteAd() throws Exception {
-        driver.get(baseUrl + "/");
-        driver.findElement(By.linkText("вход на сайт")).click();
-        driver.findElement(By.name("j_username")).clear();
-        driver.findElement(By.name("j_username")).sendKeys("antonovandrey@ro.ru");
-        driver.findElement(By.name("j_password")).clear();
-        driver.findElement(By.name("j_password")).sendKeys("sevenbits");
-        driver.findElement(By.cssSelector("input.sendOk")).click();
-        driver.findElement(By.linkText("qwer test")).click();
-        driver.findElement(By.cssSelector("a.deleteAdvertisementButtonImage")).click();
-        driver.findElement(By.linkText("выйти")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div/div[3]/ul[1]/li[2]/a")).click();
+        driver.findElement(By.linkText("new ads")).click();
+        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[1]/a[1]")).click();
+        driver.get(baseUrl);
+        driver.findElement(By.linkText("Выход")).click();
     }
 
     @After
@@ -46,6 +44,16 @@ public class AdsDeleteAdTest {
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
         }
+    }
+
+    public void authorizationLogin() throws Exception {
+        driver.get(baseUrl + "/");
+        driver.findElement(By.linkText("Вход")).click();
+        driver.findElement(By.id("entry-email")).clear();
+        driver.findElement(By.id("entry-email")).sendKeys("bookatina@gmail.com");
+        driver.findElement(By.id("entry-pass")).clear();
+        driver.findElement(By.id("entry-pass")).sendKeys("111");
+        driver.findElement(By.id("entry")).click();
     }
 
     private boolean isElementPresent(By by) {
@@ -80,5 +88,5 @@ public class AdsDeleteAdTest {
             acceptNextAlert = true;
         }
     }
-    */
+
 }
