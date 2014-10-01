@@ -44,6 +44,10 @@
   display: none;
 }
 
+footer {
+  background: rgb(47, 47, 47);
+}
+
 @font-face {
   font-family: mySans;
   src:  url('../fonts/pt-sans.regular.ttf');
