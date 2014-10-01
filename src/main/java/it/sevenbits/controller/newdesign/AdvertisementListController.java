@@ -4,14 +4,13 @@ package it.sevenbits.controller.newdesign;
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.CategoryDao;
 import it.sevenbits.dao.SearchVariantDao;
-import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Category;
 import it.sevenbits.entity.Tag;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.*;
 import it.sevenbits.helpers.EncodeDecodeHelper;
-import it.sevenbits.security.Role;
+import it.sevenbits.services.authentication.AuthService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.*;
 import it.sevenbits.util.form.AdvertisementEditingForm;
@@ -28,8 +27,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -52,9 +49,6 @@ public class AdvertisementListController {
     private static final long MILLISECONDS_IN_A_DAY = 86400000;
 
     private Logger logger = LoggerFactory.getLogger(MainController.class);
-
-    @Autowired
-    private UserDao userDao;
 
     @Autowired
     private MailSenderService mailSenderService;
@@ -116,14 +110,11 @@ public class AdvertisementListController {
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
         pageList.setPageSize(DEFAULT_ADVERTISEMENTS_PER_LIST);
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         List<Advertisement> userAdvertisements = new LinkedList<>();
-        if (auth.getPrincipal() instanceof UserDetails) {
-            User user = this.userDao.findUserByEmail(auth.getName());
+        User user = AuthService.getUser();
+        if (user != null) {
             userAdvertisements = this.advertisementDao.findAllByEmail(user);
         }
-
         int pageCount = pageList.getPageCount();
         int currentPage;
         if (advertisementSearchingForm.getCurrentPage() == null || advertisementSearchingForm.getCurrentPage() > pageCount
@@ -160,9 +151,8 @@ public class AdvertisementListController {
         map.put("currentCategory", previousCategory);
         map.put("currentPage", previousPage);
         map.put("keyWords", previousKeyWords);
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            UserDetails user = (UserDetails) principal;
+        User user = AuthService.getUser();
+        if (user != null) {
             String email = user.getUsername();
             SearchVariantEntity searchVariantEntity = new SearchVariantEntity(email, StringUtils.trim(previousKeyWords), null);
             String[] categorySlugs = this.stringToArray(previousCategory);
@@ -182,10 +172,9 @@ public class AdvertisementListController {
         modelAndView.addObject("advertisement", advertisement);
         modelAndView.addObject("category", category);
         Set<TagEntity> tagsSet = this.getTagsFromAdvertisementById(id);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         List<Advertisement> userAdvertisements = new LinkedList<>();
-        if (auth.getPrincipal() instanceof UserDetails) {
-            user = this.userDao.findUserByEmail(auth.getName());
+        User currentUser = AuthService.getUser();
+        if (currentUser != null) {
             userAdvertisements = this.advertisementDao.findAllByEmail(user);
         }
         modelAndView.addObject("tags", tagsSet);
@@ -198,10 +187,9 @@ public class AdvertisementListController {
 
     @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
     public ModelAndView placingAdvertisement(@RequestParam(value = "id", required = false) final Long id) {
-        if (this.getCurrentUser() == null) {
+        if (AuthService.getUser() == null) {
             return new ModelAndView("redirect:/main.html");
         }
-
         ModelAndView modelAndView = new ModelAndView("placing");
         AdvertisementPlacingForm advertisementPlacingForm = new AdvertisementPlacingForm();
         if (id != null) {
@@ -220,13 +208,12 @@ public class AdvertisementListController {
     public ModelAndView edit(@RequestParam(value = "id", required = true) final Long advertisementId) {
         AdvertisementEntity advertisement = (AdvertisementEntity) this.advertisementDao.findById(advertisementId);
         String userEmail = advertisement.getUser().getEmail();
-        User user = this.getCurrentUser();
+        User user = AuthService.getUser();
         if (user != null) {
             if (!user.getEmail().equals(userEmail)) {
                 return new ModelAndView("redirect:/main.html");
             }
         }
-
         ModelAndView modelAndView =  new ModelAndView("edit");
         AdvertisementEditingForm advertisementEditingForm = new AdvertisementEditingForm();
         advertisementEditingForm.setCategory(advertisement.getCategory().getSlug());
@@ -279,15 +266,15 @@ public class AdvertisementListController {
         } else {
             photo = fileManager.savePhotoFile(advertisementPlacingFormParam.getImage(), true);
         }
-        Advertisement advertisement = null;
-        advertisement = new Advertisement();
+        Advertisement advertisement = new Advertisement();
         advertisement.setPhotoFile(photo);
         advertisement.setText(advertisementPlacingFormParam.getText());
         advertisement.setTitle(advertisementPlacingFormParam.getTitle());
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName;
-        if (principal instanceof UserDetails) {
+        User user = AuthService.getUser();
+        if (user != null) {
             userName = ((UserDetails) principal).getUsername();
         } else {
             userName = principal.toString();
@@ -391,7 +378,7 @@ public class AdvertisementListController {
         Map map = new HashMap();
         exchangeFormValidator.validate(exchangeForm, bindingResult);
         if (!bindingResult.hasErrors()) {
-            User offer = this.getCurrentUser();
+            User offer = AuthService.getUser();
             User owner = this.advertisementDao.findById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
             String advertisementUrl = mailSenderService.getDomen() + "/advertisement/view.html?id=";
             String titleExchangeMessage = "Уведомление об обмене";
@@ -416,26 +403,14 @@ public class AdvertisementListController {
         return map;
     }
 
-    private UserEntity getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            return (UserEntity) auth.getPrincipal();
-        }
-        return null;
-    }
-
     @RequestMapping(value = "/delete.html", method = RequestMethod.GET)
     public String delete(@RequestParam(value = "id", required = true) final Long advertisementId,
             final RedirectAttributes redirectAttributes) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDetails userDetails;
         String redirectAddress = "redirect:/moderator/advertisementList.html";
-        if (principal instanceof UserDetails) {
-            userDetails = (UserDetails) principal;
-        } else {
+        User user = AuthService.getUser();
+        if (user == null) {
             return redirectAddress;
         }
-        User user = (User) userDetails;
         if (user.getRole().equals("ROLE_MODERATOR") || user.getRole().equals("ROLE_ADMIN")) {
             Advertisement advertisement = this.advertisementDao.findById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
@@ -464,7 +439,7 @@ public class AdvertisementListController {
             redirectAddress = "redirect:/advertisement/list.html";
             Advertisement advertisement = this.advertisementDao.findById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
-            if(userDetails.getUsername().equals(userEmail)) {
+            if(AuthService.getUserDetails().getUsername().equals(userEmail)) {
                 this.advertisementDao.changeDeleted(advertisementId);
                 redirectAttributes.addFlashAttribute("deleteAdvertisementMessage", "Ваше предложение удалено");
             }
