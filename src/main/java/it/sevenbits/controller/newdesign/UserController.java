@@ -7,9 +7,9 @@ import it.sevenbits.entity.Category;
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
-import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.helpers.EncodeDecodeHelper;
 import it.sevenbits.security.MyUserDetailsService;
+import it.sevenbits.services.authentication.AuthService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.util.ErrorMessages;
 import it.sevenbits.util.FileManager;
@@ -20,10 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -221,7 +219,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/searches.html", method = RequestMethod.GET)
     public ModelAndView showUserProfile() {
-        Long id = this.getCurrentUserId();
+        Long id = AuthService.getUserId();
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
@@ -234,29 +232,13 @@ public class UserController {
         return modelAndView;
     }
 
-    private Long getCurrentUserId() {
-        UserEntity currentUser = this.getCurrentUser();
-        if (currentUser != null) {
-            return currentUser.getId();
-        }
-        return (long) 0;
-    }
-
-    private UserEntity getCurrentUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            return (UserEntity) auth.getPrincipal();
-        }
-        return null;
-    }
-
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.GET)
     public ModelAndView editProfile(
         @RequestParam(value = "firstNameError", required = false) final String firstNameError,
         @RequestParam(value = "lastNameError", required = false) final String lastNameError,
         @RequestParam(value = "photoFileError", required = false) final String photoFileError
     ) {
-        Long id = this.getCurrentUserId();
+        Long id = AuthService.getUserId();
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
@@ -271,7 +253,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.POST)
     public String changeUserInformation(final EditingUserInfoForm editingUserInfoForm, BindingResult bindingResult) {
-        Long id = this.getCurrentUserId();
+        Long id = AuthService.getUserId();
         User currentUser = this.userDao.findById(id);
         this.editingUserInfoFormValidator.validate(editingUserInfoForm, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -318,7 +300,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
     public ModelAndView showAdvertisementsOfCurrentUser() {
-        Long id = this.getCurrentUserId();
+        Long id = AuthService.getUserId();
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
@@ -332,7 +314,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/deleteSearch.html", method = RequestMethod.GET)
     public ModelAndView searchDeleting(@RequestParam(value = "id", required = true) final Long searchVariantId) {
-        Long id = this.getCurrentUserId();
+        Long id = AuthService.getUserId();
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
@@ -348,7 +330,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.GET)
     public ModelAndView searchEditing(@RequestParam(value = "id", required = true) final Long id) {
-        if (this.getCurrentUserId() == 0) {
+        if (AuthService.getUserId() == 0) {
             return new ModelAndView("redirect:/main.html");
         }
         ModelAndView modelAndView = new ModelAndView("editSearch");

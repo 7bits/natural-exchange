@@ -1,13 +1,16 @@
 .content {
   background-color: rgb(248, 184, 50);
 }
+
 .advertisement-list {
   margin: 0 auto;
   width: 900px;
 }
+
 .searching-form {
   padding-top: 40px;
 }
+
 .tag-search {
   outline: 0;
   width: 43%;
@@ -20,14 +23,16 @@
   border-radius: 100px;
   font-size: 18px;
 }
+
 .tag-search:hover {
   outline: 0;
   border: 2px solid rgb(26, 178, 175);;
 }
+
 .category-search {
   outline: 0;
-  margin-left: 15px;
-  width: 40%;
+  margin-left: 10px;
+  width: 41%;
   height: 40px;
   padding-left: 20px;
   box-sizing: border-box;
@@ -41,32 +46,40 @@
   font-size: 18px;
   font-family: boldSans;
 }
+
 .category-search:hover, .category-search:active {
   outline: 0;
-    border: 2px solid rgb(26, 178, 175);
-    background-image: url('../images/newdesign/blue-arrow.png');
+  border: 2px solid rgb(26, 178, 175);
+  background-image: url('../images/newdesign/blue-arrow.png');
 }
+
 .choosen-category {
   color: rgb(0, 0, 0);
 }
+
 .underneath {
+  padding-left: 50px;
+  padding-top: 10px;
   float: right;
 }
+
 .example {
   line-height: 20px;
   color: rgb(255, 255, 255);
 }
+
 .monopoly {
   text-decoration: none;
   color: rgb(255, 255, 255);
   border-bottom: 1px dashed rgb(255, 255, 255);
 }
+
 .search {
+  margin-left: 13px;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 35px;
   padding-right: 22px;
-  float: right;
   font-family: boldSans;
   font-size: 15px;
   color: rgb(255, 255, 255);
@@ -76,15 +89,18 @@
   background-position: 10px 10px;
   border: none;
   border-radius: 100px;
-    outline: 0;
+  outline: 0;
 }
+
 .search:hover {
   background-color: rgb(223, 83, 70);
 }
+
 .position-data {
-    padding-top: 10px;
-    display: inline-block;
+  padding-top: 10px;
+  display: inline-block;
 }
+
 .save-search {
   padding-top: 6px;
   padding-bottom: 6px;
@@ -103,8 +119,9 @@
 .save-search:hover {
   background-color: rgb(223, 83, 70);
 }
+
 .row {
-    padding-top: 20px;
+  padding-top: 20px;
   overflow: hidden;
 }
 
@@ -121,22 +138,27 @@
   /*  border: 15px solid white;*/
   background-color: rgb(255, 255, 255);
 }
+
 .date {
   margin-top: 5px;
   font-size: 13px;
   font-family: mySans;
   color: rgb(143, 143, 143);
 }
+
 .date-error {
   font-size: 12px;
   color: rgb(255, 0, 0);
 }
+
 .name-cover {
   margin-top: 20px;
 }
+
 .date-from, .date-to {
   width: 141px;
 }
+
 .adv-owner {
   /*  line-height: 60px;*/
   margin-bottom: 50px;
@@ -151,9 +173,11 @@
   background-repeat: no-repeat;
   background-position: left top;
 }
+
 .adv-owner:hover {
   /*text-decoration: underline;*/
 }
+
 .adv-name {
   margin-left: auto;
   overflow: hidden;
@@ -163,27 +187,31 @@
   font-family: boldSans;
   font-size: 17px;
 }
+
 .adv-name:hover {
   color: rgb(223, 83, 70);
 }
+
 .user-email, .registration-text {
   margin-bottom: 0px;
-  font-size:16px;
+  font-size: 16px;
   font-family: mySans;
   color: rgb(0, 0, 0);
 }
+
 .adv-image {
   display: block;
-/*  margin-left: auto;*/
+  /*  margin-left: auto;*/
   /*min-width: 80px;*/
   /*min-height: 80px;*/
   max-width: 80px;
   max-height: 80px;
-  margin:auto;
-/*  height: 137px;
-  width: 198px;
-  */
+  margin: auto;
+  /*  height: 137px;
+    width: 198px;
+    */
 }
+
 .change-button {
   position: absolute;
   bottom: 10px;
@@ -204,9 +232,11 @@
   background-repeat: no-repeat;
   background-position: 10px 9px;
 }
+
 .change-button:hover, .delete-button:hover, .restore-button:hover {
   background-color: rgb(223, 83, 70);
 }
+
 .delete-button, .restore-button {
   position: absolute;
   bottom: 10px;
@@ -224,34 +254,41 @@
   border-radius: 100px;
   background-color: rgb(26, 178, 175);
 }
+
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
   text-indent: 1px;
   text-overflow: '';
 }
+
 .pages {
   text-align: center;
   margin-top: 30px;
   padding-right: 50px;
 }
+
 .pages li {
   display: inline-block;
   list-style-type: none;
   margin-right: 10px;
 }
+
 .trine {
   text-decoration: none;
   font-family: boldSans;
   font-size: 30px;
   color: rgb(243, 152, 34);
 }
+
 .trine:hover {
   color: rgb(0, 0, 0);
 }
+
 .mark {
   background-color: rgb(243, 152, 34);
 }
+
 .page-link {
   padding-top: 5px;
   padding-bottom: 5px;
@@ -263,24 +300,50 @@ select {
   font-size: 17px;
   color: rgb(255, 255, 255);
 }
+
 .page-link:hover {
   background-color: rgb(243, 152, 34);
 }
+
 .to-know {
   margin-top: 35px;
   margin-bottom: 15px;
-  font-family: boldSans;
-  font-size: 16px;
+  font-family: mySans;
+  font-size: 14px;
 }
+
+.submit-email-list {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: boldSans;
+  color: rgb(255, 255, 255);
+  border-radius: 100px;
+  border: none;
+  background-color: rgb(243, 152, 34);
+  outline: 0;
+}
+
+.submit-email-list:hover {
+  background-color: rgb(223, 83, 70);
+}
+
 .low-space {
   height: 50px;
 }
+
 .lower-case {
   overflow: hidden;
 }
+
 .for-email {
-    margin-right: 11px;
+  margin-right: 11px;
 }
+
 .e-mail-field {
   outline: 0;
   margin-bottom: 20px;
@@ -289,15 +352,17 @@ select {
   padding-left: 15px;
   box-sizing: border-box;
   background-color: rgb(255, 255, 255);
-  color: rgb(173, 173,173);
+  color: rgb(173, 173, 173);
   font-family: boldSans;
   font-size: 15px;
   border-radius: 100px;
   border: 2px solid rgb(243, 152, 34);
 }
+
 .e-mail-field:hover, .e-mail-field:active {
   outline: 0;
 }
+
 .e-mail-submit {
   padding-bottom: 5px;
   padding-top: 5px;
@@ -315,6 +380,15 @@ select {
   background-color: rgb(223, 83, 70);
 }
 
+.red-alert-text-savesearch {
+  width: 300px;
+
+  color: red;
+  font-size: 18px;
+  padding-left: 10px;
+  height: 15px;
+}
+
 .errorLk-list {
   width: 300px;
 
@@ -324,7 +398,7 @@ select {
 
 @font-face {
   font-family: mySans;
-  src:  url('../fonts/pt-sans.regular.ttf');
+  src: url('../fonts/pt-sans.regular.ttf');
 }
 
 @font-face {

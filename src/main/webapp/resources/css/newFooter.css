@@ -5,7 +5,7 @@
 }
 
 .footer-text {
-  font: normal 14px "Rectangular Marquee";
+  font: normal 14px mySans;
   color: rgb(136,136,136);
   padding-top: 1%;
 }
