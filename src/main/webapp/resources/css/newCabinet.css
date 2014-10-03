@@ -16,8 +16,8 @@
   float: left;
 }
 .user-image {
-  max-width: 190px;
-  max-height: 190px;
+  max-width: 150px;
+  max-height: 150px;
   border-radius: 100px;
   border: 5px solid rgb(26, 178, 175);
 }

@@ -61,5 +61,7 @@
 }
 
 .red-alert-text {
-  color: red;
+  color: white;
+
+  font : 15px mySans;
 }

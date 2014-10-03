@@ -88,6 +88,7 @@ public class VKAuthorizationController {
             user.setUpdateDate(TimeManager.getTime());
             user.setCreatedDate(TimeManager.getTime());
             user.setRole("ROLE_USER");
+            user.setAvatar("noavatar.png");
             user.setActivationDate(TimeManager.addDate(UserController.REGISTRATION_PERIOD));
             Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
             String code = md5encoder.encodePassword(user.getPassword(), user.getEmail());

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HandlerInterceptor extends HandlerInterceptorAdapter {
 
     private final StringHelper stringHelper = new StringHelper();
+    private final DateHelper dateHelper = new DateHelper();
     private final EncodeDecodeHelper encodeDecodeHelper = new EncodeDecodeHelper();
     private final VkAuthHelper vkAuthHelper = new VkAuthHelper();
     private final AuthHelper authHelper = new AuthHelper();
@@ -30,6 +31,7 @@ public class HandlerInterceptor extends HandlerInterceptorAdapter {
         modelAndView.addObject("auth", authHelper);
         modelAndView.addObject("uri", urlHelper);
         modelAndView.addObject("filePath", filePathHelper);
+        modelAndView.addObject("date", dateHelper);
         super.postHandle(request, response, handler, modelAndView);
     }
 }

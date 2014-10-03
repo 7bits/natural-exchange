@@ -105,6 +105,7 @@ public class UserController {
                 user.setUpdateDate(TimeManager.getTime());
                 user.setCreatedDate(TimeManager.getTime());
                 user.setRole("ROLE_USER");
+                user.setAvatar("noavatar.png");
                 user.setActivationDate(TimeManager.addDate(REGISTRATION_PERIOD));
                 String code = md5encoder.encodePassword(user.getPassword(), user.getEmail());
                 user.setActivationCode(code);

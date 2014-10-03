@@ -24,7 +24,7 @@
 
 .games-image:hover {
   text-decoration: none;
-  border-radius: 150px;
+  border-radius: 100px;
   border: 4px solid rgb(58, 184, 184);
 }
 
@@ -148,8 +148,8 @@
   width: 300px;
   padding-left: 150px;
 
-  color: red;
-  font-size: 18px;
+  color: rgb(273, 98, 63);
+  font: 15px mySans;
 }
 
 .for-email {

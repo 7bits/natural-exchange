@@ -1,8 +1,7 @@
 .right-top-links
   if auth.isAuthenticated()
-    a(href='#{uri.uri("/user/userprofile/searches.html")}').entire Личный кабинет
-    | /
-    a(href='#{uri.uri("/user/logout.html")}').registration Выход
+    a(href='#{uri.uri("/user/userprofile/searches.html")}').entire-auth #{auth.getCurrentUser().firstName} #{auth.getCurrentUser().lastName}
+    a(href='#{uri.uri("/user/logout.html")}').registration-out
   else
     a(href='#entry-form').entire.js-entry Вход
     | /
@@ -34,4 +33,3 @@
         a.common-link(href='#{uri.uri("/moderator/advertisementList.html")}') Модерирование
       li
         a.common-link(href='#{uri.uri("/moderator/userList.html")}') Администрирование
-

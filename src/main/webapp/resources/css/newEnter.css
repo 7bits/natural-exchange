@@ -199,7 +199,8 @@
 }
 
 .hollow-text {
-  font: 18px bold mySans;
+  font: 18px mySansBold;
+  color: rgb(47, 47, 47);
 }
 
 .small-tab-text {

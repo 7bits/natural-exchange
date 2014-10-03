@@ -1,7 +1,11 @@
 .head-component
   if (auth.isUserModeratorOrAdministrator())
     .header.admin-size
+      if auth.isAuthenticated()
+        img.head-user-avatar(src='#{filePath.avatarsPath}#{auth.getCurrentUser().avatar}')
       include mainHeadBlock
   else
     .header.common-size
+      if auth.isAuthenticated()
+        img.head-user-avatar(src='#{filePath.avatarsPath}#{auth.getCurrentUser().avatar}')
       include mainHeadBlock

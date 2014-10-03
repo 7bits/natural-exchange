@@ -11,8 +11,8 @@ import org.springframework.validation.Errors;
  */
 @Component
 public class AdvertisementEditingValidator implements Validator {
-    private final static int maxTitleLength = 16;
-    private final static int maxAdvertisementTextLength = 200;
+    private final static int maxTitleLength = 100;
+    private final static int maxAdvertisementTextLength = 500;
 
     @Override
     public boolean supports(final Class<?> clazz) {
@@ -26,10 +26,10 @@ public class AdvertisementEditingValidator implements Validator {
         String title = advertisementEditingForm.getTitle();
         String text = advertisementEditingForm.getText();
         if ((title.length()) > maxTitleLength) {
-            errors.rejectValue("title", "title.tooLong", "Недопустимо больше 16 знаков в заголовке.");
+            errors.rejectValue("title", "title.tooLong", "Недопустимо больше 100 знаков в заголовке.");
         }
         if ((text.length()) > maxAdvertisementTextLength) {
-            errors.rejectValue("text", "text.tooLong", "Недопустимо больше 200 знаков в описании.");
+            errors.rejectValue("text", "text.tooLong", "Недопустимо больше 500 знаков в описании.");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(
