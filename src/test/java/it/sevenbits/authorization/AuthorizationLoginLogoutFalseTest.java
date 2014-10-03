@@ -6,17 +6,18 @@ import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
 
 /**
- * Created by booktina on 07.08.14.
+ * Created by sevenbits on 03.10.14.
  */
-public class AuthorizationLoginLogoutTest {
+public class AuthorizationLoginLogoutFalseTest {
     private WebDriver driver;
     private String baseUrl;
+    private String email;
+    private String password;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -25,6 +26,11 @@ public class AuthorizationLoginLogoutTest {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+        Authorization authorization = new Authorization();
+        email = authorization.getEmailFalse();
+        password = authorization.getPasswordFalse();
+
     }
 
     @Test
@@ -32,24 +38,31 @@ public class AuthorizationLoginLogoutTest {
         driver.get(baseUrl + "/");
         driver.findElement(By.linkText("Вход")).click();
         driver.findElement(By.id("entry-email")).clear();
-        driver.findElement(By.id("entry-email")).sendKeys("bookatina@gmail.com");
+        driver.findElement(By.id("entry-email")).sendKeys(email);
         driver.findElement(By.id("entry-pass")).clear();
-        driver.findElement(By.id("entry-pass")).sendKeys("111");
+        driver.findElement(By.id("entry-pass")).sendKeys(password);
         driver.findElement(By.id("entry")).click();
-         TimeUnit.SECONDS.sleep(5);
+        TimeUnit.SECONDS.sleep(5);
 
-        if (driver.findElement(By.xpath("/html/body/div[8]/div/div[9]/div/div/form/div[2]/p[1]")).getText().matches("Вы ввели неверный пароль."))
+       if (driver.findElement(By.cssSelector("html body div#fancybox-wrap div#fancybox-outer div#fancybox-content div div#entry-form form#enter.js-entry-form div.entry-form.nexchange-mainbg div.error-msg.js-pass-error")).getText().matches("Вы ввели неверный пароль.")) {
+            driver.quit();
+            //fail("Password incorrect!");
+        }
+        /*  if (driver.findElement(By.xpath("/html/body/div[9]/div/div[2]/div[1]/span")).getText().matches("Вы ввели неверный пароль."))
         {
             driver.quit();
             fail("Password incorrect!");
         }
+*/
+      /*  if (driver.findElement(By.className("gritter-title")).getText().matches("Вы еще не зарегистрированы.")) {
+            driver.quit();
+            fail("You are not registration!");
+        }*/
 
-        driver.findElement(By.linkText("Выход")).click();
     }
 
     @After
     public void tearDown() throws Exception {
-        driver.quit();
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);

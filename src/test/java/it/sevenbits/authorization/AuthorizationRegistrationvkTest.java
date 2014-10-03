@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +17,11 @@ import static org.junit.Assert.fail;
 public class AuthorizationRegistrationvkTest {
     private WebDriver driver;
     private String baseUrl;
+    private String email;
+    private String number;
+    private String password;
+    private String link;
+    private String passwordlink;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -24,6 +30,18 @@ public class AuthorizationRegistrationvkTest {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+        Authorization authorization = new Authorization();
+        number = authorization.getNumberVkRegistration();
+        password = authorization.getPasswordVkRegistration();
+        email = authorization.getEmailVkRegistration();
+        passwordlink = authorization.getPasswordLink();
+
+        Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
+        String userPassword = md5encoder.encodePassword(passwordlink, email);
+
+        link = baseUrl + "/user/magic.html?code=" + userPassword + "&mail=" + email;
+
 
     }
 
@@ -35,15 +53,15 @@ public class AuthorizationRegistrationvkTest {
         driver.findElement(By.linkText("Регистрация")).click();
         driver.findElement(By.cssSelector("html body div#fancybox-wrap div#fancybox-outer div#fancybox-content div div#registration-form form#enter.js-registration-form div.registration-form.nexchange-mainbg div.reg-and-logo a.vk-logo.logo-pos.js-vk-entry")).click();
         driver.findElement(By.name("email")).clear();
-        driver.findElement(By.name("email")).sendKeys("+79069915343");
+        driver.findElement(By.name("email")).sendKeys(number);
         driver.findElement(By.name("pass")).clear();
-        driver.findElement(By.name("pass")).sendKeys("Sevenbits");
+        driver.findElement(By.name("pass")).sendKeys(password);
         driver.findElement(By.id("install_allow")).click();
         driver.findElement(By.name("email")).clear();
-        driver.findElement(By.name("email")).sendKeys("antonovandrey@ro.ru");
+        driver.findElement(By.name("email")).sendKeys(email);
         driver.findElement(By.xpath("//input[@value='Готово']")).click();
         driver.findElement(By.linkText("НА ГЛАВНУЮ")).click();
-        String link =  "http://naturalexchange.ru/user/magic.html?code=3d6e8fe0d67fded046fc67b1f51ca6fa&mail=antonovandrey@ro.ru";
+
         driver.get(link);
         driver.findElement(By.linkText("Выход")).click();
     }

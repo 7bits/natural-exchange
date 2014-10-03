@@ -17,6 +17,8 @@ import static org.junit.Assert.fail;
 public class AuthorizationLoginvkTwoTest {
     private WebDriver driver;
     private String baseUrl;
+    private String number;
+    private String password;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -24,6 +26,9 @@ public class AuthorizationLoginvkTwoTest {
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
+        Authorization authorization = new Authorization();
+        number = authorization.getNumberVk();
+        password = authorization.getPasswordVk();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
     }
@@ -34,9 +39,9 @@ public class AuthorizationLoginvkTwoTest {
         driver.findElement(By.linkText("Вход")).click();
         driver.findElement(By.cssSelector("a.vk-logo.js-vk-entry-complete")).click();
         driver.findElement(By.name("email")).clear();
-        driver.findElement(By.name("email")).sendKeys("+79069915343");
+        driver.findElement(By.name("email")).sendKeys(number);
         driver.findElement(By.name("pass")).clear();
-        driver.findElement(By.name("pass")).sendKeys("Sevenbits");
+        driver.findElement(By.name("pass")).sendKeys(password);
         driver.findElement(By.id("install_allow")).click();
         driver.findElement(By.linkText("Выход")).click();
     }

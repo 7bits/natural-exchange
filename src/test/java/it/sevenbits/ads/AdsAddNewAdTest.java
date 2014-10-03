@@ -1,6 +1,8 @@
 package it.sevenbits.ads;
 
 import java.util.concurrent.TimeUnit;
+
+import it.sevenbits.authorization.Authorization;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -18,6 +20,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class AdsAddNewAdTest {
     private WebDriver driver;
     private String baseUrl;
+    private String email;
+    private String password;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -26,6 +30,10 @@ public class AdsAddNewAdTest {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+        Authorization authorization = new Authorization();
+        email = authorization.getEmailTrue();
+        password = authorization.getPasswordTrue();
 
     }
 
@@ -37,17 +45,13 @@ public class AdsAddNewAdTest {
         driver.get(baseUrl + "/");
         driver.findElement(By.linkText("Вход")).click();
         driver.findElement(By.id("entry-email")).clear();
-        driver.findElement(By.id("entry-email")).sendKeys("bookatina@gmail.com");
+        driver.findElement(By.id("entry-email")).sendKeys(email);
         driver.findElement(By.id("entry-pass")).clear();
-        driver.findElement(By.id("entry-pass")).sendKeys("111");
+        driver.findElement(By.id("entry-pass")).sendKeys(password);
         driver.findElement(By.id("entry")).click();
         TimeUnit.SECONDS.sleep(5);
 
-        if (driver.findElement(By.xpath("/html/body/div[8]/div/div[9]/div/div/form/div[2]/p[1]")).getText().matches("Вы ввели неверный пароль."))
-        {
-            driver.quit();
-            fail("Password incorrect!");
-        }
+
 
         driver.findElement(By.cssSelector("html body div.head-component div.header.admin-size div.main-links ul.menu-list li a.add-advertisement")).click();
         driver.findElement(By.name("title")).clear();
@@ -60,6 +64,7 @@ public class AdsAddNewAdTest {
         driver.findElement(By.id("add-tag")).click();
         driver.findElement(By.xpath("//input[@value='ДОБАВИТЬ']")).click();
         driver.findElement(By.linkText("Выход")).click();
+
     }
 
     @After

@@ -1,5 +1,6 @@
 package it.sevenbits.exchange;
 
+import it.sevenbits.authorization.Authorization;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,8 @@ import static org.junit.Assert.fail;
 public class ExchangeTest {
     private WebDriver driver;
     private String baseUrl;
+    private String email;
+    private String password;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -24,6 +27,10 @@ public class ExchangeTest {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+        Authorization authorization = new Authorization();
+        email = authorization.getEmailTrue();
+        password = authorization.getPasswordTrue();
     }
 
     @Test
@@ -31,9 +38,9 @@ public class ExchangeTest {
         driver.get(baseUrl + "/");
         driver.findElement(By.linkText("Вход")).click();
         driver.findElement(By.id("entry-email")).clear();
-        driver.findElement(By.id("entry-email")).sendKeys("bookatina@gmail.com");
+        driver.findElement(By.id("entry-email")).sendKeys(email);
         driver.findElement(By.id("entry-pass")).clear();
-        driver.findElement(By.id("entry-pass")).sendKeys("111");
+        driver.findElement(By.id("entry-pass")).sendKeys(password);
         driver.findElement(By.id("entry")).click();
         TimeUnit.SECONDS.sleep(5);
 

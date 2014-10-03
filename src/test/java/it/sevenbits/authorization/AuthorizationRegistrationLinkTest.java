@@ -16,11 +16,11 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 /**
  * Created by booktina on 07.08.14.
  */
-public class AuthorizationRegistrationMailTest {
+public class AuthorizationRegistrationLinkTest {
 
     private String getDomen;
-    private String eMail;
-    private String passWord;
+    private String email;
+    private String password;
     private WebDriver driver;
     private String link;
     private boolean acceptNextAlert = true;
@@ -34,13 +34,15 @@ public class AuthorizationRegistrationMailTest {
         getDomen = "http://naturalexchange.ru/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
-        Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
-        eMail = "andrey-antonoff@list.ru";
-        passWord = "sevenbits";
-        String userPassword = md5encoder.encodePassword(passWord, "");
-        String code = md5encoder.encodePassword(userPassword, eMail);
 
-        link = getDomen + "/user/magic.html?code=" + code + "&mail=" + eMail;
+        Authorization authorization = new Authorization();
+        email = authorization.getEmailRegistration();
+        password = authorization.getPasswordRegistration();
+        Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
+        String userPassword = md5encoder.encodePassword(password, "");
+        String code = md5encoder.encodePassword(userPassword, email);
+
+        link = getDomen + "/user/magic.html?code=" + code + "&mail=" + email;
     }
     @Test
     public void testRegistrationpart2() throws Exception {
