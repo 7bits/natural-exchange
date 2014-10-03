@@ -1,6 +1,8 @@
 package it.sevenbits.ads;
 
 import java.util.concurrent.TimeUnit;
+
+import it.sevenbits.authorization.Authorization;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -15,6 +17,8 @@ public class AdsDeleteAdTest {
 
     private WebDriver driver;
     private String baseUrl;
+    private String email;
+    private String password;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -23,6 +27,9 @@ public class AdsDeleteAdTest {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        Authorization authorization = new Authorization();
+        email = authorization.getEmailTrue();
+        password = authorization.getPasswordTrue();
         authorizationLogin();
         TimeUnit.SECONDS.sleep(5);
 
@@ -31,7 +38,7 @@ public class AdsDeleteAdTest {
     @Test
     public void testDeleteAd() throws Exception {
         driver.findElement(By.xpath("/html/body/div[1]/div/div[3]/ul[1]/li[2]/a")).click();
-        driver.findElement(By.linkText("new ads")).click();
+        driver.findElement(By.linkText("new ads edit")).click();
         driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[1]/a[1]")).click();
         driver.get(baseUrl);
         driver.findElement(By.linkText("Выход")).click();
@@ -50,9 +57,9 @@ public class AdsDeleteAdTest {
         driver.get(baseUrl + "/");
         driver.findElement(By.linkText("Вход")).click();
         driver.findElement(By.id("entry-email")).clear();
-        driver.findElement(By.id("entry-email")).sendKeys("bookatina@gmail.com");
+        driver.findElement(By.id("entry-email")).sendKeys(email);
         driver.findElement(By.id("entry-pass")).clear();
-        driver.findElement(By.id("entry-pass")).sendKeys("111");
+        driver.findElement(By.id("entry-pass")).sendKeys(password);
         driver.findElement(By.id("entry")).click();
     }
 

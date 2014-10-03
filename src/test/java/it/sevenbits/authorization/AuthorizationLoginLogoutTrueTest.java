@@ -1,23 +1,25 @@
-package it.sevenbits.subscription;
+package it.sevenbits.authorization;
 
-import java.util.regex.Pattern;
-import java.util.concurrent.TimeUnit;
-
-import it.sevenbits.authorization.Authorization;
-import org.junit.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
+
+
+import javax.validation.constraints.Null;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.fail;
+
 /**
  * Created by booktina on 07.08.14.
  */
-public class SubscriptionNewTest {
-
+public class AuthorizationLoginLogoutTrueTest {
     private WebDriver driver;
     private String baseUrl;
     private String email;
+    private String password;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -29,26 +31,27 @@ public class SubscriptionNewTest {
 
         Authorization authorization = new Authorization();
         email = authorization.getEmailTrue();
+        password = authorization.getPasswordTrue();
+
     }
 
     @Test
-    public void testSubscriptionAuth() throws Exception {
+    public void testAuthorization() throws Exception {
         driver.get(baseUrl + "/");
-        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/input[1]")).sendKeys(email);
-        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/input[2]")).click();
-        TimeUnit.SECONDS.sleep(5);
-        if (driver.findElement(By.xpath("/html/body/div[9]/div/div[2]/div[1]/span")).getText().matches("Вы уже подписаны.")) {
-            driver.quit();
-            fail("You are  subscription!");
-        }
-        if (driver.findElement(By.xpath("/html/body/div[9]/div/div[2]/div[1]/span")).getText().matches("Вы подписались на наш проект!")) {
-            driver.quit();
+        driver.findElement(By.linkText("Вход")).click();
+        driver.findElement(By.id("entry-email")).clear();
+        driver.findElement(By.id("entry-email")).sendKeys(email);
+        driver.findElement(By.id("entry-pass")).clear();
+        driver.findElement(By.id("entry-pass")).sendKeys(password);
+        driver.findElement(By.id("entry")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div/div[3]/ul[1]/li[2]/a")).click();
+        driver.findElement(By.linkText("Выход")).click();
 
-        }
     }
 
     @After
     public void tearDown() throws Exception {
+       driver.quit();
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
@@ -87,5 +90,4 @@ public class SubscriptionNewTest {
             acceptNextAlert = true;
         }
     }
-
 }

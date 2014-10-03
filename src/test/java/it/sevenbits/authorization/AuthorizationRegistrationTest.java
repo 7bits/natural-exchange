@@ -15,6 +15,10 @@ import org.openqa.selenium.support.ui.Select;
 public class AuthorizationRegistrationTest {
     private WebDriver driver;
     private String baseUrl;
+    private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -22,6 +26,12 @@ public class AuthorizationRegistrationTest {
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
+        //baseUrl = "http://n-exchange.local/n-exchange/";
+        Authorization authorization = new Authorization();
+        email = authorization.getEmailRegistration();
+        password = authorization.getPasswordRegistration();
+        firstName = authorization.getFirstName();
+        lastName = authorization.getLastName();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
@@ -30,13 +40,13 @@ public class AuthorizationRegistrationTest {
         driver.get(baseUrl + "/");
         driver.findElement(By.linkText("Регистрация")).click();
         driver.findElement(By.id("reg-email")).clear();
-        driver.findElement(By.id("reg-email")).sendKeys("andrey-antonoff@list.ru");
+        driver.findElement(By.id("reg-email")).sendKeys(email);
         driver.findElement(By.id("reg-first-name")).clear();
-        driver.findElement(By.id("reg-first-name")).sendKeys("Andrey");
+        driver.findElement(By.id("reg-first-name")).sendKeys(firstName);
         driver.findElement(By.id("reg-last-name")).clear();
-        driver.findElement(By.id("reg-last-name")).sendKeys("Antonov");
+        driver.findElement(By.id("reg-last-name")).sendKeys(lastName);
         driver.findElement(By.id("reg-pass")).clear();
-        driver.findElement(By.id("reg-pass")).sendKeys("sevenbits");
+        driver.findElement(By.id("reg-pass")).sendKeys(password);
         driver.findElement(By.id("registr")).click();
         TimeUnit.SECONDS.sleep(5);
 

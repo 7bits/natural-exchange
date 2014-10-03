@@ -16,6 +16,9 @@ import static org.junit.Assert.fail;
 public class AuthorizationLoginvkOneTest {
     private WebDriver driver;
     private String baseUrl;
+    private String email;
+    private String number;
+    private String password;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -23,6 +26,10 @@ public class AuthorizationLoginvkOneTest {
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
+        Authorization authorization = new Authorization();
+        number = authorization.getNumberVk();
+        password = authorization.getPasswordVk();
+        email = authorization.getEmailVk();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
     }
@@ -35,12 +42,12 @@ public class AuthorizationLoginvkOneTest {
         driver.findElement(By.linkText("Вход")).click();
         driver.findElement(By.cssSelector("a.vk-logo.js-vk-entry-complete")).click();
         driver.findElement(By.name("email")).clear();
-        driver.findElement(By.name("email")).sendKeys("+79069915343");
+        driver.findElement(By.name("email")).sendKeys(number);
         driver.findElement(By.name("pass")).clear();
-        driver.findElement(By.name("pass")).sendKeys("Sevenbits");
+        driver.findElement(By.name("pass")).sendKeys(password);
         driver.findElement(By.id("install_allow")).click();
         driver.findElement(By.name("email")).clear();
-        driver.findElement(By.name("email")).sendKeys("antonovandrey@ro.ru");
+        driver.findElement(By.name("email")).sendKeys(email);
         driver.findElement(By.xpath("//input[@value='Готово']")).click();
         driver.findElement(By.linkText("НА ГЛАВНУЮ")).click();
         String link =  "http://naturalexchange.ru/user/magic.html?code=3d6e8fe0d67fded046fc67b1f51ca6fa&mail=antonovandrey@ro.ru";

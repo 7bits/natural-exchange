@@ -2,6 +2,8 @@ package it.sevenbits.subscription;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
+
+import it.sevenbits.authorization.Authorization;
 import org.junit.*;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -14,6 +16,7 @@ import org.openqa.selenium.support.ui.Select;
 public class SubscriptionNotNewTest {
     private WebDriver driver;
     private String baseUrl;
+    private String email;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
     private boolean rezult = true;
@@ -23,12 +26,15 @@ public class SubscriptionNotNewTest {
         driver = new FirefoxDriver();
         baseUrl = "http://naturalexchange.ru/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+        Authorization authorization = new Authorization();
+        email = authorization.getEmailTrue();
     }
 
     @Test
     public void testSubscription() throws Exception {
         driver.get(baseUrl + "/");
-        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/input[1]")).sendKeys("andrey-antonoff@list.ru");
+        driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/input[1]")).sendKeys(email);
         driver.findElement(By.xpath("/html/body/div[2]/div/div[2]/div[3]/form/input[2]")).click();
 
         TimeUnit.SECONDS.sleep(5);
