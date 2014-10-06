@@ -13,7 +13,7 @@
   height: 137px;
 }
 .admin-size {
-  height: 200px;
+  height: 184px;
 }
 .left-top-logo {
   overflow: hidden;
@@ -141,6 +141,17 @@
 }
 .menu-list li a {
   text-decoration: none;
+}
+
+.boss-link {
+  margin-left: 25px;
+  text-decoration: none;
+  color: rgb(136, 136, 136);
+  font-family: mySans;
+  font-size: 16px;
+}
+.boss-link:hover {
+  color: rgb(223, 83, 70);
 }
 
 @font-face {

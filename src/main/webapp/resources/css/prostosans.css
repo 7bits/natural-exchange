@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Prosto Sans';
+    src: url('../fonts/prosto_sans_bold.eot');
+    src: url('../fonts/prosto_sans_bold.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/prosto_sans_bold.woff') format('woff'),
+         url('../fonts/prosto_sans_bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

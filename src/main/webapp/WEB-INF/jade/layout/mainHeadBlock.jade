@@ -1,7 +1,8 @@
 .right-top-links
   if auth.isAuthenticated()
-    a(href='#{uri.uri("/user/userprofile/searches.html")}').entire-auth #{auth.getCurrentUser().firstName} #{auth.getCurrentUser().lastName}
-    a(href='#{uri.uri("/user/logout.html")}').registration-out
+    a(href='#{uri.uri("/user/userprofile/searches.html")}').entire Личный кабинет
+    | /
+    a(href='#{uri.uri("/user/logout.html")}').registration Выход
   else
     a(href='#entry-form').entire.js-entry Вход
     | /
@@ -30,6 +31,7 @@
   if (auth.isUserModeratorOrAdministrator())
     ul.menu-list
       li
-        a.common-link(href='#{uri.uri("/moderator/advertisementList.html")}') Модерирование
+        a.boss-link(href='#{uri.uri("/moderator/userList.html")}') Управление пользователями
       li
-        a.common-link(href='#{uri.uri("/moderator/userList.html")}') Администрирование
+        a.boss-link(href='#{uri.uri("/moderator/advertisementList.html")}') Модерация объявлений
+
