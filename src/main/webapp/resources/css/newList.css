@@ -82,6 +82,9 @@
   margin-right: 11px;
   border: 2px solid rgb(243, 152, 34);
   border-radius: 100px;
+  color: rgb(151, 151, 151);
+  font-family: PTSansRegular;
+  font-size: 15px;
   cursor: pointer;
 
   background-image: url('../images/orangeCalendar.png');
@@ -160,7 +163,12 @@
   background-color: rgb(255, 255, 255);
 }
 
+.date-cover {
+  overflow: hidden;
+}
+
 .date {
+  float: left;
   margin-top: 5px;
   font-size: 13px;
   font-family: mySans;
@@ -173,6 +181,7 @@
 }
 
 .name-cover {
+  float: left;
   margin-top: 20px;
 }
 
@@ -195,7 +204,12 @@
   /*text-decoration: underline;*/
 }
 
+.adv-name-cover {
+  overflow: hidden;
+}
+
 .adv-name {
+  float: left;
   margin-left: auto;
   overflow: hidden;
   text-overflow: ellipsis;

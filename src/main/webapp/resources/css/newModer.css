@@ -2,7 +2,7 @@
   padding-top: 0px;
 }
 
-.user-search {
+.adv-search {
   outline: 0;
   width: 43%;
   height: 38px;
@@ -35,7 +35,7 @@ input[type="checkbox"]:checked + label {
   background-position: 0 -37px;
 }
 
-.user-search::-webkit-input-placeholder {
+.adv-search::-webkit-input-placeholder {
   font-family: PTSansBold;
   font-size: 18px;
   font-weight: bold;
@@ -45,38 +45,38 @@ input[type="checkbox"]:checked + label {
   float: right;
 }
 
-.user {
-  position: relative;
-  float: left;
-  width: 20%;
-  padding: 15px;
-  height: 275px;
-  margin-right: 15px;
-  margin-bottom: 15px;
-  text-align: center;
-  list-style-type: none;
-  background-color: rgb(255, 255, 255);
-}
+/*.user {*/
+  /*position: relative;*/
+  /*float: left;*/
+  /*width: 20%;*/
+  /*padding: 15px;*/
+  /*height: 275px;*/
+  /*margin-right: 15px;*/
+  /*margin-bottom: 15px;*/
+  /*text-align: center;*/
+  /*list-style-type: none;*/
+  /*background-color: rgb(255, 255, 255);*/
+/*}*/
 
-.user-image {
-  display: block;
-  width: 110px;
-  height: 110px;
-  margin: auto;
-  border-radius: 100px;
-}
+/*.user-image {*/
+  /*display: block;*/
+  /*width: 110px;*/
+  /*height: 110px;*/
+  /*margin: auto;*/
+  /*border-radius: 100px;*/
+/*}*/
 
-.user-email {
-  margin-bottom: 0px;
-  font-size: 15px;
-  text-decoration: underline;
-  font-family: mySans;
-  color: rgb(47, 47, 47);
-}
+/*.user-email {*/
+  /*margin-bottom: 0px;*/
+  /*font-size: 15px;*/
+  /*text-decoration: underline;*/
+  /*font-family: mySans;*/
+  /*color: rgb(47, 47, 47);*/
+/*}*/
 
-.registr-date {
-  margin-top: 12px;
-  font-size: 11px;
-  font-family: PTSansRegular;
-  color: rgb(143, 143, 143);
-}
+/*.registr-date {*/
+  /*margin-top: 12px;*/
+  /*font-size: 11px;*/
+  /*font-family: PTSansRegular;*/
+  /*color: rgb(143, 143, 143);*/
+/*}*/
