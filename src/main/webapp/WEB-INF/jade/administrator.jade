@@ -11,7 +11,10 @@ block content
         form.searching-form(action = '#{uri.uri("/moderator/userList.html")}', method = 'get')
           input.user-search(type='text', placeholder='Поиск пользователей', maxlength='50', name='keyWords',
           value='#{keyWords}')
-          input.ban-checkbox(type='checkbox', name='isBanned')
+          if (isBanned)
+            input#ban-checkbox(type='checkbox', name='isBanned', checked="checked")
+          else
+            input#ban-checkbox(type='checkbox', name='isBanned')
           label.ban-checkbox-text(for="ban-checkbox") ПОКАЗЫВАТЬ ЗАБАНЕННЫХ
           //label.ban-text(for="ban-checkbox") ПОКАЗЫВАТЬ ЗАБАНЕННЫХ
           //select.category-search(name='isBanned')
@@ -38,7 +41,7 @@ block content
             else
               img.user-image(src='#{filePath.avatarsPath}emptyface.png')
             p.registr-date Зарегистирован с #{user.createdDateFormat}
-            .name-cover
+            .user-name-cover
               a.adv-owner #{advertisement.user.firstName} #{advertisement.user.lastName}
             p.user-email #{user.email}
             if (!isBanned)
