@@ -6,7 +6,7 @@
   width: 900px;
   background-color: rgb(248, 184, 50);
 
-  height: 750px;
+  height: 650px;
 }
 .advertisement-container {
 }
@@ -15,18 +15,26 @@
   float: left;
 }
 .picture {
-  width: 50%;
+  /* width: 50%; */
   float:right;
+  /* margin-left: 10px; */
+  padding-top:  10px;
 }
 .title {
+  word-wrap: break-word;
+  padding-top: 60px;
+  width: 600px;
   font-size: 22px;
   font-family: boldSans;
-  line-height: 120px;
 }
-.category, .who-change {
+.category {
   font-size: 18px;
   font-family: boldSans;
-  line-height: 60px;
+  padding-top: 10px;
+}
+.who-change {
+  font-size: 18px;
+  font-family: boldSans;
 }
 .tags {
   font-size: 18px;
@@ -35,6 +43,7 @@
   width: 500px;
 }
 .description {
+  padding-top: 10px;
   font-size: 18px;
   font-family: boldSans;
 
@@ -45,10 +54,11 @@
   margin-left: 10px;
   color: rgb(223, 83, 70);
 }
-.tag {
+.tag {  
   margin-left: 10px;
-  margin-top: 5px;
-  font-size: 13px;
+  margin-top: 10px;
+  font-family : mySans;
+  font-size: 14px;
   text-decoration: none;
   padding-left: 10px;
   padding-right: 10px;
@@ -58,6 +68,10 @@
   color: rgb(255, 255, 255);
   border-radius: 100px;
   display: inline-block;
+}
+.tag:hover {
+  background-color : rgb(243, 152, 34);
+;
 }
 .change-user {
   margin-left: 10px;

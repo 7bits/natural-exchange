@@ -7,5 +7,6 @@
   else
     .header.common-size
       if auth.isAuthenticated()
+        a(href='#{uri.uri("/user/userprofile/searches.html")}').entire-auth #{auth.getCurrentUser().firstName} #{auth.getCurrentUser().lastName}
         img.head-user-avatar(src='#{filePath.avatarsPath}#{auth.getCurrentUser().avatar}')
       include mainHeadBlock

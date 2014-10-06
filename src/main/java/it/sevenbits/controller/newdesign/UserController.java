@@ -288,7 +288,7 @@ public class UserController {
                 newAvatar = fileManager.savePhotoFile(avatarFile, false);
             }
         } else {
-            if (avatarFile.getOriginalFilename().equals("noavatar.png")) {
+            if (avatarFile.getOriginalFilename().equals("")) {
             } else {
                 fileManager.deleteFile(newAvatar, false);
                 newAvatar = "noavatar.png";

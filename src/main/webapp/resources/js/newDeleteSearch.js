@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    if ($('div').is('.savingSearch')) {
+        var title = $('.saveSearchText');
+        title.show();
+    }
     $(".js-delete-search").click(function(e) {
         e.preventDefault();
         var id = $(this).data('adv-id');
@@ -12,6 +16,10 @@ $(document).ready(function() {
             type: 'GET',
             data: sendingData,
             success: function(result) {
+                if (!$('div').is('.savingSearch')) {
+                    var title = $('.saveSearchText');
+                    title.hide();
+                }
                 $.gritter.add({
                     title:"Ваш поиск удален.",
                     image:"/resources/images/newdesign/logo.png"

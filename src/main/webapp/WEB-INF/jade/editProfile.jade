@@ -14,8 +14,7 @@ block content
           input.last-name-field.placeholder-text(type='text', value='#{currentUser.lastName}', name='lastName', placeholder='Введите свою фамилию')
           p.error-user-name #{errorFromLastName}
         div.picture-block
-          if (currentUser.avatar != null)
-            img.user-avatar(src='#{filePath.avatarsPath}#{currentUser.avatar}')
+          img.user-avatar(src='#{filePath.avatarsPath}#{currentUser.avatar}')
         div.choose-image-block.js-choose-avatar
           label
             .choose-user-photo.js-image-text Выберите аватар в формате .jpeg или .png

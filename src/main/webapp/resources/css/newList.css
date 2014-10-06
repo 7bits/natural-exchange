@@ -233,14 +233,9 @@
 .adv-image {
   display: block;
   /*  margin-left: auto;*/
-  /*min-width: 80px;*/
-  /*min-height: 80px;*/
   max-width: 200px;
-  max-height: 140px;
+  height: 140px;
   margin: auto;
-  /*  height: 137px;
-    width: 198px;
-    */
 }
 
 .change-button {
@@ -414,8 +409,8 @@ select {
 .red-alert-text-savesearch {
   width: 300px;
 
-  color: red;
-  font-size: 18px;
+  color: rgb(273, 98, 63);
+  font: 15px mySans;
   padding-left: 10px;
   height: 15px;
 }

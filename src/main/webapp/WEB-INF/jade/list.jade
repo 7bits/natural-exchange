@@ -88,8 +88,7 @@ block content
           input.for-email(type='text', maxlength='50', placeholder='Ваш e-mail')
           input.submit-email-list.js-submit-email(type='submit', value='ПОДПИСАТЬСЯ')
           div.errorLk-list.js-subscribe-error
-      if locals.deleteAdvertisementMessage
-        input.js-deleted-advertisement(type='hidden', value='#{deleteAdvertisementMessage}')
+      input.js-deleted-advertisement(type='hidden', value='#{deleteAdvertisementMessage}')
 block append customjs
   script(src="/resources/js/newExchangePopup.js")
   script(src="/resources/js/newSubscribe.js")
