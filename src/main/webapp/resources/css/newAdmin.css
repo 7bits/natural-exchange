@@ -17,51 +17,29 @@
   font-weight: bold;
 }
 
-.ban-checkbox {
+input[type="checkbox"] {
   position: absolute;
-  margin-top: 12px;
+  left: -9999px;
+}
+input[type="checkbox"] + label {
   margin-left: 20px;
-  margin-right: 10px;
-  /*background-image: url('../images/emptyCheckbox.png');*/
-  /*background-repeat: no-repeat;*/
+  padding-bottom: 3px;
+  padding-left: 28px;
+  font-size: 15px;
+  font-family: "Prosto Sans";
+  background: url(../images/emptyCheckbox.png) 0 0 no-repeat;
+}
+input[type="checkbox"]:checked + label {
+  background-position: 0 -32px;
 }
 
 .ban-text {
-  cursor: pointer;
-  clip: rect(0, 0, 0, 0);
-}
-
-.ban-text:before {
-  position: relative;
-  width: 27px;
-  height: 19px;
-  top: 3px;
-  margin-left: 15px;
-  content: " ";
-  display: inline-block;
-  background-image: url('../images/emptyCheckbox.png');
-  background-repeat: no-repeat;
-}
-
-.ban-text {
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 16px;
 }
 
-.ban-text:hover:before {
-  background-position: 0 -50px;
-}
-
-.ban-checkbox:checked + .ban-text:hover:before {
-  background-position: 0 -200px;
-}
-
-.ban-checkbox:checked + .ban-text:before {
-  background-position: -200px -200px;
-}
-
 .user-search::-webkit-input-placeholder {
-  font-family: mySans;
+  font-family: PTSansBold;
   font-size: 18px;
   font-weight: bold;
 }
@@ -100,8 +78,8 @@
 }
 
 .registr-date {
-  margin-top: 5px;
-  font-size: 13px;
-  font-family: mySans;
+  margin-top: 12px;
+  font-size: 11px;
+  font-family: PTSansRegular;
   color: rgb(143, 143, 143);
 }

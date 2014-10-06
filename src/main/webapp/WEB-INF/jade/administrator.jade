@@ -11,8 +11,9 @@ block content
         form.searching-form(action = '#{uri.uri("/moderator/userList.html")}', method = 'get')
           input.user-search(type='text', placeholder='Поиск пользователей', maxlength='50', name='keyWords',
           value='#{keyWords}')
-          input.ban-checkbox(type='checkbox', name="isBanned")
-          label.ban-text(for="ban-checkbox") ПОКАЗЫВАТЬ ЗАБАНЕННЫХ
+          input.ban-checkbox(type='checkbox', name='isBanned')
+          label.ban-checkbox-text(for="ban-checkbox") ПОКАЗЫВАТЬ ЗАБАНЕННЫХ
+          //label.ban-text(for="ban-checkbox") ПОКАЗЫВАТЬ ЗАБАНЕННЫХ
           //select.category-search(name='isBanned')
           //  if (isBanned)
           //    option.choosen-category(selected='selected', value='true') Забаненные
@@ -44,35 +45,36 @@ block content
               a.delete-button.js-admin-action(href='#', data-adv-id='#{user.id}', data-dest-url='#{uri.uri("/moderator/banOrUnbanUser.html")}') ЗАБАНИТЬ
             else
               a.restore-button.js-admin-action(href='#', data-adv-id='#{user.id}', data-dest-url='#{uri.uri("/moderator/banOrUnbanUser.html")}') РАЗБАНИТЬ
-      .pages
-        ul.page-list
-          if (previous == true)
-            li
-              a.trine(href='#{uri.uri("/moderator/userList.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&isBanned=" + isBanned) + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo}') <
-          if (pageList.first != null)
-            if (currentPage == pageList.first)
+      if (pageCount != 1)
+        .pages
+          ul.page-list
+            if (previous == true)
               li
-                a.page-link.mark(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isBanned=" + isBanned + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
-            else
+                a.trine(href='#{uri.uri("/moderator/userList.html?currentPage=" + (currentPage + previousPages) + "&keyWords=" + keyWords + "&isBanned=" + isBanned) + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo}') <
+            if (pageList.first != null)
+              if (currentPage == pageList.first)
+                li
+                  a.page-link.mark(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isBanned=" + isBanned + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
+              else
+                li
+                  a.page-link(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isBanned=" + isBanned + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
+            if (pageList.second != null)
+              if (currentPage == pageList.second)
+                li
+                  a.page-link.mark(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
+              else
+                li
+                  a.page-link(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
+            if (pageList.third != null)
+              if (currentPage == pageList.third)
+                li
+                  a.page-link.mark(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
+              else
+                li
+                  a.page-link(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
+            if (next == true)
               li
-                a.page-link(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.first + "&keyWords=" + keyWords + "&isBanned=" + isBanned + "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.first}
-          if (pageList.second != null)
-            if (currentPage == pageList.second)
-              li
-                a.page-link.mark(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
-            else
-              li
-                a.page-link(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.second + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.second}
-          if (pageList.third != null)
-            if (currentPage == pageList.third)
-              li
-                a.page-link.mark(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
-            else
-              li
-                a.page-link(href='#{uri.uri("/moderator/userList.html?currentPage=" + pageList.third + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') #{pageList.third}
-          if (next == true)
-            li
-              a.trine(href='#{uri.uri("/moderator/userList.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') >
+                a.trine(href='#{uri.uri("/moderator/userList.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&isBanned=" + isBanned+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') >
       .low-space
 block append customjs
   script(src='/resources/js/newAdminActions.js')

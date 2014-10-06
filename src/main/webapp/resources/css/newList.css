@@ -71,7 +71,7 @@
 
 .date-text {
   margin-right: 11px;
-  font-family: mySans;
+  font-family: PTSansRegular;
   font-size: 15px;
 }
 
@@ -82,6 +82,7 @@
   margin-right: 11px;
   border: 2px solid rgb(243, 152, 34);
   border-radius: 100px;
+  cursor: pointer;
 
   background-image: url('../images/orangeCalendar.png');
   background-repeat: no-repeat;
