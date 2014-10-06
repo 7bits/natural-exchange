@@ -27,9 +27,9 @@ block content
           div.red-alert-text-savesearch.js-search-error
           div.data-and-save-search
             div.position-data
-              label(for='date-from') Предложения, размещенные с
+              label(for='date-from').date-text Предложения, размещенные с
               input(type='text', class='date-from', name='dateFrom', value='#{dateFrom}')
-              label(for='date-to') и до
+              label(for='date-to').date-text и до
               input(type='text', class='date-to', name='dateTo', value='#{dateTo}')
             if (auth.isAuthenticated())
               .underneath

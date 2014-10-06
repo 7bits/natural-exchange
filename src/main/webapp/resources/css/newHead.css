@@ -187,3 +187,7 @@
   font-family: myNight;
   src: url('../fonts/Firenight-Regular.ttf');
 }
+
+.vk-like {
+  float: right;
+}

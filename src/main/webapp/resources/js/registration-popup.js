@@ -60,7 +60,8 @@ $(document).ready(function() {
                     $.gritter.add({
                         title:"Вы зарегистрированы!",
                         text:"На ваш email выслано подтверждение вашего аккаунта.",
-                        image:"/resources/images/newdesign/logo.png"
+                        image:"/resources/images/newdesign/logo.png",
+                        sticky: true
                     });
                 } else {
                     var errorVariant = data.errors;

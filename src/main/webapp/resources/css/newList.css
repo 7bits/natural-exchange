@@ -230,10 +230,15 @@
   color: rgb(0, 0, 0);
 }
 
+.date-text {
+  font-family: mySans;
+  font-size: 16px;
+}
+
 .adv-image {
   display: block;
   /*  margin-left: auto;*/
-  max-width: 200px;
+  max-width: 180px;
   height: 140px;
   margin: auto;
 }
@@ -335,7 +340,7 @@ select {
   margin-top: 35px;
   margin-bottom: 15px;
   font-family: mySans;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .submit-email-list {
