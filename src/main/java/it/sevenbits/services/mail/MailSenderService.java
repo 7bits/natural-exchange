@@ -85,7 +85,7 @@ public class MailSenderService {
         mailService.sendMail(SERVICE_MAILBOX, email, "Ваши варианты поиска", generateSearchVariantUrl(keyWords, categories));
     }
 
-    private String generateSearchVariantUrl(final String keyWords , final String categories) {
+    private String generateSearchVariantUrl(final String keyWords, final String categories) {
         String domen = getDomen();
         String baseUrl = domen + "/advertisement/list.html?" + "currentCategory=";
         return baseUrl + categories.replace(" ", "+") + "&keyWords=" + keyWords.replace(" ", "+");
@@ -119,7 +119,7 @@ public class MailSenderService {
         MailSenderService mailService = getMailService();
         String link = getDomen() + "/advertisement/view.html?id=" + id + "&currentCategory=" + category;
         List<User> moderators = this.userDao.findAllModerators();
-        for(User user:moderators) {
+        for (User user : moderators) {
             mailService.sendMail(SERVICE_MAILBOX, user.getEmail(), "Новое предложение", link);
         }
     }
@@ -140,4 +140,5 @@ public class MailSenderService {
             result = prop.getProperty("application.domen");
         }
         return result;
-}   }
+    }
+}
