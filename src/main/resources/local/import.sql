@@ -1,4 +1,4 @@
-SET NAMES  'utf8';
+ SET NAMES  'utf8';
 INSERT INTO searchVariant(id,email,created_date,key_words) VALUES (1,'dimaaasik.s@gmail.com',1369229028460,'man coat');
 INSERT INTO searchVariant(id,email,created_date,key_words) VALUES (2,'test@gmail.com',1369229024460,'coat');
 INSERT INTO searchVariant(id,email,created_date,key_words) VALUES (3,'test@gmail.com',1369229028660,'boots');

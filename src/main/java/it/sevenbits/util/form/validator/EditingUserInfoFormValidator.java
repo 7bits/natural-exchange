@@ -42,7 +42,7 @@ public class EditingUserInfoFormValidator implements Validator {
             if (!this.photoFileTypes.contains(contentType)) {
                 errors.rejectValue("image", "image", "Неверный формат файла");
             } else if (photoFile.getSize() > MAX_FILE_SIZE) {
-                errors.rejectValue("image", "image", "Размер файла не должен превышать 3 мегобайт");
+                errors.rejectValue("image", "image", "Размер файла не должен превышать 3 мегабайт");
             }
         }
 
@@ -51,12 +51,12 @@ public class EditingUserInfoFormValidator implements Validator {
         if (firstNameLength > MAX_LENGTH) {
             errors.rejectValue("FirstName", "FirstName", "Допускается не более 20 символов");
         } else if (firstNameLength == 0) {
-            errors.rejectValue("FirstName", "FirstName", "Пустое имя недопустима");
+            errors.rejectValue("FirstName", "FirstName", "Пустое имя недопустимо");
         }
         if (lastNameLength > MAX_LENGTH) {
             errors.rejectValue("LastName", "LastName", "Допускается не более 20 символов");
         } else if (lastNameLength == 0) {
-            errors.rejectValue("LastName", "LastName", "Пустая фамилия недопустимо");
+            errors.rejectValue("LastName", "LastName", "Пустая фамилия недопустима");
         }
     }
 

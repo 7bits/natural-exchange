@@ -2,6 +2,7 @@ package it.sevenbits.helpers;
 
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
+import it.sevenbits.services.authentication.AuthService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,6 +38,15 @@ public class AuthHelper {
             return (User) auth.getPrincipal();
         }
         return new User();
+    }
+
+    public String getCurrentUserFirstAndLastNames() {
+        User user = getCurrentUser();
+        if (user.getFirstName().length() > 0 && user.getLastName().length() > 0) {
+            return user.getFirstName() + " " + user.getLastName();
+        } else {
+            return "Личный кабинет";
+        }
     }
 
     public boolean isUserModerator() {

@@ -109,8 +109,9 @@
 }
 .error-user-name {
   margin-top: 0px;
-  font-size: 18px;
-  color: rgb(255, 0, 0);
+  height: 20px;
+  color: rgb(273, 98, 63);
+  font: 15px mySans;
 }
 .error-user-photo {
   font-size: 12px;

@@ -2,11 +2,12 @@
   if (auth.isUserModeratorOrAdministrator())
     .header.admin-size
       if auth.isAuthenticated()
+        a(href='#{uri.uri("/user/userprofile/searches.html")}').entire-auth #{auth.getCurrentUserFirstAndLastNames()}
         img.head-user-avatar(src='#{filePath.avatarsPath}#{auth.getCurrentUser().avatar}')
       include mainHeadBlock
   else
     .header.common-size
       if auth.isAuthenticated()
-        a(href='#{uri.uri("/user/userprofile/searches.html")}').entire-auth #{auth.getCurrentUser().firstName} #{auth.getCurrentUser().lastName}
+        a(href='#{uri.uri("/user/userprofile/searches.html")}').entire-auth #{auth.getCurrentUserFirstAndLastNames()}
         img.head-user-avatar(src='#{filePath.avatarsPath}#{auth.getCurrentUser().avatar}')
       include mainHeadBlock

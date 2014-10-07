@@ -67,8 +67,9 @@
   background-repeat: no-repeat;
 }
 .entire-auth {
+  width: 120px;
   position: absolute;
-  padding-left: 750px;
+  padding-left: 740px;
   padding-top: 20px;
   display: inline-block;
   text-decoration: none;
@@ -189,5 +190,6 @@
 }
 
 .vk-like {
+  padding-top: 15px;
   float: right;
 }

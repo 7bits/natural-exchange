@@ -17,8 +17,8 @@ block content
           img.user-avatar(src='#{filePath.avatarsPath}#{currentUser.avatar}')
         div.choose-image-block.js-choose-avatar
           label
-            .choose-user-photo.js-image-text Выберите аватар в формате .jpeg или .png
-            input#image.hide-file.js-avatar-chosen(type='file', name='image', accept='image/jpeg,image/png')
+            .choose-user-photo.js-image-text Выберите аватар
+            input#image.hide-file.js-avatar-chosen(type='file', name='image', accept='image/jpeg,image/png,image/jpg')
             p.error-user-photo #{errorFromPhotoFile}
         div.delete-avatar-block
           input.delete-checkbox.js-want-delete-avatar(type='checkbox', name = 'isDelete', data-action = '#{uri.uri("/user/userprofile/edit.html")}')

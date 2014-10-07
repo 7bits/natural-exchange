@@ -24,6 +24,12 @@ $(document).ready(function() {
         hiddenMsg.val(offerMsg.val());
     });
 
+    $(".js-choose-advert").on('click', function() {
+        var currentClickedBox = $(this);
+        var currentAdvertisement = currentClickedBox.siblings('.js-chosen-advert');
+        currentAdvertisement.prop( "checked", true );
+    });
+
 
     $(".js-newExchange").fancybox({
         "width" : 600,

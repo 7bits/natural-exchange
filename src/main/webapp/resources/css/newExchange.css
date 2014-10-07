@@ -106,29 +106,30 @@
 }
 
 .offer-advert-text {
-  padding-top: 5px;
+  padding-top: 15px;
   word-wrap: break-word;
   width: 200px;
   font: 15px boldSans;
 }
 
-.chosen-advert {
-  float: left;
-  background-image: url("/resources/images/newdesign/not-selected-advert.png");
-  background-repeat: no-repeat;
-  background-position: 8px 0px;
-}
-
+/* Скрываем системный контрол */
 input[type="radio"] {
-  /*visibility: hidden;*/
+  display: none;
 }
 
-label {
-  height: 30px;
-  width: 40px;
+label.for-radio span {
+  padding-left: 26px;
+  height: 24px;
+  display: block;
 }
 
-input[type="radio"]:checked + label {
-  background-image: url("/resources/images/newdesign/selected-advert.png");
+label.for-radio input[type="radio"] + span {
+   background: url("../images/newdesign/not-selected-advert.png") no-repeat;
 }
+
+label.for-radio input[type="radio"]:checked + span {
+  background: url("../images/newdesign/selected-advert.png") no-repeat;
+}
+
+
 

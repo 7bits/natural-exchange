@@ -16,7 +16,9 @@ div.hidden
               for advertisement in userAdvertisements
                 tr
                   td
-                    input(type='radio', name='exchange-advert', id='#{advertisement.id}', data-offerAdvId='#{advertisement.id}').chosen-advert
+                    label.for-radio(for='#{advertisement.id}')
+                      input(type='radio', name='exchange-advert', id='#{advertisement.id}', data-offerAdvId='#{advertisement.id}').chosen-advert.js-chosen-advert
+                      span.js-choose-advert
                   td
                     div.offer-advert
                       div.offer-advert-text #{advertisement.title}
