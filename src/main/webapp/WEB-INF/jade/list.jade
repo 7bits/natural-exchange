@@ -85,7 +85,7 @@ block content
         | Узнавайте новости проекта первыми!
       .lower-case
         form.subscribe-form(data-url='#{uri.uri("/subscribe.html")}')
-          input.for-email(type='text', maxlength='50', placeholder='Ваш e-mail')
+          input.for-email-on-list(type='text', maxlength='50', placeholder='Ваш e-mail')
           input.submit-email-list.js-submit-email(type='submit', value='ПОДПИСАТЬСЯ')
           div.errorLk-list.js-subscribe-error
       if locals.deleteAdvertisementMessage
