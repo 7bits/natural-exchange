@@ -19,8 +19,10 @@
 }
 
 .little-image {
-  width: 102px;
-  height: 70px;
+  min-width: 100px;
+  min-height: 70px;
+  max-width: 100px;
+  max-height: 70px;
 }
 
 .advertisement-date {
@@ -47,6 +49,7 @@
 
 
 .advertisement-name {
+  word-wrap: break-word;
   margin-top: 5px;
   margin-right: 56px;
   width: 85%;

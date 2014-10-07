@@ -19,7 +19,7 @@
   max-width: 150px;
   max-height: 150px;
   border-radius: 100px;
-  border: 5px solid rgb(26, 178, 175);
+  border: 3px solid rgb(26, 178, 175);
 }
 .user-name {
   font-family: boldSans;
@@ -29,6 +29,8 @@
   margin-top: -10px;
 }
 .user-email {
+  font-family: mySans;
+  font-size: 16px;
   margin-top: 12px;
   text-decoration: underline;
   color: rgb(0, 0, 0);
@@ -42,7 +44,7 @@
   padding-left: 25px;
   text-decoration: none;
   color: rgb(243, 152, 34);
-  font-family: boldSans;
+  font-family: mySans;
   font-size: 17px;
   background-image: url('../images/orangeEdit.png');
   background-repeat: no-repeat;
@@ -52,7 +54,9 @@
   background-image: url('../images/whiteEdit.png');
 }
 .register-date {
+  font-size: 16px;
   margin-top: -14px;
+  font-family:  mySans;
 }
 .fix-text {
   display: inherit;

@@ -1,8 +1,6 @@
 .right-top-links
   if auth.isAuthenticated()
-    a(href='#{uri.uri("/user/userprofile/searches.html")}').entire Личный кабинет
-    | /
-    a(href='#{uri.uri("/user/logout.html")}').registration Выход
+    a(href='#{uri.uri("/user/logout.html")}').exit
   else
     a(href='#entry-form').entire.js-entry Вход
     | /

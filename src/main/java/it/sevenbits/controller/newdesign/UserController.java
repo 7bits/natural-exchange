@@ -288,8 +288,11 @@ public class UserController {
                 newAvatar = fileManager.savePhotoFile(avatarFile, false);
             }
         } else {
-            fileManager.deleteFile(newAvatar, false);
-            newAvatar = null;
+            if (avatarFile.getOriginalFilename().equals("")) {
+            } else {
+                fileManager.deleteFile(newAvatar, false);
+                newAvatar = "noavatar.png";
+            }
         }
 
         currentUser.setFirstName(newFirstName);

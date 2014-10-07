@@ -99,7 +99,7 @@
 }
 
 .search {
-  margin-left: 13px;
+  margin-left: 9px;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 35px;
@@ -229,9 +229,14 @@
   color: rgb(0, 0, 0);
 }
 
+.date-text {
+  font-family: mySans;
+  font-size: 16px;
+}
+
 .adv-image {
   display: block;
-  max-width: 200px;
+  max-width: 180px;
   height: 140px;
   margin: auto;
 }
@@ -420,8 +425,8 @@ select {
 .red-alert-text-savesearch {
   width: 300px;
 
-  color: red;
-  font-size: 18px;
+  color: rgb(273, 98, 63);
+  font: 15px mySans;
   padding-left: 10px;
   height: 15px;
 }
