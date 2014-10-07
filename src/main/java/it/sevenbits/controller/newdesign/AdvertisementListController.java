@@ -113,7 +113,7 @@ public class AdvertisementListController {
         List<Advertisement> userAdvertisements = new LinkedList<>();
         User user = AuthService.getUser();
         if (user != null) {
-            userAdvertisements = this.advertisementDao.findAllByEmail(user);
+            userAdvertisements = this.advertisementDao.findUserAdvertisements(user);
         }
         int pageCount = pageList.getPageCount();
         int currentPage;
@@ -175,7 +175,7 @@ public class AdvertisementListController {
         List<Advertisement> userAdvertisements = new LinkedList<>();
         User currentUser = AuthService.getUser();
         if (currentUser != null) {
-            userAdvertisements = this.advertisementDao.findAllByEmail(user);
+            userAdvertisements = this.advertisementDao.findUserAdvertisements(user);
         }
         modelAndView.addObject("tags", tagsSet);
         modelAndView.addObject("userAdvertisements", userAdvertisements);

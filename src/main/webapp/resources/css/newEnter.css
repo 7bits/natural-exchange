@@ -53,7 +53,8 @@
 
 .tab-text {
   text-align: center;
-  font: 18px boldSans;
+  font-family: "Prosto Sans";
+  font-size: 18px;
 }
 
 .tab-and-exit {
@@ -103,7 +104,8 @@
 }
 
 .entry-text {
-  font: 16px mySans;
+  font-family: PTSansRegular;
+  font-size: 16px;
   color: rgb(255, 255, 255);
 }
 
@@ -199,14 +201,15 @@
 }
 
 .hollow-text {
-  font: 18px mySansBold;
+  font-size: 18px;
+  font-family: PTSansBold;
   color: rgb(47, 47, 47);
 }
 
 .small-tab-text {
   color: white;
   text-align: center;
-  font: 15px boldSans;
+  font: 15px "Prosto Sans";
 }
 
 .vk-logo {

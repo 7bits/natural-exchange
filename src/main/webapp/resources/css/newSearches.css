@@ -5,7 +5,7 @@
 .saveSearchText {
   margin-bottom: 50px;
   line-height: 40px;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 22px;
 }
 .savingSearch {
@@ -22,7 +22,7 @@
   display: inherit;
   text-decoration: none;
   color: rgb(0, 0, 0);
-  font-family: boldSans;
+  font-family: PTSansBold;
   font-size: 16px;
 }
 .categoryName {
@@ -31,7 +31,7 @@
   float: left;
   display: inherit;
   color: rgb(223, 83, 70);
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 15px;
 }
 

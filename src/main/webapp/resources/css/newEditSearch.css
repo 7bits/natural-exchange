@@ -8,15 +8,16 @@
   background-color: rgb(248, 184, 50);
 }
 .cabinet-button {
-    padding-top: 20px;
+    padding-top: 35px;
 }
 
 .center-large-text {
-    font-family: mySans;
-    font-size: 22px;
+  font-family: "Prosto Sans";
+  font-size: 22px;
+  line-height: 60px;
 
-    padding-left: 40px;
-    padding-top: 10px;
+  padding-left: 40px;
+  padding-top: 10px;
 }
 
 .keyword {
@@ -119,7 +120,7 @@
     padding-left: 40px;
     padding-right: 20px;
 
-    font-family: boldSans;
+    font-family: "Prosto Sans";
     font-size: 13px;
     text-decoration: none;
 
@@ -161,8 +162,8 @@
     height: 40px;
     text-decoration: none;
 
-    font-family: boldSans;
-    font-size: 13px;
+    font-family: "Prosto Sans";
+    font-size: 15px;
     color: rgb(255, 255, 255);
 
     background-image: url("/resources/images/newdesign/circle-accept.png");
@@ -171,20 +172,21 @@
 }
 
 .chosen-keyword {
-    display: inline-block;
+  display: inline-block;
 
-    margin-top: 20px;
-    margin-left: 5px;
+  margin-top: 20px;
+  margin-left: 5px;
 
-    font-size: 13px;
-    text-decoration: none;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    background-color: rgb(223, 83, 70);
-    color: rgb(255, 255, 255);
-    border-radius: 100px;
+  font-family: "Prosto Sans";
+  font-size: 13px;
+  text-decoration: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  background-color: rgb(223, 83, 70);
+  color: rgb(255, 255, 255);
+  border-radius: 100px;
 }
 
 .keyword-and-cross {

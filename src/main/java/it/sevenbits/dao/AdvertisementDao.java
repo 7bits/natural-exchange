@@ -75,5 +75,5 @@ public interface AdvertisementDao {
 
     void update(final Long id, final Advertisement advertisement, final String categoryName, Set<Tag> tags);
 
-    List<Advertisement> findAllByEmail(final User user);
+    List<Advertisement> findUserAdvertisements(final User user);
 }

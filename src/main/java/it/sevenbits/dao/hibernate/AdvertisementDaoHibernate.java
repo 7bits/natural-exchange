@@ -159,7 +159,7 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
     }
 
     @Override
-    public List<Advertisement> findAllByEmail(User user) {
+    public List<Advertisement> findUserAdvertisements(User user) {
         DetachedCriteria criteria = DetachedCriteria
                 .forClass(AdvertisementEntity.class, "advertisement");
         UserEntity userEntity = this.userDao.findEntityByEmail(user.getEmail());

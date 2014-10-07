@@ -1,0 +1,35 @@
+extends layout/layout
+block append customcss
+  link(rel='stylesheet', href='/resources/css/newCabinet.css')
+  link(rel='stylesheet', href='/resources/css/newUser.css')
+  link(rel='stylesheet', href='/resources/css/newExchange.css')
+block content
+  .content
+    .user-container
+      .user-information
+        if (user.avatar != null)
+          img.user-image(src='#{filePath.avatarsPath}#{user.avatar}')
+        p.user-name
+          | #{user.firstName}
+          br
+          | #{user.lastName}
+        p.fix-text Дата регистрации:
+        p.register-date #{user.getCreatedDateFormat()}
+      .right-block
+        if (advertisements.size() > 0)
+          p.user-change-page МЕНЯЕТ
+        for advertisement in advertisements
+          .advertisement
+            if (advertisement.photoFile != "")
+              img.adv-image(src='#{filePath.imagesPath}#{advertisement.photoFile}')
+            else
+              img.adv-image(src='#{filePath.imagesPath}no_photo.png')
+            div.adv-name-cover
+              a.adv-name(href='#{uri.uri("/advertisement/view.html?id=" + advertisement.id)}') #{advertisement.title}
+            if (auth.isAuthenticated())
+              if (advertisement.user != auth.getCurrentUser())
+                a.change-button.js-newExchange.js-who-owner(href='#new-exchange-popup', data-adv-id='#{advertisement.id}') ОБМЕНЯТЬ
+                include exchange
+block append customjs
+  script(src="/resources/js/newExchangePopup.js")
+
