@@ -15,7 +15,7 @@
   padding-left: 40px;
   color: rgb(255, 255, 255);
   text-decoration: none;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 13px;
   border-radius: 100px;
   background-color: rgb(243, 152, 34);
@@ -30,7 +30,7 @@
 
 .change-info {
   line-height: 80px;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 22px;
 }
 .first-name-field, .last-name-field {
@@ -44,6 +44,7 @@
   color: rgb(0, 0, 0);
   border: 2px solid rgb(243, 152, 34);
   border-radius: 100px;
+  font-family: PTSansBold;
   font-size: 18px;
 }
 .first-name-field:hover, .last-name-field:hover {
@@ -89,7 +90,7 @@
   padding-left: 40px;
   padding-right: 25px;
   cursor: pointer;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 15px;
   color: rgb(255, 255, 255);
   background-color: rgb(26, 178, 175);
@@ -131,7 +132,7 @@
   padding-left: 10px;
   display: inline;
   font-size: 14px;
-  font-family: mySans;
+  font-family: PTSansBold;
 }
 
 @font-face {

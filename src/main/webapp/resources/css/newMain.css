@@ -36,7 +36,7 @@
 .category-note {
   color: rgb(255, 255, 255);
   text-decoration: none;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 17px;
 }
 
@@ -62,17 +62,17 @@
 }
 
 .change-text {
-  margin-top: 5%;
+  margin-top: 82px;
   text-align: center;
   color: rgb(255, 255, 255);
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 30px;
 }
 
 .many-other {
   line-height: 95px;
   text-align: center;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 18px;
 }
 
@@ -84,7 +84,7 @@
   padding-bottom: 6px;
   padding-left: 20px;
   padding-right: 20px;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 13px;
   text-align: center;
   text-decoration: none;
@@ -101,7 +101,7 @@
 .about {
   line-height: 150px;
   text-align: center;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 30px;
 }
 
@@ -111,7 +111,7 @@
 
 .text-about {
   display: inherit;
-  font-family: mySans;
+  font-family: PTSansRegular;
   font-size: 19px;
 }
 
@@ -123,7 +123,7 @@
 }
 
 .edification {
-  font-family: boldSans;
+  font-family: PTSansBold;
   font-size: 19px;
   /* line-height: 50px; */
 }
@@ -177,7 +177,7 @@
   text-decoration: none;
   cursor: pointer;
   font-size: 15px;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   color: rgb(255, 255, 255);
   border-radius: 100px;
   border: none;

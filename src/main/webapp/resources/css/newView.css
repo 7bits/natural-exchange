@@ -25,40 +25,43 @@
   padding-top: 60px;
   width: 600px;
   font-size: 22px;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
 }
 .category {
   font-size: 18px;
-  font-family: boldSans;
+  font-family: PTSansBold;
   padding-top: 10px;
 }
 .who-change {
   font-size: 18px;
-  font-family: boldSans;
+  font-family: PTSansBold;
 }
 .tags {
   font-size: 18px;
-  font-family: boldSans;
+  font-family: PTSansBold;
   /*line-height: 60px;*/
   width: 500px;
 }
 .description {
   padding-top: 10px;
   font-size: 18px;
-  font-family: boldSans;
+  font-family: PTSansBold;
 
   word-wrap: break-word;
   width: 500px;
 }
+
 .concrete-category {
   margin-left: 10px;
+  font-family: "Prosto Sans";
   color: rgb(223, 83, 70);
 }
+
 .tag {  
   margin-left: 10px;
   margin-top: 10px;
-  font-family : mySans;
-  font-size: 14px;
+  font-family : "Prosto Sans";
+  font-size: 13px;
   text-decoration: none;
   padding-left: 10px;
   padding-right: 10px;
@@ -69,10 +72,11 @@
   border-radius: 100px;
   display: inline-block;
 }
+
 .tag:hover {
   background-color : rgb(243, 152, 34);
-;
 }
+
 .change-user {
   margin-left: 10px;
   color: rgb(60, 56, 47);
@@ -81,13 +85,14 @@
   padding-left: 17px;
   background-repeat: no-repeat;
   text-decoration: none;
+  font-family: PTSansRegular;
   font-size: 13px;
 }
+
 .current-description {
   width: 500px;
   margin-left: 10px;
-  font-family: "PS Sans";
-  font-weight: normal;
+  font-family: PTSansRegular;
   font-size: 18px;
   display: inline-block;
 }
@@ -105,7 +110,7 @@
   padding-bottom: 13px;
   padding-left: 45px;
   padding-right: 25px;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 15px;
   text-decoration: none;
   color: rgb(255, 255, 255);

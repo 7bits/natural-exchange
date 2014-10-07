@@ -109,7 +109,7 @@
   padding-bottom: 10px;
   text-align: center;
   text-decoration: none;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 15px;
   color: rgb(248, 184, 50);
   border-radius: 100px;
@@ -125,7 +125,7 @@
   padding-bottom: 10px;
   text-decoration: none;
   text-align: center;
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 15px;
   color: rgb(255, 255, 255);
   background: url(../images/plus.png);
