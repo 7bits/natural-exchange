@@ -64,7 +64,7 @@ public class MainController {
         List<Advertisement> userAdvertisements = new LinkedList<>();
         User user = AuthService.getUser();
         if (user != null) {
-            userAdvertisements = this.advertisementDao.findAllByEmail(user);
+            userAdvertisements = this.advertisementDao.findUserAdvertisements(user);
         }
         modelAndView.addObject("categories", categoryList);
         modelAndView.addObject("advertisements", pageList.getPageList());

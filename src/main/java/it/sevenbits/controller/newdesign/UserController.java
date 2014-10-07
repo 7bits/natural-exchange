@@ -175,6 +175,25 @@ public class UserController {
         return map;
     }
 
+    @RequestMapping(value = "/showUser.html", method = RequestMethod.GET)
+    public ModelAndView showUser(@RequestParam(value = "id", required = true) final Long userId) {
+        ModelAndView modelAndView = new ModelAndView("user.jade");
+        User user = this.userDao.findById(userId);
+        if (user == null) {
+            return new ModelAndView("redirect:/main.html");
+        }
+        List<Advertisement> userAdvertisements = new LinkedList<>();
+        User currentUser = AuthService.getUser();
+        if (currentUser != null) {
+            userAdvertisements = this.advertisementDao.findUserAdvertisements(currentUser);
+        }
+
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("advertisements", this.advertisementDao.findUserAdvertisements(user));
+        modelAndView.addObject("userAdvertisements", userAdvertisements);
+        return modelAndView;
+    }
+
     boolean checkRegistrationLink(final User user, final  String code) {
         if (user == null) {
             return false;
@@ -309,7 +328,7 @@ public class UserController {
             return new ModelAndView("redirect:/main.html");
         }
         User currentUser = this.userDao.findById(id);
-        List<Advertisement> advertisementList = advertisementDao.findAllByEmail(currentUser);
+        List<Advertisement> advertisementList = advertisementDao.findUserAdvertisements(currentUser);
         ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
         modelAndView.addObject("advertisements", advertisementList);
         modelAndView.addObject("currentUser", currentUser);

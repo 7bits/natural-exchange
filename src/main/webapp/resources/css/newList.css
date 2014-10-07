@@ -199,7 +199,8 @@
 }
 
 .adv-owner:hover {
-  /*text-decoration: underline;*/
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .adv-name-cover {

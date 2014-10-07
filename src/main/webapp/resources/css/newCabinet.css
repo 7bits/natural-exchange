@@ -22,14 +22,14 @@
   border: 3px solid rgb(26, 178, 175);
 }
 .user-name {
-  font-family: boldSans;
+  font-family: "Prosto Sans";
   font-size: 18px;
 }
 .user-email-cover {
   margin-top: -10px;
 }
 .user-email {
-  font-family: mySans;
+  font-family: PTSansRegular;
   font-size: 16px;
   margin-top: 12px;
   text-decoration: underline;
@@ -56,11 +56,11 @@
 .register-date {
   font-size: 16px;
   margin-top: -14px;
-  font-family:  mySans;
+  font-family:  PTSansRegular;
 }
 .fix-text {
   display: inherit;
-  font-family: boldSans;
+  font-family: PTSansBold;
   font-size: 16px;
 }
 .user-page {
