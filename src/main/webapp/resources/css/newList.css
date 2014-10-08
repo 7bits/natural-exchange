@@ -206,7 +206,7 @@
 
 .adv-name-cover {
   width: 185px;
-  height: 80px;
+  max-height: 66px;
   overflow: hidden;
 }
 

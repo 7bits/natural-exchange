@@ -13,6 +13,9 @@ block content
           | #{user.firstName}
           br
           | #{user.lastName}
+        if (auth.isUserModeratorOrAdministrator())
+          p.user-email-cover
+            a.user-email #{user.email}
         p.fix-text Дата регистрации:
         p.register-date #{user.getCreatedDateFormat()}
       .right-block

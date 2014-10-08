@@ -68,6 +68,7 @@ input[type="checkbox"]:checked + label {
 
 .user-email {
   margin-bottom: 0px;
+  word-wrap: break-word;
   font-size: 15px;
   text-decoration: underline;
   font-family: mySans;

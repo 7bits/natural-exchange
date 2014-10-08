@@ -34,7 +34,7 @@ block content
               img.user-image(src='#{filePath.avatarsPath}emptyface.png')
             p.registr-date Зарегистирован с #{user.createdDateFormat}
             .user-name-cover
-              a.adv-owner #{advertisement.user.firstName} #{advertisement.user.lastName}
+              a.adv-owner(href='#{uri.uri("/user/showUser.html?id=" + user.id)}') #{advertisement.user.firstName} #{advertisement.user.lastName}
             p.user-email #{user.email}
             if (!isBanned)
               a.delete-button.js-admin-action(href='#', data-adv-id='#{user.id}', data-dest-url='#{uri.uri("/moderator/banOrUnbanUser.html")}') ЗАБАНИТЬ

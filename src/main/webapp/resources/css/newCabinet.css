@@ -32,6 +32,7 @@
   font-family: PTSansRegular;
   font-size: 16px;
   margin-top: 12px;
+  word-wrap: break-word;
   text-decoration: underline;
   color: rgb(0, 0, 0);
 }
