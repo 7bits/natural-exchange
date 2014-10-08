@@ -34,7 +34,7 @@
 }
 
 .exit {
-  margin-left: 170px;
+  margin-left: 165px;
   float: left;
   width : 15px;
   height : 20px;
@@ -67,10 +67,11 @@
   background-repeat: no-repeat;
 }
 .entire-auth {
-  width: 120px;
+  text-align: right;
+  width: 160px;
   position: absolute;
-  margin-left: 740px;
-  margin-top: 20px;
+  margin-left: 680px;
+  margin-top: 13px;
   display: inline-block;
   text-decoration: none;
   font-family: mySans;
