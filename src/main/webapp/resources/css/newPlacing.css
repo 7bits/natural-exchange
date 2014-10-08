@@ -29,7 +29,7 @@
 
 .file-button-hollow-text {
   color: rgb(168, 129, 49);
-  font: 15px bold mySans;
+  font: 18px bold mySans;
 
   padding-top: 7px;
 }
@@ -228,6 +228,12 @@
   border: 3px solid rgb(243, 152, 34);
 }
 
+.tags-and-errors {
+  float:right;
+  height: 300px;
+  width: 384px;
+}
+
 .placing-file-and-tags {
   padding-top: 40px;
 }
@@ -239,6 +245,17 @@
   height: 20px;
   width: 300px;
   padding-left: 45px;
+}
+
+.red-alert-text-tags-edit {
+  padding-right: 40px;
+  float: right;
+ 
+  color: rgb(273, 98, 63);
+  font: 15px mySans;
+
+  height: 20px;
+  width: 300px;
 }
 
 .title-and-error {
@@ -346,6 +363,13 @@
   float: right;
 }
 
+.choose-tags-and-button-edit {
+  margin-left : 0px;
+  display: inline-block;
+  position: relative;
+  float: right;
+}
+
 .deleting-text {
   display: inline-block;
 
@@ -398,4 +422,21 @@
 
 .file-choose-placing:hover {
   background-color: rgb(223, 83, 70);
+}
+
+.image-and-delete-photo {
+  padding-top: 10px;
+  display: inline-block;
+}
+
+textarea::-webkit-input-placeholder {
+  line-height: 24px;
+  font: 18px mySans;
+  color: rgb(172, 172, 172);
+}
+
+textarea::-moz-placeholder {
+  line-height: 24px;
+  font: 18px mySans;
+  color: rgb(172, 172, 172);
 }

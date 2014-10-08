@@ -62,6 +62,10 @@
   color: rgb(0, 0, 0);
 }
 
+.advertisement-link:hover {
+  color: rgb(223, 83, 70);
+}
+
 @font-face {
   font-family: mySans;
   font-weight: normal;

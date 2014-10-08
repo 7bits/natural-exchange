@@ -200,6 +200,7 @@
 }
 
 .adv-owner:hover {
+  background-image: url('../images/anyUser.png');
   cursor: pointer;
   text-decoration: underline;
 }

@@ -29,10 +29,10 @@ $("body").on('click', '.js-deleting-tag', function(){
     var tagsError = $('.js-tags-error');
     tagsError.text("");
     var currentCrossPressed = $(this);
-    var deletedTag = $(this).siblings().text();
+    var deletedTag = " " + $(this).siblings().text() + " ";
     var tags = $('.js-tags-chosen');
     var currentTags = tags.val();
-    currentTags = currentTags.replace(deletedTag, "");
+    currentTags = currentTags.replace(deletedTag, " ");
     tags.val(currentTags);
     currentCrossPressed.parent().remove();
 });

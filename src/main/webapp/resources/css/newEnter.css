@@ -273,6 +273,18 @@ input[type="email"]::-moz-placeholder {
   color: rgb(172, 172, 172);
 }
 
+input[type="password"]::-webkit-input-placeholder {
+  line-height: 24px;
+  font: 18px mySans;
+  color: rgb(172, 172, 172);
+}
+
+input[type="password"]::-moz-placeholder {
+  line-height: 24px;
+  font: 18px mySans;
+  color: rgb(172, 172, 172);
+}
+
 input[type="text"]::-webkit-input-placeholder {
   line-height: 24px;
   font: 18px mySans;

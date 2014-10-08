@@ -30,10 +30,19 @@ block content
               div.file-button-hollow-text.js-image-text Выберите новое изображение
               input#image(name = "image", type="file", accept="image/jpeg,image/png,image/jpg").js-image-chosen
               p.error-image
-            div.choose-tags-and-button
+            div.choose-tags-and-button-edit.js-tags-button
               input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
               a#add-tag.reg-rounded-button.file-choose-placing.placing-tag-add.js-add-tag ДОБАВИТЬ
               input(type='hidden', name="tags", value="#{advertisementEditingForm.tags}").js-tags-chosen
+            div.tags-and-errors
+              div.red-alert-text-tags-edit.js-tags-error
+              if locals.tagsError
+                div.red-alert-text-tags-edit.js-server-tags-error #{tagsError}
+              div.chosen-tags.js-tags-placing
+                for tag in tags
+                  div.tags-and-cross
+                    div.chosen-tag #{tag.name}
+                    a.cross-circle.js-deleting-tag
             div.image-and-delete-photo
               img.advert-photo.js-advert-photo(src='#{filePath.imagesPath}#{advertisementPhotoName}')
               p.deleting-text
@@ -42,17 +51,11 @@ block content
             div.tags-and-textarea
               textarea(placeholder="Описание", name="text", value="#{advertisementEditingForm.text}").form-text-button.hollow-text.placing-textarea
                 | #{advertisementEditingForm.text}
-              div.chosen-tags.js-tags-placing
-                for tag in tags
-                  div.tags-and-cross
-                    div.chosen-tag #{tag.name}
-                    a.cross-circle.js-deleting-tag
               if locals.textError
                 div.red-alert-text #{textError}
               else
                 div.tip Максимум 500 символов
           div.placing-end-button
-            div.red-alert-text-tags.js-tags-error
             input(type="submit", placeholder="РЕДАКТИРОВАТЬ", value="ИЗМЕНИТЬ").rounded-button.adding-advert.small-tab-text
             input(type="hidden", name="advertisementId", value="#{advertisementEditingForm.advertisementId}")
 block append customjs
