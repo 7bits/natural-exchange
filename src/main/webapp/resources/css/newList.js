@@ -1,6 +1,7 @@
 $(document).ready(function () {
     "use strict";
-    if ($(".container").find(".js-deleted-advertisement").length) {
+    var deletedAdvertisement = $('.js-deleted-advertisement');
+    if(typeof deletedAdvertisement != 'undefined') {
         $.gritter.add({
             title: "Ваше предложение удалено!",
             image: "/resources/images/newdesign/logo.png"

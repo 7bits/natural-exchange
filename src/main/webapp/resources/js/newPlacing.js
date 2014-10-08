@@ -1,6 +1,8 @@
 $("#add-tag").on('click', function() {
     var maxTagLength = 20;
-
+    if ($('.js-server-tags-error').length) {
+        $('.js-server-tags-error').text("");
+    }
     var tags = $('.js-tags-chosen');
     var previousTags = tags.val();
     var currentTag = $('.js-added-tag');
@@ -9,7 +11,7 @@ $("#add-tag").on('click', function() {
         if (currentTag.val().length > maxTagLength) {
             tagsError.text("Максимальная длина тега - 20 символов.");
             currentTag.val("");
-        } else if ((previousTags.length + currentTag.val().length) > 130) {
+        } else if ((previousTags.length + currentTag.val().length) > 100) {
             tagsError.text("Слишком много тегов у объявления. Пожалуйста, уберите несколько тегов.");
             currentTag.val("");
         } else {

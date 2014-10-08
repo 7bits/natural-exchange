@@ -30,7 +30,7 @@ block content
             label.placing-file-choose.js-choose-image
               div.file-button-hollow-text.js-image-text Выберите изображение
               input#image(name = "image", type="file", accept="image/jpeg,image/png,image/jpg").js-image-chosen
-              div.red-alert-text.error-image
+              div.error-image
             div.choose-tags-and-button
               input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
               a#add-tag.reg-rounded-button.file-choose-placing.placing-tag-add.js-add-tag ДОБАВИТЬ
@@ -39,6 +39,9 @@ block content
               textarea(placeholder="Описание", name="text", value="#{advertisementPlacingForm.text}").form-text-button.hollow-text.placing-textarea
                 | #{advertisementPlacingForm.text}
               div.chosen-tags.js-tags-placing
+                div.red-alert-text-tags.js-tags-error
+                if locals.tagsError
+                  div.red-alert-text-tags.js-server-tags-error #{tagsError}
                 if locals.tags
                   for tag in tags
                     div.tags-and-cross
@@ -49,7 +52,6 @@ block content
               else
                 div.tip Максимум 500 символов
           div.placing-end-button
-            div.red-alert-text-tags.js-tags-error
             input(type="submit", placeholder="ДОБАВИТЬ", value="ДОБАВИТЬ").rounded-button.adding-advert.small-tab-text.js-placing
 block append customjs
   script(src="/resources/js/newPlacing.js")
