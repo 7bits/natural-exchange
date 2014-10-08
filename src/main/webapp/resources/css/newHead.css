@@ -69,8 +69,8 @@
 .entire-auth {
   width: 120px;
   position: absolute;
-  padding-left: 740px;
-  padding-top: 20px;
+  margin-left: 740px;
+  margin-top: 20px;
   display: inline-block;
   text-decoration: none;
   font-family: mySans;

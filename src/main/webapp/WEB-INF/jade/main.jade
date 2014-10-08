@@ -46,7 +46,7 @@ block content
       p.news УЗНАВАЙТЕ НОВОСТИ ПРОЕКТА ПЕРВЫМИ!
       .subscribe-cover
         form.subscribe-form(data-url='#{uri.uri("/subscribe.html")}')
-          input.for-email(type='text', placeholder='Ваш e-mail')
+          input.for-email.js-for-email(type='text', placeholder='Ваш e-mail')
           input.submit-email.js-submit-email(type='submit', value='ПОДПИСАТЬСЯ')
           div.errorLk.js-subscribe-error
 block append customjs

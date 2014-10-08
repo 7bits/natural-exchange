@@ -2,7 +2,6 @@ package it.sevenbits.helpers;
 
 import it.sevenbits.entity.User;
 import it.sevenbits.entity.hibernate.UserEntity;
-import it.sevenbits.services.authentication.AuthService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

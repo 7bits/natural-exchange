@@ -22,7 +22,9 @@ public class BanFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(
+        ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain
+    ) throws IOException, ServletException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && !(auth instanceof AnonymousAuthenticationToken)) {
             String emailOfCurrentUser = ((UserEntity) auth.getPrincipal()).getEmail();

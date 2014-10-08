@@ -17,6 +17,8 @@ import java.util.*;
 public class FileManager {
 
     private final Logger logger = LoggerFactory.getLogger(FileManager.class);
+    private static final String defaultUserPhoto = "noavatar.png";
+    private static final String defaultAdvertisementPicture = "no_photo.png";
 
     private String advertisementImagePath;
     private String avatarImagePath;
@@ -69,6 +71,9 @@ public class FileManager {
         File file = new File(path + fileName);
         if (!file.exists()) {
             return false;
+        }
+        if (fileName.equals(defaultUserPhoto) || fileName.equals(defaultAdvertisementPicture)) {
+            return true;
         }
         try {
             FileUtils.forceDelete(file);

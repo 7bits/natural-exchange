@@ -318,6 +318,7 @@ public class UserController {
         currentUser.setLastName(newLastName);
         currentUser.setAvatar(newAvatar);
         this.userDao.updateData(currentUser);
+        AuthService.changeUserContext(currentUser);
         return "redirect:/user/userprofile/searches.html";
     }
 
