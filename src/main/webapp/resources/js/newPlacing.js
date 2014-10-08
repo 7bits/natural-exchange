@@ -1,10 +1,15 @@
 $("#add-tag").on('click', function() {
+    var maxTagLength = 20;
+
     var tags = $('.js-tags-chosen');
     var previousTags = tags.val();
     var currentTag = $('.js-added-tag');
     if (currentTag.val().length > 0) {
-        if ((previousTags.length + currentTag.val().length) > 130) {
-            var tagsError = $('.js-tags-error');
+        var tagsError = $('.js-tags-error');
+        if (currentTag.val().length > maxTagLength) {
+            tagsError.text("Максимальная длина тега - 20 символов.");
+            currentTag.val("");
+        } else if ((previousTags.length + currentTag.val().length) > 130) {
             tagsError.text("Слишком много тегов у объявления. Пожалуйста, уберите несколько тегов.");
             currentTag.val("");
         } else {
@@ -12,6 +17,7 @@ $("#add-tag").on('click', function() {
             $('.js-tags-placing').append("<div class='tags-and-cross'><div class='chosen-tag'>" + tagText + "</div><a class='cross-circle js-deleting-tag'></a></div>");
             var currentTags = previousTags.concat(tagText);
             tags.val(currentTags);
+            tagsError.text("");
             currentTag.val("");
         }
     }
