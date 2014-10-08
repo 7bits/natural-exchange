@@ -12,7 +12,8 @@ block information
           img(src='/resources/images/editActive.png')
         .nameAndCategory
           a.thingName(href='#{uri.uri("/advertisement/list.html?keyWords=" + coder.encode(searchVariant.keyWords) + "&currentCategory=" + searchVariant.stringOfCategorySlugs())}') #{searchVariant.keyWords}
-          p.categoryName #{stringActions.toUpperCase(searchVariant.stringOfCategoryNames())}
+          for category in searchVariant.categories
+            p.categoryName #{category.name}
         p.spacer
           | ___________________________________________________________________________________________
 block append customjs
