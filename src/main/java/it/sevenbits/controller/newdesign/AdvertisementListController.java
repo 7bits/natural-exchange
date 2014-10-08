@@ -249,6 +249,7 @@ public class AdvertisementListController {
         if (result.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("placing");
             Map<String, String> errorMessages = ErrorMessages.getFieldsErrorMessages(result);
+            modelAndView.addObject("imageError", errorMessages.get("image"));
             modelAndView.addObject("titleError", errorMessages.get("title"));
             modelAndView.addObject("categoryError", errorMessages.get("category"));
             modelAndView.addObject("textError", errorMessages.get("text"));
@@ -306,6 +307,7 @@ public class AdvertisementListController {
             ModelAndView modelAndView = new ModelAndView("edit");
             modelAndView.addObject("advertisementEditingForm", advertisementEditingFormParam);
             Map<String, String> errorMessages = ErrorMessages.getFieldsErrorMessages(result);
+            modelAndView.addObject("imageError", errorMessages.get("image"));
             modelAndView.addObject("titleError", errorMessages.get("title"));
             modelAndView.addObject("categoryError", errorMessages.get("category"));
             modelAndView.addObject("textError", errorMessages.get("text"));

@@ -1,31 +1,16 @@
 package it.sevenbits.util.form.validator;
 
-import it.sevenbits.exceptions.WrongFileParameters;
+import it.sevenbits.services.parsers.StringParser;
+import it.sevenbits.util.FileValidatorConstants;
 import it.sevenbits.util.form.EditingUserInfoForm;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Component
 public class EditingUserInfoFormValidator implements Validator {
     private final int MAX_LENGTH = 20;
-
-    private final static int MAX_FILE_SIZE = 3 * 1024 * 1024;
-
-    private Set<String> photoFileTypes;
-
-    EditingUserInfoFormValidator() {
-        this.photoFileTypes = new HashSet<>();
-        this.photoFileTypes.add("jpg");
-        this.photoFileTypes.add("jpeg");
-        this.photoFileTypes.add("png");
-        this.photoFileTypes.add("img");
-    }
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -38,10 +23,10 @@ public class EditingUserInfoFormValidator implements Validator {
         MultipartFile photoFile = editingUserInfoForm.getImage();
 
         if (!photoFile.getOriginalFilename().equals("")) {
-            String contentType = this.getType(photoFile.getOriginalFilename());
-            if (!this.photoFileTypes.contains(contentType)) {
+            String contentType = StringParser.getType(photoFile.getOriginalFilename());
+            if (!FileValidatorConstants.photoFileTypes.contains(contentType)) {
                 errors.rejectValue("image", "image", "Неверный формат файла");
-            } else if (photoFile.getSize() > MAX_FILE_SIZE) {
+            } else if (photoFile.getSize() > FileValidatorConstants.MAX_FILE_SIZE) {
                 errors.rejectValue("image", "image", "Размер файла не должен превышать 3 мегабайт");
             }
         }
@@ -58,11 +43,5 @@ public class EditingUserInfoFormValidator implements Validator {
         } else if (lastNameLength == 0) {
             errors.rejectValue("LastName", "LastName", "Пустая фамилия недопустима");
         }
-    }
-
-    private String getType(final String fileName) {
-        String[] parts = StringUtils.split(fileName, '.');
-        int length = parts.length;
-        return parts[length - 1];
     }
 }

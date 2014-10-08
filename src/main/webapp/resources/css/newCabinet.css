@@ -22,6 +22,7 @@
   border: 3px solid rgb(26, 178, 175);
 }
 .user-name {
+  word-wrap: break-word;
   font-family: "Prosto Sans";
   font-size: 18px;
 }

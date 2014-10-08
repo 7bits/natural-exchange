@@ -35,6 +35,11 @@ http://www.springframework.org/schema/p "
     <!--<bean id="springSecurityFilterChain" class="org.springframework.web.filter.DelegatingFilterProxy"/>-->
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- maximum upload size = 30Mb-->
+        <property name="maxUploadSize" value="31457280"/>
+    </bean>
+
 
     <!-- Define jade view resolver -->
 

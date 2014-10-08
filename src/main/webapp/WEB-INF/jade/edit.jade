@@ -29,7 +29,7 @@ block content
             label.placing-file-choose.js-choose-image
               div.file-button-hollow-text.js-image-text Выберите новое изображение
               input#image(name = "image", type="file", accept="image/jpeg,image/png,image/jpg").js-image-chosen
-              p.error-image
+              p.error-image #{imageError}
             div.choose-tags-and-button-edit.js-tags-button
               input(type='text', placeholder="Теги").placing-tag-form-rounded-button.hollow-text.placing-tag-choose.js-added-tag
               a#add-tag.reg-rounded-button.file-choose-placing.placing-tag-add.js-add-tag ДОБАВИТЬ
