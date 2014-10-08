@@ -1,18 +1,14 @@
 package it.sevenbits.subscription;
 
-import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 
+import it.sevenbits.TestOptions;
 import it.sevenbits.authorization.Authorization;
 import org.junit.*;
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
-/**
- * Created by booktina on 07.08.14.
- */
+
 public class SubscriptionNewTest {
 
     private WebDriver driver;
@@ -20,11 +16,12 @@ public class SubscriptionNewTest {
     private String email;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
+    private TestOptions testOptions;
 
     @Before
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
-        baseUrl = "http://naturalexchange.ru/";
+        baseUrl = testOptions.getDomen();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
         Authorization authorization = new Authorization();
