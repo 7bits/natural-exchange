@@ -26,25 +26,35 @@ $(document).ready(function () {
         };
         searchError.text("");
         if (keyWords.val().length > 0) {
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: sendingData,
-                success: function (data, textStatus, jqXHR) {
-                    $.gritter.add({
-                        title: "Поиск успешно сохранен.",
-                        image: "/resources/images/newdesign/logo.png"
-                    });
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    $.gritter.add({
-                        title: "Произошел сбой в системе. Повторите попытку позднее.",
-                        image: "/resources/images/newdesign/logo.png"
-                    });
-                }
-            })
+            if (keyWords.val().length > 20) {
+                searchError.text("Недопустимо больше 20 символов.");
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: sendingData,
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.searchVariantExist) {
+                            $.gritter.add({
+                                title: data.searchVariantExist,
+                                image: "/resources/images/newdesign/logo.png"
+                            });
+                        }
+                        $.gritter.add({
+                            title: "Поиск успешно сохранен.",
+                            image: "/resources/images/newdesign/logo.png"
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $.gritter.add({
+                            title: "Произошел сбой в системе. Повторите попытку позднее.",
+                            image: "/resources/images/newdesign/logo.png"
+                        });
+                    }
+                })
+            }
         } else {
-            searchError.text("Введите параметр поиска");
+            searchError.text("Введите параметр поиска.");
         }
     });
     $('.tag-search').click(function(e) {

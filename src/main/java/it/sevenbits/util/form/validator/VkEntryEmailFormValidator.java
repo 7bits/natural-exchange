@@ -44,7 +44,7 @@ public class VkEntryEmailFormValidator implements Validator {
         try {
             User user = this.userDao.findUserByEmail(email);
             errors.rejectValue("email", "email.alreadyExist", "Пользователь с таким email уже существует, пожалуйста, " +
-                    "введите другой email");
+                    "введите другой email.");
         } catch (UsernameNotFoundException ex) {
             logger.warn("User doesn't found");
         }

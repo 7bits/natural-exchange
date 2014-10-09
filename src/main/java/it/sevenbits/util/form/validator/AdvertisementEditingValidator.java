@@ -33,9 +33,9 @@ public class AdvertisementEditingValidator implements Validator {
         if (!photoFile.getOriginalFilename().equals("")) {
             String contentType = StringParser.getType(photoFile.getOriginalFilename());
             if (!FileValidatorConstants.photoFileTypes.contains(contentType)) {
-                errors.rejectValue("image", "image", "Неверный формат файла");
+                errors.rejectValue("image", "image", "Неверный формат файла.");
             } else if (photoFile.getSize() > FileValidatorConstants.MAX_FILE_SIZE) {
-                errors.rejectValue("image", "image", "Размер файла не должен превышать 3 мегабайт");
+                errors.rejectValue("image", "image", "Размер файла не должен превышать 3 мегабайт.");
             }
         }
 

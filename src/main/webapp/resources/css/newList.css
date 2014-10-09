@@ -65,6 +65,7 @@
 }
 
 .underneath {
+  padding-left: 175px;
   padding-top: 10px;
   float: right;
 }
@@ -119,6 +120,10 @@
 
 .search:hover {
   background-color: rgb(223, 83, 70);
+}
+
+.data-and-save-search {
+  display: inline-block;
 }
 
 .position-data {

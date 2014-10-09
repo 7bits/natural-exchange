@@ -26,7 +26,7 @@ public class ExchangeFormValidator implements Validator {
             "Пожалуйста, предложите владельцу вещи одну из своих вещей.");
         String exchangePropose = exchangeForm.getExchangePropose();
         if (exchangePropose.length() > maxProposeLength) {
-            errors.rejectValue("exchangePropose", "exchangePropose.tooLong", "Недопустимо больше 150 знаков");
+            errors.rejectValue("exchangePropose", "exchangePropose.tooLong", "Недопустимо больше 150 знаков.");
         }
     }
 }

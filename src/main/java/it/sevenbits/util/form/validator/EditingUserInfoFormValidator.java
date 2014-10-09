@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class EditingUserInfoFormValidator implements Validator {
-    private final int MAX_LENGTH = 20;
+    private static final int MAX_LENGTH = 20;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -25,23 +25,23 @@ public class EditingUserInfoFormValidator implements Validator {
         if (!photoFile.getOriginalFilename().equals("")) {
             String contentType = StringParser.getType(photoFile.getOriginalFilename());
             if (!FileValidatorConstants.photoFileTypes.contains(contentType)) {
-                errors.rejectValue("image", "image", "Неверный формат файла");
+                errors.rejectValue("image", "image", "Неверный формат файла.");
             } else if (photoFile.getSize() > FileValidatorConstants.MAX_FILE_SIZE) {
-                errors.rejectValue("image", "image", "Размер файла не должен превышать 3 мегабайт");
+                errors.rejectValue("image", "image", "Размер файла не должен превышать 3 мегабайт.");
             }
         }
 
         int firstNameLength = editingUserInfoForm.getFirstName().length();
         int lastNameLength = editingUserInfoForm.getLastName().length();
         if (firstNameLength > MAX_LENGTH) {
-            errors.rejectValue("FirstName", "FirstName", "Допускается не более 20 символов");
+            errors.rejectValue("FirstName", "FirstName", "Допускается не более 20 символов.");
         } else if (firstNameLength == 0) {
-            errors.rejectValue("FirstName", "FirstName", "Пустое имя недопустимо");
+            errors.rejectValue("FirstName", "FirstName", "Пустое имя недопустимо.");
         }
         if (lastNameLength > MAX_LENGTH) {
-            errors.rejectValue("LastName", "LastName", "Допускается не более 20 символов");
+            errors.rejectValue("LastName", "LastName", "Допускается не более 20 символов.");
         } else if (lastNameLength == 0) {
-            errors.rejectValue("LastName", "LastName", "Пустая фамилия недопустима");
+            errors.rejectValue("LastName", "LastName", "Пустая фамилия недопустима.");
         }
     }
 }
