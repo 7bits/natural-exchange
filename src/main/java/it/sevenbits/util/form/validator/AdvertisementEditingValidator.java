@@ -3,6 +3,7 @@ package it.sevenbits.util.form.validator;
 import it.sevenbits.services.parsers.StringParser;
 import it.sevenbits.util.FileValidatorConstants;
 import it.sevenbits.util.form.AdvertisementEditingForm;
+import it.sevenbits.util.form.validator.validationMethods.CheckingLength;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.ValidationUtils;
@@ -17,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class AdvertisementEditingValidator implements Validator {
     private final static int MAX_TITLE_LENGTH = 100;
     private final static int MAX_TAGS_LENGTH = 100;
-    private final static int MAX_TAG_LENGTH = 20;
     private final static int MAX_ADVERTISEMENT_TEXT_LENGTH = 500;
 
     @Override
@@ -47,7 +47,7 @@ public class AdvertisementEditingValidator implements Validator {
         if (tags.length() > MAX_TAGS_LENGTH) {
             errors.rejectValue("tags", "tags.tooLong", "Слишком много тегов у объявления. Пожалуйста, уберите несколько тегов.");
         }
-        if (validateTagsForTooLongTag(tags)) {
+        if (CheckingLength.validateTagsForTooLongTag(tags)) {
             errors.rejectValue("tags", "tags.tooLongTag", "Недопустим тег длиннее 20 символов.");
         }
         if ((title.length()) > MAX_TITLE_LENGTH) {
@@ -61,23 +61,5 @@ public class AdvertisementEditingValidator implements Validator {
         );
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "title.empty", "Заполните поле заголовка.");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "category", "category.empty", "Выберите категорию.");
-    }
-
-    /**
-     * @return true if tags have too long tag else return false.
-     * */
-    private boolean validateTagsForTooLongTag(final String tags) {
-        int tagLength = 0;
-        for (int i = 0; i < tags.length(); i++) {
-            if (tags.charAt(i) != ' ') {
-                tagLength++;
-                if (tagLength == MAX_TAG_LENGTH) {
-                    return true;
-                }
-            } else {
-                tagLength = 0;
-            }
-        }
-        return false;
     }
 }

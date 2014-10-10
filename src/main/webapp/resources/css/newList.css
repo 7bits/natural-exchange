@@ -20,7 +20,7 @@
 
 .tag-search {
   outline: 0;
-  width: 43%;
+  width: 40%;
   height: 38px;
   padding-left: 20px;
   box-sizing: border-box;
@@ -101,7 +101,8 @@
 }
 
 .search {
-  margin-left: 9px;
+  margin-left: 10px;
+  
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 35px;
@@ -212,7 +213,7 @@
 
 .adv-name-cover {
   width: 185px;
-  max-height: 66px;
+  height: 60px;
   overflow: hidden;
 }
 

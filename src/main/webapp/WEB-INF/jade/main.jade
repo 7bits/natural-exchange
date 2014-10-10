@@ -11,9 +11,9 @@ block content
         for category in categories
           .games.col-md-4
             a.game-link(href='#{uri.uri("/advertisement/list.html?currentCategory=" + category.slug)}')
-              img.games-image(src='/resources/images/' + category.slug + ".png")
+              img.games-image.js-category(src='/resources/images/' + category.slug + ".png", alt='Здесь должно быть изображение категории.')
               .games-cover
-                a.category-note(href='#{uri.uri("/advertisement/list.html?currentCategory=" + category.slug)}')
+                a.category-note.js-category-name(href='#{uri.uri("/advertisement/list.html?currentCategory=" + category.slug)}')
                   | #{stringActions.toUpperCase(category.name)}
     .container.main-page
       p.many-other ... И МНОГОЕ ДРУГОЕ!
@@ -52,3 +52,4 @@ block content
 block append customjs
   script(src="/resources/js/newExchangePopup.js")
   script(src="/resources/js/newSubscribe.js")
+  script(src="/resources/js/newMain.js")

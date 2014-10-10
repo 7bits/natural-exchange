@@ -1,6 +1,7 @@
 package it.sevenbits.util.form.validator;
 
 import it.sevenbits.util.form.SearchEditForm;
+import it.sevenbits.util.form.validator.validationMethods.CheckingLength;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -8,7 +9,6 @@ import org.springframework.validation.Errors;
 
 @Component
 public class SearchEditValidator implements Validator {
-    private final static int maxTitleLength = 16;
 
     @Override
     public boolean supports(final Class<?> clazz) {
@@ -17,7 +17,11 @@ public class SearchEditValidator implements Validator {
 
     @Override
     public void validate(final Object target, final Errors errors) {
-        SearchEditForm advertisementPlacingForm = (SearchEditForm) target;
+        SearchEditForm searchEditForm = (SearchEditForm) target;
+        String keyword = searchEditForm.getKeywords();
+        if (CheckingLength.validateTagsForTooLongTag(keyword)) {
+            errors.rejectValue("keyword", "keywordTooLong", "Недопустимо больше 20 символов.");
+        }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "category", "category.empty", "Выберите категорию.");
     }
 }

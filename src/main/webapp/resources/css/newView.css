@@ -89,6 +89,12 @@
   font-size: 13px;
 }
 
+.change-user:hover {
+  background-image: url('../images/anyUser.png');
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .current-description {
   width: 500px;
   margin-left: 10px;

@@ -34,11 +34,8 @@ $(document).ready(function () {
                     url: url,
                     data: sendingData,
                     success: function (data, textStatus, jqXHR) {
-                        if (data.searchVariantExist) {
-                            $.gritter.add({
-                                title: data.searchVariantExist,
-                                image: "/resources/images/newdesign/logo.png"
-                            });
+                        if (data.keywordTooLong) {
+                            searchError.text("Недопустимо больше 20 символов.");
                         }
                         $.gritter.add({
                             title: "Поиск успешно сохранен.",

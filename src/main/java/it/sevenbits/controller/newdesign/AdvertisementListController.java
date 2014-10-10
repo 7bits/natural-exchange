@@ -148,6 +148,10 @@ public class AdvertisementListController {
         @RequestParam(value = "currentPage", required = false) final Integer previousPage
     ) {
         Map map = new HashMap<>();
+        if (previousKeyWords.length() > 20) {
+            map.put("keywordTooLong", "Недопустимо больше 20 символов.");
+            return map;
+        }
         map.put("currentCategory", previousCategory);
         map.put("currentPage", previousPage);
         map.put("keyWords", previousKeyWords);
