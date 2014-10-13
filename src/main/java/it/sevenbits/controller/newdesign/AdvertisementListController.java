@@ -317,7 +317,7 @@ public class AdvertisementListController {
             modelAndView.addObject("textError", errorMessages.get("text"));
             modelAndView.addObject("tagsError", errorMessages.get("tags"));
             List<Category> categories = this.categoryDao.findAll();
-            modelAndView.addObject("tags", this.getTagsFromAdvertisementById(advertisementEditingFormParam.getAdvertisementId()));
+            modelAndView.addObject("tags", advertisementEditingFormParam.getTags());
             modelAndView.addObject("advertisementPhotoName", this.advertisementDao.findById(advertisementEditingFormParam.getAdvertisementId()).getPhotoFile());
             modelAndView.addObject("categories", categories);
             return modelAndView;

@@ -1,6 +1,8 @@
-$(document).ready(function() {
+$(document).ready(function () {
+    var tags = $('.js-tags-chosen');
+    tags.val(tags.val().slice(0, tags.val().length - 1));
 
-    $("#add-tag").on('click', function() {
+    $("#add-tag").on('click', function () {
         var maxTagLength = 20;
         if ($('.js-server-tags-error').length) {
             $('.js-server-tags-error').text("");
@@ -17,7 +19,11 @@ $(document).ready(function() {
                 tagsError.text("Слишком много тегов у объявления. Пожалуйста, уберите несколько тегов.");
                 currentTag.val("");
             } else {
-                var tagText = currentTag.val() + " ";
+                if (previousTags.length < 1) {
+                    var tagText = currentTag.val();
+                } else {
+                    var tagText = " " + currentTag.val();
+                }
                 $('.js-tags-placing').append("<div class='tags-and-cross'><div class='chosen-tag'>" + tagText + "</div><a class='cross-circle js-deleting-tag'></a></div>");
                 var currentTags = previousTags.concat(tagText);
                 tags.val(currentTags);
@@ -27,7 +33,7 @@ $(document).ready(function() {
         }
     });
 
-    $(".js-want-delete-photo").on('change', function() {
+    $(".js-want-delete-photo").on('change', function () {
         var checkbox = $(this);
         var chooseImageBlock = $('.js-choose-image');
         var tagsButton = $('.js-tags-button');
@@ -40,28 +46,45 @@ $(document).ready(function() {
         }
     });
 
-    $(".js-image-chosen").on('change', function() {
+    $(".js-image-chosen").on('change', function () {
         var currentText = $('.js-image-text');
         currentText.text("Изображение выбрано");
         var currentImage = $('.js-current-image');
         currentImage.remove();
     });
 
-    $("body").on('click', '.js-deleting-tag', function(){
+    $("body").on('click', '.js-deleting-tag', function () {
         var tagsError = $('.js-tags-error');
         tagsError.text("");
         var currentCrossPressed = $(this);
-        var deletedTag = " " + $(this).siblings().text() + " ";
-        var tags = $('.js-tags-chosen');
-        var currentTags = tags.val();
-        currentTags = currentTags.replace(deletedTag, " ");
+        var parentCross = $(this).parent();
+        if (parentCross.next('div').length) {
+            var deletedTag = $(this).siblings().text() + " ";
+            var tags = $('.js-tags-chosen');
+            var currentTags = tags.val();
+            if (currentTags.indexOf(deletedTag) == 0) {
+                deletedTag = deletedTag.slice(1, deletedTag.length);
+                currentTags = currentTags.slice(deletedTag.length, currentTags.length);
+            } else {
+                currentTags = currentTags.replace(deletedTag, " ");
+            }
+        } else {
+            var deletedTag = $(this).siblings().text();
+            var tags = $('.js-tags-chosen');
+            var currentTags = tags.val();
+            if (deletedTag.length - 1 == currentTags.length) {
+                currentTags = "";
+            } else {
+                currentTags = currentTags.slice(0, currentTags.length - deletedTag.length);
+            }
+        }
         tags.val(currentTags);
         currentCrossPressed.parent().remove();
     });
 
     var image = $(".js-image-chosen");
 
-    image.change(function(e) {
+    image.change(function (e) {
         var errorField = $(".error-image");
         if (image[0].files[0]) {
             if (image[0].files[0].size > 3 * 1024 * 1024) {

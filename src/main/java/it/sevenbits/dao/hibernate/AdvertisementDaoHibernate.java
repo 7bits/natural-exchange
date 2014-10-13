@@ -5,6 +5,7 @@ package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.CategoryDao;
+import it.sevenbits.dao.TagDao;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Tag;
@@ -49,6 +50,9 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
 
     @Resource(name = "userDao")
     private UserDao userDao;
+
+    @Resource(name = "tagDao")
+    private TagDao tagDao;
 
     @Resource(name = "mailService")
     private MailSenderService mailSenderService;
@@ -99,6 +103,9 @@ public class AdvertisementDaoHibernate implements AdvertisementDao {
                     }
                 }
                 advertisementEntity.setTags(newTags);
+            } else {
+                this.tagDao.deleteTagsByAdvertisementId(advertisementEntity.getId());
+                advertisementEntity.setTags(null);
             }
         }
     }

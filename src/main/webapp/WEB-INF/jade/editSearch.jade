@@ -33,7 +33,7 @@ block content
       if (!errors.isEmpty())
         for error in errors
           div.red-alert-text #{error.getDefaultMessage()}
-      input(type="submit", placeholder="ДОБАВИТЬ", value="СОХРАНИТЬ").rounded-button.edit-submit
+      input(type="submit", placeholder="ДОБАВИТЬ", value="СОХРАНИТЬ").rounded-button.edit-submit.js-edit-search
       input(type="hidden", name="searchVariantId", value="#{currentSearchForm.searchVariantId}")
 block append customjs
   script(src="/resources/js/newEditSearch.js")
