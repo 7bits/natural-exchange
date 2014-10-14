@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Тестовая имплементация интерфейса UserDao
+ * Testing implementation interface subscriberDao
  */
 @Repository(value = "subscriberDao")
 public class SubscriberDaoHibernate implements SubscriberDao {

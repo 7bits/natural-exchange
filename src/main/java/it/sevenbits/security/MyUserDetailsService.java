@@ -8,13 +8,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
-/**
- * Created with IntelliJ IDEA.
- * User: sevenbits
- * Date: 8/6/13
- * Time: 1:26 PM
- *
- */
 @Service(value = "auth")
 public class MyUserDetailsService implements UserDetailsService {
 

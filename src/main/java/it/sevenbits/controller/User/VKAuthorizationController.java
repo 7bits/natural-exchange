@@ -1,14 +1,13 @@
 package it.sevenbits.controller.User;
 
-import it.sevenbits.controller.newdesign.UserController;
 import it.sevenbits.dao.UserDao;
 import it.sevenbits.entity.User;
 import it.sevenbits.security.MyUserDetailsService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.services.vk.VkService;
 import it.sevenbits.util.TimeManager;
-import it.sevenbits.util.form.VkEntryEmailForm;
-import it.sevenbits.util.form.validator.VkEntryEmailFormValidator;
+import it.sevenbits.util.form.user.VkEntryEmailForm;
+import it.sevenbits.util.form.validator.user.VkEntryEmailFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;

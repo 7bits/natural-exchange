@@ -1,3 +1,3 @@
 /**
- * The package contains files for processing of jsp of pages
+ * The package contains files for processing of jade pages
  */

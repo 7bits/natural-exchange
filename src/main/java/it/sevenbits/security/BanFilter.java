@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class BanFilter implements Filter {
+
     @Autowired
     private UserDao userDao;
 

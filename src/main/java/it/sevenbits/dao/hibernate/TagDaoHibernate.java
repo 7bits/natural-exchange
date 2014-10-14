@@ -1,6 +1,5 @@
 package it.sevenbits.dao.hibernate;
 
-import it.sevenbits.dao.AdvertisementDao;
 import it.sevenbits.dao.TagDao;
 import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.Tag;

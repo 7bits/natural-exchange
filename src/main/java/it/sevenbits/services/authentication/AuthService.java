@@ -39,4 +39,14 @@ public class AuthService {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
+
+    public static String getUserName(User user) {
+        if (!user.getFirstName().equals("")) {
+            return user.getFirstName();
+        }
+        if (!user.getLastName().equals("")) {
+            return user.getLastName();
+        }
+        return "Безымянный";
+    }
 }

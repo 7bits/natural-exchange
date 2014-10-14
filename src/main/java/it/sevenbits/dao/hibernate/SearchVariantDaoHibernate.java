@@ -1,14 +1,10 @@
 package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.SearchVariantDao;
-import it.sevenbits.entity.Category;
 import it.sevenbits.entity.SearchVariant;
-import it.sevenbits.entity.Tag;
 import it.sevenbits.entity.hibernate.CategoryEntity;
 import it.sevenbits.entity.hibernate.SearchVariantEntity;
-import it.sevenbits.entity.hibernate.TagEntity;
 import it.sevenbits.helpers.AuthHelper;
-import it.sevenbits.util.TimeManager;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
@@ -21,12 +17,11 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * Тестовая имплементация интерфейса UserDao
+ * Testing implementation interface searchVariantDao
  */
 @Repository(value = "searchVariantDao")
 public class SearchVariantDaoHibernate implements SearchVariantDao {

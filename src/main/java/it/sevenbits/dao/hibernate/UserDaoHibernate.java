@@ -1,9 +1,7 @@
 package it.sevenbits.dao.hibernate;
 
 import it.sevenbits.dao.UserDao;
-import it.sevenbits.entity.Advertisement;
 import it.sevenbits.entity.User;
-import it.sevenbits.entity.hibernate.AdvertisementEntity;
 import it.sevenbits.entity.hibernate.UserEntity;
 import it.sevenbits.util.SortOrder;
 import it.sevenbits.util.TimeManager;
@@ -19,10 +17,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
- * Тестовая имплементация интерфейса UserDao
+ * Testing implementation interface UserDao
  */
 
 @Repository(value = "userDao")
