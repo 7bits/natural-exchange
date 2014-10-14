@@ -5,7 +5,7 @@
 .user-container {
   padding-top: 50px;
   margin: 0 auto;
-  width: 900px;
+  width: 950px;
   overflow: hidden;
 }
 .user-information {
@@ -70,7 +70,7 @@
 }
 .right-block {
   float: right;
-  width: 651px;
+  width: 700px;
 }
 .pages {
   margin-top: 10px;
