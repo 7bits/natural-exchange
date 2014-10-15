@@ -1,12 +1,11 @@
 package it.sevenbits.services.mail;
 
-import it.sevenbits.dao.SearchVariantDao;
-import it.sevenbits.dao.SubscriberDao;
-import it.sevenbits.dao.UserDao;
-import it.sevenbits.entity.SearchVariant;
-import it.sevenbits.entity.Subscriber;
-import it.sevenbits.entity.User;
-import it.sevenbits.entity.hibernate.SearchVariantEntity;
+import it.sevenbits.repository.dao.SearchVariantDao;
+import it.sevenbits.repository.dao.SubscriberDao;
+import it.sevenbits.repository.dao.UserDao;
+import it.sevenbits.repository.entity.SearchVariant;
+import it.sevenbits.repository.entity.Subscriber;
+import it.sevenbits.repository.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;

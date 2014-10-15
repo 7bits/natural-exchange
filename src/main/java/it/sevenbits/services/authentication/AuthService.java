@@ -1,7 +1,7 @@
 package it.sevenbits.services.authentication;
 
-import it.sevenbits.entity.User;
-import it.sevenbits.entity.hibernate.UserEntity;
+import it.sevenbits.repository.entity.User;
+import it.sevenbits.repository.entity.hibernate.UserEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,5 +48,16 @@ public class AuthService {
             return user.getLastName();
         }
         return "Безымянный";
+    }
+
+    public String findUserNameFromPrincipal() {
+        User user = AuthService.getUser();
+        String userName;
+        if (user != null) {
+            userName = user.getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        return userName;
     }
 }

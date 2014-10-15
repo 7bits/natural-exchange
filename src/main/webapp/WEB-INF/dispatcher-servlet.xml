@@ -23,7 +23,7 @@ http://www.springframework.org/schema/p "
             <property name="paramName" value="locale"/>
         </bean>
 
-        <bean class="it.sevenbits.helpers.interceptor.HandlerInterceptor"></bean>
+        <bean class="it.sevenbits.web.helpers.interceptor.HandlerInterceptor"></bean>
     </mvc:interceptors>
 
     <!-- Saves a locale change using a cookie -->
@@ -43,7 +43,7 @@ http://www.springframework.org/schema/p "
 
     <!-- Define jade view resolver -->
 
-    <bean id="jadeResolver" class="it.sevenbits.viewresolver.CustomJadeViewResolver">
+    <bean id="jadeResolver" class="it.sevenbits.web.viewresolver.CustomJadeViewResolver">
         <property name="configuration" ref="jadeConfiguration"/>
         <!--<property name="renderExceptions" value="true"/>-->
         <property name="order" value="0"/>

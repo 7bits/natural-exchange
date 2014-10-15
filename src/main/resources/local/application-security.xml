@@ -38,9 +38,9 @@
         </session-management>
 
     </security:http>
-    <beans:bean id="banFilter" class="it.sevenbits.security.BanFilter" />
+    <beans:bean id="banFilter" class="it.sevenbits.web.security.BanFilter" />
 
-    <!--<bean:bean id="myUserDetailsService" class="it.sevenbits.security.MyUserDetailsService">-->
+    <!--<bean:bean id="myUserDetailsService" class="it.sevenbits.web.security.MyUserDetailsService">-->
 
     <!--</bean:bean>-->
     <authentication-manager>

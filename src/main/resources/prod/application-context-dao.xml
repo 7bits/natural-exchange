@@ -27,17 +27,17 @@
         </property>
         <property name="annotatedClasses">
             <list>
-                <value>it.sevenbits.entity.hibernate.AdvertisementEntity</value>
-                <value>it.sevenbits.entity.hibernate.UserEntity</value>
-                <value>it.sevenbits.entity.hibernate.TagEntity</value>
-                <value>it.sevenbits.entity.hibernate.CategoryEntity</value>
-                <value>it.sevenbits.entity.hibernate.SubscriberEntity</value>
-                <value>it.sevenbits.entity.hibernate.SearchVariantEntity</value>
+                <value>it.sevenbits.repository.entity.hibernate.AdvertisementEntity</value>
+                <value>it.sevenbits.repository.entity.hibernate.UserEntity</value>
+                <value>it.sevenbits.repository.entity.hibernate.TagEntity</value>
+                <value>it.sevenbits.repository.entity.hibernate.CategoryEntity</value>
+                <value>it.sevenbits.repository.entity.hibernate.SubscriberEntity</value>
+                <value>it.sevenbits.repository.entity.hibernate.SearchVariantEntity</value>
             </list>
         </property>
         <property name="annotatedPackages">
             <list>
-                <value>it.sevenbits.entity.hibernate</value>
+                <value>it.sevenbits.repository.entity.hibernate</value>
             </list>
         </property>
     </bean>
@@ -54,7 +54,7 @@
         <constructor-arg type="org.hibernate.SessionFactory" ref="sessionFactory"/>
     </bean-->
 
-    <!--bean id="advertisementDAO" class="it.sevenbits.dao.hibernate.AdvertisementDaoHibernaternate">
+    <!--bean id="advertisementDAO" class="it.sevenbits.repository.dao.hibernate.AdvertisementDaoHibernaternate">
         <property name="sessionFactory" ref="sessionFactory"></property>
     </bean-->
 
