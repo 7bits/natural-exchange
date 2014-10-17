@@ -28,6 +28,10 @@ public class CategoryService {
         return Conversion.arrayToString(allCategories);
     }
 
+    public List<Category> findThreeLastCategories() {
+        return this.categoryDao.findThreeLastCategories();
+    }
+
     public String[] findAllCategoriesAsArray() {
         List<Category> categories = this.categoryDao.findAll();
         int categoryLength = categories.size();
@@ -47,5 +51,13 @@ public class CategoryService {
     public Set<CategoryEntity> findByCategory(final String category) {
         String[] categorySlugs = Conversion.stringToArray(category);
         return this.categoryDao.findBySlugs(categorySlugs);
+    }
+
+    public int categoryCount() {
+        return this.categoryDao.categoryCount();
+    }
+
+    public Set<CategoryEntity> findBySlugs(final String[] slugs) {
+        return this.categoryDao.findBySlugs(slugs);
     }
 }

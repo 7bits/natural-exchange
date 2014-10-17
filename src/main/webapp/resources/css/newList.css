@@ -442,6 +442,7 @@ select {
 }
 
 .errorLk-list {
+  height: 20px;
   width: 300px;
 
   color: rgb(273, 98, 63);

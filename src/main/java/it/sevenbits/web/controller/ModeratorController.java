@@ -1,12 +1,13 @@
 package it.sevenbits.web.controller;
 
-import it.sevenbits.repository.dao.AdvertisementDao;
-import it.sevenbits.repository.dao.UserDao;
 import it.sevenbits.repository.entity.Advertisement;
 import it.sevenbits.repository.entity.User;
+import it.sevenbits.services.AdvertisementService;
+import it.sevenbits.services.UserService;
 import it.sevenbits.services.authentication.AuthService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.services.parsers.DateParser;
+import it.sevenbits.services.KeywordsService;
 import it.sevenbits.web.util.DatePair;
 import it.sevenbits.web.util.Presentation;
 import it.sevenbits.web.util.SortOrder;
@@ -14,7 +15,6 @@ import it.sevenbits.web.util.UtilsMessage;
 import it.sevenbits.web.util.form.advertisement.AdvertisementSearchingForm;
 import it.sevenbits.web.util.form.user.SearchUserForm;
 import it.sevenbits.web.util.form.validator.advertisement.AdvertisementSearchingValidator;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,19 +30,23 @@ import java.util.*;
 @Controller
 @RequestMapping(value = "moderator")
 public class ModeratorController {
-    private static final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
-    private static final int DEFAULT_USERS_PER_LIST = 8;
 
     private Logger logger = LoggerFactory.getLogger(ModeratorController.class);
 
     @Autowired
-    private AdvertisementDao advertisementDao;
+    private AdvertisementService advertisementService;
+
+    @Autowired
+    private MailSenderService mailSenderService;
+
+    @Autowired
+    private KeywordsService keywordsService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private AdvertisementSearchingValidator advertisementSearchingValidator;
-
-    @Autowired
-    private UserDao userDao;
 
     @Autowired
     private DateParser dateParser;
@@ -50,12 +54,16 @@ public class ModeratorController {
     @Autowired
     private Presentation presentation;
 
-    @Autowired
-    private MailSenderService mailSenderService;
-
     @RequestMapping(value = "/advertisementList.html", method = RequestMethod.GET)
-    public ModelAndView showAllAdvertisements(@RequestParam(value = "currentPage", required = false) final Integer previousPage, @RequestParam(value = "keyWords", required = false) final String previousKeyWords, @RequestParam(value = "isDeleted", required = false) final Boolean previousDeletedMark, @RequestParam(value = "dateFrom", required = false) final String previousDateFrom, @RequestParam(value = "dateTo", required = false) final String previousDateTo, final AdvertisementSearchingForm previousAdvertisementSearchingForm, final BindingResult bindingResult) {
+    public ModelAndView showAllAdvertisements(@RequestParam(value = "currentPage", required = false) final Integer previousPage,
+        @RequestParam(value = "keyWords", required = false) final String previousKeyWords,
+        @RequestParam(value = "isDeleted", required = false) final Boolean previousDeletedMark,
+        @RequestParam(value = "dateFrom", required = false) final String previousDateFrom,
+        @RequestParam(value = "dateTo", required = false) final String previousDateTo,
+        final AdvertisementSearchingForm previousAdvertisementSearchingForm,
+        final BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("moderator.jade");
+        String sortBy = "createdDate";
 
         DatePair datePair = dateParser.takeAndValidateDate(previousDateFrom, previousDateTo, bindingResult, advertisementSearchingValidator);
 
@@ -66,22 +74,20 @@ public class ModeratorController {
         if (previousDeletedMark != null) {
             isDeleted = previousDeletedMark;
         }
-        modelAndView.addObject("isDeleted", isDeleted);
 
         SortOrder mainSortOrder = SortOrder.DESCENDING;
-        String sortBy = "createdDate";
 
         String keyWordSearch = "";
         if (previousKeyWords != null) {
             keyWordSearch = previousKeyWords;
         }
-        modelAndView.addObject("keyWords", keyWordSearch);
 
-        List<Advertisement> advertisements = this.advertisementDao.findAdvertisementsWithKeyWordsFilteredByDelete(stringToKeyWords(keyWordSearch), mainSortOrder, sortBy, isDeleted, dateFrom, dateTo);
+        List<Advertisement> advertisements = advertisementService.findAdvertisementsWithKeyWordsFilteredByDelete(keywordsService.stringToKeyWords(keyWordSearch),
+            mainSortOrder, sortBy, isDeleted, dateFrom, dateTo);
 
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
-        pageList.setPageSize(DEFAULT_ADVERTISEMENTS_PER_LIST);
+        pageList.setPageSize(advertisementService.getDEFAULT_ADVERTISEMENTS_PER_LIST());
 
         int pageCount = pageList.getPageCount();
         int currentPage;
@@ -98,6 +104,8 @@ public class ModeratorController {
         modelAndView.addObject("currentPage", currentPage);
         modelAndView.addObject("dateFrom", previousDateFrom);
         modelAndView.addObject("dateTo", previousDateTo);
+        modelAndView.addObject("isDeleted", isDeleted);
+        modelAndView.addObject("keyWords", keyWordSearch);
 
         return modelAndView;
     }
@@ -107,7 +115,7 @@ public class ModeratorController {
     public
     @ResponseBody
     String deleteOrRestoreAdvertisement(@RequestParam(value = "advertisementId", required = true) final Long id) {
-        this.advertisementDao.changeDeleted(id);
+        advertisementService.changeDeleted(id);
         return "redirect:new/moderator/advertisementList.html";
     }
 
@@ -141,11 +149,11 @@ public class ModeratorController {
         Long dateFrom = datePair.getDateFrom();
         Long dateTo = datePair.getDateTo();
 
-        List<User> userList = this.getAllUsersExceptCurrent(keyWords, dateFrom, dateTo, isBanned, mainSortOrder);
+        List<User> userList = userService.getAllUsersExceptCurrent(keyWords, dateFrom, dateTo, isBanned, mainSortOrder);
 
         PagedListHolder<User> pageList = new PagedListHolder<>();
         pageList.setSource(userList);
-        pageList.setPageSize(DEFAULT_USERS_PER_LIST);
+        pageList.setPageSize(userService.getDEFAULT_USERS_PER_LIST());
 
         int pageCount = pageList.getPageCount();
         pageList.setPage(currentPage - 1);
@@ -166,7 +174,7 @@ public class ModeratorController {
     public
     @ResponseBody
     String BanOrUnbanUser(@RequestParam(value = "userId", required = true) final Long id) {
-        User user = this.userDao.findById(id);
+        User user = userService.findById(id);
         String message;
         String title;
         String userName = AuthService.getUserName(user);
@@ -178,23 +186,7 @@ public class ModeratorController {
             title = "Уведомление о бане";
         }
         mailSenderService.sendMail(user.getEmail(), title, message);
-        this.userDao.changeBan(id);
+        userService.changeBan(id);
         return "redirect:new/moderator/userList.html";
-    }
-
-    private List<User> getAllUsersExceptCurrent(String keyWords, Long dateFrom, Long dateTo, boolean isBanned, SortOrder currentSortOrder) {
-        List<User> listUsers = this.userDao.findUsersByKeywordsDateAndBan(keyWords, dateFrom, dateTo, isBanned, currentSortOrder);
-        User currentUser = AuthService.getUser();
-        if (currentUser != null) {
-            listUsers.remove(currentUser);
-        }
-        return listUsers;
-    }
-
-    private String[] stringToKeyWords(final String str) {
-        if (str == null) {
-            return null;
-        }
-        return StringUtils.split(StringUtils.trim(str));
     }
 }

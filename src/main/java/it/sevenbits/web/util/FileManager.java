@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.*;
 /**
  * Class for working with files
  */
+@Component
 public class FileManager {
 
     private final Logger logger = LoggerFactory.getLogger(FileManager.class);

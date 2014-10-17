@@ -50,8 +50,9 @@ public class AuthService {
         return "Безымянный";
     }
 
-    public String findUserNameFromPrincipal() {
+    public static String findUserNameFromPrincipal() {
         User user = AuthService.getUser();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName;
         if (user != null) {
             userName = user.getUsername();

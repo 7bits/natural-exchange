@@ -2,15 +2,12 @@ package it.sevenbits.services;
 
 import it.sevenbits.repository.dao.AdvertisementDao;
 import it.sevenbits.repository.entity.Advertisement;
-import it.sevenbits.repository.entity.Category;
 import it.sevenbits.repository.entity.Tag;
 import it.sevenbits.repository.entity.User;
 import it.sevenbits.services.authentication.AuthService;
 import it.sevenbits.web.util.Conversion;
 import it.sevenbits.web.util.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -20,6 +17,9 @@ import java.util.Set;
 
 @Service
 public class AdvertisementService {
+    private final int MAIN_ADVERTISEMENTS = 4;
+    private final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
+
     @Autowired
     private AdvertisementDao advertisementDao;
 
@@ -38,6 +38,11 @@ public class AdvertisementService {
         );
     }
 
+    public List<Advertisement> findAdvertisementsWithCategoryAndKeyWords (final String[] categories,
+        final String[] keywords, final SortOrder sortOrder, final String sortPropertyName) {
+        return this.advertisementDao.findAdvertisementsWithCategoryAndKeyWords(categories, keywords, sortOrder, sortPropertyName);
+    }
+
     public List<Advertisement> findAuthUserAdvertisements() {
         User user = AuthService.getUser();
         List<Advertisement> userAdvertisements = new LinkedList<>();
@@ -47,17 +52,18 @@ public class AdvertisementService {
         return userAdvertisements;
     }
 
+    public List<Advertisement> findAdvertisementsWithKeyWordsFilteredByDelete(final String[] keywords, final SortOrder sortOrder,
+        final String sortPropertyName, final Boolean isDeleted, final Long dateFrom, final Long dateTo) {
+        return this.advertisementDao.findAdvertisementsWithKeyWordsFilteredByDelete(keywords, sortOrder, sortPropertyName,
+            isDeleted, dateFrom, dateTo);
+    }
+
     public Advertisement findAdvertisementById(final Long id) {
         return this.advertisementDao.findById(id);
     }
 
-    public void createAdvertisement(final Advertisement advertisement, final Category category, final List<String> tagList) {
-        User user = AuthService.getUser();
-        if (user != null) {
-            userName = ((UserDetails) principal).getUsername();
-        } else {
-            userName = principal.toString();
-        }
+    public void createAdvertisement(final Advertisement advertisement, final String category, final List<String> tagList) {
+        String userName = AuthService.findUserNameFromPrincipal();
         Set<Tag> newTags = null;
         if (tagList != null) {
             newTags = new HashSet<Tag>();
@@ -70,5 +76,36 @@ public class AdvertisementService {
             }
         }
         this.advertisementDao.create(advertisement, category, userName, newTags);
+    }
+
+    public void changeDeleted(final Long id) {
+        this.advertisementDao.changeDeleted(id);
+    }
+
+    public void updateAdvertisement(final Long id, final Advertisement advertisement, final String category, final List<String> tagList) {
+        Set<Tag> newTags = null;
+        if (tagList != null) {
+            newTags = new HashSet<Tag>();
+            for (String newTag : tagList) {
+                if (!newTag.equals("")) {
+                    Tag addingTag = new Tag();
+                    addingTag.setName(newTag);
+                    newTags.add(addingTag);
+                }
+            }
+        }
+        this.advertisementDao.update(id, advertisement, category, newTags);
+    }
+
+    public List<Advertisement> findUserAdvertisements (final User user) {
+        return this.advertisementDao.findUserAdvertisements(user);
+    }
+
+    public int getMAIN_ADVERTISEMENTS() {
+        return MAIN_ADVERTISEMENTS;
+    }
+
+    public int getDEFAULT_ADVERTISEMENTS_PER_LIST() {
+        return DEFAULT_ADVERTISEMENTS_PER_LIST;
     }
 }

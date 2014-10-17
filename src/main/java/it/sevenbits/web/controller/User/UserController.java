@@ -1,13 +1,15 @@
 package it.sevenbits.web.controller.User;
 
 
-import it.sevenbits.repository.dao.*;
 import it.sevenbits.repository.entity.Advertisement;
 import it.sevenbits.repository.entity.Category;
 import it.sevenbits.repository.entity.User;
 import it.sevenbits.repository.entity.hibernate.CategoryEntity;
 import it.sevenbits.repository.entity.hibernate.SearchVariantEntity;
+import it.sevenbits.services.AdvertisementService;
 import it.sevenbits.services.CategoryService;
+import it.sevenbits.services.SearchVariantService;
+import it.sevenbits.services.UserService;
 import it.sevenbits.web.helpers.EncodeDecodeHelper;
 import it.sevenbits.web.security.MyUserDetailsService;
 import it.sevenbits.services.authentication.AuthService;
@@ -62,16 +64,13 @@ public class UserController {
     private MyUserDetailsService myUserDetailsService;
 
     @Autowired
-    private UserDao userDao;
+    private AdvertisementService advertisementService;
 
     @Autowired
-    private AdvertisementDao advertisementDao;
+    private SearchVariantService searchVariantService;
 
     @Autowired
-    private CategoryDao categoryDao;
-
-    @Autowired
-    private SearchVariantDao searchVariantDao;
+    private UserService userService;
 
     @Autowired
     private UserRegistrationValidator userRegistrationValidator;
@@ -93,7 +92,7 @@ public class UserController {
         Map map = new HashMap();
         userRegistrationValidator.validate(form, bindingResult);
         if (!bindingResult.hasErrors()) {
-            if (!userDao.isExistUserWithEmail(form.getEmail())) {
+            if (!userService.isExistUserWithEmail(form.getEmail())) {
                 map.put("success", true);
                 Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
                 User user = new User();
@@ -111,7 +110,7 @@ public class UserController {
                 user.setActivationDate(TimeManager.addDate(REGISTRATION_PERIOD));
                 String code = md5encoder.encodePassword(user.getPassword(), user.getEmail());
                 user.setActivationCode(code);
-                this.userDao.create(user);
+                userService.createUser(user);
                 mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
             } else {
                 map.put("success", false);
@@ -137,13 +136,13 @@ public class UserController {
         Map errors = new HashMap();
         userEntryValidator.validate(form, bindingResult);
         if (!bindingResult.hasErrors()) {
-            if (!userDao.isExistUserWithEmail(form.getEmail())) {
+            if (!userService.isExistUserWithEmail(form.getEmail())) {
                 map.put("success", false);
                 errors.put("notExist", "Вы еще не зарегистрированы.");
                 map.put("errors", errors);
             } else {
                 Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
-                User user = userDao.findUserByEmail(form.getEmail());
+                User user = userService.findUserByEmail(form.getEmail());
                 if (user.getIsBanned()) {
                     map.put("success", false);
                     errors.put("userIsBanned", "Данный пользователь забанен администрацией");
@@ -180,18 +179,18 @@ public class UserController {
     @RequestMapping(value = "/showUser.html", method = RequestMethod.GET)
     public ModelAndView showUser(@RequestParam(value = "id", required = true) final Long userId) {
         ModelAndView modelAndView = new ModelAndView("user.jade");
-        User user = this.userDao.findById(userId);
+        User user = userService.findById(userId);
         if (user == null) {
             return new ModelAndView("redirect:/main.html");
         }
         List<Advertisement> userAdvertisements = new LinkedList<>();
         User currentUser = AuthService.getUser();
         if (currentUser != null) {
-            userAdvertisements = this.advertisementDao.findUserAdvertisements(currentUser);
+            userAdvertisements = advertisementService.findUserAdvertisements(currentUser);
         }
 
         modelAndView.addObject("user", user);
-        modelAndView.addObject("advertisements", this.advertisementDao.findUserAdvertisements(user));
+        modelAndView.addObject("advertisements", advertisementService.findUserAdvertisements(user));
         modelAndView.addObject("userAdvertisements", userAdvertisements);
         return modelAndView;
     }
@@ -213,7 +212,7 @@ public class UserController {
 
     @RequestMapping(value = "/magic.html", method = RequestMethod.GET)
     public ModelAndView magicPage(@RequestParam(value = "code", required = true) final String codeParam, @RequestParam(value = "mail", required = true) final String mailParam) {
-        User user = this.userDao.findUserByEmail(mailParam);
+        User user = userService.findUserByEmail(mailParam);
         if (user == null) {
             return new ModelAndView("conf_failed");
         }
@@ -221,7 +220,7 @@ public class UserController {
             return new ModelAndView("registrationResult");
         }
         if (checkRegistrationLink(user, codeParam)) {
-            this.userDao.updateActivationCode(user);
+            userService.updateActivationCode(user);
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
             token.setDetails(usrDet);
@@ -244,8 +243,8 @@ public class UserController {
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
-        User currentUser = this.userDao.findById(id);
-        List<SearchVariantEntity> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        User currentUser = userService.findById(id);
+        List<SearchVariantEntity> searchVariantList = searchVariantService.findByEmail(currentUser.getEmail());
         ModelAndView modelAndView = new ModelAndView("userSearch.jade");
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("userPage", "searches.html");
@@ -259,7 +258,7 @@ public class UserController {
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
-        User currentUser = this.userDao.findById(id);
+        User currentUser = userService.findById(id);
         ModelAndView modelAndView = new ModelAndView("editProfile.jade");
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("errorFromFirstName", EncodeDecodeHelper.decode(firstNameError));
@@ -271,7 +270,7 @@ public class UserController {
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.POST)
     public String changeUserInformation(final EditingUserInfoForm editingUserInfoForm, BindingResult bindingResult) {
         Long id = AuthService.getUserId();
-        User currentUser = this.userDao.findById(id);
+        User currentUser = userService.findById(id);
         this.editingUserInfoFormValidator.validate(editingUserInfoForm, bindingResult);
         if (bindingResult.hasErrors()) {
             String redirectAddress = "redirect:/user/userprofile/edit.html?firstNameError=";
@@ -314,7 +313,7 @@ public class UserController {
         currentUser.setFirstName(newFirstName);
         currentUser.setLastName(newLastName);
         currentUser.setAvatar(newAvatar);
-        this.userDao.updateData(currentUser);
+        userService.updateData(currentUser);
         AuthService.changeUserContext(currentUser);
         return "redirect:/user/userprofile/searches.html";
     }
@@ -325,8 +324,8 @@ public class UserController {
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
-        User currentUser = this.userDao.findById(id);
-        List<Advertisement> advertisementList = advertisementDao.findUserAdvertisements(currentUser);
+        User currentUser = userService.findById(id);
+        List<Advertisement> advertisementList = advertisementService.findUserAdvertisements(currentUser);
         ModelAndView modelAndView = new ModelAndView("userAdvertisements.jade");
         modelAndView.addObject("advertisements", advertisementList);
         modelAndView.addObject("currentUser", currentUser);
@@ -339,10 +338,10 @@ public class UserController {
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
-        User currentUser = this.userDao.findById(id);
-        List<SearchVariantEntity> searchVariantList = this.searchVariantDao.findByEmail(currentUser.getEmail());
+        User currentUser = userService.findById(id);
+        List<SearchVariantEntity> searchVariantList = searchVariantService.findByEmail(currentUser.getEmail());
         ModelAndView modelAndView = new ModelAndView("userSearch.jade");
-        this.searchVariantDao.delete(this.searchVariantDao.findById(searchVariantId));
+        searchVariantService.delete(searchVariantService.findById(searchVariantId));
         modelAndView.addObject("currentUser", currentUser);
         modelAndView.addObject("userPage", "searches.html");
         modelAndView.addObject("searchVariants", searchVariantList);
@@ -358,16 +357,16 @@ public class UserController {
         CurrentSearchVariantForm currentSearchForm = new CurrentSearchVariantForm();
         Map<String, String> errors = new HashMap<>();
         if (id != null) {
-            SearchVariantEntity searchVariant = this.searchVariantDao.findById(id);
+            SearchVariantEntity searchVariant = searchVariantService.findById(id);
             currentSearchForm.setCategory(searchVariant.getCategories());
             currentSearchForm.setKeywords(searchVariant.getKeyWords());
             currentSearchForm.setSearchVariantId(id);
         }
-        List<Category> categories = this.categoryDao.findAll();
+        List<Category> categories = categoryService.findAllCategories();
         String allCategories = categoryService.findAllCategoriesAsString();
         String[] keywords = StringUtils.split(currentSearchForm.getKeywords());
         boolean isAllCategories = false;
-        if (currentSearchForm.getCategory().size() == this.categoryDao.categoryCount()) {
+        if (currentSearchForm.getCategory().size() == categoryService.categoryCount()) {
             isAllCategories = true;
             CategoryEntity allCategoriesEntity = new CategoryEntity();
             allCategoriesEntity.setSlug(this.allCategoriesSlug());
@@ -394,24 +393,17 @@ public class UserController {
             return modelAndView;
         }
         String[] separateCategories = StringUtils.split(searchEditForm.getCategory());
-        Set<CategoryEntity> categories = this.categoryDao.findBySlugs(separateCategories);
-        this.searchVariantDao.update(this.searchVariantDao.findById(searchEditForm.getSearchVariantId()), searchEditForm.getKeywords(), categories);
+        Set<CategoryEntity> categories = categoryService.findBySlugs(separateCategories);
+        searchVariantService.update(searchVariantService.findById(searchEditForm.getSearchVariantId()), searchEditForm.getKeywords(), categories);
         return new ModelAndView("redirect:/user/userprofile/searches.html");
     }
 
     private String allCategoriesSlug() {
-        List<Category> allCategories = this.categoryDao.findAll();
+        List<Category> allCategories = categoryService.findAllCategories();
         String result = "";
         for (Category currentCategory : allCategories) {
             result += currentCategory.getSlug() + " ";
         }
         return StringUtils.trim(result);
-    }
-
-    private String arrayToString(String[] strings) {
-        if (strings == null) {
-            return null;
-        }
-        return StringUtils.join(strings, ' ');
     }
 }

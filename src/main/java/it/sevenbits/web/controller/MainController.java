@@ -1,17 +1,11 @@
 package it.sevenbits.web.controller;
 
-import it.sevenbits.repository.dao.AdvertisementDao;
-import it.sevenbits.repository.dao.CategoryDao;
-import it.sevenbits.repository.dao.SubscriberDao;
 import it.sevenbits.repository.entity.Advertisement;
 import it.sevenbits.repository.entity.Category;
 import it.sevenbits.repository.entity.Subscriber;
-import it.sevenbits.repository.entity.User;
 import it.sevenbits.services.AdvertisementService;
 import it.sevenbits.services.CategoryService;
-import it.sevenbits.services.authentication.AuthService;
-import it.sevenbits.services.parsers.DateParser;
-import it.sevenbits.web.util.Presentation;
+import it.sevenbits.services.SubscriberService;
 import it.sevenbits.web.util.SortOrder;
 import it.sevenbits.web.util.form.user.MailingNewsForm;
 import it.sevenbits.web.util.form.validator.user.MailingNewsValidator;
@@ -29,20 +23,16 @@ import java.util.*;
 
 @Controller
 public class MainController {
-    private static final int MAIN_ADVERTISEMENTS = 4;
     private Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Autowired
-    private AdvertisementDao advertisementDao;
-
-    @Autowired
-    private CategoryDao categoryDao;
-
-    @Autowired
-    private SubscriberDao subscriberDao;
+    private AdvertisementService advertisementService;
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private SubscriberService subscriberService;
 
     @Autowired
     private MailingNewsValidator mailingNewsValidator;
@@ -50,24 +40,19 @@ public class MainController {
     @RequestMapping(value = "/main.html", method = RequestMethod.GET)
     public ModelAndView mainPage() {
         ModelAndView modelAndView = new ModelAndView("main.jade");
-        List<Advertisement> advertisements;
+
         String[] allCategories = categoryService.findAllCategoriesAsArray();
         SortOrder mainSortOrder = SortOrder.DESCENDING;
         String sortBy = "createdDate";
-
-        advertisements = this.advertisementDao.findAdvertisementsWithCategoryAndKeyWords(allCategories, null, mainSortOrder, sortBy);
-
-        List<Category> categoryList = categoryDao.findThreeLastCategories();
+        List<Advertisement> advertisements = advertisementService.findAdvertisementsWithCategoryAndKeyWords(allCategories, null, mainSortOrder, sortBy);
+        List<Category> categoryList = categoryService.findThreeLastCategories();
 
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
-        pageList.setPageSize(MAIN_ADVERTISEMENTS);
+        pageList.setPageSize(advertisementService.getMAIN_ADVERTISEMENTS());
         pageList.setPage(0);
-        List<Advertisement> userAdvertisements = new LinkedList<>();
-        User user = AuthService.getUser();
-        if (user != null) {
-            userAdvertisements = this.advertisementDao.findUserAdvertisements(user);
-        }
+
+        List<Advertisement> userAdvertisements = advertisementService.findAuthUserAdvertisements();
         modelAndView.addObject("categories", categoryList);
         modelAndView.addObject("advertisements", pageList.getPageList());
         modelAndView.addObject("userAdvertisements", userAdvertisements);
@@ -83,13 +68,13 @@ public class MainController {
         mailingNewsValidator.validate(form, bindingResult);
         if (!bindingResult.hasErrors()) {
             Subscriber newSubscriber = new Subscriber(form.getEmailNews());
-            if (this.subscriberDao.isExists(newSubscriber)) {
+            if (subscriberService.isExists(newSubscriber)) {
                 map.put("success", false);
                 Map errors = new HashMap();
                 errors.put("exist", "Вы уже подписаны.");
                 map.put("errors", errors);
             } else {
-                this.subscriberDao.create(newSubscriber);
+                subscriberService.create(newSubscriber);
                 map.put("success", true);
             }
         } else {
