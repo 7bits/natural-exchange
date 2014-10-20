@@ -75,7 +75,8 @@ $(document).ready(function() {
                     $.gritter.add({
                         title:"Вы совершили обмен!",
                         text:"Пожалуйста, дождитесь ответа от владельца вещи о возможном обмене. Ответ придет на ваш e-mail.",
-                        image:"/resources/images/newdesign/logo.png"
+                        image:"/resources/images/newdesign/logo.png",
+                        sticky: true
                     });
                     $.fancybox.close();
                 } else {

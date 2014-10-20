@@ -4,6 +4,7 @@ import it.sevenbits.repository.dao.CategoryDao;
 import it.sevenbits.repository.entity.Category;
 import it.sevenbits.repository.entity.hibernate.CategoryEntity;
 import it.sevenbits.web.util.Conversion;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,15 @@ public class CategoryService {
     public Set<CategoryEntity> findByCategory(final String category) {
         String[] categorySlugs = Conversion.stringToArray(category);
         return this.categoryDao.findBySlugs(categorySlugs);
+    }
+
+    public String allCategoriesSlug() {
+        List<Category> allCategories = findAllCategories();
+        String result = "";
+        for (Category currentCategory : allCategories) {
+            result += currentCategory.getSlug() + " ";
+        }
+        return StringUtils.trim(result);
     }
 
     public int categoryCount() {

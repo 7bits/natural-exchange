@@ -69,6 +69,8 @@ block content
               li
                 a.trine(href='#{uri.uri("/moderator/advertisementList.html?currentPage=" + nextPages + "&keyWords=" + keyWords + "&isDeleted=" + isDeleted+ "&dateFrom=" + dateFrom + "&dateTo=" + dateTo)}') >
       .low-space
+      if locals.deleteAdvertisementMessage
+        input.js-deleted-advertisement(type='hidden', value='#{deleteAdvertisementMessage}')
 block append customjs
   script(src='/resources/js/newModerActions.js')
   script(src='/resources/js/calendar.js')

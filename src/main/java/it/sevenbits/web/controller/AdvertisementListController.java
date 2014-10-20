@@ -46,6 +46,9 @@ public class AdvertisementListController {
     private PhotoService photoService;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private SearchVariantService searchVariantService;
 
     @Autowired
@@ -79,10 +82,7 @@ public class AdvertisementListController {
     ) {
         ModelAndView modelAndView = new ModelAndView("list.jade");
         if (bindingResult.hasErrors()) {
-            String errorDate = bindingResult.
-                    getAllErrors().
-                    get(0).
-                    getDefaultMessage();
+            String errorDate = bindingResult.getAllErrors().get(0).getDefaultMessage();
             modelAndView.addObject("dateError", errorDate);
         }
         DatePair datePair = dateParser.takeAndValidateDate(advertisementSearchingForm.getDateFrom(), advertisementSearchingForm.getDateTo(),
@@ -109,7 +109,7 @@ public class AdvertisementListController {
 
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
-        pageList.setPageSize(advertisementService.getDEFAULT_ADVERTISEMENTS_PER_LIST());
+        pageList.setPageSize(advertisementService.DEFAULT_ADVERTISEMENTS_PER_LIST);
 
         int pageCount = pageList.getPageCount();
         int currentPage = advertisementSearchingForm.getRealCurrentPage(pageCount);
@@ -149,7 +149,7 @@ public class AdvertisementListController {
         map.put("currentCategory", previousCategory);
         map.put("currentPage", previousPage);
         map.put("keyWords", previousKeyWords);
-        User user = AuthService.getUser();
+        User user = authService.getUser();
         if (user != null) {
             String email = user.getUsername();
             SearchVariantEntity searchVariantEntity = new SearchVariantEntity(email, StringUtils.trim(previousKeyWords), null);
@@ -180,7 +180,7 @@ public class AdvertisementListController {
 
     @RequestMapping(value = "/placing.html", method = RequestMethod.GET)
     public ModelAndView placingAdvertisement(@RequestParam(value = "id", required = false) final Long id) {
-        if (AuthService.getUser() == null) {
+        if (authService.getUser() == null) {
             return new ModelAndView("redirect:/main.html");
         }
         ModelAndView modelAndView = new ModelAndView("placing");
@@ -201,7 +201,7 @@ public class AdvertisementListController {
     public ModelAndView edit(@RequestParam(value = "id", required = true) final Long advertisementId) {
         AdvertisementEntity advertisement = (AdvertisementEntity) advertisementService.findAdvertisementById(advertisementId);
         String userEmail = advertisement.getUser().getEmail();
-        User user = AuthService.getUser();
+        User user = authService.getUser();
         if (user != null) {
             if (!user.getEmail().equals(userEmail)) {
                 return new ModelAndView("redirect:/main.html");
@@ -315,7 +315,7 @@ public class AdvertisementListController {
         Map map = new HashMap();
         exchangeFormValidator.validate(exchangeForm, bindingResult);
         if (!bindingResult.hasErrors()) {
-            User offer = AuthService.getUser();
+            User offer = authService.getUser();
             User owner = advertisementService.findAdvertisementById(exchangeForm.getIdExchangeOwnerAdvertisement()).getUser();
             String advertisementUrl = mailSenderService.getDomen() + "/advertisement/view.html?id=";
             String titleExchangeMessage = "Уведомление об обмене";
@@ -323,8 +323,8 @@ public class AdvertisementListController {
             String offerName;
             StringBuilder advertisementUrlOwner = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOwnerAdvertisement());
             StringBuilder advertisementUrlOffer = new StringBuilder(advertisementUrl + exchangeForm.getIdExchangeOfferAdvertisement());
-            ownerName = AuthService.getUserName(owner);
-            offerName = AuthService.getUserName(offer);
+            ownerName = authService.getUserName(owner);
+            offerName = authService.getUserName(offer);
             Map<String, String> letterToOwner = UtilsMessage.createLetterForExchange(
                 titleExchangeMessage, exchangeForm.getExchangePropose(), owner.getEmail(), offer.getUsername(),
                 advertisementUrlOwner.toString(), advertisementUrlOffer.toString(), ownerName, offerName
@@ -344,7 +344,7 @@ public class AdvertisementListController {
     public String delete(@RequestParam(value = "id", required = true) final Long advertisementId,
             final RedirectAttributes redirectAttributes) {
         String redirectAddress = "redirect:/moderator/advertisementList.html";
-        User user = AuthService.getUser();
+        User user = authService.getUser();
         if (user == null) {
             return redirectAddress;
         }
@@ -359,7 +359,6 @@ public class AdvertisementListController {
             } else {
                 userName = "Уважаемый, " + advertisement.getUser().getLastName();
             }
-
             if (advertisementService.findAdvertisementById(advertisementId).getIs_deleted()) {
                 title = "Ваше предложение восстановлено";
                 moderAction = "Было восстановлено. Теперь его снова можно увидеть на списке предложений";
@@ -376,7 +375,7 @@ public class AdvertisementListController {
             redirectAddress = "redirect:/advertisement/list.html";
             Advertisement advertisement = advertisementService.findAdvertisementById(advertisementId);
             String userEmail = advertisement.getUser().getEmail();
-            if(AuthService.getUserDetails().getUsername().equals(userEmail)) {
+            if(authService.getUserDetails().getUsername().equals(userEmail)) {
                 advertisementService.changeDeleted(advertisementId);
                 redirectAttributes.addFlashAttribute("deleteAdvertisementMessage", "Ваше предложение удалено");
             }

@@ -17,34 +17,27 @@ import java.util.Set;
 
 @Service
 public class AdvertisementService {
-    private final int MAIN_ADVERTISEMENTS = 4;
-    private final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
+    public final int DEFAULT_MAIN_ADVERTISEMENTS = 4;
+    public final int DEFAULT_ADVERTISEMENTS_PER_LIST = 8;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private AdvertisementDao advertisementDao;
 
-    public List<Advertisement> findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(final String currentCategory,
-        final String keywords, final Long dateFrom, final Long dateTo) {
+    public List<Advertisement> findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(final String currentCategory, final String keywords, final Long dateFrom, final Long dateTo) {
         SortOrder mainSortOrder = SortOrder.DESCENDING;
         String sortBy = "createdDate";
-        return this.advertisementDao.findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(
-            Conversion.stringToArray(currentCategory),
-            Conversion.stringToArray(keywords),
-            false,
-            mainSortOrder,
-            sortBy,
-            dateFrom,
-            dateTo
-        );
+        return this.advertisementDao.findAdvertisementsWithKeyWordsAndCategoriesFilteredByDate(Conversion.stringToArray(currentCategory), Conversion.stringToArray(keywords), false, mainSortOrder, sortBy, dateFrom, dateTo);
     }
 
-    public List<Advertisement> findAdvertisementsWithCategoryAndKeyWords (final String[] categories,
-        final String[] keywords, final SortOrder sortOrder, final String sortPropertyName) {
+    public List<Advertisement> findAdvertisementsWithCategoryAndKeyWords(final String[] categories, final String[] keywords, final SortOrder sortOrder, final String sortPropertyName) {
         return this.advertisementDao.findAdvertisementsWithCategoryAndKeyWords(categories, keywords, sortOrder, sortPropertyName);
     }
 
     public List<Advertisement> findAuthUserAdvertisements() {
-        User user = AuthService.getUser();
+        User user = authService.getUser();
         List<Advertisement> userAdvertisements = new LinkedList<>();
         if (user != null) {
             userAdvertisements = this.advertisementDao.findUserAdvertisements(user);
@@ -52,10 +45,8 @@ public class AdvertisementService {
         return userAdvertisements;
     }
 
-    public List<Advertisement> findAdvertisementsWithKeyWordsFilteredByDelete(final String[] keywords, final SortOrder sortOrder,
-        final String sortPropertyName, final Boolean isDeleted, final Long dateFrom, final Long dateTo) {
-        return this.advertisementDao.findAdvertisementsWithKeyWordsFilteredByDelete(keywords, sortOrder, sortPropertyName,
-            isDeleted, dateFrom, dateTo);
+    public List<Advertisement> findAdvertisementsWithKeyWordsFilteredByDelete(final String[] keywords, final SortOrder sortOrder, final String sortPropertyName, final Boolean isDeleted, final Long dateFrom, final Long dateTo) {
+        return this.advertisementDao.findAdvertisementsWithKeyWordsFilteredByDelete(keywords, sortOrder, sortPropertyName, isDeleted, dateFrom, dateTo);
     }
 
     public Advertisement findAdvertisementById(final Long id) {
@@ -63,7 +54,7 @@ public class AdvertisementService {
     }
 
     public void createAdvertisement(final Advertisement advertisement, final String category, final List<String> tagList) {
-        String userName = AuthService.findUserNameFromPrincipal();
+        String userName = authService.findUserNameFromPrincipal();
         Set<Tag> newTags = null;
         if (tagList != null) {
             newTags = new HashSet<Tag>();
@@ -97,15 +88,7 @@ public class AdvertisementService {
         this.advertisementDao.update(id, advertisement, category, newTags);
     }
 
-    public List<Advertisement> findUserAdvertisements (final User user) {
+    public List<Advertisement> findUserAdvertisements(final User user) {
         return this.advertisementDao.findUserAdvertisements(user);
-    }
-
-    public int getMAIN_ADVERTISEMENTS() {
-        return MAIN_ADVERTISEMENTS;
-    }
-
-    public int getDEFAULT_ADVERTISEMENTS_PER_LIST() {
-        return DEFAULT_ADVERTISEMENTS_PER_LIST;
     }
 }

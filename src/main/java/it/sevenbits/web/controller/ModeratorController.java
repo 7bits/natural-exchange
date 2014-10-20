@@ -15,8 +15,6 @@ import it.sevenbits.web.util.UtilsMessage;
 import it.sevenbits.web.util.form.advertisement.AdvertisementSearchingForm;
 import it.sevenbits.web.util.form.user.SearchUserForm;
 import it.sevenbits.web.util.form.validator.advertisement.AdvertisementSearchingValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
@@ -31,10 +29,11 @@ import java.util.*;
 @RequestMapping(value = "moderator")
 public class ModeratorController {
 
-    private Logger logger = LoggerFactory.getLogger(ModeratorController.class);
-
     @Autowired
     private AdvertisementService advertisementService;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private MailSenderService mailSenderService;
@@ -87,7 +86,7 @@ public class ModeratorController {
 
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
-        pageList.setPageSize(advertisementService.getDEFAULT_ADVERTISEMENTS_PER_LIST());
+        pageList.setPageSize(advertisementService.DEFAULT_ADVERTISEMENTS_PER_LIST);
 
         int pageCount = pageList.getPageCount();
         int currentPage;
@@ -153,7 +152,7 @@ public class ModeratorController {
 
         PagedListHolder<User> pageList = new PagedListHolder<>();
         pageList.setSource(userList);
-        pageList.setPageSize(userService.getDEFAULT_USERS_PER_LIST());
+        pageList.setPageSize(userService.DEFAULT_USERS_PER_LIST);
 
         int pageCount = pageList.getPageCount();
         pageList.setPage(currentPage - 1);
@@ -177,7 +176,7 @@ public class ModeratorController {
         User user = userService.findById(id);
         String message;
         String title;
-        String userName = AuthService.getUserName(user);
+        String userName = authService.getUserName(user);
         if (user.getIsBanned()) {
             message = UtilsMessage.createLetterToUnbannedUser(userName);
             title = "Уведомление о снятии бана";

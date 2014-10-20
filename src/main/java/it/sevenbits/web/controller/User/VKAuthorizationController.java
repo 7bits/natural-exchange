@@ -1,7 +1,8 @@
 package it.sevenbits.web.controller.User;
 
-import it.sevenbits.repository.dao.UserDao;
 import it.sevenbits.repository.entity.User;
+import it.sevenbits.services.PhotoService;
+import it.sevenbits.services.UserService;
 import it.sevenbits.web.security.MyUserDetailsService;
 import it.sevenbits.services.mail.MailSenderService;
 import it.sevenbits.services.vk.VkService;
@@ -33,7 +34,10 @@ public class VKAuthorizationController {
     private MyUserDetailsService myUserDetailsService;
 
     @Autowired
-    private UserDao userDao;
+    private UserService userService;
+
+    @Autowired
+    private PhotoService photoService;
 
     @Autowired
     private VkService vkService;
@@ -46,7 +50,7 @@ public class VKAuthorizationController {
         Map<String, Object> response = vkService.getTokenAndInfo(code);
         Integer id = (Integer) response.get("user_id");
         String userId = id.toString();
-        User user = userDao.findEntityByVkId(userId);
+        User user = userService.findEntityByVkId(userId);
         if (user != null) {
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
@@ -78,7 +82,7 @@ public class VKAuthorizationController {
         if (!bindingResult.hasErrors()) {
             User user = new User();
             user.setEmail(vkEntryEmailForm.getEmail());
-            user.setPassword("dsfklosdaaevvsdfywewehwehsdu");
+            user.setPassword(userService.DEFAULT_USER_REGISTRATION_PASSWORD);
             user.setFirstName(vkEntryEmailForm.getFirst_name());
             user.setLastName(vkEntryEmailForm.getLast_name());
             user.setVk_link(vkEntryEmailForm.getVk_link());
@@ -86,12 +90,12 @@ public class VKAuthorizationController {
             user.setUpdateDate(TimeManager.getTime());
             user.setCreatedDate(TimeManager.getTime());
             user.setRole("ROLE_USER");
-            user.setAvatar("noavatar.png");
+            user.setAvatar(photoService.DEFAULT_AVATAR);
             user.setActivationDate(TimeManager.addDate(UserController.REGISTRATION_PERIOD));
             Md5PasswordEncoder md5encoder = new Md5PasswordEncoder();
             String code = md5encoder.encodePassword(user.getPassword(), user.getEmail());
             user.setActivationCode(code);
-            this.userDao.create(user);
+            userService.createUser(user);
             mailSenderService.sendRegisterMail(user.getEmail(), user.getActivationCode());
             return "VK/vkRegistrationText";
         } else {

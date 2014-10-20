@@ -15,7 +15,11 @@ public class PhotoService {
     @Autowired
     private FileManager fileManager;
 
-    public static final String DEFAULT_PHOTO = "no_photo.png";
+    public final String DEFAULT_PHOTO = "no_photo.png";
+    public final String DEFAULT_PHOTO_IMAGE_1 = "image1.jpg";
+    public final String DEFAULT_PHOTO_IMAGE_2 = "image2.jpg";
+    public final String DEFAULT_PHOTO_IMAGE_3 = "image3.jpg";
+    public final String DEFAULT_AVATAR = "noavatar.png";
 
     private Logger logger = LoggerFactory.getLogger(MainController.class);
 
@@ -40,8 +44,8 @@ public class PhotoService {
             newPhoto = oldPhotoName;
         } else {
             newPhoto = fileManager.savePhotoFile(newPhotoFile, true);
-            if (!(oldPhotoName.equals("image1.jpg") || oldPhotoName.equals("image2.jpg") ||
-                oldPhotoName.equals("image3.jpg") || oldPhotoName.equals(DEFAULT_PHOTO))) {
+            if (!(oldPhotoName.equals(DEFAULT_PHOTO_IMAGE_1) || oldPhotoName.equals(DEFAULT_PHOTO_IMAGE_2) ||
+                oldPhotoName.equals(DEFAULT_PHOTO_IMAGE_3) || oldPhotoName.equals(DEFAULT_PHOTO))) {
                 File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + oldPhotoName);
                 if (!advertisementOldImageFile.delete()) {
                     logger.info("file " + oldPhotoName + " has been deleted");
@@ -52,11 +56,29 @@ public class PhotoService {
     }
 
     public void deletePhoto(final String photo) {
-        if (!(photo.equals("image1.jpg") || photo.equals("image2.jpg") ||
-            photo.equals("image3.jpg") || photo.equals(DEFAULT_PHOTO))) {
+        if (!(photo.equals(DEFAULT_PHOTO_IMAGE_1) || photo.equals(DEFAULT_PHOTO_IMAGE_2) ||
+            photo.equals(DEFAULT_PHOTO_IMAGE_3) || photo.equals(DEFAULT_PHOTO))) {
             File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + photo);
             if (!advertisementOldImageFile.delete()) {
                 logger.info("file " + photo + " has been deleted");
+            }
+        }
+    }
+
+    public String validateAndSaveAvatarWhenEditing(final MultipartFile newAvatarFile, final String oldAvatarName) {
+        String newAvatar = oldAvatarName;
+        if (!newAvatarFile.getOriginalFilename().equals("")) {
+            fileManager.deleteFile(newAvatar, false);
+            newAvatar = fileManager.savePhotoFile(newAvatarFile, false);
+        }
+        return newAvatar;
+    }
+
+    public void deleteAvatar(final String avatar) {
+        if (!(avatar.equals(DEFAULT_AVATAR))) {
+            File advertisementOldImageFile = new File(fileManager.getImagesFilesPath() + avatar);
+            if (!advertisementOldImageFile.delete()) {
+                logger.info("file " + avatar + " has been deleted");
             }
         }
     }

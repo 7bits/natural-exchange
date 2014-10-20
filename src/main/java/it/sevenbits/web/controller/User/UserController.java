@@ -6,10 +6,7 @@ import it.sevenbits.repository.entity.Category;
 import it.sevenbits.repository.entity.User;
 import it.sevenbits.repository.entity.hibernate.CategoryEntity;
 import it.sevenbits.repository.entity.hibernate.SearchVariantEntity;
-import it.sevenbits.services.AdvertisementService;
-import it.sevenbits.services.CategoryService;
-import it.sevenbits.services.SearchVariantService;
-import it.sevenbits.services.UserService;
+import it.sevenbits.services.*;
 import it.sevenbits.web.helpers.EncodeDecodeHelper;
 import it.sevenbits.web.security.MyUserDetailsService;
 import it.sevenbits.services.authentication.AuthService;
@@ -52,16 +49,20 @@ public class UserController {
 
     public static final int REGISTRATION_PERIOD = 3;
 
-    private final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @Autowired
     private MailSenderService mailSenderService;
+
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private CategoryService categoryService;
 
     @Autowired
     private MyUserDetailsService myUserDetailsService;
+
+    @Autowired
+    private PhotoService photoService;
 
     @Autowired
     private AdvertisementService advertisementService;
@@ -106,7 +107,7 @@ public class UserController {
                 user.setUpdateDate(TimeManager.getTime());
                 user.setCreatedDate(TimeManager.getTime());
                 user.setRole("ROLE_USER");
-                user.setAvatar("noavatar.png");
+                user.setAvatar(photoService.DEFAULT_AVATAR);
                 user.setActivationDate(TimeManager.addDate(REGISTRATION_PERIOD));
                 String code = md5encoder.encodePassword(user.getPassword(), user.getEmail());
                 user.setActivationCode(code);
@@ -184,7 +185,7 @@ public class UserController {
             return new ModelAndView("redirect:/main.html");
         }
         List<Advertisement> userAdvertisements = new LinkedList<>();
-        User currentUser = AuthService.getUser();
+        User currentUser = authService.getUser();
         if (currentUser != null) {
             userAdvertisements = advertisementService.findUserAdvertisements(currentUser);
         }
@@ -195,21 +196,6 @@ public class UserController {
         return modelAndView;
     }
 
-    boolean checkRegistrationLink(final User user, final String code) {
-        if (user == null) {
-            return false;
-        }
-        if (TimeManager.getTime() > user.getActivationDate()) {
-            return false;
-        }
-        if (!code.equals(user.getActivationCode())) {
-            logger.info("check not passed: code not equals");
-            return false;
-        }
-        return true;
-    }
-
-
     @RequestMapping(value = "/magic.html", method = RequestMethod.GET)
     public ModelAndView magicPage(@RequestParam(value = "code", required = true) final String codeParam, @RequestParam(value = "mail", required = true) final String mailParam) {
         User user = userService.findUserByEmail(mailParam);
@@ -219,7 +205,7 @@ public class UserController {
         if (user.getActivationDate() == 0) {
             return new ModelAndView("registrationResult");
         }
-        if (checkRegistrationLink(user, codeParam)) {
+        if (userService.checkRegistrationLink(user, codeParam)) {
             userService.updateActivationCode(user);
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             UserDetails usrDet = myUserDetailsService.loadUserByUsername(user.getEmail());
@@ -239,7 +225,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/searches.html", method = RequestMethod.GET)
     public ModelAndView showUserProfile() {
-        Long id = AuthService.getUserId();
+        Long id = authService.getUserId();
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
@@ -254,7 +240,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.GET)
     public ModelAndView editProfile(@RequestParam(value = "firstNameError", required = false) final String firstNameError, @RequestParam(value = "lastNameError", required = false) final String lastNameError, @RequestParam(value = "photoFileError", required = false) final String photoFileError) {
-        Long id = AuthService.getUserId();
+        Long id = authService.getUserId();
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
@@ -269,9 +255,10 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/edit.html", method = RequestMethod.POST)
     public String changeUserInformation(final EditingUserInfoForm editingUserInfoForm, BindingResult bindingResult) {
-        Long id = AuthService.getUserId();
+        Long id = authService.getUserId();
         User currentUser = userService.findById(id);
         this.editingUserInfoFormValidator.validate(editingUserInfoForm, bindingResult);
+
         if (bindingResult.hasErrors()) {
             String redirectAddress = "redirect:/user/userprofile/edit.html?firstNameError=";
             FieldError fieldErrorFromFirstName = bindingResult.getFieldError("FirstName");
@@ -290,37 +277,28 @@ public class UserController {
             }
             return redirectAddress;
         }
-
         String newFirstName = editingUserInfoForm.getFirstName();
         String newLastName = editingUserInfoForm.getLastName();
-        String newAvatar = currentUser.getAvatar();
-        MultipartFile avatarFile = editingUserInfoForm.getImage();
-        FileManager fileManager = new FileManager();
+        String newAvatar = null;
 
-        if (editingUserInfoForm.getIsDelete() == null) {
-            if (!avatarFile.getOriginalFilename().equals("")) {
-                fileManager.deleteFile(newAvatar, false);
-                newAvatar = fileManager.savePhotoFile(avatarFile, false);
-            }
+        if (editingUserInfoForm.getIsDelete() != null) {
+            photoService.deleteAvatar(currentUser.getAvatar());
+            newAvatar = photoService.DEFAULT_AVATAR;
         } else {
-            if (avatarFile.getOriginalFilename().equals("")) {
-            } else {
-                fileManager.deleteFile(newAvatar, false);
-                newAvatar = "noavatar.png";
-            }
+            newAvatar = photoService.validateAndSaveAvatarWhenEditing(editingUserInfoForm.getImage(), currentUser.getAvatar());
         }
 
         currentUser.setFirstName(newFirstName);
         currentUser.setLastName(newLastName);
         currentUser.setAvatar(newAvatar);
         userService.updateData(currentUser);
-        AuthService.changeUserContext(currentUser);
+        authService.changeUserContext(currentUser);
         return "redirect:/user/userprofile/searches.html";
     }
 
     @RequestMapping(value = "/userprofile/advertisements.html", method = RequestMethod.GET)
     public ModelAndView showAdvertisementsOfCurrentUser() {
-        Long id = AuthService.getUserId();
+        Long id = authService.getUserId();
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
@@ -334,7 +312,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/deleteSearch.html", method = RequestMethod.GET)
     public ModelAndView searchDeleting(@RequestParam(value = "id", required = true) final Long searchVariantId) {
-        Long id = AuthService.getUserId();
+        Long id = authService.getUserId();
         if (id == 0) {
             return new ModelAndView("redirect:/main.html");
         }
@@ -350,7 +328,7 @@ public class UserController {
 
     @RequestMapping(value = "/userprofile/editSearch.html", method = RequestMethod.GET)
     public ModelAndView searchEditing(@RequestParam(value = "id", required = true) final Long id) {
-        if (AuthService.getUserId() == 0) {
+        if (authService.getUserId() == 0) {
             return new ModelAndView("redirect:/main.html");
         }
         ModelAndView modelAndView = new ModelAndView("editSearch");
@@ -369,7 +347,7 @@ public class UserController {
         if (currentSearchForm.getCategory().size() == categoryService.categoryCount()) {
             isAllCategories = true;
             CategoryEntity allCategoriesEntity = new CategoryEntity();
-            allCategoriesEntity.setSlug(this.allCategoriesSlug());
+            allCategoriesEntity.setSlug(categoryService.allCategoriesSlug());
             modelAndView.addObject("selectedCategory", allCategoriesEntity);
         } else {
             modelAndView.addObject("selectedCategory", currentSearchForm.getCategory().toArray()[0]);
@@ -396,14 +374,5 @@ public class UserController {
         Set<CategoryEntity> categories = categoryService.findBySlugs(separateCategories);
         searchVariantService.update(searchVariantService.findById(searchEditForm.getSearchVariantId()), searchEditForm.getKeywords(), categories);
         return new ModelAndView("redirect:/user/userprofile/searches.html");
-    }
-
-    private String allCategoriesSlug() {
-        List<Category> allCategories = categoryService.findAllCategories();
-        String result = "";
-        for (Category currentCategory : allCategories) {
-            result += currentCategory.getSlug() + " ";
-        }
-        return StringUtils.trim(result);
     }
 }

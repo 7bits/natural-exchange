@@ -9,8 +9,6 @@ import it.sevenbits.services.SubscriberService;
 import it.sevenbits.web.util.SortOrder;
 import it.sevenbits.web.util.form.user.MailingNewsForm;
 import it.sevenbits.web.util.form.validator.user.MailingNewsValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
@@ -23,7 +21,6 @@ import java.util.*;
 
 @Controller
 public class MainController {
-    private Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Autowired
     private AdvertisementService advertisementService;
@@ -49,7 +46,7 @@ public class MainController {
 
         PagedListHolder<Advertisement> pageList = new PagedListHolder<>();
         pageList.setSource(advertisements);
-        pageList.setPageSize(advertisementService.getMAIN_ADVERTISEMENTS());
+        pageList.setPageSize(advertisementService.DEFAULT_MAIN_ADVERTISEMENTS);
         pageList.setPage(0);
 
         List<Advertisement> userAdvertisements = advertisementService.findAuthUserAdvertisements();

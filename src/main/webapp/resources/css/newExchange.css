@@ -25,7 +25,8 @@
 }
 
 .red-alert-text-exchange {
-  color: red;
+  color: rgb(273, 98, 63);
+  height: 30px;
   padding-left: 10px;
 }
 
